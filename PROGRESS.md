@@ -325,6 +325,17 @@ clean. `alembic check`: no drift.
   wins; (2) reviewed AI "you do not have X" left X held → now un-held. Checks: backend 243 passed,
   frontend 73 passed; ruff, alembic check, typecheck, lint, build clean.
 
+## Milestone 11 — situation → workflow journey (2026-11-14)
+- Assistant page is the entry point: describe → AI facts (reviewed, editable; manual path without AI)
+  → `POST /api/workflows/propose` (deterministic discovery + existing planner) → review (outcomes with
+  reasons, planner-added prerequisites, order/parallel/blockers, alternatives, evidence, coverage note)
+  → add/remove services and regenerate → explicit accept (merge or replace) → planner.
+- Extraction adds document conditions. No migration. No new services or data.
+- Checks: backend 259 passed, frontend 88 passed; ruff, typecheck, lint, build clean. Real-browser E2E
+  (Gemini replaced by an offline fake): 17/17. Independent review by a second Claude model (Sonnet);
+  its 3 confirmed defects fixed with regression tests.
+- Pending: live Gemini validation of the situation reader (quota exhausted).
+
 ## Remaining work
 - [ ] Validate the AI situation reader (`/api/situation/interpret`) against live Gemini when quota allows.
 - [ ] Verified service prerequisites: none found in official sources yet (engine supports them).

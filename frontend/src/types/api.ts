@@ -373,7 +373,36 @@ export interface SituationInterpretation {
   state: string | null
   held_document_ids: string[]
   lacking_document_ids: string[]
+  /** Held documents the citizen said are expired / invalid / unsure about. */
+  document_states?: Record<string, Exclude<DocumentState, 'available'>>
   completed_service_ids: string[]
   unknowns: string[]
   dropped: string[]
+}
+
+export interface ProposeRequest {
+  context: CitizenContext
+  document_states: Record<string, DocumentState>
+  progress: Record<string, ProcessState>
+  /** The citizen's edited outcome list; null = use discovery's recommendation. */
+  target_service_ids: string[] | null
+}
+
+export interface SupportingService {
+  service_id: string
+  role: 'prerequisite' | 'acquisition'
+  for_service_ids: string[]
+  document_ids: string[]
+}
+
+/** Deterministic discovery + planner output for a reviewed situation. A proposal until accepted. */
+export interface ProposalResponse {
+  generated_by: 'deterministic-discovery+planner'
+  status: 'ready' | 'needs_clarification' | 'no_supported_services' | 'no_services_selected'
+  discovery: DiscoverResponse
+  target_service_ids: string[]
+  supporting: SupportingService[]
+  plan: PlanResponse | null
+  uncovered_goals: string[]
+  uncovered_life_events: string[]
 }

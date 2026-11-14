@@ -1,0 +1,20 @@
+{
+    "generated_by": "deterministic-discovery+planner",
+    "status": "no_supported_services",
+    "discovery": {
+        "generated_by": "deterministic-discovery",
+        "state": "Delhi",
+        "candidates": [],
+        "clarifications": [],
+        "recommended_target_ids": [],
+        "services": {},
+        "documents": {}
+    },
+    "target_service_ids": [],
+    "supporting": [],
+    "plan": null,
+    "uncovered_goals": [],
+    "uncovered_life_events": [
+        "starting-business"
+    ]
+}

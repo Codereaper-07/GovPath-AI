@@ -6,7 +6,8 @@ import { Icon } from '../../components/ui/Icon'
 import { ErrorState } from '../../components/ui/States'
 import { ApiError } from '../../lib/apiClient'
 import { useLocalized } from '../../lib/useLocalized'
-import type { ApiErrorDetail, AssistantAnswer } from '../../types/api'
+import type { ApiErrorDetail, AssistantAnswer, PlanRequest } from '../../types/api'
+import { SituationJourney } from '../journey/SituationJourney'
 import { planRequestOf, readSavedPlan } from '../planner/usePlannerState'
 import { useServices } from '../services/api'
 import { AnswerCard } from './AnswerCard'
@@ -63,7 +64,8 @@ export function AssistantPage() {
     endRef.current?.scrollIntoView?.({ behavior: 'smooth', block: 'end' })
   }, [history.length, ask.isPending])
 
-  const submit = (text: string) => {
+  /** `workflow` overrides the saved plan (e.g. explaining a not-yet-accepted proposal). */
+  const submit = (text: string, workflow?: PlanRequest) => {
     const q = text.trim()
     if (q.length < 3 || ask.isPending) return
     setLastQuestion(q)
@@ -72,12 +74,14 @@ export function AssistantPage() {
       {
         question: q,
         language,
-        ...(usePlan && hasPlan
-          ? {
-              // The same request the planner page sends, so both explain the same plan.
-              workflow: planRequestOf(saved),
-            }
-          : {}),
+        ...(workflow
+          ? { workflow }
+          : usePlan && hasPlan
+            ? {
+                // The same request the planner page sends, so both explain the same plan.
+                workflow: planRequestOf(saved),
+              }
+            : {}),
       },
       {
         onSuccess: (answer) => {
@@ -137,133 +141,147 @@ export function AssistantPage() {
     </form>
   )
 
-  if (empty) {
-    return (
-      <div className="mx-auto max-w-3xl">
-        <div className="animate-rise text-center">
-          <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-ink text-zest-400 shadow-lift">
-            <Icon name="spark" className="h-7 w-7" />
-          </span>
-          <p className="mt-6 text-xs font-bold tracking-[0.18em] text-jade-700 uppercase">{t('assistant.eyebrow')}</p>
-          <h1 className="mt-3 font-display text-4xl leading-tight font-semibold tracking-tight text-ink sm:text-5xl">{t('assistant.welcomeTitle')}</h1>
-          <p className="mx-auto mt-4 max-w-xl leading-relaxed text-muted">{t('assistant.intro')}</p>
-        </div>
+  const explain = (workflow: PlanRequest) => submit(t('journey.explainQuestion'), workflow)
 
-        <div className="mt-10 animate-rise" style={{ animationDelay: '0.08s' }}>
-          {composer}
-          <p className="mt-3 text-center text-[11px] text-faint">{t('assistant.quotaNote')}</p>
-        </div>
-
-        {hasPlan && (
-          <section className="mt-10 animate-rise" style={{ animationDelay: '0.14s' }}>
-            <p className="flex items-center gap-2 text-xs font-bold tracking-[0.16em] text-ink uppercase">
-              <span className="h-2 w-2 animate-beacon rounded-full bg-zest-400" aria-hidden />
-              {t('assistant.aboutYourPlan')}
-            </p>
-            <ul className="mt-3 grid gap-2 sm:grid-cols-2">
-              {PLAN_EXAMPLES.map((k) => (
-                <li key={k}>
-                  <SuggestionButton disabled={ask.isPending} accent onClick={() => ask_(t(`assistant.${k}`))}>
-                    {t(`assistant.${k}`)}
-                  </SuggestionButton>
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
-
-        <section className="mt-10 animate-rise" style={{ animationDelay: '0.2s' }}>
-          <p className="text-xs font-bold tracking-[0.16em] text-muted uppercase">{t('assistant.tryAsking')}</p>
-          <ul className="mt-3 divide-y divide-rule border-y border-rule">
-            {EXAMPLES.map((k) => (
-              <li key={k}>
-                <SuggestionButton disabled={ask.isPending} onClick={() => ask_(t(`assistant.${k}`))}>
-                  {t(`assistant.${k}`)}
-                </SuggestionButton>
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        <section aria-labelledby="how-answers" className="mt-12 animate-rise" style={{ animationDelay: '0.26s' }}>
-          <h2 id="how-answers" className="text-xs font-bold tracking-[0.16em] text-muted uppercase">
-            {t('assistant.howAnswers')}
-          </h2>
-          <ul className="mt-4 grid gap-3 sm:grid-cols-3">
-            <li className="rounded-2xl border border-rule bg-card p-4">
-              <span className="rounded-md bg-ink px-1.5 py-0.5 font-mono text-[11px] font-bold text-paper">S1</span>
-              <p className="mt-3 text-sm leading-relaxed text-ink/80">{t('assistant.legendExcerpt')}</p>
-            </li>
-            <li className="rounded-2xl bg-jade-50 p-4 ring-1 ring-jade-100">
-              <span className="rounded-md bg-jade-600 px-1.5 py-0.5 font-mono text-[11px] font-bold text-paper">K1</span>
-              <p className="mt-3 text-sm leading-relaxed text-jade-800">{t('assistant.legendFact')}</p>
-            </li>
-            <li className="rounded-2xl bg-lilac-50 p-4 ring-1 ring-lilac-100">
-              <span className="text-xs font-bold text-lilac-700">✦ AI</span>
-              <p className="mt-3 text-sm leading-relaxed text-lilac-700">{t('assistant.legendAi')}</p>
-            </li>
-          </ul>
-        </section>
-      </div>
-    )
-  }
-
+  // One tree for both views: the journey keeps its slot (and state) when the conversation starts.
   return (
-    <div className="mx-auto flex min-h-[calc(100vh-14rem)] max-w-3xl flex-col">
-      <header className="flex items-center gap-3 border-b border-rule pb-5">
-        <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-ink text-zest-400">
-          <Icon name="spark" className="h-5 w-5" />
-        </span>
-        <div>
-          <h1 className="font-display text-2xl font-semibold tracking-tight text-ink">{t('assistant.title')}</h1>
-          <p className="text-xs text-muted">{t('assistant.conversationHint')}</p>
-        </div>
-      </header>
+    <div className={empty ? 'mx-auto max-w-3xl' : 'mx-auto flex min-h-[calc(100vh-14rem)] max-w-3xl flex-col'}>
+      {empty ? (
+        <>
+            <div className="animate-rise text-center">
+              <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-ink text-zest-400 shadow-lift">
+                <Icon name="spark" className="h-7 w-7" />
+              </span>
+              <p className="mt-6 text-xs font-bold tracking-[0.18em] text-jade-700 uppercase">{t('assistant.eyebrow')}</p>
+              <h1 className="mt-3 font-display text-4xl leading-tight font-semibold tracking-tight text-ink sm:text-5xl">{t('assistant.welcomeTitle')}</h1>
+              <p className="mx-auto mt-4 max-w-xl leading-relaxed text-muted">{t('assistant.intro')}</p>
+            </div>
 
-      <div className="flex-1 space-y-10 py-8" aria-live="polite">
-        {history.map((ex) => (
-          <div key={ex.id} className="space-y-5">
-            <UserBubble text={ex.question} />
-            <AssistantTurn>
-              <AnswerCard answer={ex.answer} prefix={`a${ex.id}`} serviceName={serviceName} />
-            </AssistantTurn>
-          </div>
-        ))}
+        </>
+      ) : (
+        <>
+          <header className="flex items-center gap-3 border-b border-rule pb-5">
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-ink text-zest-400">
+              <Icon name="spark" className="h-5 w-5" />
+            </span>
+            <div>
+              <h1 className="font-display text-2xl font-semibold tracking-tight text-ink">{t('assistant.title')}</h1>
+              <p className="text-xs text-muted">{t('assistant.conversationHint')}</p>
+            </div>
+          </header>
+        </>
+      )}
+      <div className={empty ? 'mt-10 animate-rise' : 'mt-6'}>
+        <SituationJourney onExplain={explain} />
+      </div>
+      {empty ? (
+        <>
+          <h2 className="mt-12 text-center text-xs font-bold tracking-[0.16em] text-muted uppercase">{t('journey.orAsk')}</h2>
+            <div className="mt-4 animate-rise" style={{ animationDelay: '0.08s' }}>
+              {composer}
+              <p className="mt-3 text-center text-[11px] text-faint">{t('assistant.quotaNote')}</p>
+            </div>
 
-        {ask.isPending && (
-          <div className="space-y-5">
-            <UserBubble text={lastQuestion} />
-            <AssistantTurn>
-              <div role="status" className="rounded-[1.5rem] rounded-tl-md bg-card p-5 ring-1 ring-rule sm:p-6">
-                <p className="flex items-center gap-3 text-sm font-semibold text-ink">
-                  <span className="flex gap-1" aria-hidden>
-                    {[0, 1, 2].map((i) => (
-                      <span key={i} className="h-1.5 w-1.5 animate-dots rounded-full bg-lilac-500" style={{ animationDelay: `${i * 0.15}s` }} />
-                    ))}
-                  </span>
-                  {t('assistant.searching')}
+            {hasPlan && (
+              <section className="mt-10 animate-rise" style={{ animationDelay: '0.14s' }}>
+                <p className="flex items-center gap-2 text-xs font-bold tracking-[0.16em] text-ink uppercase">
+                  <span className="h-2 w-2 animate-beacon rounded-full bg-zest-400" aria-hidden />
+                  {t('assistant.aboutYourPlan')}
                 </p>
-                <div className="mt-5 space-y-2.5" aria-hidden>
-                  {['w-11/12', 'w-full', 'w-3/4'].map((w) => (
-                    <span key={w} className={`block h-3 animate-pulse rounded-full bg-paper-deep ${w}`} />
+                <ul className="mt-3 grid gap-2 sm:grid-cols-2">
+                  {PLAN_EXAMPLES.map((k) => (
+                    <li key={k}>
+                      <SuggestionButton disabled={ask.isPending} accent onClick={() => ask_(t(`assistant.${k}`))}>
+                        {t(`assistant.${k}`)}
+                      </SuggestionButton>
+                    </li>
                   ))}
-                </div>
-              </div>
-            </AssistantTurn>
-          </div>
-        )}
-        {ask.isError && (
-          <AssistantTurn>
-            <ErrorState message={t(errorKey(ask.error))} onRetry={lastQuestion ? () => submit(lastQuestion) : undefined} />
-          </AssistantTurn>
-        )}
-        <div ref={endRef} />
-      </div>
+                </ul>
+              </section>
+            )}
 
-      <div className="sticky bottom-0 bg-gradient-to-t from-paper via-paper to-paper/0 pt-6 pb-4">
-        {composer}
-        <p className="mt-2 text-center text-[11px] text-faint">{t('assistant.quotaNote')}</p>
-      </div>
+            <section className="mt-10 animate-rise" style={{ animationDelay: '0.2s' }}>
+              <p className="text-xs font-bold tracking-[0.16em] text-muted uppercase">{t('assistant.tryAsking')}</p>
+              <ul className="mt-3 divide-y divide-rule border-y border-rule">
+                {EXAMPLES.map((k) => (
+                  <li key={k}>
+                    <SuggestionButton disabled={ask.isPending} onClick={() => ask_(t(`assistant.${k}`))}>
+                      {t(`assistant.${k}`)}
+                    </SuggestionButton>
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            <section aria-labelledby="how-answers" className="mt-12 animate-rise" style={{ animationDelay: '0.26s' }}>
+              <h2 id="how-answers" className="text-xs font-bold tracking-[0.16em] text-muted uppercase">
+                {t('assistant.howAnswers')}
+              </h2>
+              <ul className="mt-4 grid gap-3 sm:grid-cols-3">
+                <li className="rounded-2xl border border-rule bg-card p-4">
+                  <span className="rounded-md bg-ink px-1.5 py-0.5 font-mono text-[11px] font-bold text-paper">S1</span>
+                  <p className="mt-3 text-sm leading-relaxed text-ink/80">{t('assistant.legendExcerpt')}</p>
+                </li>
+                <li className="rounded-2xl bg-jade-50 p-4 ring-1 ring-jade-100">
+                  <span className="rounded-md bg-jade-600 px-1.5 py-0.5 font-mono text-[11px] font-bold text-paper">K1</span>
+                  <p className="mt-3 text-sm leading-relaxed text-jade-800">{t('assistant.legendFact')}</p>
+                </li>
+                <li className="rounded-2xl bg-lilac-50 p-4 ring-1 ring-lilac-100">
+                  <span className="text-xs font-bold text-lilac-700">✦ AI</span>
+                  <p className="mt-3 text-sm leading-relaxed text-lilac-700">{t('assistant.legendAi')}</p>
+                </li>
+              </ul>
+            </section>
+        </>
+      ) : (
+        <>
+
+          <div className="flex-1 space-y-10 py-8" aria-live="polite">
+            {history.map((ex) => (
+              <div key={ex.id} className="space-y-5">
+                <UserBubble text={ex.question} />
+                <AssistantTurn>
+                  <AnswerCard answer={ex.answer} prefix={`a${ex.id}`} serviceName={serviceName} />
+                </AssistantTurn>
+              </div>
+            ))}
+
+            {ask.isPending && (
+              <div className="space-y-5">
+                <UserBubble text={lastQuestion} />
+                <AssistantTurn>
+                  <div role="status" className="rounded-[1.5rem] rounded-tl-md bg-card p-5 ring-1 ring-rule sm:p-6">
+                    <p className="flex items-center gap-3 text-sm font-semibold text-ink">
+                      <span className="flex gap-1" aria-hidden>
+                        {[0, 1, 2].map((i) => (
+                          <span key={i} className="h-1.5 w-1.5 animate-dots rounded-full bg-lilac-500" style={{ animationDelay: `${i * 0.15}s` }} />
+                        ))}
+                      </span>
+                      {t('assistant.searching')}
+                    </p>
+                    <div className="mt-5 space-y-2.5" aria-hidden>
+                      {['w-11/12', 'w-full', 'w-3/4'].map((w) => (
+                        <span key={w} className={`block h-3 animate-pulse rounded-full bg-paper-deep ${w}`} />
+                      ))}
+                    </div>
+                  </div>
+                </AssistantTurn>
+              </div>
+            )}
+            {ask.isError && (
+              <AssistantTurn>
+                <ErrorState message={t(errorKey(ask.error))} onRetry={lastQuestion ? () => submit(lastQuestion) : undefined} />
+              </AssistantTurn>
+            )}
+            <div ref={endRef} />
+          </div>
+
+          <div className="sticky bottom-0 bg-gradient-to-t from-paper via-paper to-paper/0 pt-6 pb-4">
+            {composer}
+            <p className="mt-2 text-center text-[11px] text-faint">{t('assistant.quotaNote')}</p>
+          </div>
+        </>
+      )}
     </div>
   )
 }

@@ -28,6 +28,7 @@ export function Timeline({
   onUndoDone,
   onOwn,
   onProcess,
+  preview = false,
 }: {
   plan: PlanResponse
   names: PlanNames
@@ -35,6 +36,8 @@ export function Timeline({
   onUndoDone: (serviceId: string) => void
   onOwn: (documentId: string) => void
   onProcess: (serviceId: string, state: ProcessState) => void
+  /** Proposal preview: no progress / mark-done controls (nothing is the active plan yet). */
+  preview?: boolean
 }) {
   const { t } = useTranslation()
   const byStage = new Map<number, PlanStep[]>()
@@ -64,9 +67,11 @@ export function Timeline({
                     <span className="font-bold text-jade-800">✓ {names.service(id)}</span>
                     <span className="text-xs font-semibold text-jade-700/80">{t('planner.reportedByYou')}</span>
                   </span>
-                  <button type="button" onClick={() => onUndoDone(id)} className="text-xs font-semibold text-jade-700 underline">
-                    {t('planner.undo')}
-                  </button>
+                  {!preview && (
+                    <button type="button" onClick={() => onUndoDone(id)} className="text-xs font-semibold text-jade-700 underline">
+                      {t('planner.undo')}
+                    </button>
+                  )}
                 </li>
               ))}
             </ul>
@@ -98,6 +103,7 @@ export function Timeline({
                   onMarkDone={onMarkDone}
                   onOwn={onOwn}
                   onProcess={onProcess}
+                  preview={preview}
                 />
               ))}
             </div>
@@ -116,6 +122,7 @@ function StepCard({
   onMarkDone,
   onOwn,
   onProcess,
+  preview,
 }: {
   step: PlanStep
   plan: PlanResponse
@@ -124,6 +131,7 @@ function StepCard({
   onMarkDone: (serviceId: string) => void
   onOwn: (documentId: string) => void
   onProcess: (serviceId: string, state: ProcessState) => void
+  preview: boolean
 }) {
   const { t } = useTranslation()
   const style = STATUS[step.status]
@@ -195,13 +203,13 @@ function StepCard({
 
       <ul className="mt-4 space-y-2.5 border-t border-rule pt-4">
         {mandatory.map((r) => (
-          <RequirementLine key={r.requirement_id} r={r} names={names} onOwn={onOwn} />
+          <RequirementLine key={r.requirement_id} r={r} names={names} onOwn={onOwn} preview={preview} />
         ))}
       </ul>
       {other.length > 0 && (
         <ul className="mt-3 space-y-2.5 border-t border-dashed border-rule pt-3">
           {other.map((r) => (
-            <RequirementLine key={r.requirement_id} r={r} names={names} onOwn={onOwn} />
+            <RequirementLine key={r.requirement_id} r={r} names={names} onOwn={onOwn} preview={preview} />
           ))}
         </ul>
       )}
@@ -213,26 +221,28 @@ function StepCard({
         </p>
       )}
 
-      <div className="mt-4 flex flex-wrap items-center gap-3 rounded-2xl bg-paper px-3 py-2.5 ring-1 ring-rule">
-        <label className="flex items-center gap-2 text-xs font-bold text-ink">
-          {t('planner.yourProgress')}
-          <select
-            aria-label={t('planner.progressFor', { service: names.service(step.service_id) })}
-            value={step.process_state ?? 'not_started'}
-            onChange={(e) => onProcess(step.service_id, e.target.value as ProcessState)}
-            className="rounded-full border border-rule-strong bg-card px-3 py-1 text-xs font-semibold text-ink focus:border-ink"
-          >
-            {PROCESS_STATES.map((p) => (
-              <option key={p} value={p}>
-                {t(`processState.${p}`)}
-              </option>
-            ))}
-          </select>
-        </label>
-        <span className="text-[11px] text-muted">{t('planner.progressNote')}</span>
-      </div>
+      {!preview && (
+        <div className="mt-4 flex flex-wrap items-center gap-3 rounded-2xl bg-paper px-3 py-2.5 ring-1 ring-rule">
+          <label className="flex items-center gap-2 text-xs font-bold text-ink">
+            {t('planner.yourProgress')}
+            <select
+              aria-label={t('planner.progressFor', { service: names.service(step.service_id) })}
+              value={step.process_state ?? 'not_started'}
+              onChange={(e) => onProcess(step.service_id, e.target.value as ProcessState)}
+              className="rounded-full border border-rule-strong bg-card px-3 py-1 text-xs font-semibold text-ink focus:border-ink"
+            >
+              {PROCESS_STATES.map((p) => (
+                <option key={p} value={p}>
+                  {t(`processState.${p}`)}
+                </option>
+              ))}
+            </select>
+          </label>
+          <span className="text-[11px] text-muted">{t('planner.progressNote')}</span>
+        </div>
+      )}
 
-      {step.status === 'ready' && (
+      {step.status === 'ready' && !preview && (
         <button type="button" onClick={() => onMarkDone(step.service_id)} className="mt-4 rounded-full bg-card px-4 py-1.5 text-sm font-bold text-ink ring-1 ring-rule-strong transition hover:bg-jade-50 hover:ring-jade-500">
           ✓ {t('planner.markDone')}
         </button>
@@ -242,7 +252,7 @@ function StepCard({
   )
 }
 
-function RequirementLine({ r, names, onOwn }: { r: RequirementStatus; names: PlanNames; onOwn: (id: string) => void }) {
+function RequirementLine({ r, names, onOwn, preview }: { r: RequirementStatus; names: PlanNames; onOwn: (id: string) => void; preview: boolean }) {
   const { t } = useTranslation()
   const label = names.requirement(r.requirement_id, r.name)
   const optional = r.kind !== 'mandatory'
@@ -259,6 +269,21 @@ function RequirementLine({ r, names, onOwn }: { r: RequirementStatus; names: Pla
       <>
         {t('req.pending', { service: names.service(r.acquired_via_service_id!), document: names.document(r.acquired_document_id!) })}
         {others.length > 0 && <span className="block">{t('req.alternatives', { documents: others.map(names.document).join(t('common.listSeparator')) })}</span>}
+        {/* In a proposal, holding an accepted alternative removes the wait: offer it. */}
+        {preview && others.length > 0 && (
+          <span className="mt-1.5 flex flex-wrap gap-1.5">
+            {others.map((d) => (
+              <button
+                key={d}
+                type="button"
+                onClick={() => onOwn(d)}
+                className="rounded-full bg-card px-3 py-1 text-xs font-semibold text-ink ring-1 ring-rule-strong transition hover:bg-zest-100 hover:ring-ink"
+              >
+                + {t('req.iHave', { document: names.document(d) })}
+              </button>
+            ))}
+          </span>
+        )}
       </>
     )
   } else if (r.state === 'missing') {

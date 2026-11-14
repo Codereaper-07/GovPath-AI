@@ -116,8 +116,15 @@ Architecture: `docs/architecture.md`. Status, sources and next tasks: `PROGRESS.
 - Discovery (`workflow/discovery.py`, pure): goals (else life events) → candidates; excluded when out of
   verified jurisdiction or when a required existing record (no producer) is declared lacking;
   `needs_clarification` when state/record is unknown. API: `/api/workflows/discover`, `/vocabulary`.
-- `llm/situation.py` (+ `POST /api/situation/interpret`): AI extracts facts only, closed vocabularies,
-  validated; the UI shows it for review before use. Not yet validated against live Gemini.
+- `llm/situation.py` (+ `POST /api/situation/interpret`): AI extracts facts only (goals, life events, state,
+  held/lacking documents and their conditions), closed vocabularies, validated; reviewed before use.
+  Not yet validated against live Gemini.
+- Proposal (`workflow/proposal.py`, pure; `POST /api/workflows/propose`): reviewed context → `discover` →
+  existing `plan`. Supporting services come only from the planner; `target_service_ids` = the citizen's
+  edited list. Statuses: ready / needs_clarification / no_supported_services / no_services_selected. A
+  proposal is never saved: the UI (`features/journey/SituationJourney.tsx`, assistant page) saves only
+  on explicit accept (`acceptProposal`: reviewed facts replace saved facts; merge unions services/goals;
+  progress/completions kept).
 
 ## Assistant rules (Milestone 4)
 - Gemini only **explains**. Dependencies, ordering, blockers and next action come from the

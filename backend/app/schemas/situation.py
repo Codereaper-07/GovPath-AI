@@ -21,6 +21,7 @@ class SituationOut(BaseModel):
     state: str | None
     held_document_ids: list[str]
     lacking_document_ids: list[str]
+    document_states: dict[str, str] = {}  # held document -> expired | invalid | unsure
     completed_service_ids: list[str]
     unknowns: list[str]
     dropped: list[str]

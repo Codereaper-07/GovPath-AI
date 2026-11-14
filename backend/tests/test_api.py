@@ -188,3 +188,69 @@ def test_vocabulary_endpoint(client):
     data = client.get("/api/workflows/vocabulary").json()
     assert "update-address" in data["goals"] and "Delhi" in data["states"]
     assert len(data["states"]) == 36
+
+
+MARRIED_DELHI = {
+    "goals": ["update-name-after-marriage"],
+    "state": "Delhi",
+    "held_document_ids": ["aadhaar_number", "passport_existing"],
+    "lacking_document_ids": ["marriage_certificate"],
+}
+
+
+def test_propose_endpoint_builds_a_reviewable_plan(api_client):
+    res = api_client.post("/api/workflows/propose", json={"context": MARRIED_DELHI})
+    assert res.status_code == 200, res.text
+    data = res.json()
+    assert data["generated_by"] == "deterministic-discovery+planner" and data["status"] == "ready"
+    assert set(data["target_service_ids"]) == {
+        "aadhaar-name-update",
+        "passport-reissue-name-change-marriage",
+    }
+    assert data["supporting"][0]["service_id"] == "marriage-registration-delhi"
+    assert data["plan"]["generated_by"] == "deterministic-planner"
+    assert data["plan"]["evidence"] and data["plan"]["evidence"][0]["source_url"].startswith(
+        "https://"
+    )
+    assert (
+        "marriage-registration-delhi" in data["discovery"]["services"]
+        or "marriage-registration-delhi" in data["plan"]["services"]
+    )
+    assert data["discovery"]["services"]["aadhaar-name-update"]["name_hi"]
+
+
+def test_propose_endpoint_override_and_errors(api_client):
+    url = "/api/workflows/propose"
+    one = api_client.post(
+        url, json={"context": MARRIED_DELHI, "target_service_ids": ["aadhaar-name-update"]}
+    )
+    assert one.json()["target_service_ids"] == ["aadhaar-name-update"]
+    none = api_client.post(url, json={"context": MARRIED_DELHI, "target_service_ids": []})
+    assert none.json()["status"] == "no_services_selected" and none.json()["plan"] is None
+    bad_goal = api_client.post(url, json={"context": {"goals": ["win-lottery"]}})
+    assert bad_goal.status_code == 422 and bad_goal.json()["detail"]["code"] == "unknown_ids"
+    bad_target = api_client.post(
+        url, json={"context": MARRIED_DELHI, "target_service_ids": ["nope"]}
+    )
+    assert bad_target.status_code == 422
+    unsupported = api_client.post(url, json={"context": {"life_events": ["starting-business"]}})
+    assert unsupported.json()["status"] == "no_supported_services"
+    assert unsupported.json()["uncovered_life_events"] == ["starting-business"]
+
+
+def test_propose_endpoint_rejects_unknown_keys_and_ids(api_client):
+    url = "/api/workflows/propose"
+    extra = api_client.post(url, json={"context": MARRIED_DELHI, "services": ["x"]})
+    assert extra.status_code == 422
+    progress = api_client.post(
+        url, json={"context": MARRIED_DELHI, "progress": {"nope": "started"}}
+    )
+    assert progress.status_code == 422 and progress.json()["detail"]["code"] == "unknown_ids"
+    states = api_client.post(
+        url, json={"context": MARRIED_DELHI, "document_states": {"nope": "expired"}}
+    )
+    assert states.status_code == 422 and states.json()["detail"]["code"] == "unknown_ids"
+    bad_state = api_client.post(
+        url, json={"context": MARRIED_DELHI, "document_states": {"pan_card": "shiny"}}
+    )
+    assert bad_state.status_code == 422

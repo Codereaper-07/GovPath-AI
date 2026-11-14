@@ -14,6 +14,13 @@ from pydantic import BaseModel, Field
 from app.knowledge.regions import normalise_state
 from app.llm.client import GeminiClient
 
+CONDITIONS = ("expired", "invalid", "unsure")
+
+
+class DocumentCondition(BaseModel):
+    document_id: str
+    condition: str  # expired | invalid | unsure
+
 
 class SituationExtraction(BaseModel):
     """JSON schema the model must follow."""
@@ -23,6 +30,8 @@ class SituationExtraction(BaseModel):
     state: str | None = None
     held_document_ids: list[str] = Field(default_factory=list)
     lacking_document_ids: list[str] = Field(default_factory=list)
+    # Documents the citizen holds but says are expired / not valid / unsure about.
+    document_conditions: list[DocumentCondition] = Field(default_factory=list)
     completed_service_ids: list[str] = Field(default_factory=list)
     unknowns: list[str] = Field(default_factory=list)  # e.g. "state", "goal"
 
@@ -45,6 +54,7 @@ class Interpretation:
     completed_service_ids: tuple[str, ...]
     unknowns: tuple[str, ...]
     dropped: tuple[str, ...] = field(default=())  # model output outside the vocabulary
+    document_states: dict[str, str] = field(default_factory=dict)  # held doc -> condition
 
 
 SYSTEM = """You extract facts from a citizen's description of their situation for an Indian
@@ -53,6 +63,8 @@ Rules:
 - Use ONLY the ids listed in the vocabularies. Never invent ids.
 - Record only what the citizen states or clearly implies. Do not guess documents they did not
   mention. A document goes in lacking_document_ids only if they say they do not have it.
+- document_conditions: only for a document they hold and say is expired, invalid/damaged
+  ("invalid") or are unsure about ("unsure").
 - state: the Indian state or union territory they live in now, or null if not stated.
 - Do not decide which government services apply and do not order anything.
 - unknowns: list "state" if their current state is not stated, "goal" if no goal is clear.
@@ -93,6 +105,15 @@ def validate(raw: SituationExtraction, vocab: SituationVocabulary) -> Interpreta
         dropped.append(raw.state)
     held = keep(raw.held_document_ids, vocab.documents)
     lacking = tuple(d for d in keep(raw.lacking_document_ids, vocab.documents) if d not in held)
+    states: dict[str, str] = {}
+    for c in raw.document_conditions:
+        if c.document_id not in vocab.documents or c.document_id in lacking:
+            dropped.append(c.document_id)
+        elif c.condition not in CONDITIONS:
+            dropped.append(c.condition)
+        else:
+            states[c.document_id] = c.condition  # an expired document is still held
+    held = tuple(dict.fromkeys([*held, *states]))
     unknowns = tuple(u for u in dict.fromkeys(raw.unknowns) if u in ("state", "goal"))
     if state is None and "state" not in unknowns:
         unknowns = (*unknowns, "state")
@@ -108,6 +129,7 @@ def validate(raw: SituationExtraction, vocab: SituationVocabulary) -> Interpreta
         completed_service_ids=keep(raw.completed_service_ids, vocab.services),
         unknowns=unknowns,
         dropped=tuple(dropped),
+        document_states=states,
     )
 
 

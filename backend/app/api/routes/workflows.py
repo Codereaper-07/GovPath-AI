@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db import get_session
 from app.knowledge.cache import TTLCache, get_knowledge_cache
-from app.knowledge.regions import STATES_AND_UTS
+from app.knowledge.regions import STATES_AND_UTS, normalise_state
 from app.models.enums import CitizenGoal, LifeEvent
 from app.schemas.workflow import (
     DiscoverIn,
@@ -14,11 +14,14 @@ from app.schemas.workflow import (
     NameOut,
     PlanRequestIn,
     PlanResponse,
+    ProposalResponse,
+    ProposeIn,
+    SupportingServiceOut,
     VocabularyOut,
 )
 from app.workflow.discovery import CitizenContext
 from app.workflow.errors import DependencyCycleError, EmptySelectionError, UnknownIdsError
-from app.workflow.service import discover_services, plan_workflow
+from app.workflow.service import discover_services, plan_workflow, propose_workflow
 
 router = APIRouter(prefix="/workflows", tags=["workflows"])
 
@@ -60,16 +63,8 @@ async def discover(
     cache: Annotated[TTLCache, Depends(get_knowledge_cache)],
 ) -> DiscoverResponse:
     """Deterministic service discovery from a structured citizen context."""
-    context = CitizenContext(
-        goals=tuple(body.goals),
-        life_events=tuple(body.life_events),
-        state=body.state,
-        held_document_ids=tuple(body.held_document_ids),
-        lacking_document_ids=tuple(body.lacking_document_ids),
-        completed_service_ids=tuple(body.completed_service_ids),
-    )
     try:
-        result, state, names = await discover_services(session, context, cache=cache)
+        result, state, names = await discover_services(session, _context(body), cache=cache)
     except UnknownIdsError as exc:
         raise _unknown(exc) from exc
     response = DiscoverResponse.model_validate(
@@ -83,6 +78,72 @@ async def discover(
     response.services = _service_names(names["services"])
     response.documents = _document_names(names["documents"])
     return response
+
+
+def _context(body: DiscoverIn) -> CitizenContext:
+    return CitizenContext(
+        goals=tuple(body.goals),
+        life_events=tuple(body.life_events),
+        state=body.state,
+        held_document_ids=tuple(body.held_document_ids),
+        lacking_document_ids=tuple(body.lacking_document_ids),
+        completed_service_ids=tuple(body.completed_service_ids),
+    )
+
+
+def _plan_response(result, names: dict) -> PlanResponse:
+    response = PlanResponse.model_validate(result)
+    response.services = _service_names(names["services"])
+    response.requirements = {
+        k: NameOut(name=n, name_hi=hi) for k, (n, hi) in names["requirements"].items()
+    }
+    response.documents = _document_names(names["documents"])
+    return response
+
+
+@router.post("/propose", response_model=ProposalResponse)
+async def propose(
+    body: ProposeIn,
+    session: Annotated[AsyncSession, Depends(get_session)],
+    cache: Annotated[TTLCache, Depends(get_knowledge_cache)],
+) -> ProposalResponse:
+    """Reviewed situation -> discovered outcomes -> deterministic plan (a proposal, not saved)."""
+    try:
+        result, names = await propose_workflow(
+            session,
+            _context(body.context),
+            document_states=body.document_states,
+            progress=body.progress,
+            target_ids=body.target_service_ids,
+            cache=cache,
+        )
+    except UnknownIdsError as exc:
+        raise _unknown(exc) from exc
+    except DependencyCycleError as exc:
+        raise HTTPException(
+            status.HTTP_409_CONFLICT,
+            {"code": "dependency_cycle", "message": str(exc), "cycle": exc.cycle},
+        ) from exc
+    found = result.discovery
+    discovery = DiscoverResponse.model_validate(
+        {
+            "state": normalise_state(body.context.state),
+            "candidates": [c.__dict__ for c in found.candidates],
+            "clarifications": [q.__dict__ for q in found.clarifications],
+            "recommended_target_ids": list(found.recommended_target_ids),
+        }
+    )
+    discovery.services = _service_names(names["services"])
+    discovery.documents = _document_names(names["documents"])
+    return ProposalResponse(
+        status=result.status.value,
+        discovery=discovery,
+        target_service_ids=list(result.target_ids),
+        supporting=[SupportingServiceOut.model_validate(s) for s in result.supporting],
+        plan=_plan_response(result.plan, names) if result.plan else None,
+        uncovered_goals=list(result.uncovered_goals),
+        uncovered_life_events=list(result.uncovered_life_events),
+    )
 
 
 @router.post("/plan", response_model=PlanResponse)
@@ -113,10 +174,4 @@ async def create_plan(
             status.HTTP_409_CONFLICT,
             {"code": "dependency_cycle", "message": str(exc), "cycle": exc.cycle},
         ) from exc
-    response = PlanResponse.model_validate(result)
-    response.services = _service_names(names["services"])
-    response.requirements = {
-        k: NameOut(name=n, name_hi=hi) for k, (n, hi) in names["requirements"].items()
-    }
-    response.documents = _document_names(names["documents"])
-    return response
+    return _plan_response(result, names)

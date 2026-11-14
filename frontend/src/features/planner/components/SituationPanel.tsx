@@ -7,9 +7,9 @@ import { ApiError } from '../../../lib/apiClient'
 import { useLocalized } from '../../../lib/useLocalized'
 import type { ApiErrorDetail, CitizenContext, DiscoverResponse, SituationInterpretation } from '../../../types/api'
 import { useDiscovery, useInterpretSituation, useVocabulary } from '../api'
+import { GOAL_ORDER } from '../goals'
 import type { PlannerSelection } from '../usePlannerState'
 
-const GOAL_ORDER = ['update-address', 'update-name-after-marriage', 'register-marriage', 'enrol-child-aadhaar', 'get-pan'] as const
 
 /**
  * The citizen's situation: goals, state/UT, optional free-text interpretation by AI (reviewed

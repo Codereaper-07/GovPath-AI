@@ -273,6 +273,49 @@ class DiscoverResponse(_Out):
     documents: dict[str, DocumentNameOut] = {}
 
 
+class ProposeIn(BaseModel):
+    """Reviewed situation -> proposed workflow. `target_service_ids` (optional) is the citizen's
+    edited outcome list; when omitted, discovery's recommendation is used."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    context: DiscoverIn
+    document_states: dict[str, DocumentStateIn] = Field(default_factory=dict, max_length=200)
+    progress: dict[str, ProcessStateIn] = Field(default_factory=dict, max_length=40)
+    target_service_ids: list[str] | None = Field(default=None, max_length=20)
+
+    @field_validator("target_service_ids")
+    @classmethod
+    def _strip(cls, v: list[str] | None) -> list[str] | None:
+        return None if v is None else _clean_ids(v)
+
+    @field_validator("progress", "document_states")
+    @classmethod
+    def _keys(cls, v: dict) -> dict:
+        _clean_ids(list(v))
+        return {k.strip(): s for k, s in v.items()}
+
+
+class SupportingServiceOut(_Out):
+    service_id: str
+    role: str  # prerequisite | acquisition (added by the planner, never by AI)
+    for_service_ids: list[str]
+    document_ids: list[str]
+
+
+class ProposalResponse(BaseModel):
+    """A proposal only: the citizen reviews it and accepts it in the UI before it is saved."""
+
+    generated_by: Literal["deterministic-discovery+planner"] = "deterministic-discovery+planner"
+    status: str  # ready | needs_clarification | no_supported_services | no_services_selected
+    discovery: DiscoverResponse
+    target_service_ids: list[str]
+    supporting: list[SupportingServiceOut]
+    plan: PlanResponse | None
+    uncovered_goals: list[str]
+    uncovered_life_events: list[str]
+
+
 class VocabularyOut(BaseModel):
     goals: list[str]
     life_events: list[str]

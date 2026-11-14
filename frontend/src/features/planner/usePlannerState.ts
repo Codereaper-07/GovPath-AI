@@ -32,6 +32,15 @@ export interface PlannerSelection {
  *   last change (both read the same old value), the missing part is re-applied (`selectionSync`).
  * - Unknown fields (e.g. written by a newer version) are preserved on every write.
  */
+export interface AcceptedProposal {
+  targets: string[]
+  held: string[]
+  lacking: string[]
+  docStates: Record<string, ProblemState>
+  goals: string[]
+  state: string | null
+}
+
 const STORAGE_KEY = 'govpath.planner.v1'
 export const SCHEMA_VERSION = 2
 const EMPTY: PlannerSelection = {
@@ -107,6 +116,8 @@ function save(sel: PlannerSelection, stamp: Stamp): boolean {
     return false // storage unavailable or full: keep working in memory
   }
 }
+
+const uniqList = (xs: string[]) => [...new Set(xs)]
 
 const toggle = (list: string[], id: string, on: boolean) =>
   on ? (list.includes(id) ? list : [...list, id]) : list.filter((x) => x !== id)
@@ -234,6 +245,30 @@ export function usePlannerState() {
           lacking: [...new Set([...s.lacking, ...ctx.lacking])].filter((d) => !ctx.held.includes(d)),
           docStates: ctx.lacking.reduce((r, d) => (ctx.held.includes(d) ? r : without(r, d)), s.docStates),
         })),
+      [update],
+    ),
+    /**
+     * Accept a reviewed proposal (explicit citizen action). The reviewed facts (documents held,
+     * lacking, their conditions, state) were prefilled from this plan and edited by the citizen, so
+     * they replace the saved facts in both modes. "merge" adds the proposal's services and goals to
+     * the current ones; "replace" swaps them. Reported progress and completions are always kept.
+     */
+    acceptProposal: useCallback(
+      (p: AcceptedProposal, mode: 'merge' | 'replace') =>
+        update((s) => {
+          const lacking = uniqList(p.lacking.filter((d) => !p.held.includes(d)))
+          const owned = uniqList(p.held)
+          return {
+            ...s,
+            targets: mode === 'merge' ? uniqList([...s.targets, ...p.targets]) : uniqList(p.targets),
+            goals: mode === 'merge' ? uniqList([...s.goals, ...p.goals]) : uniqList(p.goals),
+            owned,
+            lacking,
+            docStates: Object.fromEntries(Object.entries(p.docStates).filter(([d]) => owned.includes(d))) as Record<string, ProblemState>,
+            state: p.state,
+            generated: true,
+          }
+        }),
       [update],
     ),
     generate: useCallback(() => update((s) => ({ ...s, generated: true })), [update]),

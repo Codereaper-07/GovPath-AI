@@ -100,3 +100,24 @@ def test_interpret_endpoint_with_fake_interpreter(api_client, result, error, sta
         body = r.json()
         assert body["generated_by"] == "ai" and body["goals"] == ["update-address"]
         assert body["state"] == "Maharashtra" and body["unknowns"] == []
+
+
+def test_document_conditions_are_validated_and_imply_holding():
+    from app.llm.situation import DocumentCondition
+
+    raw = SituationExtraction(
+        goals=["update-address"],
+        state="Delhi",
+        lacking_document_ids=["aadhaar_number"],
+        document_conditions=[
+            DocumentCondition(document_id="driving_licence_existing", condition="expired"),
+            DocumentCondition(document_id="aadhaar_number", condition="expired"),  # said lacking
+            DocumentCondition(document_id="spaceship_licence", condition="invalid"),  # unknown id
+            DocumentCondition(document_id="driving_licence_existing", condition="lost-ish"),
+        ],
+    )
+    out = validate(raw, VOCAB)
+    assert out.document_states == {"driving_licence_existing": "expired"}
+    assert out.held_document_ids == ("driving_licence_existing",)  # expired, but held
+    assert out.lacking_document_ids == ("aadhaar_number",)
+    assert {"aadhaar_number", "spaceship_licence", "lost-ish"} <= set(out.dropped)

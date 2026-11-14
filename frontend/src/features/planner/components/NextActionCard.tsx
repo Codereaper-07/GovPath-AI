@@ -14,7 +14,8 @@ export function NextActionCard({
 }: {
   plan: PlanResponse
   names: PlanNames
-  onMarkDone: (serviceId: string) => void
+  /** Omitted in a proposal preview (nothing can be marked done before acceptance). */
+  onMarkDone?: (serviceId: string) => void
   onOwn: (documentId: string) => void
 }) {
   const { t } = useTranslation()
@@ -57,12 +58,14 @@ export function NextActionCard({
           <Link to={`/services/${a.service_id}`} className={buttonClass('zest', 'md')}>
             {t('planner.howToApply')} <Icon name="arrow" className="h-4 w-4" />
           </Link>
-          <button type="button" onClick={() => onMarkDone(a.service_id!)} className={buttonClass('inverse', 'md')}>
-            ✓ {t('planner.markDone')}
-          </button>
+          {onMarkDone && (
+            <button type="button" onClick={() => onMarkDone(a.service_id!)} className={buttonClass('inverse', 'md')}>
+              ✓ {t('planner.markDone')}
+            </button>
+          )}
         </div>
       )}
-      {a.type === 'follow_up' && a.service_id && (
+      {a.type === 'follow_up' && a.service_id && onMarkDone && (
         <div className="relative mt-6 flex flex-wrap gap-3">
           <button type="button" onClick={() => onMarkDone(a.service_id!)} className={buttonClass('zest', 'md')}>
             ✓ {t('planner.markDone')}

@@ -1,6 +1,15 @@
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query'
 import { apiGet, apiPost } from '../../lib/apiClient'
-import type { CitizenContext, DiscoverResponse, PlanRequest, PlanResponse, SituationInterpretation, Vocabulary } from '../../types/api'
+import type {
+  CitizenContext,
+  DiscoverResponse,
+  PlanRequest,
+  PlanResponse,
+  ProposalResponse,
+  ProposeRequest,
+  SituationInterpretation,
+  Vocabulary,
+} from '../../types/api'
 
 /** Calls the backend planner (the single source of truth for ordering and readiness). */
 export function usePlan(request: PlanRequest | null) {
@@ -37,5 +46,16 @@ export function useInterpretSituation() {
   return useMutation({
     mutationFn: (body: { text: string; language: 'en' | 'hi' }) =>
       apiPost<SituationInterpretation>('/api/situation/interpret', body),
+  })
+}
+
+/** Reviewed situation -> discovered services -> deterministic plan. Never saved by itself. */
+export function useProposal(request: ProposeRequest | null) {
+  return useQuery({
+    queryKey: ['propose', request],
+    queryFn: () => apiPost<ProposalResponse>('/api/workflows/propose', request),
+    enabled: request !== null,
+    placeholderData: keepPreviousData,
+    retry: false,
   })
 }
