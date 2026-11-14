@@ -1,0 +1,4756 @@
+{
+ "aadhaar-poa-en": [
+  {
+   "chunk_id": 36,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.7843,
+   "evidence_ids": [
+    "uidai-poa-electricity",
+    "uidai-poa-water",
+    "uidai-poa-telephone",
+    "uidai-poa-property-tax",
+    "uidai-poa-sale-rent",
+    "uidai-poa-gas"
+   ],
+   "page": 11,
+   "excerpt": "Sl.\nNo.\nList of documents\n(see note below this tabular statement)\nProof of Identity (PoI)\ndocument, containing\nname and photograph\nProof of Address (PoA)\ndocume"
+  },
+  {
+   "chunk_id": 32,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.7803,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-ration",
+    "uidai-poa-voter",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 9,
+   "excerpt": "Proof of Identity (PoI)\ndocument, containing\nname and photograph\nProof of Address (PoA)\ndocument, containing\nname and address in\nIndia\nProof of Relationship\n(Po"
+  },
+  {
+   "chunk_id": 5,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.758,
+   "evidence_ids": [
+    "uidai-update-fields",
+    "uidai-online-mode",
+    "uidai-online-poa-upload"
+   ],
+   "page": null,
+   "excerpt": "will\nbe notified by UIDAI to update their biometrics\nAadhaar details that can be updated are:\nDemographic Information\nName, Address, Date of Birth/Age, Gender, "
+  },
+  {
+   "chunk_id": 131,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.7305,
+   "evidence_ids": [
+    "pp-poa-spouse-passport",
+    "pp-poa-aadhaar",
+    "pp-poa-rent",
+    "pp-poa-passbook",
+    "pp-present-address-only"
+   ],
+   "page": 13,
+   "excerpt": "give address proof on company letter head along with seal. Computerized printouts shall not be entertained)\nh.\nSpouse’s passport copy (First and last page inclu"
+  },
+  {
+   "chunk_id": 65,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.7303,
+   "evidence_ids": [
+    "eci-f8-shift-request",
+    "eci-f8-address-proof",
+    "eci-f8-utility-bill",
+    "eci-f8-aadhaar",
+    "eci-f8-passbook",
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "2.\nCorrection of Entries in Existing Electoral Roll (or)\n3.\nIssue of Replacement EPIC without correction (or)\n4.\nRequest for marking as Person with Disability\n1"
+  },
+  {
+   "chunk_id": 6,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.7246,
+   "evidence_ids": [
+    "uidai-centre-mode"
+   ],
+   "page": null,
+   "excerpt": "supporting POA documents\nDoc Type: PDF Size: 1.6MB\n, which will be verified against requested data at a later stage by a quality and processing team.\nBy Visitin"
+  },
+  {
+   "chunk_id": 79,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.7042,
+   "evidence_ids": [
+    "rc-about",
+    "rc-within-14-days",
+    "rc-fee",
+    "rc-documents",
+    "rc-noc",
+    "rc-pencil-print",
+    "rc-pan"
+   ],
+   "page": null,
+   "excerpt": "Change Of Address\nAbout\nThe Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate o"
+  },
+  {
+   "chunk_id": 66,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.699,
+   "evidence_ids": [
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "4.\nIndian Passport\n5.\nRevenue Department's Land Owning records including Kisan Bahi\n6.\nRegistered Rent Lease Deed (In case of tenant)\n7.\nRegistered Sale Deed (I"
+  },
+  {
+   "chunk_id": 140,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.6984,
+   "evidence_ids": [],
+   "page": 15,
+   "excerpt": "a.\nAadhaar Card/e-Aadhar containing the 12 digit Aadhaar number issued by the Unique Identification Authority of India\n(UIDAI)\nb.\nStudent Photo ldentity Card is"
+  },
+  {
+   "chunk_id": 62,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6851,
+   "evidence_ids": [
+    "eci-g8-new-constituency",
+    "eci-g8-address-proof",
+    "eci-g8-other-document"
+   ],
+   "page": 1,
+   "excerpt": "making application and fill the details in the relevant section of the application. All other\nsections which are not relevant should be struck off.\n4. Applicati"
+  },
+  {
+   "chunk_id": 80,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6768,
+   "evidence_ids": [
+    "rc-some-states"
+   ],
+   "page": null,
+   "excerpt": "Reference\nThe Motor Vehicles Act 1988 (Section 49 of Chapter IV)\nThe Central Motor Vehicles Rules 1989\n(Rule 59)\nOfficial website of State Transport Department\n"
+  },
+  {
+   "chunk_id": 61,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6667,
+   "evidence_ids": [
+    "eci-g8-registered-elector",
+    "eci-g8-replacement-epic",
+    "eci-g8-aadhaar-optional"
+   ],
+   "page": 1,
+   "excerpt": "To be appended to Form-8\nGUIDELINES FOR FILLING UP THE APPLICATION\nFORM-8\n1. General Instruction:-\n(a) The application can be made by a registered/enrolled elec"
+  },
+  {
+   "chunk_id": 69,
+   "source_url": "https://parivahan.gov.in/en/node/246",
+   "similarity": 0.6667,
+   "evidence_ids": [
+    "parivahan-dl-online",
+    "parivahan-dl-steps"
+   ],
+   "page": null,
+   "excerpt": "How to get the address changed in the Driving License?\nApplicants can apply ONLINE for change of address in Driving License.\nVisit https://sarathi.parivahan.gov"
+  },
+  {
+   "chunk_id": 77,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.6591,
+   "evidence_ids": [
+    "form2-annexure-address-age",
+    "form2-aadhaar",
+    "form2-state-specified",
+    "form2-if-applicable"
+   ],
+   "page": 5,
+   "excerpt": "Motor Vehicles Rules, 1989)\nDate of\nTest\nResult\nPass/Fail\nThe Learner’s licence/Driving Licence is\nIssued Refused\nSignature of licensing authority\n(or other per"
+  }
+ ],
+ "aadhaar-poa-hi": [
+  {
+   "chunk_id": 36,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.7672,
+   "evidence_ids": [
+    "uidai-poa-electricity",
+    "uidai-poa-water",
+    "uidai-poa-telephone",
+    "uidai-poa-property-tax",
+    "uidai-poa-sale-rent",
+    "uidai-poa-gas"
+   ],
+   "page": 11,
+   "excerpt": "Sl.\nNo.\nList of documents\n(see note below this tabular statement)\nProof of Identity (PoI)\ndocument, containing\nname and photograph\nProof of Address (PoA)\ndocume"
+  },
+  {
+   "chunk_id": 26,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.756,
+   "evidence_ids": [],
+   "page": 7,
+   "excerpt": "\n(vi) \u0007Village Panchayat Head/ President or Mukhiya/ Gaon\nBura/ equivalent authority (for rural areas)/ Village\nPanchayat Secretary/ Village Revenue Officer or"
+  },
+  {
+   "chunk_id": 5,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.7181,
+   "evidence_ids": [
+    "uidai-update-fields",
+    "uidai-online-mode",
+    "uidai-online-poa-upload"
+   ],
+   "page": null,
+   "excerpt": "will\nbe notified by UIDAI to update their biometrics\nAadhaar details that can be updated are:\nDemographic Information\nName, Address, Date of Birth/Age, Gender, "
+  },
+  {
+   "chunk_id": 131,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.7122,
+   "evidence_ids": [
+    "pp-poa-spouse-passport",
+    "pp-poa-aadhaar",
+    "pp-poa-rent",
+    "pp-poa-passbook",
+    "pp-present-address-only"
+   ],
+   "page": 13,
+   "excerpt": "give address proof on company letter head along with seal. Computerized printouts shall not be entertained)\nh.\nSpouse’s passport copy (First and last page inclu"
+  },
+  {
+   "chunk_id": 65,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.7093,
+   "evidence_ids": [
+    "eci-f8-shift-request",
+    "eci-f8-address-proof",
+    "eci-f8-utility-bill",
+    "eci-f8-aadhaar",
+    "eci-f8-passbook",
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "2.\nCorrection of Entries in Existing Electoral Roll (or)\n3.\nIssue of Replacement EPIC without correction (or)\n4.\nRequest for marking as Person with Disability\n1"
+  },
+  {
+   "chunk_id": 79,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6888,
+   "evidence_ids": [
+    "rc-about",
+    "rc-within-14-days",
+    "rc-fee",
+    "rc-documents",
+    "rc-noc",
+    "rc-pencil-print",
+    "rc-pan"
+   ],
+   "page": null,
+   "excerpt": "Change Of Address\nAbout\nThe Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate o"
+  },
+  {
+   "chunk_id": 6,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.6871,
+   "evidence_ids": [
+    "uidai-centre-mode"
+   ],
+   "page": null,
+   "excerpt": "supporting POA documents\nDoc Type: PDF Size: 1.6MB\n, which will be verified against requested data at a later stage by a quality and processing team.\nBy Visitin"
+  },
+  {
+   "chunk_id": 66,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.6778,
+   "evidence_ids": [
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "4.\nIndian Passport\n5.\nRevenue Department's Land Owning records including Kisan Bahi\n6.\nRegistered Rent Lease Deed (In case of tenant)\n7.\nRegistered Sale Deed (I"
+  },
+  {
+   "chunk_id": 130,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.6712,
+   "evidence_ids": [
+    "pp-poa-epic",
+    "pp-poa-gas",
+    "pp-poa-employer",
+    "pp-poa-list",
+    "pp-poa-water",
+    "pp-poa-telephone",
+    "pp-poa-electricity",
+    "pp-poa-it-order"
+   ],
+   "page": 12,
+   "excerpt": "Cannot apply under Tatkaal Scheme\n15\nECR Deletion\n1 (if address is different from old Passport), 3, 5\n1 (if address is different from old Passport), 3, 5\nPage 1"
+  },
+  {
+   "chunk_id": 80,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6672,
+   "evidence_ids": [
+    "rc-some-states"
+   ],
+   "page": null,
+   "excerpt": "Reference\nThe Motor Vehicles Act 1988 (Section 49 of Chapter IV)\nThe Central Motor Vehicles Rules 1989\n(Rule 59)\nOfficial website of State Transport Department\n"
+  },
+  {
+   "chunk_id": 62,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6631,
+   "evidence_ids": [
+    "eci-g8-new-constituency",
+    "eci-g8-address-proof",
+    "eci-g8-other-document"
+   ],
+   "page": 1,
+   "excerpt": "making application and fill the details in the relevant section of the application. All other\nsections which are not relevant should be struck off.\n4. Applicati"
+  },
+  {
+   "chunk_id": 69,
+   "source_url": "https://parivahan.gov.in/en/node/246",
+   "similarity": 0.6569,
+   "evidence_ids": [
+    "parivahan-dl-online",
+    "parivahan-dl-steps"
+   ],
+   "page": null,
+   "excerpt": "How to get the address changed in the Driving License?\nApplicants can apply ONLINE for change of address in Driving License.\nVisit https://sarathi.parivahan.gov"
+  },
+  {
+   "chunk_id": 61,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.645,
+   "evidence_ids": [
+    "eci-g8-registered-elector",
+    "eci-g8-replacement-epic",
+    "eci-g8-aadhaar-optional"
+   ],
+   "page": 1,
+   "excerpt": "To be appended to Form-8\nGUIDELINES FOR FILLING UP THE APPLICATION\nFORM-8\n1. General Instruction:-\n(a) The application can be made by a registered/enrolled elec"
+  },
+  {
+   "chunk_id": 77,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.6399,
+   "evidence_ids": [
+    "form2-annexure-address-age",
+    "form2-aadhaar",
+    "form2-state-specified",
+    "form2-if-applicable"
+   ],
+   "page": 5,
+   "excerpt": "Motor Vehicles Rules, 1989)\nDate of\nTest\nResult\nPass/Fail\nThe Learner’s licence/Driving Licence is\nIssued Refused\nSignature of licensing authority\n(or other per"
+  },
+  {
+   "chunk_id": 81,
+   "source_url": "https://parivahan.gov.in/en/node/155",
+   "similarity": 0.6384,
+   "evidence_ids": [
+    "rc-online-change-of-address",
+    "rc-online-moved-to-rto"
+   ],
+   "page": null,
+   "excerpt": "How do I make changes to my details in Vehicle Registration Certificate?\na. Visit https://vahan.parivahan.gov.in/vahanservice/vahan/\nb. Enter your \"Vehicle Regi"
+  }
+ ],
+ "aadhaar-dl-as-poa-en": [
+  {
+   "chunk_id": 32,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.7795,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-ration",
+    "uidai-poa-voter",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 9,
+   "excerpt": "Proof of Identity (PoI)\ndocument, containing\nname and photograph\nProof of Address (PoA)\ndocument, containing\nname and address in\nIndia\nProof of Relationship\n(Po"
+  },
+  {
+   "chunk_id": 23,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.7785,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 6,
+   "excerpt": "Means allowed | Means not allowed\nSl.\nNo.\nList of documents\n(see note below this tabular statement)\nProof of Identity (PoI)\ndocument, containing\nname and phot"
+  },
+  {
+   "chunk_id": 5,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.7462,
+   "evidence_ids": [
+    "uidai-update-fields",
+    "uidai-online-mode",
+    "uidai-online-poa-upload"
+   ],
+   "page": null,
+   "excerpt": "will\nbe notified by UIDAI to update their biometrics\nAadhaar details that can be updated are:\nDemographic Information\nName, Address, Date of Birth/Age, Gender, "
+  },
+  {
+   "chunk_id": 69,
+   "source_url": "https://parivahan.gov.in/en/node/246",
+   "similarity": 0.7367,
+   "evidence_ids": [
+    "parivahan-dl-online",
+    "parivahan-dl-steps"
+   ],
+   "page": null,
+   "excerpt": "How to get the address changed in the Driving License?\nApplicants can apply ONLINE for change of address in Driving License.\nVisit https://sarathi.parivahan.gov"
+  },
+  {
+   "chunk_id": 6,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.7177,
+   "evidence_ids": [
+    "uidai-centre-mode"
+   ],
+   "page": null,
+   "excerpt": "supporting POA documents\nDoc Type: PDF Size: 1.6MB\n, which will be verified against requested data at a later stage by a quality and processing team.\nBy Visitin"
+  },
+  {
+   "chunk_id": 77,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.7144,
+   "evidence_ids": [
+    "form2-annexure-address-age",
+    "form2-aadhaar",
+    "form2-state-specified",
+    "form2-if-applicable"
+   ],
+   "page": 5,
+   "excerpt": "Motor Vehicles Rules, 1989)\nDate of\nTest\nResult\nPass/Fail\nThe Learner’s licence/Driving Licence is\nIssued Refused\nSignature of licensing authority\n(or other per"
+  },
+  {
+   "chunk_id": 79,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6935,
+   "evidence_ids": [
+    "rc-about",
+    "rc-within-14-days",
+    "rc-fee",
+    "rc-documents",
+    "rc-noc",
+    "rc-pencil-print",
+    "rc-pan"
+   ],
+   "page": null,
+   "excerpt": "Change Of Address\nAbout\nThe Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate o"
+  },
+  {
+   "chunk_id": 65,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.6865,
+   "evidence_ids": [
+    "eci-f8-shift-request",
+    "eci-f8-address-proof",
+    "eci-f8-utility-bill",
+    "eci-f8-aadhaar",
+    "eci-f8-passbook",
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "2.\nCorrection of Entries in Existing Electoral Roll (or)\n3.\nIssue of Replacement EPIC without correction (or)\n4.\nRequest for marking as Person with Disability\n1"
+  },
+  {
+   "chunk_id": 131,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.6837,
+   "evidence_ids": [
+    "pp-poa-spouse-passport",
+    "pp-poa-aadhaar",
+    "pp-poa-rent",
+    "pp-poa-passbook",
+    "pp-present-address-only"
+   ],
+   "page": 13,
+   "excerpt": "give address proof on company letter head along with seal. Computerized printouts shall not be entertained)\nh.\nSpouse’s passport copy (First and last page inclu"
+  },
+  {
+   "chunk_id": 78,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.6798,
+   "evidence_ids": [],
+   "page": 5,
+   "excerpt": "applicant is applying for renewal and is above 40 years of\nage or applying for Transport Licence)\n3.\nDriving Certificate issued by Driving School or\nEstablishme"
+  },
+  {
+   "chunk_id": 80,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6741,
+   "evidence_ids": [
+    "rc-some-states"
+   ],
+   "page": null,
+   "excerpt": "Reference\nThe Motor Vehicles Act 1988 (Section 49 of Chapter IV)\nThe Central Motor Vehicles Rules 1989\n(Rule 59)\nOfficial website of State Transport Department\n"
+  },
+  {
+   "chunk_id": 66,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.6668,
+   "evidence_ids": [
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "4.\nIndian Passport\n5.\nRevenue Department's Land Owning records including Kisan Bahi\n6.\nRegistered Rent Lease Deed (In case of tenant)\n7.\nRegistered Sale Deed (I"
+  },
+  {
+   "chunk_id": 140,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.6607,
+   "evidence_ids": [],
+   "page": 15,
+   "excerpt": "a.\nAadhaar Card/e-Aadhar containing the 12 digit Aadhaar number issued by the Unique Identification Authority of India\n(UIDAI)\nb.\nStudent Photo ldentity Card is"
+  },
+  {
+   "chunk_id": 81,
+   "source_url": "https://parivahan.gov.in/en/node/155",
+   "similarity": 0.6576,
+   "evidence_ids": [
+    "rc-online-change-of-address",
+    "rc-online-moved-to-rto"
+   ],
+   "page": null,
+   "excerpt": "How do I make changes to my details in Vehicle Registration Certificate?\na. Visit https://vahan.parivahan.gov.in/vahanservice/vahan/\nb. Enter your \"Vehicle Regi"
+  },
+  {
+   "chunk_id": 62,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6537,
+   "evidence_ids": [
+    "eci-g8-new-constituency",
+    "eci-g8-address-proof",
+    "eci-g8-other-document"
+   ],
+   "page": 1,
+   "excerpt": "making application and fill the details in the relevant section of the application. All other\nsections which are not relevant should be struck off.\n4. Applicati"
+  },
+  {
+   "chunk_id": 61,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6522,
+   "evidence_ids": [
+    "eci-g8-registered-elector",
+    "eci-g8-replacement-epic",
+    "eci-g8-aadhaar-optional"
+   ],
+   "page": 1,
+   "excerpt": "To be appended to Form-8\nGUIDELINES FOR FILLING UP THE APPLICATION\nFORM-8\n1. General Instruction:-\n(a) The application can be made by a registered/enrolled elec"
+  }
+ ],
+ "aadhaar-online-en": [
+  {
+   "chunk_id": 5,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.7668,
+   "evidence_ids": [
+    "uidai-update-fields",
+    "uidai-online-mode",
+    "uidai-online-poa-upload"
+   ],
+   "page": null,
+   "excerpt": "will\nbe notified by UIDAI to update their biometrics\nAadhaar details that can be updated are:\nDemographic Information\nName, Address, Date of Birth/Age, Gender, "
+  },
+  {
+   "chunk_id": 49,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.7346,
+   "evidence_ids": [],
+   "page": 15,
+   "excerpt": "CHECKLIST FOR CERTIFIER\nSignature & Stamp of ther Certifier\nMera Aadhaar, Meri Pehchaan\nCERTIFICATE FOR AADHAAR ENROLMENT/ UPDATE (TO BE USED ONLY AS PROOF OF A"
+  },
+  {
+   "chunk_id": 32,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.7334,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-ration",
+    "uidai-poa-voter",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 9,
+   "excerpt": "Proof of Identity (PoI)\ndocument, containing\nname and photograph\nProof of Address (PoA)\ndocument, containing\nname and address in\nIndia\nProof of Relationship\n(Po"
+  },
+  {
+   "chunk_id": 6,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.7273,
+   "evidence_ids": [
+    "uidai-centre-mode"
+   ],
+   "page": null,
+   "excerpt": "supporting POA documents\nDoc Type: PDF Size: 1.6MB\n, which will be verified against requested data at a later stage by a quality and processing team.\nBy Visitin"
+  },
+  {
+   "chunk_id": 69,
+   "source_url": "https://parivahan.gov.in/en/node/246",
+   "similarity": 0.7128,
+   "evidence_ids": [
+    "parivahan-dl-online",
+    "parivahan-dl-steps"
+   ],
+   "page": null,
+   "excerpt": "How to get the address changed in the Driving License?\nApplicants can apply ONLINE for change of address in Driving License.\nVisit https://sarathi.parivahan.gov"
+  },
+  {
+   "chunk_id": 79,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6981,
+   "evidence_ids": [
+    "rc-about",
+    "rc-within-14-days",
+    "rc-fee",
+    "rc-documents",
+    "rc-noc",
+    "rc-pencil-print",
+    "rc-pan"
+   ],
+   "page": null,
+   "excerpt": "Change Of Address\nAbout\nThe Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate o"
+  },
+  {
+   "chunk_id": 65,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.687,
+   "evidence_ids": [
+    "eci-f8-shift-request",
+    "eci-f8-address-proof",
+    "eci-f8-utility-bill",
+    "eci-f8-aadhaar",
+    "eci-f8-passbook",
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "2.\nCorrection of Entries in Existing Electoral Roll (or)\n3.\nIssue of Replacement EPIC without correction (or)\n4.\nRequest for marking as Person with Disability\n1"
+  },
+  {
+   "chunk_id": 131,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.6743,
+   "evidence_ids": [
+    "pp-poa-spouse-passport",
+    "pp-poa-aadhaar",
+    "pp-poa-rent",
+    "pp-poa-passbook",
+    "pp-present-address-only"
+   ],
+   "page": 13,
+   "excerpt": "give address proof on company letter head along with seal. Computerized printouts shall not be entertained)\nh.\nSpouse’s passport copy (First and last page inclu"
+  },
+  {
+   "chunk_id": 81,
+   "source_url": "https://parivahan.gov.in/en/node/155",
+   "similarity": 0.6733,
+   "evidence_ids": [
+    "rc-online-change-of-address",
+    "rc-online-moved-to-rto"
+   ],
+   "page": null,
+   "excerpt": "How do I make changes to my details in Vehicle Registration Certificate?\na. Visit https://vahan.parivahan.gov.in/vahanservice/vahan/\nb. Enter your \"Vehicle Regi"
+  },
+  {
+   "chunk_id": 62,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6684,
+   "evidence_ids": [
+    "eci-g8-new-constituency",
+    "eci-g8-address-proof",
+    "eci-g8-other-document"
+   ],
+   "page": 1,
+   "excerpt": "making application and fill the details in the relevant section of the application. All other\nsections which are not relevant should be struck off.\n4. Applicati"
+  },
+  {
+   "chunk_id": 80,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6656,
+   "evidence_ids": [
+    "rc-some-states"
+   ],
+   "page": null,
+   "excerpt": "Reference\nThe Motor Vehicles Act 1988 (Section 49 of Chapter IV)\nThe Central Motor Vehicles Rules 1989\n(Rule 59)\nOfficial website of State Transport Department\n"
+  },
+  {
+   "chunk_id": 61,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6642,
+   "evidence_ids": [
+    "eci-g8-registered-elector",
+    "eci-g8-replacement-epic",
+    "eci-g8-aadhaar-optional"
+   ],
+   "page": 1,
+   "excerpt": "To be appended to Form-8\nGUIDELINES FOR FILLING UP THE APPLICATION\nFORM-8\n1. General Instruction:-\n(a) The application can be made by a registered/enrolled elec"
+  },
+  {
+   "chunk_id": 64,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.6632,
+   "evidence_ids": [
+    "eci-f8-epic-no",
+    "eci-f8-aadhaar-not-available"
+   ],
+   "page": 1,
+   "excerpt": "ELECTION COMMISSION OF INDIA\nForm-8\nFORM No.\n(To be filled by office)\nVoter Application Form for shifting of Residence/Correction of Entries in Existing Elector"
+  },
+  {
+   "chunk_id": 140,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.646,
+   "evidence_ids": [],
+   "page": 15,
+   "excerpt": "a.\nAadhaar Card/e-Aadhar containing the 12 digit Aadhaar number issued by the Unique Identification Authority of India\n(UIDAI)\nb.\nStudent Photo ldentity Card is"
+  },
+  {
+   "chunk_id": 82,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.6402,
+   "evidence_ids": [
+    "form33-title",
+    "form33-evidence-enclosed"
+   ],
+   "page": 1,
+   "excerpt": "FORM 33\nFORM 33\n[Refer Rule 59]\nINTIMATION OF CHANGE OF ADDRESS RECORDED IN THE CERTIFICATE\nOF REGISTRATION AND OFFICE RECORDS\n(To be made in triplicate if the "
+  },
+  {
+   "chunk_id": 77,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.6283,
+   "evidence_ids": [
+    "form2-annexure-address-age",
+    "form2-aadhaar",
+    "form2-state-specified",
+    "form2-if-applicable"
+   ],
+   "page": 5,
+   "excerpt": "Motor Vehicles Rules, 1989)\nDate of\nTest\nResult\nPass/Fail\nThe Learner’s licence/Driving Licence is\nIssued Refused\nSignature of licensing authority\n(or other per"
+  },
+  {
+   "chunk_id": 83,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.6273,
+   "evidence_ids": [
+    "form33-rc-enclosed"
+   ],
+   "page": 1,
+   "excerpt": ".........................................................................................................................................................\nMy/Our"
+  },
+  {
+   "chunk_id": 70,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.6191,
+   "evidence_ids": [
+    "form2-change-of-address-service"
+   ],
+   "page": 1,
+   "excerpt": "FORM 2\nFORM 2\n[Refer Rules 10, 14, 17 and 18]\nFORM OF APPLICATION FOR LEARNER’S LICENCE OR DRIVING LICENCE\nOR ADDITION OF A NEW CLASS OF VEHICLE OR RENEWAL OF D"
+  }
+ ],
+ "voter-form8-en": [
+  {
+   "chunk_id": 64,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.7723,
+   "evidence_ids": [
+    "eci-f8-epic-no",
+    "eci-f8-aadhaar-not-available"
+   ],
+   "page": 1,
+   "excerpt": "ELECTION COMMISSION OF INDIA\nForm-8\nFORM No.\n(To be filled by office)\nVoter Application Form for shifting of Residence/Correction of Entries in Existing Elector"
+  },
+  {
+   "chunk_id": 65,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.7642,
+   "evidence_ids": [
+    "eci-f8-shift-request",
+    "eci-f8-address-proof",
+    "eci-f8-utility-bill",
+    "eci-f8-aadhaar",
+    "eci-f8-passbook",
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "2.\nCorrection of Entries in Existing Electoral Roll (or)\n3.\nIssue of Replacement EPIC without correction (or)\n4.\nRequest for marking as Person with Disability\n1"
+  },
+  {
+   "chunk_id": 62,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.7539,
+   "evidence_ids": [
+    "eci-g8-new-constituency",
+    "eci-g8-address-proof",
+    "eci-g8-other-document"
+   ],
+   "page": 1,
+   "excerpt": "making application and fill the details in the relevant section of the application. All other\nsections which are not relevant should be struck off.\n4. Applicati"
+  },
+  {
+   "chunk_id": 61,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.7267,
+   "evidence_ids": [
+    "eci-g8-registered-elector",
+    "eci-g8-replacement-epic",
+    "eci-g8-aadhaar-optional"
+   ],
+   "page": 1,
+   "excerpt": "To be appended to Form-8\nGUIDELINES FOR FILLING UP THE APPLICATION\nFORM-8\n1. General Instruction:-\n(a) The application can be made by a registered/enrolled elec"
+  },
+  {
+   "chunk_id": 79,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6935,
+   "evidence_ids": [
+    "rc-about",
+    "rc-within-14-days",
+    "rc-fee",
+    "rc-documents",
+    "rc-noc",
+    "rc-pencil-print",
+    "rc-pan"
+   ],
+   "page": null,
+   "excerpt": "Change Of Address\nAbout\nThe Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate o"
+  },
+  {
+   "chunk_id": 69,
+   "source_url": "https://parivahan.gov.in/en/node/246",
+   "similarity": 0.6797,
+   "evidence_ids": [
+    "parivahan-dl-online",
+    "parivahan-dl-steps"
+   ],
+   "page": null,
+   "excerpt": "How to get the address changed in the Driving License?\nApplicants can apply ONLINE for change of address in Driving License.\nVisit https://sarathi.parivahan.gov"
+  },
+  {
+   "chunk_id": 80,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6615,
+   "evidence_ids": [
+    "rc-some-states"
+   ],
+   "page": null,
+   "excerpt": "Reference\nThe Motor Vehicles Act 1988 (Section 49 of Chapter IV)\nThe Central Motor Vehicles Rules 1989\n(Rule 59)\nOfficial website of State Transport Department\n"
+  },
+  {
+   "chunk_id": 82,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.6611,
+   "evidence_ids": [
+    "form33-title",
+    "form33-evidence-enclosed"
+   ],
+   "page": 1,
+   "excerpt": "FORM 33\nFORM 33\n[Refer Rule 59]\nINTIMATION OF CHANGE OF ADDRESS RECORDED IN THE CERTIFICATE\nOF REGISTRATION AND OFFICE RECORDS\n(To be made in triplicate if the "
+  },
+  {
+   "chunk_id": 83,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.6475,
+   "evidence_ids": [
+    "form33-rc-enclosed"
+   ],
+   "page": 1,
+   "excerpt": ".........................................................................................................................................................\nMy/Our"
+  },
+  {
+   "chunk_id": 81,
+   "source_url": "https://parivahan.gov.in/en/node/155",
+   "similarity": 0.6428,
+   "evidence_ids": [
+    "rc-online-change-of-address",
+    "rc-online-moved-to-rto"
+   ],
+   "page": null,
+   "excerpt": "How do I make changes to my details in Vehicle Registration Certificate?\na. Visit https://vahan.parivahan.gov.in/vahanservice/vahan/\nb. Enter your \"Vehicle Regi"
+  },
+  {
+   "chunk_id": 32,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.6334,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-ration",
+    "uidai-poa-voter",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 9,
+   "excerpt": "Proof of Identity (PoI)\ndocument, containing\nname and photograph\nProof of Address (PoA)\ndocument, containing\nname and address in\nIndia\nProof of Relationship\n(Po"
+  },
+  {
+   "chunk_id": 39,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.631,
+   "evidence_ids": [],
+   "page": 12,
+   "excerpt": "\n*\n\n#\n(b) \u0007Any two of the following documents\nhaving the same address may be\nsubmitted:\n(i)\n\u0007Valid Nepalese/ Bhutanese\nCitizenship Certificate (acceptable\na"
+  },
+  {
+   "chunk_id": 70,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.6211,
+   "evidence_ids": [
+    "form2-change-of-address-service"
+   ],
+   "page": 1,
+   "excerpt": "FORM 2\nFORM 2\n[Refer Rules 10, 14, 17 and 18]\nFORM OF APPLICATION FOR LEARNER’S LICENCE OR DRIVING LICENCE\nOR ADDITION OF A NEW CLASS OF VEHICLE OR RENEWAL OF D"
+  },
+  {
+   "chunk_id": 2,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.6175,
+   "evidence_ids": [],
+   "page": null,
+   "excerpt": "Demographic data update, the need could arise from:\nChanges in life events such as marriage may lead to Aadhaar number holders changing their basic demographic "
+  },
+  {
+   "chunk_id": 114,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.616,
+   "evidence_ids": [],
+   "page": 6,
+   "excerpt": "•\nFor example, if you have changed your name from Vidhi Mehta to Aditi Mehta write the details in this column.\n•\nPlease follow the instructions as given in Colu"
+  },
+  {
+   "chunk_id": 5,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.6143,
+   "evidence_ids": [
+    "uidai-update-fields",
+    "uidai-online-mode",
+    "uidai-online-poa-upload"
+   ],
+   "page": null,
+   "excerpt": "will\nbe notified by UIDAI to update their biometrics\nAadhaar details that can be updated are:\nDemographic Information\nName, Address, Date of Birth/Age, Gender, "
+  },
+  {
+   "chunk_id": 128,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.609,
+   "evidence_ids": [],
+   "page": 11,
+   "excerpt": "1 (if address is different from old Passport), 2, 5, 49\n1 (if address is different from old Passport ), 2, 5,49\nD\nLost/ Damaged beyond recognition/ Stolen\nPassp"
+  },
+  {
+   "chunk_id": 73,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.605,
+   "evidence_ids": [
+    "form2-existing-licence"
+   ],
+   "page": 2,
+   "excerpt": "Location/Landmark\nVillage/Town\nSub-Dist/Taluk/Mandal\nDistrict\nState\nPin code\n5.\nIn case of request for Addition of a Class of Vehicle in Transport Category, ple"
+  }
+ ],
+ "voter-form8-hi": [
+  {
+   "chunk_id": 64,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.739,
+   "evidence_ids": [
+    "eci-f8-epic-no",
+    "eci-f8-aadhaar-not-available"
+   ],
+   "page": 1,
+   "excerpt": "ELECTION COMMISSION OF INDIA\nForm-8\nFORM No.\n(To be filled by office)\nVoter Application Form for shifting of Residence/Correction of Entries in Existing Elector"
+  },
+  {
+   "chunk_id": 65,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.7384,
+   "evidence_ids": [
+    "eci-f8-shift-request",
+    "eci-f8-address-proof",
+    "eci-f8-utility-bill",
+    "eci-f8-aadhaar",
+    "eci-f8-passbook",
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "2.\nCorrection of Entries in Existing Electoral Roll (or)\n3.\nIssue of Replacement EPIC without correction (or)\n4.\nRequest for marking as Person with Disability\n1"
+  },
+  {
+   "chunk_id": 62,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.7294,
+   "evidence_ids": [
+    "eci-g8-new-constituency",
+    "eci-g8-address-proof",
+    "eci-g8-other-document"
+   ],
+   "page": 1,
+   "excerpt": "making application and fill the details in the relevant section of the application. All other\nsections which are not relevant should be struck off.\n4. Applicati"
+  },
+  {
+   "chunk_id": 61,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6991,
+   "evidence_ids": [
+    "eci-g8-registered-elector",
+    "eci-g8-replacement-epic",
+    "eci-g8-aadhaar-optional"
+   ],
+   "page": 1,
+   "excerpt": "To be appended to Form-8\nGUIDELINES FOR FILLING UP THE APPLICATION\nFORM-8\n1. General Instruction:-\n(a) The application can be made by a registered/enrolled elec"
+  },
+  {
+   "chunk_id": 79,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6761,
+   "evidence_ids": [
+    "rc-about",
+    "rc-within-14-days",
+    "rc-fee",
+    "rc-documents",
+    "rc-noc",
+    "rc-pencil-print",
+    "rc-pan"
+   ],
+   "page": null,
+   "excerpt": "Change Of Address\nAbout\nThe Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate o"
+  },
+  {
+   "chunk_id": 69,
+   "source_url": "https://parivahan.gov.in/en/node/246",
+   "similarity": 0.6606,
+   "evidence_ids": [
+    "parivahan-dl-online",
+    "parivahan-dl-steps"
+   ],
+   "page": null,
+   "excerpt": "How to get the address changed in the Driving License?\nApplicants can apply ONLINE for change of address in Driving License.\nVisit https://sarathi.parivahan.gov"
+  },
+  {
+   "chunk_id": 80,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6453,
+   "evidence_ids": [
+    "rc-some-states"
+   ],
+   "page": null,
+   "excerpt": "Reference\nThe Motor Vehicles Act 1988 (Section 49 of Chapter IV)\nThe Central Motor Vehicles Rules 1989\n(Rule 59)\nOfficial website of State Transport Department\n"
+  },
+  {
+   "chunk_id": 82,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.638,
+   "evidence_ids": [
+    "form33-title",
+    "form33-evidence-enclosed"
+   ],
+   "page": 1,
+   "excerpt": "FORM 33\nFORM 33\n[Refer Rule 59]\nINTIMATION OF CHANGE OF ADDRESS RECORDED IN THE CERTIFICATE\nOF REGISTRATION AND OFFICE RECORDS\n(To be made in triplicate if the "
+  },
+  {
+   "chunk_id": 81,
+   "source_url": "https://parivahan.gov.in/en/node/155",
+   "similarity": 0.635,
+   "evidence_ids": [
+    "rc-online-change-of-address",
+    "rc-online-moved-to-rto"
+   ],
+   "page": null,
+   "excerpt": "How do I make changes to my details in Vehicle Registration Certificate?\na. Visit https://vahan.parivahan.gov.in/vahanservice/vahan/\nb. Enter your \"Vehicle Regi"
+  },
+  {
+   "chunk_id": 83,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.6313,
+   "evidence_ids": [
+    "form33-rc-enclosed"
+   ],
+   "page": 1,
+   "excerpt": ".........................................................................................................................................................\nMy/Our"
+  },
+  {
+   "chunk_id": 39,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.6159,
+   "evidence_ids": [],
+   "page": 12,
+   "excerpt": "\n*\n\n#\n(b) \u0007Any two of the following documents\nhaving the same address may be\nsubmitted:\n(i)\n\u0007Valid Nepalese/ Bhutanese\nCitizenship Certificate (acceptable\na"
+  },
+  {
+   "chunk_id": 32,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.6122,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-ration",
+    "uidai-poa-voter",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 9,
+   "excerpt": "Proof of Identity (PoI)\ndocument, containing\nname and photograph\nProof of Address (PoA)\ndocument, containing\nname and address in\nIndia\nProof of Relationship\n(Po"
+  },
+  {
+   "chunk_id": 114,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.5938,
+   "evidence_ids": [],
+   "page": 6,
+   "excerpt": "•\nFor example, if you have changed your name from Vidhi Mehta to Aditi Mehta write the details in this column.\n•\nPlease follow the instructions as given in Colu"
+  },
+  {
+   "chunk_id": 2,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.586,
+   "evidence_ids": [],
+   "page": null,
+   "excerpt": "Demographic data update, the need could arise from:\nChanges in life events such as marriage may lead to Aadhaar number holders changing their basic demographic "
+  },
+  {
+   "chunk_id": 129,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.5844,
+   "evidence_ids": [],
+   "page": 11,
+   "excerpt": "spouse)\n4\nChange of name in other circumstances (minor\nchange in name- either male, female or\ntransgender i.e. spelling discrepancy between\nPassport and documen"
+  },
+  {
+   "chunk_id": 70,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.5824,
+   "evidence_ids": [
+    "form2-change-of-address-service"
+   ],
+   "page": 1,
+   "excerpt": "FORM 2\nFORM 2\n[Refer Rules 10, 14, 17 and 18]\nFORM OF APPLICATION FOR LEARNER’S LICENCE OR DRIVING LICENCE\nOR ADDITION OF A NEW CLASS OF VEHICLE OR RENEWAL OF D"
+  },
+  {
+   "chunk_id": 5,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.5801,
+   "evidence_ids": [
+    "uidai-update-fields",
+    "uidai-online-mode",
+    "uidai-online-poa-upload"
+   ],
+   "page": null,
+   "excerpt": "will\nbe notified by UIDAI to update their biometrics\nAadhaar details that can be updated are:\nDemographic Information\nName, Address, Date of Birth/Age, Gender, "
+  },
+  {
+   "chunk_id": 73,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.5746,
+   "evidence_ids": [
+    "form2-existing-licence"
+   ],
+   "page": 2,
+   "excerpt": "Location/Landmark\nVillage/Town\nSub-Dist/Taluk/Mandal\nDistrict\nState\nPin code\n5.\nIn case of request for Addition of a Class of Vehicle in Transport Category, ple"
+  }
+ ],
+ "voter-aadhaar-prereq-en": [
+  {
+   "chunk_id": 64,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.7413,
+   "evidence_ids": [
+    "eci-f8-epic-no",
+    "eci-f8-aadhaar-not-available"
+   ],
+   "page": 1,
+   "excerpt": "ELECTION COMMISSION OF INDIA\nForm-8\nFORM No.\n(To be filled by office)\nVoter Application Form for shifting of Residence/Correction of Entries in Existing Elector"
+  },
+  {
+   "chunk_id": 65,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.7359,
+   "evidence_ids": [
+    "eci-f8-shift-request",
+    "eci-f8-address-proof",
+    "eci-f8-utility-bill",
+    "eci-f8-aadhaar",
+    "eci-f8-passbook",
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "2.\nCorrection of Entries in Existing Electoral Roll (or)\n3.\nIssue of Replacement EPIC without correction (or)\n4.\nRequest for marking as Person with Disability\n1"
+  },
+  {
+   "chunk_id": 61,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.7149,
+   "evidence_ids": [
+    "eci-g8-registered-elector",
+    "eci-g8-replacement-epic",
+    "eci-g8-aadhaar-optional"
+   ],
+   "page": 1,
+   "excerpt": "To be appended to Form-8\nGUIDELINES FOR FILLING UP THE APPLICATION\nFORM-8\n1. General Instruction:-\n(a) The application can be made by a registered/enrolled elec"
+  },
+  {
+   "chunk_id": 32,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.7061,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-ration",
+    "uidai-poa-voter",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 9,
+   "excerpt": "Proof of Identity (PoI)\ndocument, containing\nname and photograph\nProof of Address (PoA)\ndocument, containing\nname and address in\nIndia\nProof of Relationship\n(Po"
+  },
+  {
+   "chunk_id": 23,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.7007,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 6,
+   "excerpt": "Means allowed | Means not allowed\nSl.\nNo.\nList of documents\n(see note below this tabular statement)\nProof of Identity (PoI)\ndocument, containing\nname and phot"
+  },
+  {
+   "chunk_id": 62,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6952,
+   "evidence_ids": [
+    "eci-g8-new-constituency",
+    "eci-g8-address-proof",
+    "eci-g8-other-document"
+   ],
+   "page": 1,
+   "excerpt": "making application and fill the details in the relevant section of the application. All other\nsections which are not relevant should be struck off.\n4. Applicati"
+  },
+  {
+   "chunk_id": 2,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.6941,
+   "evidence_ids": [],
+   "page": null,
+   "excerpt": "Demographic data update, the need could arise from:\nChanges in life events such as marriage may lead to Aadhaar number holders changing their basic demographic "
+  },
+  {
+   "chunk_id": 5,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.6932,
+   "evidence_ids": [
+    "uidai-update-fields",
+    "uidai-online-mode",
+    "uidai-online-poa-upload"
+   ],
+   "page": null,
+   "excerpt": "will\nbe notified by UIDAI to update their biometrics\nAadhaar details that can be updated are:\nDemographic Information\nName, Address, Date of Birth/Age, Gender, "
+  },
+  {
+   "chunk_id": 79,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6749,
+   "evidence_ids": [
+    "rc-about",
+    "rc-within-14-days",
+    "rc-fee",
+    "rc-documents",
+    "rc-noc",
+    "rc-pencil-print",
+    "rc-pan"
+   ],
+   "page": null,
+   "excerpt": "Change Of Address\nAbout\nThe Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate o"
+  },
+  {
+   "chunk_id": 69,
+   "source_url": "https://parivahan.gov.in/en/node/246",
+   "similarity": 0.662,
+   "evidence_ids": [
+    "parivahan-dl-online",
+    "parivahan-dl-steps"
+   ],
+   "page": null,
+   "excerpt": "How to get the address changed in the Driving License?\nApplicants can apply ONLINE for change of address in Driving License.\nVisit https://sarathi.parivahan.gov"
+  },
+  {
+   "chunk_id": 80,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6603,
+   "evidence_ids": [
+    "rc-some-states"
+   ],
+   "page": null,
+   "excerpt": "Reference\nThe Motor Vehicles Act 1988 (Section 49 of Chapter IV)\nThe Central Motor Vehicles Rules 1989\n(Rule 59)\nOfficial website of State Transport Department\n"
+  },
+  {
+   "chunk_id": 81,
+   "source_url": "https://parivahan.gov.in/en/node/155",
+   "similarity": 0.6366,
+   "evidence_ids": [
+    "rc-online-change-of-address",
+    "rc-online-moved-to-rto"
+   ],
+   "page": null,
+   "excerpt": "How do I make changes to my details in Vehicle Registration Certificate?\na. Visit https://vahan.parivahan.gov.in/vahanservice/vahan/\nb. Enter your \"Vehicle Regi"
+  },
+  {
+   "chunk_id": 82,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.6318,
+   "evidence_ids": [
+    "form33-title",
+    "form33-evidence-enclosed"
+   ],
+   "page": 1,
+   "excerpt": "FORM 33\nFORM 33\n[Refer Rule 59]\nINTIMATION OF CHANGE OF ADDRESS RECORDED IN THE CERTIFICATE\nOF REGISTRATION AND OFFICE RECORDS\n(To be made in triplicate if the "
+  },
+  {
+   "chunk_id": 138,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.6302,
+   "evidence_ids": [],
+   "page": 14,
+   "excerpt": "in case of conflicting documents / if change in place of birth involves change of State or Country) (In case change of\nplace of birth involves change of country"
+  },
+  {
+   "chunk_id": 83,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.6268,
+   "evidence_ids": [
+    "form33-rc-enclosed"
+   ],
+   "page": 1,
+   "excerpt": ".........................................................................................................................................................\nMy/Our"
+  },
+  {
+   "chunk_id": 131,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.6244,
+   "evidence_ids": [
+    "pp-poa-spouse-passport",
+    "pp-poa-aadhaar",
+    "pp-poa-rent",
+    "pp-poa-passbook",
+    "pp-present-address-only"
+   ],
+   "page": 13,
+   "excerpt": "give address proof on company letter head along with seal. Computerized printouts shall not be entertained)\nh.\nSpouse’s passport copy (First and last page inclu"
+  }
+ ],
+ "voter-poa-en": [
+  {
+   "chunk_id": 65,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.837,
+   "evidence_ids": [
+    "eci-f8-shift-request",
+    "eci-f8-address-proof",
+    "eci-f8-utility-bill",
+    "eci-f8-aadhaar",
+    "eci-f8-passbook",
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "2.\nCorrection of Entries in Existing Electoral Roll (or)\n3.\nIssue of Replacement EPIC without correction (or)\n4.\nRequest for marking as Person with Disability\n1"
+  },
+  {
+   "chunk_id": 62,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.805,
+   "evidence_ids": [
+    "eci-g8-new-constituency",
+    "eci-g8-address-proof",
+    "eci-g8-other-document"
+   ],
+   "page": 1,
+   "excerpt": "making application and fill the details in the relevant section of the application. All other\nsections which are not relevant should be struck off.\n4. Applicati"
+  },
+  {
+   "chunk_id": 66,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.8026,
+   "evidence_ids": [
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "4.\nIndian Passport\n5.\nRevenue Department's Land Owning records including Kisan Bahi\n6.\nRegistered Rent Lease Deed (In case of tenant)\n7.\nRegistered Sale Deed (I"
+  },
+  {
+   "chunk_id": 79,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.7588,
+   "evidence_ids": [
+    "rc-about",
+    "rc-within-14-days",
+    "rc-fee",
+    "rc-documents",
+    "rc-noc",
+    "rc-pencil-print",
+    "rc-pan"
+   ],
+   "page": null,
+   "excerpt": "Change Of Address\nAbout\nThe Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate o"
+  },
+  {
+   "chunk_id": 61,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.7569,
+   "evidence_ids": [
+    "eci-g8-registered-elector",
+    "eci-g8-replacement-epic",
+    "eci-g8-aadhaar-optional"
+   ],
+   "page": 1,
+   "excerpt": "To be appended to Form-8\nGUIDELINES FOR FILLING UP THE APPLICATION\nFORM-8\n1. General Instruction:-\n(a) The application can be made by a registered/enrolled elec"
+  },
+  {
+   "chunk_id": 36,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.7181,
+   "evidence_ids": [
+    "uidai-poa-electricity",
+    "uidai-poa-water",
+    "uidai-poa-telephone",
+    "uidai-poa-property-tax",
+    "uidai-poa-sale-rent",
+    "uidai-poa-gas"
+   ],
+   "page": 11,
+   "excerpt": "Sl.\nNo.\nList of documents\n(see note below this tabular statement)\nProof of Identity (PoI)\ndocument, containing\nname and photograph\nProof of Address (PoA)\ndocume"
+  },
+  {
+   "chunk_id": 80,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.7163,
+   "evidence_ids": [
+    "rc-some-states"
+   ],
+   "page": null,
+   "excerpt": "Reference\nThe Motor Vehicles Act 1988 (Section 49 of Chapter IV)\nThe Central Motor Vehicles Rules 1989\n(Rule 59)\nOfficial website of State Transport Department\n"
+  },
+  {
+   "chunk_id": 82,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.7147,
+   "evidence_ids": [
+    "form33-title",
+    "form33-evidence-enclosed"
+   ],
+   "page": 1,
+   "excerpt": "FORM 33\nFORM 33\n[Refer Rule 59]\nINTIMATION OF CHANGE OF ADDRESS RECORDED IN THE CERTIFICATE\nOF REGISTRATION AND OFFICE RECORDS\n(To be made in triplicate if the "
+  },
+  {
+   "chunk_id": 32,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.7105,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-ration",
+    "uidai-poa-voter",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 9,
+   "excerpt": "Proof of Identity (PoI)\ndocument, containing\nname and photograph\nProof of Address (PoA)\ndocument, containing\nname and address in\nIndia\nProof of Relationship\n(Po"
+  },
+  {
+   "chunk_id": 131,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.7063,
+   "evidence_ids": [
+    "pp-poa-spouse-passport",
+    "pp-poa-aadhaar",
+    "pp-poa-rent",
+    "pp-poa-passbook",
+    "pp-present-address-only"
+   ],
+   "page": 13,
+   "excerpt": "give address proof on company letter head along with seal. Computerized printouts shall not be entertained)\nh.\nSpouse’s passport copy (First and last page inclu"
+  },
+  {
+   "chunk_id": 77,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.7056,
+   "evidence_ids": [
+    "form2-annexure-address-age",
+    "form2-aadhaar",
+    "form2-state-specified",
+    "form2-if-applicable"
+   ],
+   "page": 5,
+   "excerpt": "Motor Vehicles Rules, 1989)\nDate of\nTest\nResult\nPass/Fail\nThe Learner’s licence/Driving Licence is\nIssued Refused\nSignature of licensing authority\n(or other per"
+  },
+  {
+   "chunk_id": 83,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.7016,
+   "evidence_ids": [
+    "form33-rc-enclosed"
+   ],
+   "page": 1,
+   "excerpt": ".........................................................................................................................................................\nMy/Our"
+  },
+  {
+   "chunk_id": 69,
+   "source_url": "https://parivahan.gov.in/en/node/246",
+   "similarity": 0.6872,
+   "evidence_ids": [
+    "parivahan-dl-online",
+    "parivahan-dl-steps"
+   ],
+   "page": null,
+   "excerpt": "How to get the address changed in the Driving License?\nApplicants can apply ONLINE for change of address in Driving License.\nVisit https://sarathi.parivahan.gov"
+  },
+  {
+   "chunk_id": 130,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.6866,
+   "evidence_ids": [
+    "pp-poa-epic",
+    "pp-poa-gas",
+    "pp-poa-employer",
+    "pp-poa-list",
+    "pp-poa-water",
+    "pp-poa-telephone",
+    "pp-poa-electricity",
+    "pp-poa-it-order"
+   ],
+   "page": 12,
+   "excerpt": "Cannot apply under Tatkaal Scheme\n15\nECR Deletion\n1 (if address is different from old Passport), 3, 5\n1 (if address is different from old Passport), 3, 5\nPage 1"
+  },
+  {
+   "chunk_id": 78,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.6842,
+   "evidence_ids": [],
+   "page": 5,
+   "excerpt": "applicant is applying for renewal and is above 40 years of\nage or applying for Transport Licence)\n3.\nDriving Certificate issued by Driving School or\nEstablishme"
+  },
+  {
+   "chunk_id": 81,
+   "source_url": "https://parivahan.gov.in/en/node/155",
+   "similarity": 0.6603,
+   "evidence_ids": [
+    "rc-online-change-of-address",
+    "rc-online-moved-to-rto"
+   ],
+   "page": null,
+   "excerpt": "How do I make changes to my details in Vehicle Registration Certificate?\na. Visit https://vahan.parivahan.gov.in/vahanservice/vahan/\nb. Enter your \"Vehicle Regi"
+  },
+  {
+   "chunk_id": 5,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.6467,
+   "evidence_ids": [
+    "uidai-update-fields",
+    "uidai-online-mode",
+    "uidai-online-poa-upload"
+   ],
+   "page": null,
+   "excerpt": "will\nbe notified by UIDAI to update their biometrics\nAadhaar details that can be updated are:\nDemographic Information\nName, Address, Date of Birth/Age, Gender, "
+  }
+ ],
+ "passport-docs-en": [
+  {
+   "chunk_id": 115,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.7711,
+   "evidence_ids": [
+    "pp-reissue-old-passport",
+    "pp-poa-if-different"
+   ],
+   "page": 6,
+   "excerpt": "fresh passport, normally an applicant is required to submit proof of address, proof of date of birth and documentary proof that the applicant is\neligible for No"
+  },
+  {
+   "chunk_id": 126,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.7604,
+   "evidence_ids": [],
+   "page": 10,
+   "excerpt": "41 (if Post Police Verification is required)\n(ii) 46 (one parent not given consent) or 47 (signed by both\nparents)\n(i)\n1 (of parents), 2, 24 (if any - with spou"
+  },
+  {
+   "chunk_id": 79,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.7269,
+   "evidence_ids": [
+    "rc-about",
+    "rc-within-14-days",
+    "rc-fee",
+    "rc-documents",
+    "rc-noc",
+    "rc-pencil-print",
+    "rc-pan"
+   ],
+   "page": null,
+   "excerpt": "Change Of Address\nAbout\nThe Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate o"
+  },
+  {
+   "chunk_id": 32,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.7175,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-ration",
+    "uidai-poa-voter",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 9,
+   "excerpt": "Proof of Identity (PoI)\ndocument, containing\nname and photograph\nProof of Address (PoA)\ndocument, containing\nname and address in\nIndia\nProof of Relationship\n(Po"
+  },
+  {
+   "chunk_id": 65,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.7073,
+   "evidence_ids": [
+    "eci-f8-shift-request",
+    "eci-f8-address-proof",
+    "eci-f8-utility-bill",
+    "eci-f8-aadhaar",
+    "eci-f8-passbook",
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "2.\nCorrection of Entries in Existing Electoral Roll (or)\n3.\nIssue of Replacement EPIC without correction (or)\n4.\nRequest for marking as Person with Disability\n1"
+  },
+  {
+   "chunk_id": 23,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.7055,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 6,
+   "excerpt": "Means allowed | Means not allowed\nSl.\nNo.\nList of documents\n(see note below this tabular statement)\nProof of Identity (PoI)\ndocument, containing\nname and phot"
+  },
+  {
+   "chunk_id": 66,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.6889,
+   "evidence_ids": [
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "4.\nIndian Passport\n5.\nRevenue Department's Land Owning records including Kisan Bahi\n6.\nRegistered Rent Lease Deed (In case of tenant)\n7.\nRegistered Sale Deed (I"
+  },
+  {
+   "chunk_id": 80,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6882,
+   "evidence_ids": [
+    "rc-some-states"
+   ],
+   "page": null,
+   "excerpt": "Reference\nThe Motor Vehicles Act 1988 (Section 49 of Chapter IV)\nThe Central Motor Vehicles Rules 1989\n(Rule 59)\nOfficial website of State Transport Department\n"
+  },
+  {
+   "chunk_id": 69,
+   "source_url": "https://parivahan.gov.in/en/node/246",
+   "similarity": 0.6869,
+   "evidence_ids": [
+    "parivahan-dl-online",
+    "parivahan-dl-steps"
+   ],
+   "page": null,
+   "excerpt": "How to get the address changed in the Driving License?\nApplicants can apply ONLINE for change of address in Driving License.\nVisit https://sarathi.parivahan.gov"
+  },
+  {
+   "chunk_id": 62,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6785,
+   "evidence_ids": [
+    "eci-g8-new-constituency",
+    "eci-g8-address-proof",
+    "eci-g8-other-document"
+   ],
+   "page": 1,
+   "excerpt": "making application and fill the details in the relevant section of the application. All other\nsections which are not relevant should be struck off.\n4. Applicati"
+  }
+ ],
+ "passport-docs-hi": [
+  {
+   "chunk_id": 115,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.7643,
+   "evidence_ids": [
+    "pp-reissue-old-passport",
+    "pp-poa-if-different"
+   ],
+   "page": 6,
+   "excerpt": "fresh passport, normally an applicant is required to submit proof of address, proof of date of birth and documentary proof that the applicant is\neligible for No"
+  },
+  {
+   "chunk_id": 131,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.7499,
+   "evidence_ids": [
+    "pp-poa-spouse-passport",
+    "pp-poa-aadhaar",
+    "pp-poa-rent",
+    "pp-poa-passbook",
+    "pp-present-address-only"
+   ],
+   "page": 13,
+   "excerpt": "give address proof on company letter head along with seal. Computerized printouts shall not be entertained)\nh.\nSpouse’s passport copy (First and last page inclu"
+  },
+  {
+   "chunk_id": 79,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.7072,
+   "evidence_ids": [
+    "rc-about",
+    "rc-within-14-days",
+    "rc-fee",
+    "rc-documents",
+    "rc-noc",
+    "rc-pencil-print",
+    "rc-pan"
+   ],
+   "page": null,
+   "excerpt": "Change Of Address\nAbout\nThe Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate o"
+  },
+  {
+   "chunk_id": 32,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.7022,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-ration",
+    "uidai-poa-voter",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 9,
+   "excerpt": "Proof of Identity (PoI)\ndocument, containing\nname and photograph\nProof of Address (PoA)\ndocument, containing\nname and address in\nIndia\nProof of Relationship\n(Po"
+  },
+  {
+   "chunk_id": 23,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.6913,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 6,
+   "excerpt": "Means allowed | Means not allowed\nSl.\nNo.\nList of documents\n(see note below this tabular statement)\nProof of Identity (PoI)\ndocument, containing\nname and phot"
+  },
+  {
+   "chunk_id": 65,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.684,
+   "evidence_ids": [
+    "eci-f8-shift-request",
+    "eci-f8-address-proof",
+    "eci-f8-utility-bill",
+    "eci-f8-aadhaar",
+    "eci-f8-passbook",
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "2.\nCorrection of Entries in Existing Electoral Roll (or)\n3.\nIssue of Replacement EPIC without correction (or)\n4.\nRequest for marking as Person with Disability\n1"
+  },
+  {
+   "chunk_id": 66,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.669,
+   "evidence_ids": [
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "4.\nIndian Passport\n5.\nRevenue Department's Land Owning records including Kisan Bahi\n6.\nRegistered Rent Lease Deed (In case of tenant)\n7.\nRegistered Sale Deed (I"
+  },
+  {
+   "chunk_id": 80,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6676,
+   "evidence_ids": [
+    "rc-some-states"
+   ],
+   "page": null,
+   "excerpt": "Reference\nThe Motor Vehicles Act 1988 (Section 49 of Chapter IV)\nThe Central Motor Vehicles Rules 1989\n(Rule 59)\nOfficial website of State Transport Department\n"
+  },
+  {
+   "chunk_id": 69,
+   "source_url": "https://parivahan.gov.in/en/node/246",
+   "similarity": 0.6582,
+   "evidence_ids": [
+    "parivahan-dl-online",
+    "parivahan-dl-steps"
+   ],
+   "page": null,
+   "excerpt": "How to get the address changed in the Driving License?\nApplicants can apply ONLINE for change of address in Driving License.\nVisit https://sarathi.parivahan.gov"
+  }
+ ],
+ "passport-bank-statement-en": [
+  {
+   "chunk_id": 131,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.7465,
+   "evidence_ids": [
+    "pp-poa-spouse-passport",
+    "pp-poa-aadhaar",
+    "pp-poa-rent",
+    "pp-poa-passbook",
+    "pp-present-address-only"
+   ],
+   "page": 13,
+   "excerpt": "give address proof on company letter head along with seal. Computerized printouts shall not be entertained)\nh.\nSpouse’s passport copy (First and last page inclu"
+  },
+  {
+   "chunk_id": 126,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.7399,
+   "evidence_ids": [],
+   "page": 10,
+   "excerpt": "41 (if Post Police Verification is required)\n(ii) 46 (one parent not given consent) or 47 (signed by both\nparents)\n(i)\n1 (of parents), 2, 24 (if any - with spou"
+  },
+  {
+   "chunk_id": 35,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.7157,
+   "evidence_ids": [
+    "uidai-poa-passbook",
+    "uidai-poa-statement"
+   ],
+   "page": 10,
+   "excerpt": "established by a Central or State Act\n\n\n\n#\n15.\nPassbook issued by a scheduled commercial\nbank or a State cooperative bank having\nName and Photograph (cross "
+  },
+  {
+   "chunk_id": 32,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.7134,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-ration",
+    "uidai-poa-voter",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 9,
+   "excerpt": "Proof of Identity (PoI)\ndocument, containing\nname and photograph\nProof of Address (PoA)\ndocument, containing\nname and address in\nIndia\nProof of Relationship\n(Po"
+  },
+  {
+   "chunk_id": 65,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.666,
+   "evidence_ids": [
+    "eci-f8-shift-request",
+    "eci-f8-address-proof",
+    "eci-f8-utility-bill",
+    "eci-f8-aadhaar",
+    "eci-f8-passbook",
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "2.\nCorrection of Entries in Existing Electoral Roll (or)\n3.\nIssue of Replacement EPIC without correction (or)\n4.\nRequest for marking as Person with Disability\n1"
+  }
+ ],
+ "dl-poa-en": [
+  {
+   "chunk_id": 69,
+   "source_url": "https://parivahan.gov.in/en/node/246",
+   "similarity": 0.7107,
+   "evidence_ids": [
+    "parivahan-dl-online",
+    "parivahan-dl-steps"
+   ],
+   "page": null,
+   "excerpt": "How to get the address changed in the Driving License?\nApplicants can apply ONLINE for change of address in Driving License.\nVisit https://sarathi.parivahan.gov"
+  },
+  {
+   "chunk_id": 79,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.7057,
+   "evidence_ids": [
+    "rc-about",
+    "rc-within-14-days",
+    "rc-fee",
+    "rc-documents",
+    "rc-noc",
+    "rc-pencil-print",
+    "rc-pan"
+   ],
+   "page": null,
+   "excerpt": "Change Of Address\nAbout\nThe Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate o"
+  },
+  {
+   "chunk_id": 36,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.6987,
+   "evidence_ids": [
+    "uidai-poa-electricity",
+    "uidai-poa-water",
+    "uidai-poa-telephone",
+    "uidai-poa-property-tax",
+    "uidai-poa-sale-rent",
+    "uidai-poa-gas"
+   ],
+   "page": 11,
+   "excerpt": "Sl.\nNo.\nList of documents\n(see note below this tabular statement)\nProof of Identity (PoI)\ndocument, containing\nname and photograph\nProof of Address (PoA)\ndocume"
+  },
+  {
+   "chunk_id": 77,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.6954,
+   "evidence_ids": [
+    "form2-annexure-address-age",
+    "form2-aadhaar",
+    "form2-state-specified",
+    "form2-if-applicable"
+   ],
+   "page": 5,
+   "excerpt": "Motor Vehicles Rules, 1989)\nDate of\nTest\nResult\nPass/Fail\nThe Learner’s licence/Driving Licence is\nIssued Refused\nSignature of licensing authority\n(or other per"
+  },
+  {
+   "chunk_id": 23,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.6906,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 6,
+   "excerpt": "Means allowed | Means not allowed\nSl.\nNo.\nList of documents\n(see note below this tabular statement)\nProof of Identity (PoI)\ndocument, containing\nname and phot"
+  },
+  {
+   "chunk_id": 65,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.6878,
+   "evidence_ids": [
+    "eci-f8-shift-request",
+    "eci-f8-address-proof",
+    "eci-f8-utility-bill",
+    "eci-f8-aadhaar",
+    "eci-f8-passbook",
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "2.\nCorrection of Entries in Existing Electoral Roll (or)\n3.\nIssue of Replacement EPIC without correction (or)\n4.\nRequest for marking as Person with Disability\n1"
+  },
+  {
+   "chunk_id": 78,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.6726,
+   "evidence_ids": [],
+   "page": 5,
+   "excerpt": "applicant is applying for renewal and is above 40 years of\nage or applying for Transport Licence)\n3.\nDriving Certificate issued by Driving School or\nEstablishme"
+  },
+  {
+   "chunk_id": 80,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6658,
+   "evidence_ids": [
+    "rc-some-states"
+   ],
+   "page": null,
+   "excerpt": "Reference\nThe Motor Vehicles Act 1988 (Section 49 of Chapter IV)\nThe Central Motor Vehicles Rules 1989\n(Rule 59)\nOfficial website of State Transport Department\n"
+  },
+  {
+   "chunk_id": 131,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.6596,
+   "evidence_ids": [
+    "pp-poa-spouse-passport",
+    "pp-poa-aadhaar",
+    "pp-poa-rent",
+    "pp-poa-passbook",
+    "pp-present-address-only"
+   ],
+   "page": 13,
+   "excerpt": "give address proof on company letter head along with seal. Computerized printouts shall not be entertained)\nh.\nSpouse’s passport copy (First and last page inclu"
+  },
+  {
+   "chunk_id": 66,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.6585,
+   "evidence_ids": [
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "4.\nIndian Passport\n5.\nRevenue Department's Land Owning records including Kisan Bahi\n6.\nRegistered Rent Lease Deed (In case of tenant)\n7.\nRegistered Sale Deed (I"
+  },
+  {
+   "chunk_id": 81,
+   "source_url": "https://parivahan.gov.in/en/node/155",
+   "similarity": 0.649,
+   "evidence_ids": [
+    "rc-online-change-of-address",
+    "rc-online-moved-to-rto"
+   ],
+   "page": null,
+   "excerpt": "How do I make changes to my details in Vehicle Registration Certificate?\na. Visit https://vahan.parivahan.gov.in/vahanservice/vahan/\nb. Enter your \"Vehicle Regi"
+  },
+  {
+   "chunk_id": 62,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6487,
+   "evidence_ids": [
+    "eci-g8-new-constituency",
+    "eci-g8-address-proof",
+    "eci-g8-other-document"
+   ],
+   "page": 1,
+   "excerpt": "making application and fill the details in the relevant section of the application. All other\nsections which are not relevant should be struck off.\n4. Applicati"
+  },
+  {
+   "chunk_id": 82,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.6463,
+   "evidence_ids": [
+    "form33-title",
+    "form33-evidence-enclosed"
+   ],
+   "page": 1,
+   "excerpt": "FORM 33\nFORM 33\n[Refer Rule 59]\nINTIMATION OF CHANGE OF ADDRESS RECORDED IN THE CERTIFICATE\nOF REGISTRATION AND OFFICE RECORDS\n(To be made in triplicate if the "
+  },
+  {
+   "chunk_id": 83,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.6395,
+   "evidence_ids": [
+    "form33-rc-enclosed"
+   ],
+   "page": 1,
+   "excerpt": ".........................................................................................................................................................\nMy/Our"
+  },
+  {
+   "chunk_id": 130,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.633,
+   "evidence_ids": [
+    "pp-poa-epic",
+    "pp-poa-gas",
+    "pp-poa-employer",
+    "pp-poa-list",
+    "pp-poa-water",
+    "pp-poa-telephone",
+    "pp-poa-electricity",
+    "pp-poa-it-order"
+   ],
+   "page": 12,
+   "excerpt": "Cannot apply under Tatkaal Scheme\n15\nECR Deletion\n1 (if address is different from old Passport), 3, 5\n1 (if address is different from old Passport), 3, 5\nPage 1"
+  },
+  {
+   "chunk_id": 5,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.6154,
+   "evidence_ids": [
+    "uidai-update-fields",
+    "uidai-online-mode",
+    "uidai-online-poa-upload"
+   ],
+   "page": null,
+   "excerpt": "will\nbe notified by UIDAI to update their biometrics\nAadhaar details that can be updated are:\nDemographic Information\nName, Address, Date of Birth/Age, Gender, "
+  },
+  {
+   "chunk_id": 61,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6008,
+   "evidence_ids": [
+    "eci-g8-registered-elector",
+    "eci-g8-replacement-epic",
+    "eci-g8-aadhaar-optional"
+   ],
+   "page": 1,
+   "excerpt": "To be appended to Form-8\nGUIDELINES FOR FILLING UP THE APPLICATION\nFORM-8\n1. General Instruction:-\n(a) The application can be made by a registered/enrolled elec"
+  }
+ ],
+ "dl-online-en": [
+  {
+   "chunk_id": 69,
+   "source_url": "https://parivahan.gov.in/en/node/246",
+   "similarity": 0.7823,
+   "evidence_ids": [
+    "parivahan-dl-online",
+    "parivahan-dl-steps"
+   ],
+   "page": null,
+   "excerpt": "How to get the address changed in the Driving License?\nApplicants can apply ONLINE for change of address in Driving License.\nVisit https://sarathi.parivahan.gov"
+  },
+  {
+   "chunk_id": 81,
+   "source_url": "https://parivahan.gov.in/en/node/155",
+   "similarity": 0.6869,
+   "evidence_ids": [
+    "rc-online-change-of-address",
+    "rc-online-moved-to-rto"
+   ],
+   "page": null,
+   "excerpt": "How do I make changes to my details in Vehicle Registration Certificate?\na. Visit https://vahan.parivahan.gov.in/vahanservice/vahan/\nb. Enter your \"Vehicle Regi"
+  },
+  {
+   "chunk_id": 79,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6843,
+   "evidence_ids": [
+    "rc-about",
+    "rc-within-14-days",
+    "rc-fee",
+    "rc-documents",
+    "rc-noc",
+    "rc-pencil-print",
+    "rc-pan"
+   ],
+   "page": null,
+   "excerpt": "Change Of Address\nAbout\nThe Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate o"
+  },
+  {
+   "chunk_id": 70,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.6753,
+   "evidence_ids": [
+    "form2-change-of-address-service"
+   ],
+   "page": 1,
+   "excerpt": "FORM 2\nFORM 2\n[Refer Rules 10, 14, 17 and 18]\nFORM OF APPLICATION FOR LEARNER’S LICENCE OR DRIVING LICENCE\nOR ADDITION OF A NEW CLASS OF VEHICLE OR RENEWAL OF D"
+  },
+  {
+   "chunk_id": 73,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.6616,
+   "evidence_ids": [
+    "form2-existing-licence"
+   ],
+   "page": 2,
+   "excerpt": "Location/Landmark\nVillage/Town\nSub-Dist/Taluk/Mandal\nDistrict\nState\nPin code\n5.\nIn case of request for Addition of a Class of Vehicle in Transport Category, ple"
+  },
+  {
+   "chunk_id": 80,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6395,
+   "evidence_ids": [
+    "rc-some-states"
+   ],
+   "page": null,
+   "excerpt": "Reference\nThe Motor Vehicles Act 1988 (Section 49 of Chapter IV)\nThe Central Motor Vehicles Rules 1989\n(Rule 59)\nOfficial website of State Transport Department\n"
+  },
+  {
+   "chunk_id": 82,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.6374,
+   "evidence_ids": [
+    "form33-title",
+    "form33-evidence-enclosed"
+   ],
+   "page": 1,
+   "excerpt": "FORM 33\nFORM 33\n[Refer Rule 59]\nINTIMATION OF CHANGE OF ADDRESS RECORDED IN THE CERTIFICATE\nOF REGISTRATION AND OFFICE RECORDS\n(To be made in triplicate if the "
+  },
+  {
+   "chunk_id": 83,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.63,
+   "evidence_ids": [
+    "form33-rc-enclosed"
+   ],
+   "page": 1,
+   "excerpt": ".........................................................................................................................................................\nMy/Our"
+  },
+  {
+   "chunk_id": 65,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.6285,
+   "evidence_ids": [
+    "eci-f8-shift-request",
+    "eci-f8-address-proof",
+    "eci-f8-utility-bill",
+    "eci-f8-aadhaar",
+    "eci-f8-passbook",
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "2.\nCorrection of Entries in Existing Electoral Roll (or)\n3.\nIssue of Replacement EPIC without correction (or)\n4.\nRequest for marking as Person with Disability\n1"
+  },
+  {
+   "chunk_id": 64,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.6281,
+   "evidence_ids": [
+    "eci-f8-epic-no",
+    "eci-f8-aadhaar-not-available"
+   ],
+   "page": 1,
+   "excerpt": "ELECTION COMMISSION OF INDIA\nForm-8\nFORM No.\n(To be filled by office)\nVoter Application Form for shifting of Residence/Correction of Entries in Existing Elector"
+  },
+  {
+   "chunk_id": 62,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6218,
+   "evidence_ids": [
+    "eci-g8-new-constituency",
+    "eci-g8-address-proof",
+    "eci-g8-other-document"
+   ],
+   "page": 1,
+   "excerpt": "making application and fill the details in the relevant section of the application. All other\nsections which are not relevant should be struck off.\n4. Applicati"
+  },
+  {
+   "chunk_id": 61,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6171,
+   "evidence_ids": [
+    "eci-g8-registered-elector",
+    "eci-g8-replacement-epic",
+    "eci-g8-aadhaar-optional"
+   ],
+   "page": 1,
+   "excerpt": "To be appended to Form-8\nGUIDELINES FOR FILLING UP THE APPLICATION\nFORM-8\n1. General Instruction:-\n(a) The application can be made by a registered/enrolled elec"
+  },
+  {
+   "chunk_id": 8,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.598,
+   "evidence_ids": [],
+   "page": null,
+   "excerpt": "In this section\nRegistered Mobile Number\nDemographic data update, the need could arise from:\nBiometric update, the need could arise from:\nAadhaar details that c"
+  },
+  {
+   "chunk_id": 5,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.5952,
+   "evidence_ids": [
+    "uidai-update-fields",
+    "uidai-online-mode",
+    "uidai-online-poa-upload"
+   ],
+   "page": null,
+   "excerpt": "will\nbe notified by UIDAI to update their biometrics\nAadhaar details that can be updated are:\nDemographic Information\nName, Address, Date of Birth/Age, Gender, "
+  },
+  {
+   "chunk_id": 23,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.5951,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 6,
+   "excerpt": "Means allowed | Means not allowed\nSl.\nNo.\nList of documents\n(see note below this tabular statement)\nProof of Identity (PoI)\ndocument, containing\nname and phot"
+  },
+  {
+   "chunk_id": 32,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.5942,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-ration",
+    "uidai-poa-voter",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 9,
+   "excerpt": "Proof of Identity (PoI)\ndocument, containing\nname and photograph\nProof of Address (PoA)\ndocument, containing\nname and address in\nIndia\nProof of Relationship\n(Po"
+  },
+  {
+   "chunk_id": 113,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.5666,
+   "evidence_ids": [],
+   "page": 6,
+   "excerpt": "Column 1: Alias Name Details (if you are also known by any other names)\n<Column 1.1 & 1.2> ‘Alias Name1, Given Name & Surname’ and ‘Alias Name2, Given Name & Su"
+  },
+  {
+   "chunk_id": 114,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.5659,
+   "evidence_ids": [],
+   "page": 6,
+   "excerpt": "•\nFor example, if you have changed your name from Vidhi Mehta to Aditi Mehta write the details in this column.\n•\nPlease follow the instructions as given in Colu"
+  }
+ ],
+ "rc-docs-en": [
+  {
+   "chunk_id": 79,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.8225,
+   "evidence_ids": [
+    "rc-about",
+    "rc-within-14-days",
+    "rc-fee",
+    "rc-documents",
+    "rc-noc",
+    "rc-pencil-print",
+    "rc-pan"
+   ],
+   "page": null,
+   "excerpt": "Change Of Address\nAbout\nThe Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate o"
+  },
+  {
+   "chunk_id": 81,
+   "source_url": "https://parivahan.gov.in/en/node/155",
+   "similarity": 0.7805,
+   "evidence_ids": [
+    "rc-online-change-of-address",
+    "rc-online-moved-to-rto"
+   ],
+   "page": null,
+   "excerpt": "How do I make changes to my details in Vehicle Registration Certificate?\na. Visit https://vahan.parivahan.gov.in/vahanservice/vahan/\nb. Enter your \"Vehicle Regi"
+  },
+  {
+   "chunk_id": 82,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.7682,
+   "evidence_ids": [
+    "form33-title",
+    "form33-evidence-enclosed"
+   ],
+   "page": 1,
+   "excerpt": "FORM 33\nFORM 33\n[Refer Rule 59]\nINTIMATION OF CHANGE OF ADDRESS RECORDED IN THE CERTIFICATE\nOF REGISTRATION AND OFFICE RECORDS\n(To be made in triplicate if the "
+  },
+  {
+   "chunk_id": 80,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.766,
+   "evidence_ids": [
+    "rc-some-states"
+   ],
+   "page": null,
+   "excerpt": "Reference\nThe Motor Vehicles Act 1988 (Section 49 of Chapter IV)\nThe Central Motor Vehicles Rules 1989\n(Rule 59)\nOfficial website of State Transport Department\n"
+  },
+  {
+   "chunk_id": 83,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.7591,
+   "evidence_ids": [
+    "form33-rc-enclosed"
+   ],
+   "page": 1,
+   "excerpt": ".........................................................................................................................................................\nMy/Our"
+  },
+  {
+   "chunk_id": 69,
+   "source_url": "https://parivahan.gov.in/en/node/246",
+   "similarity": 0.7285,
+   "evidence_ids": [
+    "parivahan-dl-online",
+    "parivahan-dl-steps"
+   ],
+   "page": null,
+   "excerpt": "How to get the address changed in the Driving License?\nApplicants can apply ONLINE for change of address in Driving License.\nVisit https://sarathi.parivahan.gov"
+  },
+  {
+   "chunk_id": 65,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.7089,
+   "evidence_ids": [
+    "eci-f8-shift-request",
+    "eci-f8-address-proof",
+    "eci-f8-utility-bill",
+    "eci-f8-aadhaar",
+    "eci-f8-passbook",
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "2.\nCorrection of Entries in Existing Electoral Roll (or)\n3.\nIssue of Replacement EPIC without correction (or)\n4.\nRequest for marking as Person with Disability\n1"
+  },
+  {
+   "chunk_id": 62,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6995,
+   "evidence_ids": [
+    "eci-g8-new-constituency",
+    "eci-g8-address-proof",
+    "eci-g8-other-document"
+   ],
+   "page": 1,
+   "excerpt": "making application and fill the details in the relevant section of the application. All other\nsections which are not relevant should be struck off.\n4. Applicati"
+  },
+  {
+   "chunk_id": 78,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.6879,
+   "evidence_ids": [],
+   "page": 5,
+   "excerpt": "applicant is applying for renewal and is above 40 years of\nage or applying for Transport Licence)\n3.\nDriving Certificate issued by Driving School or\nEstablishme"
+  },
+  {
+   "chunk_id": 66,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.6816,
+   "evidence_ids": [
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "4.\nIndian Passport\n5.\nRevenue Department's Land Owning records including Kisan Bahi\n6.\nRegistered Rent Lease Deed (In case of tenant)\n7.\nRegistered Sale Deed (I"
+  },
+  {
+   "chunk_id": 77,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.6799,
+   "evidence_ids": [
+    "form2-annexure-address-age",
+    "form2-aadhaar",
+    "form2-state-specified",
+    "form2-if-applicable"
+   ],
+   "page": 5,
+   "excerpt": "Motor Vehicles Rules, 1989)\nDate of\nTest\nResult\nPass/Fail\nThe Learner’s licence/Driving Licence is\nIssued Refused\nSignature of licensing authority\n(or other per"
+  },
+  {
+   "chunk_id": 32,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.6665,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-ration",
+    "uidai-poa-voter",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 9,
+   "excerpt": "Proof of Identity (PoI)\ndocument, containing\nname and photograph\nProof of Address (PoA)\ndocument, containing\nname and address in\nIndia\nProof of Relationship\n(Po"
+  },
+  {
+   "chunk_id": 36,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.6661,
+   "evidence_ids": [
+    "uidai-poa-electricity",
+    "uidai-poa-water",
+    "uidai-poa-telephone",
+    "uidai-poa-property-tax",
+    "uidai-poa-sale-rent",
+    "uidai-poa-gas"
+   ],
+   "page": 11,
+   "excerpt": "Sl.\nNo.\nList of documents\n(see note below this tabular statement)\nProof of Identity (PoI)\ndocument, containing\nname and photograph\nProof of Address (PoA)\ndocume"
+  },
+  {
+   "chunk_id": 114,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.6634,
+   "evidence_ids": [],
+   "page": 6,
+   "excerpt": "•\nFor example, if you have changed your name from Vidhi Mehta to Aditi Mehta write the details in this column.\n•\nPlease follow the instructions as given in Colu"
+  },
+  {
+   "chunk_id": 61,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6491,
+   "evidence_ids": [
+    "eci-g8-registered-elector",
+    "eci-g8-replacement-epic",
+    "eci-g8-aadhaar-optional"
+   ],
+   "page": 1,
+   "excerpt": "To be appended to Form-8\nGUIDELINES FOR FILLING UP THE APPLICATION\nFORM-8\n1. General Instruction:-\n(a) The application can be made by a registered/enrolled elec"
+  },
+  {
+   "chunk_id": 137,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.6482,
+   "evidence_ids": [],
+   "page": 14,
+   "excerpt": "27.\nProof of going abroad for studies like Copy of college admission letter or Copy of application submitted for visa or Copy\nof bank loan paper etc.\n28.\nPolice"
+  },
+  {
+   "chunk_id": 5,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.622,
+   "evidence_ids": [
+    "uidai-update-fields",
+    "uidai-online-mode",
+    "uidai-online-poa-upload"
+   ],
+   "page": null,
+   "excerpt": "will\nbe notified by UIDAI to update their biometrics\nAadhaar details that can be updated are:\nDemographic Information\nName, Address, Date of Birth/Age, Gender, "
+  }
+ ],
+ "rc-docs-hi": [
+  {
+   "chunk_id": 79,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.7934,
+   "evidence_ids": [
+    "rc-about",
+    "rc-within-14-days",
+    "rc-fee",
+    "rc-documents",
+    "rc-noc",
+    "rc-pencil-print",
+    "rc-pan"
+   ],
+   "page": null,
+   "excerpt": "Change Of Address\nAbout\nThe Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate o"
+  },
+  {
+   "chunk_id": 81,
+   "source_url": "https://parivahan.gov.in/en/node/155",
+   "similarity": 0.7462,
+   "evidence_ids": [
+    "rc-online-change-of-address",
+    "rc-online-moved-to-rto"
+   ],
+   "page": null,
+   "excerpt": "How do I make changes to my details in Vehicle Registration Certificate?\na. Visit https://vahan.parivahan.gov.in/vahanservice/vahan/\nb. Enter your \"Vehicle Regi"
+  },
+  {
+   "chunk_id": 80,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.7382,
+   "evidence_ids": [
+    "rc-some-states"
+   ],
+   "page": null,
+   "excerpt": "Reference\nThe Motor Vehicles Act 1988 (Section 49 of Chapter IV)\nThe Central Motor Vehicles Rules 1989\n(Rule 59)\nOfficial website of State Transport Department\n"
+  },
+  {
+   "chunk_id": 82,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.7223,
+   "evidence_ids": [
+    "form33-title",
+    "form33-evidence-enclosed"
+   ],
+   "page": 1,
+   "excerpt": "FORM 33\nFORM 33\n[Refer Rule 59]\nINTIMATION OF CHANGE OF ADDRESS RECORDED IN THE CERTIFICATE\nOF REGISTRATION AND OFFICE RECORDS\n(To be made in triplicate if the "
+  },
+  {
+   "chunk_id": 83,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.708,
+   "evidence_ids": [
+    "form33-rc-enclosed"
+   ],
+   "page": 1,
+   "excerpt": ".........................................................................................................................................................\nMy/Our"
+  },
+  {
+   "chunk_id": 69,
+   "source_url": "https://parivahan.gov.in/en/node/246",
+   "similarity": 0.7047,
+   "evidence_ids": [
+    "parivahan-dl-online",
+    "parivahan-dl-steps"
+   ],
+   "page": null,
+   "excerpt": "How to get the address changed in the Driving License?\nApplicants can apply ONLINE for change of address in Driving License.\nVisit https://sarathi.parivahan.gov"
+  },
+  {
+   "chunk_id": 65,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.6999,
+   "evidence_ids": [
+    "eci-f8-shift-request",
+    "eci-f8-address-proof",
+    "eci-f8-utility-bill",
+    "eci-f8-aadhaar",
+    "eci-f8-passbook",
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "2.\nCorrection of Entries in Existing Electoral Roll (or)\n3.\nIssue of Replacement EPIC without correction (or)\n4.\nRequest for marking as Person with Disability\n1"
+  },
+  {
+   "chunk_id": 62,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.681,
+   "evidence_ids": [
+    "eci-g8-new-constituency",
+    "eci-g8-address-proof",
+    "eci-g8-other-document"
+   ],
+   "page": 1,
+   "excerpt": "making application and fill the details in the relevant section of the application. All other\nsections which are not relevant should be struck off.\n4. Applicati"
+  },
+  {
+   "chunk_id": 66,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.6717,
+   "evidence_ids": [
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "4.\nIndian Passport\n5.\nRevenue Department's Land Owning records including Kisan Bahi\n6.\nRegistered Rent Lease Deed (In case of tenant)\n7.\nRegistered Sale Deed (I"
+  },
+  {
+   "chunk_id": 77,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.6681,
+   "evidence_ids": [
+    "form2-annexure-address-age",
+    "form2-aadhaar",
+    "form2-state-specified",
+    "form2-if-applicable"
+   ],
+   "page": 5,
+   "excerpt": "Motor Vehicles Rules, 1989)\nDate of\nTest\nResult\nPass/Fail\nThe Learner’s licence/Driving Licence is\nIssued Refused\nSignature of licensing authority\n(or other per"
+  },
+  {
+   "chunk_id": 78,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.6626,
+   "evidence_ids": [],
+   "page": 5,
+   "excerpt": "applicant is applying for renewal and is above 40 years of\nage or applying for Transport Licence)\n3.\nDriving Certificate issued by Driving School or\nEstablishme"
+  },
+  {
+   "chunk_id": 32,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.6601,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-ration",
+    "uidai-poa-voter",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 9,
+   "excerpt": "Proof of Identity (PoI)\ndocument, containing\nname and photograph\nProof of Address (PoA)\ndocument, containing\nname and address in\nIndia\nProof of Relationship\n(Po"
+  },
+  {
+   "chunk_id": 23,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.6527,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 6,
+   "excerpt": "Means allowed | Means not allowed\nSl.\nNo.\nList of documents\n(see note below this tabular statement)\nProof of Identity (PoI)\ndocument, containing\nname and phot"
+  },
+  {
+   "chunk_id": 114,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.6414,
+   "evidence_ids": [],
+   "page": 6,
+   "excerpt": "•\nFor example, if you have changed your name from Vidhi Mehta to Aditi Mehta write the details in this column.\n•\nPlease follow the instructions as given in Colu"
+  },
+  {
+   "chunk_id": 61,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6348,
+   "evidence_ids": [
+    "eci-g8-registered-elector",
+    "eci-g8-replacement-epic",
+    "eci-g8-aadhaar-optional"
+   ],
+   "page": 1,
+   "excerpt": "To be appended to Form-8\nGUIDELINES FOR FILLING UP THE APPLICATION\nFORM-8\n1. General Instruction:-\n(a) The application can be made by a registered/enrolled elec"
+  },
+  {
+   "chunk_id": 131,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.6347,
+   "evidence_ids": [
+    "pp-poa-spouse-passport",
+    "pp-poa-aadhaar",
+    "pp-poa-rent",
+    "pp-poa-passbook",
+    "pp-present-address-only"
+   ],
+   "page": 13,
+   "excerpt": "give address proof on company letter head along with seal. Computerized printouts shall not be entertained)\nh.\nSpouse’s passport copy (First and last page inclu"
+  },
+  {
+   "chunk_id": 5,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.6098,
+   "evidence_ids": [
+    "uidai-update-fields",
+    "uidai-online-mode",
+    "uidai-online-poa-upload"
+   ],
+   "page": null,
+   "excerpt": "will\nbe notified by UIDAI to update their biometrics\nAadhaar details that can be updated are:\nDemographic Information\nName, Address, Date of Birth/Age, Gender, "
+  }
+ ],
+ "rc-loan-noc-en": [
+  {
+   "chunk_id": 79,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.7707,
+   "evidence_ids": [
+    "rc-about",
+    "rc-within-14-days",
+    "rc-fee",
+    "rc-documents",
+    "rc-noc",
+    "rc-pencil-print",
+    "rc-pan"
+   ],
+   "page": null,
+   "excerpt": "Change Of Address\nAbout\nThe Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate o"
+  },
+  {
+   "chunk_id": 83,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.7485,
+   "evidence_ids": [
+    "form33-rc-enclosed"
+   ],
+   "page": 1,
+   "excerpt": ".........................................................................................................................................................\nMy/Our"
+  },
+  {
+   "chunk_id": 84,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.7399,
+   "evidence_ids": [],
+   "page": 1,
+   "excerpt": "I/We being a party to an agreement of hire-purchase/lease/hypothecation in\nrespect of the above said vehicle, hereby :\n1. Give consent for effecting the above c"
+  },
+  {
+   "chunk_id": 81,
+   "source_url": "https://parivahan.gov.in/en/node/155",
+   "similarity": 0.7199,
+   "evidence_ids": [
+    "rc-online-change-of-address",
+    "rc-online-moved-to-rto"
+   ],
+   "page": null,
+   "excerpt": "How do I make changes to my details in Vehicle Registration Certificate?\na. Visit https://vahan.parivahan.gov.in/vahanservice/vahan/\nb. Enter your \"Vehicle Regi"
+  },
+  {
+   "chunk_id": 80,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.7161,
+   "evidence_ids": [
+    "rc-some-states"
+   ],
+   "page": null,
+   "excerpt": "Reference\nThe Motor Vehicles Act 1988 (Section 49 of Chapter IV)\nThe Central Motor Vehicles Rules 1989\n(Rule 59)\nOfficial website of State Transport Department\n"
+  },
+  {
+   "chunk_id": 69,
+   "source_url": "https://parivahan.gov.in/en/node/246",
+   "similarity": 0.6938,
+   "evidence_ids": [
+    "parivahan-dl-online",
+    "parivahan-dl-steps"
+   ],
+   "page": null,
+   "excerpt": "How to get the address changed in the Driving License?\nApplicants can apply ONLINE for change of address in Driving License.\nVisit https://sarathi.parivahan.gov"
+  },
+  {
+   "chunk_id": 65,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.6685,
+   "evidence_ids": [
+    "eci-f8-shift-request",
+    "eci-f8-address-proof",
+    "eci-f8-utility-bill",
+    "eci-f8-aadhaar",
+    "eci-f8-passbook",
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "2.\nCorrection of Entries in Existing Electoral Roll (or)\n3.\nIssue of Replacement EPIC without correction (or)\n4.\nRequest for marking as Person with Disability\n1"
+  },
+  {
+   "chunk_id": 70,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.6531,
+   "evidence_ids": [
+    "form2-change-of-address-service"
+   ],
+   "page": 1,
+   "excerpt": "FORM 2\nFORM 2\n[Refer Rules 10, 14, 17 and 18]\nFORM OF APPLICATION FOR LEARNER’S LICENCE OR DRIVING LICENCE\nOR ADDITION OF A NEW CLASS OF VEHICLE OR RENEWAL OF D"
+  },
+  {
+   "chunk_id": 34,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.6416,
+   "evidence_ids": [],
+   "page": 10,
+   "excerpt": "i. MP / MLA / MLC / Municipal Councillor\n\n\n\n\nii. \u0007Gazetted Officer Group ‘A’/ Employees\nProvident Fund Organisation (EPFO) Officer\n\n\n\n\niii. Tehsildar/ G"
+  },
+  {
+   "chunk_id": 62,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6415,
+   "evidence_ids": [
+    "eci-g8-new-constituency",
+    "eci-g8-address-proof",
+    "eci-g8-other-document"
+   ],
+   "page": 1,
+   "excerpt": "making application and fill the details in the relevant section of the application. All other\nsections which are not relevant should be struck off.\n4. Applicati"
+  },
+  {
+   "chunk_id": 78,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.6397,
+   "evidence_ids": [],
+   "page": 5,
+   "excerpt": "applicant is applying for renewal and is above 40 years of\nage or applying for Transport Licence)\n3.\nDriving Certificate issued by Driving School or\nEstablishme"
+  },
+  {
+   "chunk_id": 64,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.6392,
+   "evidence_ids": [
+    "eci-f8-epic-no",
+    "eci-f8-aadhaar-not-available"
+   ],
+   "page": 1,
+   "excerpt": "ELECTION COMMISSION OF INDIA\nForm-8\nFORM No.\n(To be filled by office)\nVoter Application Form for shifting of Residence/Correction of Entries in Existing Elector"
+  },
+  {
+   "chunk_id": 35,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.6342,
+   "evidence_ids": [
+    "uidai-poa-passbook",
+    "uidai-poa-statement"
+   ],
+   "page": 10,
+   "excerpt": "established by a Central or State Act\n\n\n\n#\n15.\nPassbook issued by a scheduled commercial\nbank or a State cooperative bank having\nName and Photograph (cross "
+  },
+  {
+   "chunk_id": 114,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.6242,
+   "evidence_ids": [],
+   "page": 6,
+   "excerpt": "•\nFor example, if you have changed your name from Vidhi Mehta to Aditi Mehta write the details in this column.\n•\nPlease follow the instructions as given in Colu"
+  },
+  {
+   "chunk_id": 61,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6204,
+   "evidence_ids": [
+    "eci-g8-registered-elector",
+    "eci-g8-replacement-epic",
+    "eci-g8-aadhaar-optional"
+   ],
+   "page": 1,
+   "excerpt": "To be appended to Form-8\nGUIDELINES FOR FILLING UP THE APPLICATION\nFORM-8\n1. General Instruction:-\n(a) The application can be made by a registered/enrolled elec"
+  },
+  {
+   "chunk_id": 136,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.6165,
+   "evidence_ids": [],
+   "page": 14,
+   "excerpt": "16.\nFresh ID Certificate in changed name\n17.\nStudent Identity Card issued by Government Recognized Educational Institutions, in respect of full-time courses\n18."
+  },
+  {
+   "chunk_id": 5,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.6008,
+   "evidence_ids": [
+    "uidai-update-fields",
+    "uidai-online-mode",
+    "uidai-online-poa-upload"
+   ],
+   "page": null,
+   "excerpt": "will\nbe notified by UIDAI to update their biometrics\nAadhaar details that can be updated are:\nDemographic Information\nName, Address, Date of Birth/Age, Gender, "
+  },
+  {
+   "chunk_id": 2,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.5988,
+   "evidence_ids": [],
+   "page": null,
+   "excerpt": "Demographic data update, the need could arise from:\nChanges in life events such as marriage may lead to Aadhaar number holders changing their basic demographic "
+  }
+ ],
+ "rc-deadline-en": [
+  {
+   "chunk_id": 79,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.7744,
+   "evidence_ids": [
+    "rc-about",
+    "rc-within-14-days",
+    "rc-fee",
+    "rc-documents",
+    "rc-noc",
+    "rc-pencil-print",
+    "rc-pan"
+   ],
+   "page": null,
+   "excerpt": "Change Of Address\nAbout\nThe Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate o"
+  },
+  {
+   "chunk_id": 82,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.7396,
+   "evidence_ids": [
+    "form33-title",
+    "form33-evidence-enclosed"
+   ],
+   "page": 1,
+   "excerpt": "FORM 33\nFORM 33\n[Refer Rule 59]\nINTIMATION OF CHANGE OF ADDRESS RECORDED IN THE CERTIFICATE\nOF REGISTRATION AND OFFICE RECORDS\n(To be made in triplicate if the "
+  },
+  {
+   "chunk_id": 81,
+   "source_url": "https://parivahan.gov.in/en/node/155",
+   "similarity": 0.7292,
+   "evidence_ids": [
+    "rc-online-change-of-address",
+    "rc-online-moved-to-rto"
+   ],
+   "page": null,
+   "excerpt": "How do I make changes to my details in Vehicle Registration Certificate?\na. Visit https://vahan.parivahan.gov.in/vahanservice/vahan/\nb. Enter your \"Vehicle Regi"
+  },
+  {
+   "chunk_id": 80,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.7278,
+   "evidence_ids": [
+    "rc-some-states"
+   ],
+   "page": null,
+   "excerpt": "Reference\nThe Motor Vehicles Act 1988 (Section 49 of Chapter IV)\nThe Central Motor Vehicles Rules 1989\n(Rule 59)\nOfficial website of State Transport Department\n"
+  },
+  {
+   "chunk_id": 83,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.7185,
+   "evidence_ids": [
+    "form33-rc-enclosed"
+   ],
+   "page": 1,
+   "excerpt": ".........................................................................................................................................................\nMy/Our"
+  },
+  {
+   "chunk_id": 69,
+   "source_url": "https://parivahan.gov.in/en/node/246",
+   "similarity": 0.7052,
+   "evidence_ids": [
+    "parivahan-dl-online",
+    "parivahan-dl-steps"
+   ],
+   "page": null,
+   "excerpt": "How to get the address changed in the Driving License?\nApplicants can apply ONLINE for change of address in Driving License.\nVisit https://sarathi.parivahan.gov"
+  },
+  {
+   "chunk_id": 65,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.6789,
+   "evidence_ids": [
+    "eci-f8-shift-request",
+    "eci-f8-address-proof",
+    "eci-f8-utility-bill",
+    "eci-f8-aadhaar",
+    "eci-f8-passbook",
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "2.\nCorrection of Entries in Existing Electoral Roll (or)\n3.\nIssue of Replacement EPIC without correction (or)\n4.\nRequest for marking as Person with Disability\n1"
+  },
+  {
+   "chunk_id": 64,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.6784,
+   "evidence_ids": [
+    "eci-f8-epic-no",
+    "eci-f8-aadhaar-not-available"
+   ],
+   "page": 1,
+   "excerpt": "ELECTION COMMISSION OF INDIA\nForm-8\nFORM No.\n(To be filled by office)\nVoter Application Form for shifting of Residence/Correction of Entries in Existing Elector"
+  },
+  {
+   "chunk_id": 62,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6741,
+   "evidence_ids": [
+    "eci-g8-new-constituency",
+    "eci-g8-address-proof",
+    "eci-g8-other-document"
+   ],
+   "page": 1,
+   "excerpt": "making application and fill the details in the relevant section of the application. All other\nsections which are not relevant should be struck off.\n4. Applicati"
+  },
+  {
+   "chunk_id": 70,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.6728,
+   "evidence_ids": [
+    "form2-change-of-address-service"
+   ],
+   "page": 1,
+   "excerpt": "FORM 2\nFORM 2\n[Refer Rules 10, 14, 17 and 18]\nFORM OF APPLICATION FOR LEARNER’S LICENCE OR DRIVING LICENCE\nOR ADDITION OF A NEW CLASS OF VEHICLE OR RENEWAL OF D"
+  },
+  {
+   "chunk_id": 61,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6492,
+   "evidence_ids": [
+    "eci-g8-registered-elector",
+    "eci-g8-replacement-epic",
+    "eci-g8-aadhaar-optional"
+   ],
+   "page": 1,
+   "excerpt": "To be appended to Form-8\nGUIDELINES FOR FILLING UP THE APPLICATION\nFORM-8\n1. General Instruction:-\n(a) The application can be made by a registered/enrolled elec"
+  },
+  {
+   "chunk_id": 77,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.6469,
+   "evidence_ids": [
+    "form2-annexure-address-age",
+    "form2-aadhaar",
+    "form2-state-specified",
+    "form2-if-applicable"
+   ],
+   "page": 5,
+   "excerpt": "Motor Vehicles Rules, 1989)\nDate of\nTest\nResult\nPass/Fail\nThe Learner’s licence/Driving Licence is\nIssued Refused\nSignature of licensing authority\n(or other per"
+  },
+  {
+   "chunk_id": 37,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.6133,
+   "evidence_ids": [
+    "uidai-poa-gas",
+    "uidai-poa-insurance"
+   ],
+   "page": 11,
+   "excerpt": "with the Registrar Office, or registered or\nunregistered rent, lease agreement or leave\nand licence agreement\n\n\n\n\n25.\nGas bill (not older than 3 months)\n\n"
+  },
+  {
+   "chunk_id": 49,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.6131,
+   "evidence_ids": [],
+   "page": 15,
+   "excerpt": "CHECKLIST FOR CERTIFIER\nSignature & Stamp of ther Certifier\nMera Aadhaar, Meri Pehchaan\nCERTIFICATE FOR AADHAAR ENROLMENT/ UPDATE (TO BE USED ONLY AS PROOF OF A"
+  },
+  {
+   "chunk_id": 121,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.6113,
+   "evidence_ids": [],
+   "page": 9,
+   "excerpt": "17\nJammu and Kashmir Residents\n1, 2, 3 (if the applicant is eligible for Non ECR)\nCannot apply under Tatkaal Scheme\nNote: Mandatory Pre-Police Verification requ"
+  },
+  {
+   "chunk_id": 126,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.6109,
+   "evidence_ids": [],
+   "page": 10,
+   "excerpt": "41 (if Post Police Verification is required)\n(ii) 46 (one parent not given consent) or 47 (signed by both\nparents)\n(i)\n1 (of parents), 2, 24 (if any - with spou"
+  },
+  {
+   "chunk_id": 2,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.5989,
+   "evidence_ids": [],
+   "page": null,
+   "excerpt": "Demographic data update, the need could arise from:\nChanges in life events such as marriage may lead to Aadhaar number holders changing their basic demographic "
+  },
+  {
+   "chunk_id": 8,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.5874,
+   "evidence_ids": [],
+   "page": null,
+   "excerpt": "In this section\nRegistered Mobile Number\nDemographic data update, the need could arise from:\nBiometric update, the need could arise from:\nAadhaar details that c"
+  }
+ ],
+ "bill-age-conflict-en": [
+  {
+   "chunk_id": 36,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.7709,
+   "evidence_ids": [
+    "uidai-poa-electricity",
+    "uidai-poa-water",
+    "uidai-poa-telephone",
+    "uidai-poa-property-tax",
+    "uidai-poa-sale-rent",
+    "uidai-poa-gas"
+   ],
+   "page": 11,
+   "excerpt": "Sl.\nNo.\nList of documents\n(see note below this tabular statement)\nProof of Identity (PoI)\ndocument, containing\nname and photograph\nProof of Address (PoA)\ndocume"
+  },
+  {
+   "chunk_id": 26,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.7614,
+   "evidence_ids": [],
+   "page": 7,
+   "excerpt": "\n(vi) \u0007Village Panchayat Head/ President or Mukhiya/ Gaon\nBura/ equivalent authority (for rural areas)/ Village\nPanchayat Secretary/ Village Revenue Officer or"
+  },
+  {
+   "chunk_id": 65,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.7129,
+   "evidence_ids": [
+    "eci-f8-shift-request",
+    "eci-f8-address-proof",
+    "eci-f8-utility-bill",
+    "eci-f8-aadhaar",
+    "eci-f8-passbook",
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "2.\nCorrection of Entries in Existing Electoral Roll (or)\n3.\nIssue of Replacement EPIC without correction (or)\n4.\nRequest for marking as Person with Disability\n1"
+  },
+  {
+   "chunk_id": 131,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.699,
+   "evidence_ids": [
+    "pp-poa-spouse-passport",
+    "pp-poa-aadhaar",
+    "pp-poa-rent",
+    "pp-poa-passbook",
+    "pp-present-address-only"
+   ],
+   "page": 13,
+   "excerpt": "give address proof on company letter head along with seal. Computerized printouts shall not be entertained)\nh.\nSpouse’s passport copy (First and last page inclu"
+  },
+  {
+   "chunk_id": 130,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.6863,
+   "evidence_ids": [
+    "pp-poa-epic",
+    "pp-poa-gas",
+    "pp-poa-employer",
+    "pp-poa-list",
+    "pp-poa-water",
+    "pp-poa-telephone",
+    "pp-poa-electricity",
+    "pp-poa-it-order"
+   ],
+   "page": 12,
+   "excerpt": "Cannot apply under Tatkaal Scheme\n15\nECR Deletion\n1 (if address is different from old Passport), 3, 5\n1 (if address is different from old Passport), 3, 5\nPage 1"
+  },
+  {
+   "chunk_id": 66,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.6661,
+   "evidence_ids": [
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "4.\nIndian Passport\n5.\nRevenue Department's Land Owning records including Kisan Bahi\n6.\nRegistered Rent Lease Deed (In case of tenant)\n7.\nRegistered Sale Deed (I"
+  },
+  {
+   "chunk_id": 62,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6659,
+   "evidence_ids": [
+    "eci-g8-new-constituency",
+    "eci-g8-address-proof",
+    "eci-g8-other-document"
+   ],
+   "page": 1,
+   "excerpt": "making application and fill the details in the relevant section of the application. All other\nsections which are not relevant should be struck off.\n4. Applicati"
+  },
+  {
+   "chunk_id": 79,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6556,
+   "evidence_ids": [
+    "rc-about",
+    "rc-within-14-days",
+    "rc-fee",
+    "rc-documents",
+    "rc-noc",
+    "rc-pencil-print",
+    "rc-pan"
+   ],
+   "page": null,
+   "excerpt": "Change Of Address\nAbout\nThe Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate o"
+  },
+  {
+   "chunk_id": 5,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.6443,
+   "evidence_ids": [
+    "uidai-update-fields",
+    "uidai-online-mode",
+    "uidai-online-poa-upload"
+   ],
+   "page": null,
+   "excerpt": "will\nbe notified by UIDAI to update their biometrics\nAadhaar details that can be updated are:\nDemographic Information\nName, Address, Date of Birth/Age, Gender, "
+  },
+  {
+   "chunk_id": 77,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.643,
+   "evidence_ids": [
+    "form2-annexure-address-age",
+    "form2-aadhaar",
+    "form2-state-specified",
+    "form2-if-applicable"
+   ],
+   "page": 5,
+   "excerpt": "Motor Vehicles Rules, 1989)\nDate of\nTest\nResult\nPass/Fail\nThe Learner’s licence/Driving Licence is\nIssued Refused\nSignature of licensing authority\n(or other per"
+  },
+  {
+   "chunk_id": 80,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6353,
+   "evidence_ids": [
+    "rc-some-states"
+   ],
+   "page": null,
+   "excerpt": "Reference\nThe Motor Vehicles Act 1988 (Section 49 of Chapter IV)\nThe Central Motor Vehicles Rules 1989\n(Rule 59)\nOfficial website of State Transport Department\n"
+  },
+  {
+   "chunk_id": 61,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6336,
+   "evidence_ids": [
+    "eci-g8-registered-elector",
+    "eci-g8-replacement-epic",
+    "eci-g8-aadhaar-optional"
+   ],
+   "page": 1,
+   "excerpt": "To be appended to Form-8\nGUIDELINES FOR FILLING UP THE APPLICATION\nFORM-8\n1. General Instruction:-\n(a) The application can be made by a registered/enrolled elec"
+  },
+  {
+   "chunk_id": 69,
+   "source_url": "https://parivahan.gov.in/en/node/246",
+   "similarity": 0.6231,
+   "evidence_ids": [
+    "parivahan-dl-online",
+    "parivahan-dl-steps"
+   ],
+   "page": null,
+   "excerpt": "How to get the address changed in the Driving License?\nApplicants can apply ONLINE for change of address in Driving License.\nVisit https://sarathi.parivahan.gov"
+  }
+ ],
+ "wf-aadhaar-dl-en": [
+  {
+   "chunk_id": 69,
+   "source_url": "https://parivahan.gov.in/en/node/246",
+   "similarity": 0.7183,
+   "evidence_ids": [
+    "parivahan-dl-online",
+    "parivahan-dl-steps"
+   ],
+   "page": null,
+   "excerpt": "How to get the address changed in the Driving License?\nApplicants can apply ONLINE for change of address in Driving License.\nVisit https://sarathi.parivahan.gov"
+  },
+  {
+   "chunk_id": 32,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.7093,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-ration",
+    "uidai-poa-voter",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 9,
+   "excerpt": "Proof of Identity (PoI)\ndocument, containing\nname and photograph\nProof of Address (PoA)\ndocument, containing\nname and address in\nIndia\nProof of Relationship\n(Po"
+  },
+  {
+   "chunk_id": 23,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.7068,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 6,
+   "excerpt": "Means allowed | Means not allowed\nSl.\nNo.\nList of documents\n(see note below this tabular statement)\nProof of Identity (PoI)\ndocument, containing\nname and phot"
+  },
+  {
+   "chunk_id": 65,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.6932,
+   "evidence_ids": [
+    "eci-f8-shift-request",
+    "eci-f8-address-proof",
+    "eci-f8-utility-bill",
+    "eci-f8-aadhaar",
+    "eci-f8-passbook",
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "2.\nCorrection of Entries in Existing Electoral Roll (or)\n3.\nIssue of Replacement EPIC without correction (or)\n4.\nRequest for marking as Person with Disability\n1"
+  },
+  {
+   "chunk_id": 79,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6793,
+   "evidence_ids": [
+    "rc-about",
+    "rc-within-14-days",
+    "rc-fee",
+    "rc-documents",
+    "rc-noc",
+    "rc-pencil-print",
+    "rc-pan"
+   ],
+   "page": null,
+   "excerpt": "Change Of Address\nAbout\nThe Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate o"
+  },
+  {
+   "chunk_id": 5,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.6767,
+   "evidence_ids": [
+    "uidai-update-fields",
+    "uidai-online-mode",
+    "uidai-online-poa-upload"
+   ],
+   "page": null,
+   "excerpt": "will\nbe notified by UIDAI to update their biometrics\nAadhaar details that can be updated are:\nDemographic Information\nName, Address, Date of Birth/Age, Gender, "
+  },
+  {
+   "chunk_id": 64,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.6766,
+   "evidence_ids": [
+    "eci-f8-epic-no",
+    "eci-f8-aadhaar-not-available"
+   ],
+   "page": 1,
+   "excerpt": "ELECTION COMMISSION OF INDIA\nForm-8\nFORM No.\n(To be filled by office)\nVoter Application Form for shifting of Residence/Correction of Entries in Existing Elector"
+  },
+  {
+   "chunk_id": 2,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.6633,
+   "evidence_ids": [],
+   "page": null,
+   "excerpt": "Demographic data update, the need could arise from:\nChanges in life events such as marriage may lead to Aadhaar number holders changing their basic demographic "
+  },
+  {
+   "chunk_id": 80,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6593,
+   "evidence_ids": [
+    "rc-some-states"
+   ],
+   "page": null,
+   "excerpt": "Reference\nThe Motor Vehicles Act 1988 (Section 49 of Chapter IV)\nThe Central Motor Vehicles Rules 1989\n(Rule 59)\nOfficial website of State Transport Department\n"
+  },
+  {
+   "chunk_id": 61,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6592,
+   "evidence_ids": [
+    "eci-g8-registered-elector",
+    "eci-g8-replacement-epic",
+    "eci-g8-aadhaar-optional"
+   ],
+   "page": 1,
+   "excerpt": "To be appended to Form-8\nGUIDELINES FOR FILLING UP THE APPLICATION\nFORM-8\n1. General Instruction:-\n(a) The application can be made by a registered/enrolled elec"
+  },
+  {
+   "chunk_id": 70,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.6569,
+   "evidence_ids": [
+    "form2-change-of-address-service"
+   ],
+   "page": 1,
+   "excerpt": "FORM 2\nFORM 2\n[Refer Rules 10, 14, 17 and 18]\nFORM OF APPLICATION FOR LEARNER’S LICENCE OR DRIVING LICENCE\nOR ADDITION OF A NEW CLASS OF VEHICLE OR RENEWAL OF D"
+  },
+  {
+   "chunk_id": 62,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.654,
+   "evidence_ids": [
+    "eci-g8-new-constituency",
+    "eci-g8-address-proof",
+    "eci-g8-other-document"
+   ],
+   "page": 1,
+   "excerpt": "making application and fill the details in the relevant section of the application. All other\nsections which are not relevant should be struck off.\n4. Applicati"
+  },
+  {
+   "chunk_id": 77,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.653,
+   "evidence_ids": [
+    "form2-annexure-address-age",
+    "form2-aadhaar",
+    "form2-state-specified",
+    "form2-if-applicable"
+   ],
+   "page": 5,
+   "excerpt": "Motor Vehicles Rules, 1989)\nDate of\nTest\nResult\nPass/Fail\nThe Learner’s licence/Driving Licence is\nIssued Refused\nSignature of licensing authority\n(or other per"
+  },
+  {
+   "chunk_id": 82,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.6448,
+   "evidence_ids": [
+    "form33-title",
+    "form33-evidence-enclosed"
+   ],
+   "page": 1,
+   "excerpt": "FORM 33\nFORM 33\n[Refer Rule 59]\nINTIMATION OF CHANGE OF ADDRESS RECORDED IN THE CERTIFICATE\nOF REGISTRATION AND OFFICE RECORDS\n(To be made in triplicate if the "
+  },
+  {
+   "chunk_id": 81,
+   "source_url": "https://parivahan.gov.in/en/node/155",
+   "similarity": 0.6356,
+   "evidence_ids": [
+    "rc-online-change-of-address",
+    "rc-online-moved-to-rto"
+   ],
+   "page": null,
+   "excerpt": "How do I make changes to my details in Vehicle Registration Certificate?\na. Visit https://vahan.parivahan.gov.in/vahanservice/vahan/\nb. Enter your \"Vehicle Regi"
+  },
+  {
+   "chunk_id": 132,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.6239,
+   "evidence_ids": [
+    "pp-aadhaar-expedites"
+   ],
+   "page": 13,
+   "excerpt": "which he/she has been residing at the given address. However, he/she is required to mention all the place of stay\nduring previous one year in the Passport appli"
+  },
+  {
+   "chunk_id": 83,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.6221,
+   "evidence_ids": [
+    "form33-rc-enclosed"
+   ],
+   "page": 1,
+   "excerpt": ".........................................................................................................................................................\nMy/Our"
+  },
+  {
+   "chunk_id": 131,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.6169,
+   "evidence_ids": [
+    "pp-poa-spouse-passport",
+    "pp-poa-aadhaar",
+    "pp-poa-rent",
+    "pp-poa-passbook",
+    "pp-present-address-only"
+   ],
+   "page": 13,
+   "excerpt": "give address proof on company letter head along with seal. Computerized printouts shall not be entertained)\nh.\nSpouse’s passport copy (First and last page inclu"
+  }
+ ],
+ "wf-aadhaar-dl-hi": [
+  {
+   "chunk_id": 69,
+   "source_url": "https://parivahan.gov.in/en/node/246",
+   "similarity": 0.7083,
+   "evidence_ids": [
+    "parivahan-dl-online",
+    "parivahan-dl-steps"
+   ],
+   "page": null,
+   "excerpt": "How to get the address changed in the Driving License?\nApplicants can apply ONLINE for change of address in Driving License.\nVisit https://sarathi.parivahan.gov"
+  },
+  {
+   "chunk_id": 32,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.6866,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-ration",
+    "uidai-poa-voter",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 9,
+   "excerpt": "Proof of Identity (PoI)\ndocument, containing\nname and photograph\nProof of Address (PoA)\ndocument, containing\nname and address in\nIndia\nProof of Relationship\n(Po"
+  },
+  {
+   "chunk_id": 36,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.6859,
+   "evidence_ids": [
+    "uidai-poa-electricity",
+    "uidai-poa-water",
+    "uidai-poa-telephone",
+    "uidai-poa-property-tax",
+    "uidai-poa-sale-rent",
+    "uidai-poa-gas"
+   ],
+   "page": 11,
+   "excerpt": "Sl.\nNo.\nList of documents\n(see note below this tabular statement)\nProof of Identity (PoI)\ndocument, containing\nname and photograph\nProof of Address (PoA)\ndocume"
+  },
+  {
+   "chunk_id": 65,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.6674,
+   "evidence_ids": [
+    "eci-f8-shift-request",
+    "eci-f8-address-proof",
+    "eci-f8-utility-bill",
+    "eci-f8-aadhaar",
+    "eci-f8-passbook",
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "2.\nCorrection of Entries in Existing Electoral Roll (or)\n3.\nIssue of Replacement EPIC without correction (or)\n4.\nRequest for marking as Person with Disability\n1"
+  },
+  {
+   "chunk_id": 79,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6611,
+   "evidence_ids": [
+    "rc-about",
+    "rc-within-14-days",
+    "rc-fee",
+    "rc-documents",
+    "rc-noc",
+    "rc-pencil-print",
+    "rc-pan"
+   ],
+   "page": null,
+   "excerpt": "Change Of Address\nAbout\nThe Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate o"
+  },
+  {
+   "chunk_id": 5,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.6507,
+   "evidence_ids": [
+    "uidai-update-fields",
+    "uidai-online-mode",
+    "uidai-online-poa-upload"
+   ],
+   "page": null,
+   "excerpt": "will\nbe notified by UIDAI to update their biometrics\nAadhaar details that can be updated are:\nDemographic Information\nName, Address, Date of Birth/Age, Gender, "
+  },
+  {
+   "chunk_id": 80,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6475,
+   "evidence_ids": [
+    "rc-some-states"
+   ],
+   "page": null,
+   "excerpt": "Reference\nThe Motor Vehicles Act 1988 (Section 49 of Chapter IV)\nThe Central Motor Vehicles Rules 1989\n(Rule 59)\nOfficial website of State Transport Department\n"
+  },
+  {
+   "chunk_id": 64,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.6434,
+   "evidence_ids": [
+    "eci-f8-epic-no",
+    "eci-f8-aadhaar-not-available"
+   ],
+   "page": 1,
+   "excerpt": "ELECTION COMMISSION OF INDIA\nForm-8\nFORM No.\n(To be filled by office)\nVoter Application Form for shifting of Residence/Correction of Entries in Existing Elector"
+  },
+  {
+   "chunk_id": 2,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.6431,
+   "evidence_ids": [],
+   "page": null,
+   "excerpt": "Demographic data update, the need could arise from:\nChanges in life events such as marriage may lead to Aadhaar number holders changing their basic demographic "
+  },
+  {
+   "chunk_id": 61,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6317,
+   "evidence_ids": [
+    "eci-g8-registered-elector",
+    "eci-g8-replacement-epic",
+    "eci-g8-aadhaar-optional"
+   ],
+   "page": 1,
+   "excerpt": "To be appended to Form-8\nGUIDELINES FOR FILLING UP THE APPLICATION\nFORM-8\n1. General Instruction:-\n(a) The application can be made by a registered/enrolled elec"
+  },
+  {
+   "chunk_id": 70,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.6316,
+   "evidence_ids": [
+    "form2-change-of-address-service"
+   ],
+   "page": 1,
+   "excerpt": "FORM 2\nFORM 2\n[Refer Rules 10, 14, 17 and 18]\nFORM OF APPLICATION FOR LEARNER’S LICENCE OR DRIVING LICENCE\nOR ADDITION OF A NEW CLASS OF VEHICLE OR RENEWAL OF D"
+  },
+  {
+   "chunk_id": 82,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.6299,
+   "evidence_ids": [
+    "form33-title",
+    "form33-evidence-enclosed"
+   ],
+   "page": 1,
+   "excerpt": "FORM 33\nFORM 33\n[Refer Rule 59]\nINTIMATION OF CHANGE OF ADDRESS RECORDED IN THE CERTIFICATE\nOF REGISTRATION AND OFFICE RECORDS\n(To be made in triplicate if the "
+  },
+  {
+   "chunk_id": 77,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.6299,
+   "evidence_ids": [
+    "form2-annexure-address-age",
+    "form2-aadhaar",
+    "form2-state-specified",
+    "form2-if-applicable"
+   ],
+   "page": 5,
+   "excerpt": "Motor Vehicles Rules, 1989)\nDate of\nTest\nResult\nPass/Fail\nThe Learner’s licence/Driving Licence is\nIssued Refused\nSignature of licensing authority\n(or other per"
+  },
+  {
+   "chunk_id": 62,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6208,
+   "evidence_ids": [
+    "eci-g8-new-constituency",
+    "eci-g8-address-proof",
+    "eci-g8-other-document"
+   ],
+   "page": 1,
+   "excerpt": "making application and fill the details in the relevant section of the application. All other\nsections which are not relevant should be struck off.\n4. Applicati"
+  },
+  {
+   "chunk_id": 81,
+   "source_url": "https://parivahan.gov.in/en/node/155",
+   "similarity": 0.6207,
+   "evidence_ids": [
+    "rc-online-change-of-address",
+    "rc-online-moved-to-rto"
+   ],
+   "page": null,
+   "excerpt": "How do I make changes to my details in Vehicle Registration Certificate?\na. Visit https://vahan.parivahan.gov.in/vahanservice/vahan/\nb. Enter your \"Vehicle Regi"
+  },
+  {
+   "chunk_id": 83,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.6065,
+   "evidence_ids": [
+    "form33-rc-enclosed"
+   ],
+   "page": 1,
+   "excerpt": ".........................................................................................................................................................\nMy/Our"
+  },
+  {
+   "chunk_id": 131,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.6042,
+   "evidence_ids": [
+    "pp-poa-spouse-passport",
+    "pp-poa-aadhaar",
+    "pp-poa-rent",
+    "pp-poa-passbook",
+    "pp-present-address-only"
+   ],
+   "page": 13,
+   "excerpt": "give address proof on company letter head along with seal. Computerized printouts shall not be entertained)\nh.\nSpouse’s passport copy (First and last page inclu"
+  },
+  {
+   "chunk_id": 132,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.6018,
+   "evidence_ids": [
+    "pp-aadhaar-expedites"
+   ],
+   "page": 13,
+   "excerpt": "which he/she has been residing at the given address. However, he/she is required to mention all the place of stay\nduring previous one year in the Passport appli"
+  }
+ ],
+ "wf-three-independent-en": [
+  {
+   "chunk_id": 32,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.7342,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-ration",
+    "uidai-poa-voter",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 9,
+   "excerpt": "Proof of Identity (PoI)\ndocument, containing\nname and photograph\nProof of Address (PoA)\ndocument, containing\nname and address in\nIndia\nProof of Relationship\n(Po"
+  },
+  {
+   "chunk_id": 23,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.7272,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 6,
+   "excerpt": "Means allowed | Means not allowed\nSl.\nNo.\nList of documents\n(see note below this tabular statement)\nProof of Identity (PoI)\ndocument, containing\nname and phot"
+  },
+  {
+   "chunk_id": 65,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.7073,
+   "evidence_ids": [
+    "eci-f8-shift-request",
+    "eci-f8-address-proof",
+    "eci-f8-utility-bill",
+    "eci-f8-aadhaar",
+    "eci-f8-passbook",
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "2.\nCorrection of Entries in Existing Electoral Roll (or)\n3.\nIssue of Replacement EPIC without correction (or)\n4.\nRequest for marking as Person with Disability\n1"
+  },
+  {
+   "chunk_id": 66,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.7041,
+   "evidence_ids": [
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "4.\nIndian Passport\n5.\nRevenue Department's Land Owning records including Kisan Bahi\n6.\nRegistered Rent Lease Deed (In case of tenant)\n7.\nRegistered Sale Deed (I"
+  },
+  {
+   "chunk_id": 140,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.703,
+   "evidence_ids": [],
+   "page": 15,
+   "excerpt": "a.\nAadhaar Card/e-Aadhar containing the 12 digit Aadhaar number issued by the Unique Identification Authority of India\n(UIDAI)\nb.\nStudent Photo ldentity Card is"
+  },
+  {
+   "chunk_id": 131,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.7002,
+   "evidence_ids": [
+    "pp-poa-spouse-passport",
+    "pp-poa-aadhaar",
+    "pp-poa-rent",
+    "pp-poa-passbook",
+    "pp-present-address-only"
+   ],
+   "page": 13,
+   "excerpt": "give address proof on company letter head along with seal. Computerized printouts shall not be entertained)\nh.\nSpouse’s passport copy (First and last page inclu"
+  },
+  {
+   "chunk_id": 5,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.6873,
+   "evidence_ids": [
+    "uidai-update-fields",
+    "uidai-online-mode",
+    "uidai-online-poa-upload"
+   ],
+   "page": null,
+   "excerpt": "will\nbe notified by UIDAI to update their biometrics\nAadhaar details that can be updated are:\nDemographic Information\nName, Address, Date of Birth/Age, Gender, "
+  },
+  {
+   "chunk_id": 61,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6765,
+   "evidence_ids": [
+    "eci-g8-registered-elector",
+    "eci-g8-replacement-epic",
+    "eci-g8-aadhaar-optional"
+   ],
+   "page": 1,
+   "excerpt": "To be appended to Form-8\nGUIDELINES FOR FILLING UP THE APPLICATION\nFORM-8\n1. General Instruction:-\n(a) The application can be made by a registered/enrolled elec"
+  },
+  {
+   "chunk_id": 62,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6718,
+   "evidence_ids": [
+    "eci-g8-new-constituency",
+    "eci-g8-address-proof",
+    "eci-g8-other-document"
+   ],
+   "page": 1,
+   "excerpt": "making application and fill the details in the relevant section of the application. All other\nsections which are not relevant should be struck off.\n4. Applicati"
+  },
+  {
+   "chunk_id": 4,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.6697,
+   "evidence_ids": [],
+   "page": null,
+   "excerpt": "Age between 5 and 15 years at the time of enrolment\n- The Aadhaar number holder should furnish all biometrics for updates when he/she attains age of 15 years.\nA"
+  },
+  {
+   "chunk_id": 79,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6615,
+   "evidence_ids": [
+    "rc-about",
+    "rc-within-14-days",
+    "rc-fee",
+    "rc-documents",
+    "rc-noc",
+    "rc-pencil-print",
+    "rc-pan"
+   ],
+   "page": null,
+   "excerpt": "Change Of Address\nAbout\nThe Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate o"
+  },
+  {
+   "chunk_id": 80,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6529,
+   "evidence_ids": [
+    "rc-some-states"
+   ],
+   "page": null,
+   "excerpt": "Reference\nThe Motor Vehicles Act 1988 (Section 49 of Chapter IV)\nThe Central Motor Vehicles Rules 1989\n(Rule 59)\nOfficial website of State Transport Department\n"
+  }
+ ],
+ "wf-interstate-dl-rc-en": [
+  {
+   "chunk_id": 79,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.7606,
+   "evidence_ids": [
+    "rc-about",
+    "rc-within-14-days",
+    "rc-fee",
+    "rc-documents",
+    "rc-noc",
+    "rc-pencil-print",
+    "rc-pan"
+   ],
+   "page": null,
+   "excerpt": "Change Of Address\nAbout\nThe Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate o"
+  },
+  {
+   "chunk_id": 69,
+   "source_url": "https://parivahan.gov.in/en/node/246",
+   "similarity": 0.7597,
+   "evidence_ids": [
+    "parivahan-dl-online",
+    "parivahan-dl-steps"
+   ],
+   "page": null,
+   "excerpt": "How to get the address changed in the Driving License?\nApplicants can apply ONLINE for change of address in Driving License.\nVisit https://sarathi.parivahan.gov"
+  },
+  {
+   "chunk_id": 81,
+   "source_url": "https://parivahan.gov.in/en/node/155",
+   "similarity": 0.7204,
+   "evidence_ids": [
+    "rc-online-change-of-address",
+    "rc-online-moved-to-rto"
+   ],
+   "page": null,
+   "excerpt": "How do I make changes to my details in Vehicle Registration Certificate?\na. Visit https://vahan.parivahan.gov.in/vahanservice/vahan/\nb. Enter your \"Vehicle Regi"
+  },
+  {
+   "chunk_id": 80,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.7154,
+   "evidence_ids": [
+    "rc-some-states"
+   ],
+   "page": null,
+   "excerpt": "Reference\nThe Motor Vehicles Act 1988 (Section 49 of Chapter IV)\nThe Central Motor Vehicles Rules 1989\n(Rule 59)\nOfficial website of State Transport Department\n"
+  },
+  {
+   "chunk_id": 82,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.6984,
+   "evidence_ids": [
+    "form33-title",
+    "form33-evidence-enclosed"
+   ],
+   "page": 1,
+   "excerpt": "FORM 33\nFORM 33\n[Refer Rule 59]\nINTIMATION OF CHANGE OF ADDRESS RECORDED IN THE CERTIFICATE\nOF REGISTRATION AND OFFICE RECORDS\n(To be made in triplicate if the "
+  },
+  {
+   "chunk_id": 70,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.6937,
+   "evidence_ids": [
+    "form2-change-of-address-service"
+   ],
+   "page": 1,
+   "excerpt": "FORM 2\nFORM 2\n[Refer Rules 10, 14, 17 and 18]\nFORM OF APPLICATION FOR LEARNER’S LICENCE OR DRIVING LICENCE\nOR ADDITION OF A NEW CLASS OF VEHICLE OR RENEWAL OF D"
+  },
+  {
+   "chunk_id": 65,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.691,
+   "evidence_ids": [
+    "eci-f8-shift-request",
+    "eci-f8-address-proof",
+    "eci-f8-utility-bill",
+    "eci-f8-aadhaar",
+    "eci-f8-passbook",
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "2.\nCorrection of Entries in Existing Electoral Roll (or)\n3.\nIssue of Replacement EPIC without correction (or)\n4.\nRequest for marking as Person with Disability\n1"
+  },
+  {
+   "chunk_id": 78,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.6784,
+   "evidence_ids": [],
+   "page": 5,
+   "excerpt": "applicant is applying for renewal and is above 40 years of\nage or applying for Transport Licence)\n3.\nDriving Certificate issued by Driving School or\nEstablishme"
+  },
+  {
+   "chunk_id": 83,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.6743,
+   "evidence_ids": [
+    "form33-rc-enclosed"
+   ],
+   "page": 1,
+   "excerpt": ".........................................................................................................................................................\nMy/Our"
+  },
+  {
+   "chunk_id": 32,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.6705,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-ration",
+    "uidai-poa-voter",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 9,
+   "excerpt": "Proof of Identity (PoI)\ndocument, containing\nname and photograph\nProof of Address (PoA)\ndocument, containing\nname and address in\nIndia\nProof of Relationship\n(Po"
+  },
+  {
+   "chunk_id": 23,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.6681,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 6,
+   "excerpt": "Means allowed | Means not allowed\nSl.\nNo.\nList of documents\n(see note below this tabular statement)\nProof of Identity (PoI)\ndocument, containing\nname and phot"
+  },
+  {
+   "chunk_id": 64,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.6653,
+   "evidence_ids": [
+    "eci-f8-epic-no",
+    "eci-f8-aadhaar-not-available"
+   ],
+   "page": 1,
+   "excerpt": "ELECTION COMMISSION OF INDIA\nForm-8\nFORM No.\n(To be filled by office)\nVoter Application Form for shifting of Residence/Correction of Entries in Existing Elector"
+  },
+  {
+   "chunk_id": 62,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6621,
+   "evidence_ids": [
+    "eci-g8-new-constituency",
+    "eci-g8-address-proof",
+    "eci-g8-other-document"
+   ],
+   "page": 1,
+   "excerpt": "making application and fill the details in the relevant section of the application. All other\nsections which are not relevant should be struck off.\n4. Applicati"
+  },
+  {
+   "chunk_id": 61,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6368,
+   "evidence_ids": [
+    "eci-g8-registered-elector",
+    "eci-g8-replacement-epic",
+    "eci-g8-aadhaar-optional"
+   ],
+   "page": 1,
+   "excerpt": "To be appended to Form-8\nGUIDELINES FOR FILLING UP THE APPLICATION\nFORM-8\n1. General Instruction:-\n(a) The application can be made by a registered/enrolled elec"
+  },
+  {
+   "chunk_id": 114,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.6203,
+   "evidence_ids": [],
+   "page": 6,
+   "excerpt": "•\nFor example, if you have changed your name from Vidhi Mehta to Aditi Mehta write the details in this column.\n•\nPlease follow the instructions as given in Colu"
+  },
+  {
+   "chunk_id": 130,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.6189,
+   "evidence_ids": [
+    "pp-poa-epic",
+    "pp-poa-gas",
+    "pp-poa-employer",
+    "pp-poa-list",
+    "pp-poa-water",
+    "pp-poa-telephone",
+    "pp-poa-electricity",
+    "pp-poa-it-order"
+   ],
+   "page": 12,
+   "excerpt": "Cannot apply under Tatkaal Scheme\n15\nECR Deletion\n1 (if address is different from old Passport), 3, 5\n1 (if address is different from old Passport), 3, 5\nPage 1"
+  },
+  {
+   "chunk_id": 5,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.6132,
+   "evidence_ids": [
+    "uidai-update-fields",
+    "uidai-online-mode",
+    "uidai-online-poa-upload"
+   ],
+   "page": null,
+   "excerpt": "will\nbe notified by UIDAI to update their biometrics\nAadhaar details that can be updated are:\nDemographic Information\nName, Address, Date of Birth/Age, Gender, "
+  },
+  {
+   "chunk_id": 8,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.5993,
+   "evidence_ids": [],
+   "page": null,
+   "excerpt": "In this section\nRegistered Mobile Number\nDemographic data update, the need could arise from:\nBiometric update, the need could arise from:\nAadhaar details that c"
+  }
+ ],
+ "wf-rc-blocked-en": [
+  {
+   "chunk_id": 79,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.7982,
+   "evidence_ids": [
+    "rc-about",
+    "rc-within-14-days",
+    "rc-fee",
+    "rc-documents",
+    "rc-noc",
+    "rc-pencil-print",
+    "rc-pan"
+   ],
+   "page": null,
+   "excerpt": "Change Of Address\nAbout\nThe Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate o"
+  },
+  {
+   "chunk_id": 81,
+   "source_url": "https://parivahan.gov.in/en/node/155",
+   "similarity": 0.7615,
+   "evidence_ids": [
+    "rc-online-change-of-address",
+    "rc-online-moved-to-rto"
+   ],
+   "page": null,
+   "excerpt": "How do I make changes to my details in Vehicle Registration Certificate?\na. Visit https://vahan.parivahan.gov.in/vahanservice/vahan/\nb. Enter your \"Vehicle Regi"
+  },
+  {
+   "chunk_id": 82,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.7324,
+   "evidence_ids": [
+    "form33-title",
+    "form33-evidence-enclosed"
+   ],
+   "page": 1,
+   "excerpt": "FORM 33\nFORM 33\n[Refer Rule 59]\nINTIMATION OF CHANGE OF ADDRESS RECORDED IN THE CERTIFICATE\nOF REGISTRATION AND OFFICE RECORDS\n(To be made in triplicate if the "
+  },
+  {
+   "chunk_id": 80,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.7222,
+   "evidence_ids": [
+    "rc-some-states"
+   ],
+   "page": null,
+   "excerpt": "Reference\nThe Motor Vehicles Act 1988 (Section 49 of Chapter IV)\nThe Central Motor Vehicles Rules 1989\n(Rule 59)\nOfficial website of State Transport Department\n"
+  },
+  {
+   "chunk_id": 69,
+   "source_url": "https://parivahan.gov.in/en/node/246",
+   "similarity": 0.7177,
+   "evidence_ids": [
+    "parivahan-dl-online",
+    "parivahan-dl-steps"
+   ],
+   "page": null,
+   "excerpt": "How to get the address changed in the Driving License?\nApplicants can apply ONLINE for change of address in Driving License.\nVisit https://sarathi.parivahan.gov"
+  },
+  {
+   "chunk_id": 83,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.7106,
+   "evidence_ids": [
+    "form33-rc-enclosed"
+   ],
+   "page": 1,
+   "excerpt": ".........................................................................................................................................................\nMy/Our"
+  },
+  {
+   "chunk_id": 65,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.7003,
+   "evidence_ids": [
+    "eci-f8-shift-request",
+    "eci-f8-address-proof",
+    "eci-f8-utility-bill",
+    "eci-f8-aadhaar",
+    "eci-f8-passbook",
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "2.\nCorrection of Entries in Existing Electoral Roll (or)\n3.\nIssue of Replacement EPIC without correction (or)\n4.\nRequest for marking as Person with Disability\n1"
+  },
+  {
+   "chunk_id": 37,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.6827,
+   "evidence_ids": [
+    "uidai-poa-gas",
+    "uidai-poa-insurance"
+   ],
+   "page": 11,
+   "excerpt": "with the Registrar Office, or registered or\nunregistered rent, lease agreement or leave\nand licence agreement\n\n\n\n\n25.\nGas bill (not older than 3 months)\n\n"
+  },
+  {
+   "chunk_id": 36,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.6824,
+   "evidence_ids": [
+    "uidai-poa-electricity",
+    "uidai-poa-water",
+    "uidai-poa-telephone",
+    "uidai-poa-property-tax",
+    "uidai-poa-sale-rent",
+    "uidai-poa-gas"
+   ],
+   "page": 11,
+   "excerpt": "Sl.\nNo.\nList of documents\n(see note below this tabular statement)\nProof of Identity (PoI)\ndocument, containing\nname and photograph\nProof of Address (PoA)\ndocume"
+  },
+  {
+   "chunk_id": 70,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.6715,
+   "evidence_ids": [
+    "form2-change-of-address-service"
+   ],
+   "page": 1,
+   "excerpt": "FORM 2\nFORM 2\n[Refer Rules 10, 14, 17 and 18]\nFORM OF APPLICATION FOR LEARNER’S LICENCE OR DRIVING LICENCE\nOR ADDITION OF A NEW CLASS OF VEHICLE OR RENEWAL OF D"
+  },
+  {
+   "chunk_id": 77,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.6671,
+   "evidence_ids": [
+    "form2-annexure-address-age",
+    "form2-aadhaar",
+    "form2-state-specified",
+    "form2-if-applicable"
+   ],
+   "page": 5,
+   "excerpt": "Motor Vehicles Rules, 1989)\nDate of\nTest\nResult\nPass/Fail\nThe Learner’s licence/Driving Licence is\nIssued Refused\nSignature of licensing authority\n(or other per"
+  },
+  {
+   "chunk_id": 66,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.6651,
+   "evidence_ids": [
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "4.\nIndian Passport\n5.\nRevenue Department's Land Owning records including Kisan Bahi\n6.\nRegistered Rent Lease Deed (In case of tenant)\n7.\nRegistered Sale Deed (I"
+  },
+  {
+   "chunk_id": 62,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6632,
+   "evidence_ids": [
+    "eci-g8-new-constituency",
+    "eci-g8-address-proof",
+    "eci-g8-other-document"
+   ],
+   "page": 1,
+   "excerpt": "making application and fill the details in the relevant section of the application. All other\nsections which are not relevant should be struck off.\n4. Applicati"
+  },
+  {
+   "chunk_id": 131,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.6394,
+   "evidence_ids": [
+    "pp-poa-spouse-passport",
+    "pp-poa-aadhaar",
+    "pp-poa-rent",
+    "pp-poa-passbook",
+    "pp-present-address-only"
+   ],
+   "page": 13,
+   "excerpt": "give address proof on company letter head along with seal. Computerized printouts shall not be entertained)\nh.\nSpouse’s passport copy (First and last page inclu"
+  },
+  {
+   "chunk_id": 114,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.639,
+   "evidence_ids": [],
+   "page": 6,
+   "excerpt": "•\nFor example, if you have changed your name from Vidhi Mehta to Aditi Mehta write the details in this column.\n•\nPlease follow the instructions as given in Colu"
+  },
+  {
+   "chunk_id": 61,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.635,
+   "evidence_ids": [
+    "eci-g8-registered-elector",
+    "eci-g8-replacement-epic",
+    "eci-g8-aadhaar-optional"
+   ],
+   "page": 1,
+   "excerpt": "To be appended to Form-8\nGUIDELINES FOR FILLING UP THE APPLICATION\nFORM-8\n1. General Instruction:-\n(a) The application can be made by a registered/enrolled elec"
+  },
+  {
+   "chunk_id": 5,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.6219,
+   "evidence_ids": [
+    "uidai-update-fields",
+    "uidai-online-mode",
+    "uidai-online-poa-upload"
+   ],
+   "page": null,
+   "excerpt": "will\nbe notified by UIDAI to update their biometrics\nAadhaar details that can be updated are:\nDemographic Information\nName, Address, Date of Birth/Age, Gender, "
+  }
+ ],
+ "abstain-passport-fee-en": [
+  {
+   "chunk_id": 143,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.7545,
+   "evidence_ids": [],
+   "page": 16,
+   "excerpt": "full validity passport)\nRs.2,500/-\nRs.2,500/-\n2.\nFresh Passport/Re-issue of Passport including additional booklet due to\nexhaustion of visa pages (60 pages) of "
+  },
+  {
+   "chunk_id": 144,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.7334,
+   "evidence_ids": [],
+   "page": 16,
+   "excerpt": "Rs.2,500/- *\nRs.2,500/-\n9.\nReplacement of Passport (60 pages) for deletion of ECR / Change in\npersonal particulars (10 year validity)\nRs.3,500/- *\nRs.2,500/-\n10"
+  },
+  {
+   "chunk_id": 79,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6791,
+   "evidence_ids": [
+    "rc-about",
+    "rc-within-14-days",
+    "rc-fee",
+    "rc-documents",
+    "rc-noc",
+    "rc-pencil-print",
+    "rc-pan"
+   ],
+   "page": null,
+   "excerpt": "Change Of Address\nAbout\nThe Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate o"
+  },
+  {
+   "chunk_id": 69,
+   "source_url": "https://parivahan.gov.in/en/node/246",
+   "similarity": 0.6555,
+   "evidence_ids": [
+    "parivahan-dl-online",
+    "parivahan-dl-steps"
+   ],
+   "page": null,
+   "excerpt": "How to get the address changed in the Driving License?\nApplicants can apply ONLINE for change of address in Driving License.\nVisit https://sarathi.parivahan.gov"
+  },
+  {
+   "chunk_id": 80,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6425,
+   "evidence_ids": [
+    "rc-some-states"
+   ],
+   "page": null,
+   "excerpt": "Reference\nThe Motor Vehicles Act 1988 (Section 49 of Chapter IV)\nThe Central Motor Vehicles Rules 1989\n(Rule 59)\nOfficial website of State Transport Department\n"
+  },
+  {
+   "chunk_id": 65,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.6409,
+   "evidence_ids": [
+    "eci-f8-shift-request",
+    "eci-f8-address-proof",
+    "eci-f8-utility-bill",
+    "eci-f8-aadhaar",
+    "eci-f8-passbook",
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "2.\nCorrection of Entries in Existing Electoral Roll (or)\n3.\nIssue of Replacement EPIC without correction (or)\n4.\nRequest for marking as Person with Disability\n1"
+  },
+  {
+   "chunk_id": 81,
+   "source_url": "https://parivahan.gov.in/en/node/155",
+   "similarity": 0.6365,
+   "evidence_ids": [
+    "rc-online-change-of-address",
+    "rc-online-moved-to-rto"
+   ],
+   "page": null,
+   "excerpt": "How do I make changes to my details in Vehicle Registration Certificate?\na. Visit https://vahan.parivahan.gov.in/vahanservice/vahan/\nb. Enter your \"Vehicle Regi"
+  },
+  {
+   "chunk_id": 32,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.6338,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-ration",
+    "uidai-poa-voter",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 9,
+   "excerpt": "Proof of Identity (PoI)\ndocument, containing\nname and photograph\nProof of Address (PoA)\ndocument, containing\nname and address in\nIndia\nProof of Relationship\n(Po"
+  },
+  {
+   "chunk_id": 82,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.6326,
+   "evidence_ids": [
+    "form33-title",
+    "form33-evidence-enclosed"
+   ],
+   "page": 1,
+   "excerpt": "FORM 33\nFORM 33\n[Refer Rule 59]\nINTIMATION OF CHANGE OF ADDRESS RECORDED IN THE CERTIFICATE\nOF REGISTRATION AND OFFICE RECORDS\n(To be made in triplicate if the "
+  },
+  {
+   "chunk_id": 64,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.6317,
+   "evidence_ids": [
+    "eci-f8-epic-no",
+    "eci-f8-aadhaar-not-available"
+   ],
+   "page": 1,
+   "excerpt": "ELECTION COMMISSION OF INDIA\nForm-8\nFORM No.\n(To be filled by office)\nVoter Application Form for shifting of Residence/Correction of Entries in Existing Elector"
+  },
+  {
+   "chunk_id": 35,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.6282,
+   "evidence_ids": [
+    "uidai-poa-passbook",
+    "uidai-poa-statement"
+   ],
+   "page": 10,
+   "excerpt": "established by a Central or State Act\n\n\n\n#\n15.\nPassbook issued by a scheduled commercial\nbank or a State cooperative bank having\nName and Photograph (cross "
+  },
+  {
+   "chunk_id": 63,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6225,
+   "evidence_ids": [],
+   "page": 1,
+   "excerpt": "box and attach the document in the support of his claim. The name of the document must be\nmentioned in the blank space given.\n(b) In case, the applicant desires"
+  }
+ ],
+ "abstain-aadhaar-time-hi": [
+  {
+   "chunk_id": 7,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.6972,
+   "evidence_ids": [],
+   "page": null,
+   "excerpt": "Aadhaar number holder gets an acknowledgement receipt with Update Request Number (URN) which can be tracked.\nb. Update Client Lite (UCL)\nFields\n: All demographi"
+  },
+  {
+   "chunk_id": 4,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.6848,
+   "evidence_ids": [],
+   "page": null,
+   "excerpt": "Age between 5 and 15 years at the time of enrolment\n- The Aadhaar number holder should furnish all biometrics for updates when he/she attains age of 15 years.\nA"
+  },
+  {
+   "chunk_id": 46,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.6794,
+   "evidence_ids": [],
+   "page": 14,
+   "excerpt": "iii. \u0007That the undersigned undertakes that, the above mentioned information is correct\nto the best of my knowledge and belief and at any point of time if any of"
+  },
+  {
+   "chunk_id": 49,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.6591,
+   "evidence_ids": [],
+   "page": 15,
+   "excerpt": "CHECKLIST FOR CERTIFIER\nSignature & Stamp of ther Certifier\nMera Aadhaar, Meri Pehchaan\nCERTIFICATE FOR AADHAAR ENROLMENT/ UPDATE (TO BE USED ONLY AS PROOF OF A"
+  },
+  {
+   "chunk_id": 79,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6288,
+   "evidence_ids": [
+    "rc-about",
+    "rc-within-14-days",
+    "rc-fee",
+    "rc-documents",
+    "rc-noc",
+    "rc-pencil-print",
+    "rc-pan"
+   ],
+   "page": null,
+   "excerpt": "Change Of Address\nAbout\nThe Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate o"
+  },
+  {
+   "chunk_id": 69,
+   "source_url": "https://parivahan.gov.in/en/node/246",
+   "similarity": 0.6185,
+   "evidence_ids": [
+    "parivahan-dl-online",
+    "parivahan-dl-steps"
+   ],
+   "page": null,
+   "excerpt": "How to get the address changed in the Driving License?\nApplicants can apply ONLINE for change of address in Driving License.\nVisit https://sarathi.parivahan.gov"
+  },
+  {
+   "chunk_id": 80,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.617,
+   "evidence_ids": [
+    "rc-some-states"
+   ],
+   "page": null,
+   "excerpt": "Reference\nThe Motor Vehicles Act 1988 (Section 49 of Chapter IV)\nThe Central Motor Vehicles Rules 1989\n(Rule 59)\nOfficial website of State Transport Department\n"
+  },
+  {
+   "chunk_id": 81,
+   "source_url": "https://parivahan.gov.in/en/node/155",
+   "similarity": 0.6098,
+   "evidence_ids": [
+    "rc-online-change-of-address",
+    "rc-online-moved-to-rto"
+   ],
+   "page": null,
+   "excerpt": "How do I make changes to my details in Vehicle Registration Certificate?\na. Visit https://vahan.parivahan.gov.in/vahanservice/vahan/\nb. Enter your \"Vehicle Regi"
+  },
+  {
+   "chunk_id": 65,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.6047,
+   "evidence_ids": [
+    "eci-f8-shift-request",
+    "eci-f8-address-proof",
+    "eci-f8-utility-bill",
+    "eci-f8-aadhaar",
+    "eci-f8-passbook",
+    "eci-f8-passport",
+    "eci-f8-land-records",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed"
+   ],
+   "page": 1,
+   "excerpt": "2.\nCorrection of Entries in Existing Electoral Roll (or)\n3.\nIssue of Replacement EPIC without correction (or)\n4.\nRequest for marking as Person with Disability\n1"
+  },
+  {
+   "chunk_id": 91,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.6014,
+   "evidence_ids": [],
+   "page": 2,
+   "excerpt": "Type of Application\nType of Police Verification\nDispatch of Passport\nPolice Verification is required on\nPre-Passport Issuance basis\nPassport is expected to be d"
+  },
+  {
+   "chunk_id": 61,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.601,
+   "evidence_ids": [
+    "eci-g8-registered-elector",
+    "eci-g8-replacement-epic",
+    "eci-g8-aadhaar-optional"
+   ],
+   "page": 1,
+   "excerpt": "To be appended to Form-8\nGUIDELINES FOR FILLING UP THE APPLICATION\nFORM-8\n1. General Instruction:-\n(a) The application can be made by a registered/enrolled elec"
+  },
+  {
+   "chunk_id": 64,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.5991,
+   "evidence_ids": [
+    "eci-f8-epic-no",
+    "eci-f8-aadhaar-not-available"
+   ],
+   "page": 1,
+   "excerpt": "ELECTION COMMISSION OF INDIA\nForm-8\nFORM No.\n(To be filled by office)\nVoter Application Form for shifting of Residence/Correction of Entries in Existing Elector"
+  },
+  {
+   "chunk_id": 62,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.5911,
+   "evidence_ids": [
+    "eci-g8-new-constituency",
+    "eci-g8-address-proof",
+    "eci-g8-other-document"
+   ],
+   "page": 1,
+   "excerpt": "making application and fill the details in the relevant section of the application. All other\nsections which are not relevant should be struck off.\n4. Applicati"
+  },
+  {
+   "chunk_id": 132,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.5841,
+   "evidence_ids": [
+    "pp-aadhaar-expedites"
+   ],
+   "page": 13,
+   "excerpt": "which he/she has been residing at the given address. However, he/she is required to mention all the place of stay\nduring previous one year in the Passport appli"
+  },
+  {
+   "chunk_id": 82,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.5804,
+   "evidence_ids": [
+    "form33-title",
+    "form33-evidence-enclosed"
+   ],
+   "page": 1,
+   "excerpt": "FORM 33\nFORM 33\n[Refer Rule 59]\nINTIMATION OF CHANGE OF ADDRESS RECORDED IN THE CERTIFICATE\nOF REGISTRATION AND OFFICE RECORDS\n(To be made in triplicate if the "
+  },
+  {
+   "chunk_id": 85,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "similarity": 0.5727,
+   "evidence_ids": [],
+   "page": 2,
+   "excerpt": "The Registering Authority ............................................\n(To be sent to both the parties by registered post acknowledgement due)\nSpecimen signatur"
+  }
+ ],
+ "abstain-pan-en": [
+  {
+   "chunk_id": 79,
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "similarity": 0.6515,
+   "evidence_ids": [
+    "rc-about",
+    "rc-within-14-days",
+    "rc-fee",
+    "rc-documents",
+    "rc-noc",
+    "rc-pencil-print",
+    "rc-pan"
+   ],
+   "page": null,
+   "excerpt": "Change Of Address\nAbout\nThe Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate o"
+  },
+  {
+   "chunk_id": 134,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.6468,
+   "evidence_ids": [],
+   "page": 13,
+   "excerpt": "g.\nPAN Card issued by the Income Tax Department having the date of birth of the applicant\nh.\nA declaration given by the Head of the Orphanage/Child Care Home on"
+  },
+  {
+   "chunk_id": 128,
+   "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+   "similarity": 0.6452,
+   "evidence_ids": [],
+   "page": 11,
+   "excerpt": "1 (if address is different from old Passport), 2, 5, 49\n1 (if address is different from old Passport ), 2, 5,49\nD\nLost/ Damaged beyond recognition/ Stolen\nPassp"
+  },
+  {
+   "chunk_id": 32,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.6321,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-ration",
+    "uidai-poa-voter",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 9,
+   "excerpt": "Proof of Identity (PoI)\ndocument, containing\nname and photograph\nProof of Address (PoA)\ndocument, containing\nname and address in\nIndia\nProof of Relationship\n(Po"
+  },
+  {
+   "chunk_id": 67,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.6291,
+   "evidence_ids": [],
+   "page": 2,
+   "excerpt": "3. Application for Issue of Replacement EPIC without correction\nI request that a replacement EPIC may be issued to me as my original EPIC is-\n(Put a tick in app"
+  },
+  {
+   "chunk_id": 64,
+   "source_url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+   "similarity": 0.6247,
+   "evidence_ids": [
+    "eci-f8-epic-no",
+    "eci-f8-aadhaar-not-available"
+   ],
+   "page": 1,
+   "excerpt": "ELECTION COMMISSION OF INDIA\nForm-8\nFORM No.\n(To be filled by office)\nVoter Application Form for shifting of Residence/Correction of Entries in Existing Elector"
+  },
+  {
+   "chunk_id": 23,
+   "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+   "similarity": 0.6234,
+   "evidence_ids": [
+    "uidai-poa-passport",
+    "uidai-poa-driving-licence-not-allowed"
+   ],
+   "page": 6,
+   "excerpt": "Means allowed | Means not allowed\nSl.\nNo.\nList of documents\n(see note below this tabular statement)\nProof of Identity (PoI)\ndocument, containing\nname and phot"
+  },
+  {
+   "chunk_id": 63,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6194,
+   "evidence_ids": [],
+   "page": 1,
+   "excerpt": "box and attach the document in the support of his claim. The name of the document must be\nmentioned in the blank space given.\n(b) In case, the applicant desires"
+  },
+  {
+   "chunk_id": 61,
+   "source_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+   "similarity": 0.6163,
+   "evidence_ids": [
+    "eci-g8-registered-elector",
+    "eci-g8-replacement-epic",
+    "eci-g8-aadhaar-optional"
+   ],
+   "page": 1,
+   "excerpt": "To be appended to Form-8\nGUIDELINES FOR FILLING UP THE APPLICATION\nFORM-8\n1. General Instruction:-\n(a) The application can be made by a registered/enrolled elec"
+  },
+  {
+   "chunk_id": 81,
+   "source_url": "https://parivahan.gov.in/en/node/155",
+   "similarity": 0.6113,
+   "evidence_ids": [
+    "rc-online-change-of-address",
+    "rc-online-moved-to-rto"
+   ],
+   "page": null,
+   "excerpt": "How do I make changes to my details in Vehicle Registration Certificate?\na. Visit https://vahan.parivahan.gov.in/vahanservice/vahan/\nb. Enter your \"Vehicle Regi"
+  },
+  {
+   "chunk_id": 69,
+   "source_url": "https://parivahan.gov.in/en/node/246",
+   "similarity": 0.6098,
+   "evidence_ids": [
+    "parivahan-dl-online",
+    "parivahan-dl-steps"
+   ],
+   "page": null,
+   "excerpt": "How to get the address changed in the Driving License?\nApplicants can apply ONLINE for change of address in Driving License.\nVisit https://sarathi.parivahan.gov"
+  },
+  {
+   "chunk_id": 70,
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+   "similarity": 0.6003,
+   "evidence_ids": [
+    "form2-change-of-address-service"
+   ],
+   "page": 1,
+   "excerpt": "FORM 2\nFORM 2\n[Refer Rules 10, 14, 17 and 18]\nFORM OF APPLICATION FOR LEARNER’S LICENCE OR DRIVING LICENCE\nOR ADDITION OF A NEW CLASS OF VEHICLE OR RENEWAL OF D"
+  },
+  {
+   "chunk_id": 8,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.5946,
+   "evidence_ids": [],
+   "page": null,
+   "excerpt": "In this section\nRegistered Mobile Number\nDemographic data update, the need could arise from:\nBiometric update, the need could arise from:\nAadhaar details that c"
+  },
+  {
+   "chunk_id": 5,
+   "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+   "similarity": 0.5913,
+   "evidence_ids": [
+    "uidai-update-fields",
+    "uidai-online-mode",
+    "uidai-online-poa-upload"
+   ],
+   "page": null,
+   "excerpt": "will\nbe notified by UIDAI to update their biometrics\nAadhaar details that can be updated are:\nDemographic Information\nName, Address, Date of Birth/Age, Gender, "
+  }
+ ]
+}

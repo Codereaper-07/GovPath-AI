@@ -1,0 +1,123 @@
+{
+  "slug": "voter-id-address-change-form-8",
+  "name": "Voter ID address change (Form 8 - shifting of residence)",
+  "name_hi": "मतदाता पहचान पत्र में पता परिवर्तन (फ़ॉर्म 8 – निवास स्थानांतरण)",
+  "description": "An enrolled elector who has shifted residence applies in Form 8 to the Electoral Registration Officer of the constituency where the new address is. A replacement EPIC is issued on approval.",
+  "description_hi": "निवास बदलने वाला पंजीकृत मतदाता फ़ॉर्म 8 में उस निर्वाचन क्षेत्र के निर्वाचक रजिस्ट्रीकरण अधिकारी को आवेदन करता है जहाँ नया पता स्थित है। स्वीकृति पर प्रतिस्थापन EPIC जारी किया जाता है।",
+  "authority": "Election Commission of India (ECI)",
+  "jurisdiction": "national",
+  "state": null,
+  "category": "elections",
+  "application_form": "Form 8",
+  "official_info_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+  "application_url": "https://voters.eci.gov.in/",
+  "last_verified_on": "2026-11-14",
+  "verification_notes": "Based on the ECI Form 8 and its guidelines. Form 8 also accepts other address-proof documents ('Any Other') that are not listed; only the listed documents are modelled. The Aadhaar number is optional; the applicant can declare that they don't have one.",
+  "evidence": [
+    "eci-g8-new-constituency",
+    "eci-f8-shift-request"
+  ],
+  "requirements": [
+    {
+      "slug": "existing-enrolment",
+      "name": "Existing Voter ID (EPIC) number",
+      "name_hi": "मौजूदा मतदाता पहचान पत्र (EPIC) नंबर",
+      "type": "mandatory",
+      "description": "Form 8 shifting is for an elector who is already registered/enrolled.",
+      "notes": "If you are not enrolled yet, Form 8 is not the right form. Enrolment is outside the current knowledge base.",
+      "evidence": [
+        "eci-g8-registered-elector",
+        "eci-f8-epic-no"
+      ],
+      "options": [
+        {
+          "document": "epic_existing"
+        }
+      ]
+    },
+    {
+      "slug": "proof-of-address",
+      "name": "Proof of new address (any one)",
+      "name_hi": "नए पते का प्रमाण (कोई एक)",
+      "type": "mandatory",
+      "description": "Self-attested copy of any one listed document for the new address.",
+      "notes": "May be in the name of the applicant or of a parent/spouse/adult child already enrolled at the same address. Other documents may be named under 'Any Other'.",
+      "evidence": [
+        "eci-g8-address-proof",
+        "eci-f8-address-proof",
+        "eci-g8-other-document"
+      ],
+      "options": [
+        {
+          "document": "electricity_bill",
+          "notes": "Connection bill for that address (at least 1 year).",
+          "evidence": "eci-f8-utility-bill"
+        },
+        {
+          "document": "water_bill",
+          "notes": "Connection bill for that address (at least 1 year).",
+          "evidence": "eci-f8-utility-bill"
+        },
+        {
+          "document": "gas_bill",
+          "notes": "Connection bill for that address (at least 1 year).",
+          "evidence": "eci-f8-utility-bill"
+        },
+        {
+          "document": "aadhaar_current_address",
+          "evidence": "eci-f8-aadhaar"
+        },
+        {
+          "document": "bank_or_post_office_passbook",
+          "notes": "Current passbook of a Nationalized/Scheduled Bank or Post Office.",
+          "evidence": "eci-f8-passbook"
+        },
+        {
+          "document": "passport_current_address",
+          "evidence": "eci-f8-passport"
+        },
+        {
+          "document": "land_records",
+          "evidence": "eci-f8-land-records"
+        },
+        {
+          "document": "rent_or_lease_agreement",
+          "notes": "Must be a registered rent lease deed (tenants).",
+          "evidence": "eci-f8-rent-deed"
+        },
+        {
+          "document": "registered_sale_deed",
+          "notes": "Registered sale deed (own house).",
+          "evidence": "eci-f8-sale-deed"
+        }
+      ]
+    },
+    {
+      "slug": "aadhaar-number",
+      "name": "Aadhaar number (for authentication of entries)",
+      "name_hi": "आधार नंबर (प्रविष्टियों के प्रमाणीकरण हेतु)",
+      "type": "optional",
+      "description": "Requested for authentication, but an applicant without Aadhaar can declare that instead.",
+      "evidence": [
+        "eci-g8-aadhaar-optional",
+        "eci-f8-aadhaar-not-available"
+      ],
+      "options": [
+        {
+          "document": "aadhaar_number"
+        }
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "document": "voter_id_current_address",
+      "evidence": "eci-g8-replacement-epic"
+    },
+    {
+      "document": "electoral_roll_entry_current_address",
+      "evidence": "eci-f8-shift-request"
+    }
+  ],
+  "prerequisites": []
+}

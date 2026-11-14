@@ -1,0 +1,169 @@
+[
+  {
+    "url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+    "title": "Updating Data on Aadhaar - UIDAI",
+    "authority": "Unique Identification Authority of India (UIDAI)",
+    "source_type": "webpage",
+    "verified_on": "2026-11-14",
+    "evidence": [
+      {"key": "uidai-update-fields", "excerpt": "Aadhaar details that can be updated are: Demographic Information Name, Address, Date of Birth/Age, Gender, Mobile Number, Email Address, Relationship Status and Information Sharing Consent"},
+      {"key": "uidai-online-mode", "excerpt": "The online mode offers address update to the Aadhaar number holders where the Aadhaar number holder can directly place the address update request on the myAadhaar portal. The Aadhaar number holder needs to have mobile number registered with Aadhaar for using this service. The Aadhaar number is required to login to the"},
+      {"key": "uidai-online-poa-upload", "excerpt": "To complete the update process, Aadhaar number holder needs to upload the supporting POA documents"},
+      {"key": "uidai-centre-mode", "excerpt": "Aadhaar number holders place the demographic/biometric update request with the help of an operator at an Aadhaar Enrolment Centre"}
+    ]
+  },
+  {
+    "url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+    "title": "List of Acceptable Documents for Enrolment and Update - UIDAI",
+    "authority": "Unique Identification Authority of India (UIDAI)",
+    "source_type": "pdf",
+    "verified_on": "2026-11-14",
+    "evidence": [
+      {"key": "uidai-list4-heading", "excerpt": "List IV -Documents that may be presented to evidence Proof of Identity, Address, Relationship or Date of Birth for update of information in respect of Aadhaar Number Holder of any age", "locator": "List IV, page 9"},
+      {"key": "uidai-list4-own-name", "excerpt": "PoI, PoA, PoR and PDB documents submitted for update must be issued in the name of the individual seeking update", "locator": "List IV, Note (b)(iii), page 13"},
+      {"key": "uidai-poa-passport", "excerpt": "1. Valid Indian Passport", "locator": "List IV, Sl. No. 1, page 9", "note": "PoA column marked 'allowed'. The allowed/not-allowed marks are images; checked visually on the rendered page."},
+      {"key": "uidai-poa-ration", "excerpt": "2. Ration / PDS Photograph Card / e-Ration Card", "locator": "List IV, Sl. No. 2, page 9", "note": "PoA column marked 'allowed' (checked visually)."},
+      {"key": "uidai-poa-voter", "excerpt": "3. Voter Identity Card /e-Voter Identity Card, whose details are displayed online on the website of the Election Commission of India or the Chief Electoral Officer concerned", "locator": "List IV, Sl. No. 3, page 9", "note": "PoA column marked 'allowed' (checked visually)."},
+      {"key": "uidai-poa-driving-licence-not-allowed", "excerpt": "4. Driving licence", "locator": "List IV, Sl. No. 4, page 9", "note": "PoA column marked 'NOT allowed' (checked visually). A driving licence is accepted as proof of identity only, so it is deliberately not modelled as an address proof for Aadhaar update."},
+      {"key": "uidai-poa-passbook", "excerpt": "15. Passbook issued by a scheduled commercial bank or a State cooperative bank having Name and Photograph (cross stamped with Bank seal) and signed by bank official/ Post Office Savings Account Passbook (with stamp and signature of issuing official of post office)", "locator": "List IV, Sl. No. 15, page 10", "note": "PoA column marked 'allowed' (checked visually)."},
+      {"key": "uidai-poa-statement", "excerpt": "16. Bank Account Statement/ Credit Card Statement (with Bank stamp & signature of issuing bank official)/ Post Office Savings Account Statement (with stamp and signature of issuing official of post office) (not older than 3 months)", "locator": "List IV, Sl. No. 16, page 10", "note": "PoA column marked 'allowed' (checked visually)."},
+      {"key": "uidai-poa-certificate", "excerpt": "19. Certificate issued on UIDAI Standard Certificate format by:", "locator": "List IV, Sl. No. 19, pages 10-11", "note": "PoA column marked 'allowed' for sub-items i-vii (checked visually)."},
+      {"key": "uidai-poa-electricity", "excerpt": "20. Electricity bill (pre-paid/post-paid bill, not older than 3 months)", "locator": "List IV, Sl. No. 20, page 11", "note": "PoA column marked 'allowed' (checked visually)."},
+      {"key": "uidai-poa-water", "excerpt": "21. Water bill (not older than 3 months)", "locator": "List IV, Sl. No. 21, page 11", "note": "PoA column marked 'allowed' (checked visually)."},
+      {"key": "uidai-poa-telephone", "excerpt": "22. Telephone landline bill/ post-paid mobile bill/ broadband bill (not older than 3 months)", "locator": "List IV, Sl. No. 22, page 11", "note": "PoA column marked 'allowed' (checked visually)."},
+      {"key": "uidai-poa-property-tax", "excerpt": "23. Property Tax Receipt (not older than 1 year)", "locator": "List IV, Sl. No. 23, page 11", "note": "PoA column marked 'allowed' (checked visually)."},
+      {"key": "uidai-poa-sale-rent", "excerpt": "24. Valid sale agreement/ gift deed registered with the Registrar Office, or registered or unregistered rent, lease agreement or leave and licence agreement", "locator": "List IV, Sl. No. 24, page 11", "note": "PoA column marked 'allowed' (checked visually)."},
+      {"key": "uidai-poa-gas", "excerpt": "25. Gas bill (not older than 3 months)", "locator": "List IV, Sl. No. 25, page 11", "note": "PoA column marked 'allowed' (checked visually)."},
+      {"key": "uidai-poa-insurance", "excerpt": "27. Life or medical insurance Policy (valid up to 1 year from the date of issue of the Policy)", "locator": "List IV, Sl. No. 27, page 11", "note": "PoA column marked 'allowed' (checked visually)."}
+    ]
+  },
+  {
+    "url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+    "title": "Guidelines for filling up the application Form-8 - ECI",
+    "authority": "Election Commission of India (ECI)",
+    "source_type": "pdf",
+    "verified_on": "2026-11-14",
+    "evidence": [
+      {"key": "eci-g8-registered-elector", "excerpt": "The application can be made by a registered/enrolled elector for shifting of residence", "locator": "Guideline 1(a)"},
+      {"key": "eci-g8-replacement-epic", "excerpt": "a new replacement EPIC will be issued to the applicant", "locator": "Guideline 1(b)"},
+      {"key": "eci-g8-aadhaar-optional", "excerpt": "If the applicant does not have Aadhaar number, the same may be mentioned in box at item I (b).", "locator": "Guideline 2"},
+      {"key": "eci-g8-new-constituency", "excerpt": "The application has to be made to the Electoral Registration Officer of the constituency in which the new address of the applicant is located.", "locator": "Guideline 4(a)"},
+      {"key": "eci-g8-address-proof", "excerpt": "attach a self-attested copy of any one of the mentioned documents as address proof in his own name or in name of his parents/spouse.", "locator": "Guideline 4(b)"},
+      {"key": "eci-g8-other-document", "excerpt": "If he does not possess any of the mentioned documents, he has to mention name of the other document given for address proof in the blank space.", "locator": "Guideline 4(b)"}
+    ]
+  },
+  {
+    "url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+    "title": "Form-8: Voter application form for shifting of residence - ECI",
+    "authority": "Election Commission of India (ECI)",
+    "source_type": "pdf",
+    "verified_on": "2026-11-14",
+    "evidence": [
+      {"key": "eci-f8-epic-no", "excerpt": "(I) Name of the applicant EPIC No.", "locator": "Form 8, item (I)"},
+      {"key": "eci-f8-aadhaar-not-available", "excerpt": "I am not able to furnish my Aadhaar Number because I don't have Aadhaar Number.", "locator": "Form 8, item (I)(b)"},
+      {"key": "eci-f8-shift-request", "excerpt": "I have shifted my residence and I request that my name may be deleted from the previous address and shifted to the current address mentioned below.", "locator": "Form 8, section 1"},
+      {"key": "eci-f8-address-proof", "excerpt": "Self-attested copy of address proof either in the name of applicant or anyone of the parents/spouse/adult child, if already enrolled with as elector at the same address (Attach any one of the documents mentioned below ^):-", "locator": "Form 8, section 1"},
+      {"key": "eci-f8-utility-bill", "excerpt": "Water/Electricity/Gas connection Bill for that address (atleast 1 year)", "locator": "Form 8, section 1, document 1"},
+      {"key": "eci-f8-aadhaar", "excerpt": "2. Aadhaar Card", "locator": "Form 8, section 1, document 2"},
+      {"key": "eci-f8-passbook", "excerpt": "Current passbook of Nationalized/Scheduled Bank/Post Office", "locator": "Form 8, section 1, document 3"},
+      {"key": "eci-f8-passport", "excerpt": "4. Indian Passport", "locator": "Form 8, section 1, document 4"},
+      {"key": "eci-f8-land-records", "excerpt": "Revenue Department's Land Owning records including Kisan Bahi", "locator": "Form 8, section 1, document 5"},
+      {"key": "eci-f8-rent-deed", "excerpt": "Registered Rent Lease Deed (In case of tenant)", "locator": "Form 8, section 1, document 6"},
+      {"key": "eci-f8-sale-deed", "excerpt": "Registered Sale Deed (In case of own house)", "locator": "Form 8, section 1, document 7"}
+    ]
+  },
+  {
+    "url": "https://parivahan.gov.in/en/node/246",
+    "title": "How to get the address changed in the Driving License? - Parivahan Sewa",
+    "authority": "Ministry of Road Transport and Highways (Parivahan Sewa)",
+    "source_type": "webpage",
+    "verified_on": "2026-11-14",
+    "evidence": [
+      {"key": "parivahan-dl-online", "excerpt": "Applicants can apply ONLINE for change of address in Driving License."},
+      {"key": "parivahan-dl-steps", "excerpt": "Enter the Driving License Number and Date of Birth and click on Get Drivers License Details button. Then select Change of Address from the list of services provided."}
+    ]
+  },
+  {
+    "url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+    "title": "CMVR Form 2: Application for licence, renewal, change of address or name",
+    "authority": "Ministry of Road Transport and Highways (Parivahan Sewa)",
+    "source_type": "pdf",
+    "verified_on": "2026-11-14",
+    "evidence": [
+      {"key": "form2-change-of-address-service", "excerpt": "Change/Correction of Address in Driving Licence", "locator": "Form 2, services applying for"},
+      {"key": "form2-address-proof-required", "excerpt": "Address (proof to be enclosed, in case of New Learner's Licence or New Driving Licence or Change of Address)", "locator": "Form 2, item 4"},
+      {"key": "form2-address-printed", "excerpt": "Present Address (shall be printed on Licence)", "locator": "Form 2, item 4"},
+      {"key": "form2-existing-licence", "excerpt": "Particulars of existing Licence (Learner's or Permanent)", "locator": "Form 2, item 6"},
+      {"key": "form2-annexure-address-age", "excerpt": "Proof of Address and Age. (Select only one if the proof is common for Address and Age)", "locator": "Form 2, Annexure"},
+      {"key": "form2-aadhaar", "excerpt": "1. Aadhaar Card 2. Electoral Roll 3. Life Insurance Policy 4. Passport", "locator": "Form 2, Annexure, items 1-4"},
+      {"key": "form2-state-specified", "excerpt": "Any other document or documents as may be specified by State Government", "locator": "Form 2, Annexure, item 10"},
+      {"key": "form2-if-applicable", "excerpt": "Other documents to be enclosed or uploaded if applicable", "locator": "Form 2, Annexure"}
+    ]
+  },
+  {
+    "url": "https://parivahan.gov.in/en/content/address-change",
+    "title": "Change Of Address (Vehicle Registration) - Parivahan Sewa",
+    "authority": "Ministry of Road Transport and Highways (Parivahan Sewa)",
+    "source_type": "webpage",
+    "verified_on": "2026-11-14",
+    "evidence": [
+      {"key": "rc-about", "excerpt": "The Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate of registration of the motor vehicle."},
+      {"key": "rc-within-14-days", "excerpt": "Apply for recording the change in residence (within 14 days of address changed) in the certificate of registration of a motor vehicle of the registered owner of the vehicle in"},
+      {"key": "rc-fee", "excerpt": "Pay appropriate fee as specified in rule 81 of the Central Motor Vehicle Rules 1989"},
+      {"key": "rc-documents", "excerpt": "Documents required Application in Form 33 Certificate of registration Proof of new address Valid insurance certificate Pollution under control certificate"},
+      {"key": "rc-noc", "excerpt": "No Objection Certificate from financier (in case of hypothecation)"},
+      {"key": "rc-pan", "excerpt": "Attested copy of PAN card or Form 60 and Form 61 (as applicable)"},
+      {"key": "rc-pencil-print", "excerpt": "Pencil Print of Chassis & Engine Number"},
+      {"key": "rc-some-states", "excerpt": "Documents marked with asterisk (*) may be required in some states."}
+    ]
+  },
+  {
+    "url": "https://parivahan.gov.in/en/node/155",
+    "title": "How do I make changes to my details in Vehicle Registration Certificate? - Parivahan Sewa",
+    "authority": "Ministry of Road Transport and Highways (Parivahan Sewa)",
+    "source_type": "webpage",
+    "verified_on": "2026-11-14",
+    "evidence": [
+      {"key": "rc-online-change-of-address", "excerpt": "Select \"Change Of Address\""},
+      {"key": "rc-online-moved-to-rto", "excerpt": "After this application will be moved to RTO for further processing"}
+    ]
+  },
+  {
+    "url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+    "title": "CMVR Form 33: Intimation of change of address in the certificate of registration",
+    "authority": "Ministry of Road Transport and Highways (Parivahan Sewa)",
+    "source_type": "pdf",
+    "verified_on": "2026-11-14",
+    "evidence": [
+      {"key": "form33-title", "excerpt": "INTIMATION OF CHANGE OF ADDRESS RECORDED IN THE CERTIFICATE OF REGISTRATION AND OFFICE RECORDS"},
+      {"key": "form33-evidence-enclosed", "excerpt": "The present address is given below (evidence to be enclosed)."},
+      {"key": "form33-rc-enclosed", "excerpt": "The certificate of registration is enclosed. I/We request that the change of address may be recorded in the certificate of registration and Form 24."}
+    ]
+  },
+  {
+    "url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+    "title": "Instructions for filling of passport application form (booklet V3.0) - Passport Seva",
+    "authority": "Ministry of External Affairs (Passport Seva)",
+    "source_type": "pdf",
+    "verified_on": "2026-11-14",
+    "evidence": [
+      {"key": "pp-reissue-change-particulars", "excerpt": "You want to change the personal particulars or other details specified in your current passport and get a booklet with changed details.", "locator": "Section C, Column 1.2"},
+      {"key": "pp-reissue-old-passport", "excerpt": "For re-issue of passport, an applicant is required to submit old Passport in original with self-attested photocopy of its first two and last two pages", "locator": "Section D"},
+      {"key": "pp-poa-if-different", "excerpt": "Proof of address has to be submitted only if it is different from the old passport.", "locator": "Section D"},
+      {"key": "pp-poa-list", "excerpt": "Proof of Present Address. For Proof of Address attach one of the following documents:", "locator": "Table 3, Document No. 1"},
+      {"key": "pp-poa-water", "excerpt": "a. Water Bill", "locator": "Table 3, Document No. 1(a)"},
+      {"key": "pp-poa-telephone", "excerpt": "b. Telephone (landline or postpaid mobile bill)", "locator": "Table 3, Document No. 1(b)"},
+      {"key": "pp-poa-electricity", "excerpt": "c. Electricity bill", "locator": "Table 3, Document No. 1(c)"},
+      {"key": "pp-poa-it-order", "excerpt": "d. Income Tax Assessment Order", "locator": "Table 3, Document No. 1(d)"},
+      {"key": "pp-poa-epic", "excerpt": "e. Election Commission Photo ID card", "locator": "Table 3, Document No. 1(e)"},
+      {"key": "pp-poa-gas", "excerpt": "f. Gas connection bill", "locator": "Table 3, Document No. 1(f)"},
+      {"key": "pp-poa-employer", "excerpt": "g. Certificate from Employer of reputed and widely known companies on letter head", "locator": "Table 3, Document No. 1(g)"},
+      {"key": "pp-poa-spouse-passport", "excerpt": "provided the applicant's present address matches the address mentioned in the spouse's passport", "locator": "Table 3, Document No. 1(h)"},
+      {"key": "pp-poa-aadhaar", "excerpt": "j. Aadhaar Letter/ Card", "locator": "Table 3, Document No. 1(j)"},
+      {"key": "pp-poa-rent", "excerpt": "k. Rent Agreement", "locator": "Table 3, Document No. 1(k)"},
+      {"key": "pp-poa-passbook", "excerpt": "l. Photo passbook of running Bank Account", "locator": "Table 3, Document No. 1(l)"},
+      {"key": "pp-aadhaar-expedites", "excerpt": "Furnishing of Aadhaar card will expedite processing of passport applications.", "locator": "Table 3, Document No. 1, Note (iii)"},
+      {"key": "pp-present-address-only", "excerpt": "Applicants are required to submit the proof of address of the present address only", "locator": "Table 3, Document No. 1, Note (i)"}
+    ]
+  }
+]

@@ -1,0 +1,265 @@
+{
+  "app": {
+    "name": "GovPath AI",
+    "tagline": "Your guide to government services",
+    "disclaimer": "GovPath AI is an informational guide. It does not submit applications, guarantee eligibility or give legal advice. Requirements come from official sources verified on the dates shown; always confirm on the official website before applying."
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "services": "Services",
+    "planner": "Workflow planner",
+    "documents": "Documents",
+    "assistant": "Assistant"
+  },
+  "language": {
+    "label": "Language"
+  },
+  "badge": {
+    "verified": "Verified",
+    "ai": "AI-generated"
+  },
+  "status": {
+    "title": "System status",
+    "api": "Backend API",
+    "database": "Database",
+    "pgvector": "pgvector extension",
+    "ok": "Connected",
+    "unconfigured": "Not configured",
+    "error": "Error",
+    "loading": "Checking…",
+    "unreachable": "Unreachable"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "intro": "Plan the steps, documents and order needed to update your address across Indian government services.",
+    "servicesInScope": "Services in scope"
+  },
+  "services": {
+    "title": "Government services",
+    "empty": "No services are available yet.",
+    "intro": "Verified requirements for changing your address, taken from official government sources.",
+    "loadError": "Could not load the service information.",
+    "partlyVerified": "{{verified}} of {{total}} requirements verified",
+    "authority": "Authority",
+    "lastVerified": "Last verified {{date}}",
+    "viewRequirements": "View requirements",
+    "officialSite": "Official website"
+  },
+  "planner": {
+    "title": "Workflow planner",
+    "intro": "Choose what you need to update and tick the documents you already have. GovPath works out the order, what is missing and what to do next.",
+    "step1": "1. What do you need to update?",
+    "step1Hint": "Select one or more services.",
+    "step2": "2. Which documents do you have?",
+    "step2Hint": "Tick documents that already show your new address, plus the records being updated.",
+    "ownedCount_one": "{{count}} selected",
+    "ownedCount_other": "{{count}} selected",
+    "selectServiceFirst": "Select a service to see the documents it accepts.",
+    "wouldHelp": "would unblock a step",
+    "showRelevant": "Show only relevant documents",
+    "showAll_one": "Show {{count}} more document",
+    "showAll_other": "Show {{count}} more documents",
+    "anyOneOf": "any one of: {{documents}}",
+    "nextAction": "Your next step",
+    "startService": "Start: {{service}}",
+    "obtainDocument": "Get a missing document",
+    "allDone": "All selected services are done",
+    "tickWhenYouHaveIt": "Tick a document once you have it, and the plan will update:",
+    "howToApply": "How to apply",
+    "markDone": "Mark as done",
+    "deterministicNote": "This plan is calculated by fixed rules from verified official requirements, not by AI.",
+    "timeline": "Your plan",
+    "stage": "Group {{n}}",
+    "parallelHint_one": "{{count}} step",
+    "parallelHint_other": "{{count}} independent steps: do them in any order or at the same time",
+    "completed": "Completed",
+    "undo": "Undo",
+    "why": {
+      "target": "You selected this service.",
+      "prerequisite": "Officially required before: {{services}}.",
+      "acquisition": "Added to get {{document}}, which {{service}} accepts."
+    },
+    "noDependencies": "Does not depend on any other step.",
+    "waitsFor": "Waits for {{service}}.",
+    "waitsForDocument": "Waits for {{service}} (to get {{document}}).",
+    "missingNoRoute": "You need one of these documents. No service in GovPath issues them, so obtain any one yourself.",
+    "blockersTitle_one": "What's blocking you ({{count}})",
+    "blockersTitle_other": "What's blocking you ({{count}})",
+    "generate": "Generate my plan",
+    "autoUpdate": "The plan updates automatically when you change your selections.",
+    "startOver": "Start over",
+    "readyToGenerate": "Ready when you are",
+    "emptyTitle": "Select at least one service to begin",
+    "emptyHint": "Then tick the documents you have and press “Generate my plan”.",
+    "unknownIds": "Some saved selections are no longer available. Remove them and recalculate?",
+    "planError": "The plan could not be calculated.",
+    "generating": "Calculating your plan…",
+    "updating": "Updating plan…",
+    "countReady_one": "{{count}} ready",
+    "countReady_other": "{{count}} ready",
+    "countWaiting_one": "{{count}} waiting",
+    "countWaiting_other": "{{count}} waiting",
+    "countBlocked_one": "{{count}} blocked",
+    "countBlocked_other": "{{count}} blocked",
+    "countCompleted_one": "{{count}} done",
+    "countCompleted_other": "{{count}} done",
+    "andMore_one": "+{{count}} more",
+    "andMore_other": "+{{count}} more",
+    "alsoWaiting": "Also on hold until these are resolved: {{services}}."
+  },
+  "documents": {
+    "title": "Documents",
+    "intro": "Every document GovPath knows about, which services accept it, and which services issue it.",
+    "acceptedBy": "Accepted by",
+    "issuedBy": "Issued or updated by"
+  },
+  "assistant": {
+    "title": "Assistant",
+    "intro": "Ask questions in plain English or Hindi. Answers are AI-generated explanations grounded in official government sources, with citations.",
+    "questionLabel": "Your question",
+    "placeholder": "e.g. Which documents prove my new address for a passport reissue?",
+    "chars": "{{count}} / {{max}}",
+    "usePlan": "Use my saved plan from the planner",
+    "ask": "Ask",
+    "thinking": "Answering…",
+    "searching": "Searching official sources and preparing an answer…",
+    "example1": "Which documents can I use as proof of address for Aadhaar?",
+    "example2": "Do I need to update Aadhaar before changing my voter ID address?",
+    "example3": "What do I need to change the address on my vehicle RC?",
+    "quotaNote": "The assistant uses a limited free AI quota. Repeated questions are answered from cache.",
+    "empty": "Ask a question to get an explanation with official sources.",
+    "sources": "Official sources",
+    "kindExcerpt": "Official excerpt",
+    "kindFact": "Verified fact",
+    "page": "page {{page}}",
+    "showExcerpt": "Show supporting excerpt",
+    "disclaimer": "AI-generated explanation based on the official sources above. It is not an official government decision; please verify on the official website.",
+    "planContext": "From your plan (calculated by fixed rules, not AI):",
+    "planNext": "Next step: {{service}}",
+    "planType": {
+      "start_service": "Start the next service.",
+      "obtain_document": "First obtain a missing document.",
+      "none": "All selected services are done."
+    },
+    "status": {
+      "sufficient": "Grounded in official sources",
+      "partial": "Partly supported by sources",
+      "insufficient": "Not enough evidence",
+      "conflicting": "Sources conflict"
+    },
+    "error": {
+      "quota_exhausted": "The AI assistant has reached its usage limit for now. Please try again later — the Services and Planner pages still work.",
+      "rate_limited": "Too many questions in a short time. Please wait a moment and try again.",
+      "assistant_not_configured": "The AI assistant is not configured on this server.",
+      "index_not_built": "The assistant's official-source index has not been built yet.",
+      "model_unavailable": "The AI service is temporarily unavailable. Please try again shortly.",
+      "model_error": "The AI service could not produce an answer. Please rephrase and try again.",
+      "unknown_ids": "Your saved plan contains selections that no longer exist. Update it in the planner.",
+      "validation": "Please enter a question between 3 and 1000 characters.",
+      "generic": "Something went wrong while answering. Please try again."
+    }
+  },
+  "scope": {
+    "aadhaar": "Aadhaar address update",
+    "voter": "Voter ID address change (Form 8)",
+    "dl": "Driving licence address change",
+    "rc": "Vehicle RC address change",
+    "passport": "Passport reissue for change of address"
+  },
+  "comingSoon": "Coming soon",
+  "notFound": {
+    "title": "Page not found",
+    "back": "Back to dashboard"
+  },
+  "common": {
+    "loading": "Loading…",
+    "error": "Something went wrong.",
+    "retry": "Try again",
+    "listSeparator": ", ",
+    "networkError": "Cannot reach the GovPath server. Check your connection and try again.",
+    "dbUnavailable": "The knowledge base is temporarily unavailable."
+  },
+  "verification": {
+    "unverified": "Not verified",
+    "needs_review": "Needs review (source changed)",
+    "rejected": "Rejected"
+  },
+  "evidence": {
+    "toggle_one": "Official source ({{count}})",
+    "toggle_other": "Official sources ({{count}})",
+    "verifiedOn": "verified {{date}}",
+    "note": "Note",
+    "quotedInEnglish": "Quotations are shown exactly as published (in English)."
+  },
+  "jurisdiction": {
+    "national": "National service",
+    "state": "State-run service"
+  },
+  "serviceDetail": {
+    "notFound": "This service was not found.",
+    "back": "All services",
+    "lastVerified": "Last verified",
+    "apply": "Apply on the official portal",
+    "planThis": "Plan this service",
+    "group": {
+      "mandatory": "Mandatory documents",
+      "optional": "Optional documents",
+      "conditional": "Needed only in some cases"
+    },
+    "groupHint": {
+      "mandatory": "You must provide each of these. Where a list is shown, any one document is enough.",
+      "optional": "Helpful, but you can apply without them.",
+      "conditional": "Required only in the situation described."
+    },
+    "outputs": "What you receive",
+    "prerequisites": "Prerequisite services",
+    "noPrerequisites": "Official sources do not require any other service to be completed first.",
+    "aboutData": "About this information",
+    "unverifiedWarning": "This requirement has not been verified against an official source. Treat it with caution.",
+    "onlyIf": "Only if",
+    "anyOne": "Any one of these documents is accepted:"
+  },
+  "reason": {
+    "unblocksDownstream_one": "{{service}} can start now: all its mandatory documents are available, and completing it unblocks {{services}}.",
+    "unblocksDownstream_other": "{{service}} can start now: all its mandatory documents are available, and completing it unblocks {{count}} other steps: {{services}}.",
+    "readyIndependent": "{{service}} can start now: all its mandatory documents are available and it does not depend on any other step.",
+    "resolveBlocker": "Get {{documents}} first. {{service}} cannot proceed without it.",
+    "alsoBlocked": "This also unblocks: {{services}}.",
+    "parallel": "You can do it alongside: {{services}}.",
+    "allComplete": "Nothing left to do for the selected services."
+  },
+  "stepStatus": {
+    "ready": "Ready to start",
+    "waiting": "Waiting",
+    "blocked": "Blocked"
+  },
+  "stepRole": {
+    "target": "Your service",
+    "prerequisite": "Required first",
+    "acquisition": "Needed for a document"
+  },
+  "req": {
+    "satisfiedBy": "You have: {{document}}",
+    "pending": "Will come from {{service}}: {{document}}",
+    "missing": "Missing. Tick one if you have it:",
+    "iHave": "I have {{document}}",
+    "optionalHint": "Not required to proceed."
+  },
+  "requirementType": {
+    "mandatory": "Mandatory",
+    "optional": "Optional",
+    "conditional": "Only in some cases"
+  },
+  "blocker": {
+    "missingDocument": "{{service}} needs {{documents}}. GovPath knows no service that issues it.",
+    "dependencyBlocked": "{{service}} is waiting on a blocked step: {{services}}."
+  },
+  "documentCategory": {
+    "existing_record": "Your existing records",
+    "address_proof": "Proof of address",
+    "vehicle": "Vehicle documents",
+    "financial": "Financial documents",
+    "identity": "Identity / photo",
+    "other": "Other"
+  }
+}

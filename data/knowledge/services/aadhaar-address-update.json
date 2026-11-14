@@ -1,0 +1,143 @@
+{
+  "slug": "aadhaar-address-update",
+  "name": "Aadhaar address update",
+  "name_hi": "आधार में पता अपडेट",
+  "description": "Update the address recorded in Aadhaar, online on the myAadhaar portal (OTP to the registered mobile number) or at an Aadhaar Enrolment Centre, with a supporting proof of address.",
+  "description_hi": "आधार में दर्ज पता अपडेट करें — myAadhaar पोर्टल पर ऑनलाइन (पंजीकृत मोबाइल नंबर पर OTP के साथ) या आधार नामांकन केंद्र पर, पते के सहायक प्रमाण के साथ।",
+  "authority": "Unique Identification Authority of India (UIDAI)",
+  "jurisdiction": "national",
+  "state": null,
+  "category": "identity",
+  "application_form": null,
+  "official_info_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+  "application_url": "https://myaadhaar.uidai.gov.in/",
+  "last_verified_on": "2026-11-14",
+  "verification_notes": "Proof-of-address eligibility comes from UIDAI List IV (update, any age). The PDF marks allowed/not-allowed with images, so each row was checked visually on 2026-11-14. Only a subset of the accepted documents is modelled; the full list is in the source PDF. Head-of-Family and family-member-declaration routes are not modelled. Fees are not modelled.",
+  "evidence": [
+    "uidai-update-fields",
+    "uidai-centre-mode",
+    "uidai-list4-heading",
+    "uidai-poa-driving-licence-not-allowed"
+  ],
+  "requirements": [
+    {
+      "slug": "aadhaar-number",
+      "name": "Existing Aadhaar number",
+      "name_hi": "मौजूदा आधार नंबर",
+      "type": "mandatory",
+      "description": "The update is made against an existing Aadhaar number.",
+      "evidence": [
+        "uidai-online-mode"
+      ],
+      "options": [
+        {
+          "document": "aadhaar_number"
+        }
+      ]
+    },
+    {
+      "slug": "proof-of-address",
+      "name": "Proof of new address (any one)",
+      "name_hi": "नए पते का प्रमाण (कोई एक)",
+      "type": "mandatory",
+      "description": "One supporting Proof of Address document from UIDAI List IV, issued in the applicant's own name.",
+      "notes": "Documents must be currently valid and issued in the name of the person seeking the update.",
+      "evidence": [
+        "uidai-online-poa-upload",
+        "uidai-list4-heading",
+        "uidai-list4-own-name"
+      ],
+      "options": [
+        {
+          "document": "passport_current_address",
+          "evidence": "uidai-poa-passport"
+        },
+        {
+          "document": "ration_card",
+          "evidence": "uidai-poa-ration"
+        },
+        {
+          "document": "voter_id_current_address",
+          "evidence": "uidai-poa-voter"
+        },
+        {
+          "document": "bank_or_post_office_passbook",
+          "notes": "Must carry name and photograph, cross-stamped with bank seal and signed (or Post Office passbook with stamp and signature).",
+          "evidence": "uidai-poa-passbook"
+        },
+        {
+          "document": "bank_statement",
+          "notes": "With bank stamp and signature; not older than 3 months.",
+          "evidence": "uidai-poa-statement"
+        },
+        {
+          "document": "electricity_bill",
+          "notes": "Not older than 3 months.",
+          "evidence": "uidai-poa-electricity"
+        },
+        {
+          "document": "water_bill",
+          "notes": "Not older than 3 months.",
+          "evidence": "uidai-poa-water"
+        },
+        {
+          "document": "telephone_bill",
+          "notes": "Not older than 3 months.",
+          "evidence": "uidai-poa-telephone"
+        },
+        {
+          "document": "gas_bill",
+          "notes": "Not older than 3 months.",
+          "evidence": "uidai-poa-gas"
+        },
+        {
+          "document": "property_tax_receipt",
+          "notes": "Not older than 1 year.",
+          "evidence": "uidai-poa-property-tax"
+        },
+        {
+          "document": "rent_or_lease_agreement",
+          "notes": "Registered or unregistered rent/lease/leave-and-licence agreement.",
+          "evidence": "uidai-poa-sale-rent"
+        },
+        {
+          "document": "registered_sale_deed",
+          "notes": "Sale agreement / gift deed registered with the Registrar Office.",
+          "evidence": "uidai-poa-sale-rent"
+        },
+        {
+          "document": "life_insurance_policy",
+          "notes": "Valid up to 1 year from the date of issue.",
+          "evidence": "uidai-poa-insurance"
+        },
+        {
+          "document": "uidai_address_certificate",
+          "evidence": "uidai-poa-certificate"
+        }
+      ]
+    },
+    {
+      "slug": "registered-mobile",
+      "name": "Mobile number registered with Aadhaar",
+      "name_hi": "आधार से पंजीकृत मोबाइल नंबर",
+      "type": "conditional",
+      "condition": "Only for the online (myAadhaar) route; not needed at an Aadhaar Enrolment Centre.",
+      "evidence": [
+        "uidai-online-mode",
+        "uidai-centre-mode"
+      ],
+      "options": [
+        {
+          "document": "mobile_linked_to_aadhaar"
+        }
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "document": "aadhaar_current_address",
+      "evidence": "uidai-update-fields"
+    }
+  ],
+  "prerequisites": []
+}

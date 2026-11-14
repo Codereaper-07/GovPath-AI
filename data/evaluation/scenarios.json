@@ -1,0 +1,809 @@
+{
+ "version": 1,
+ "created": "2026-11-14",
+ "knowledge_base": "data/knowledge (verified 2026-11-14)",
+ "relevance": "A retrieved chunk is relevant if its source URL is in relevant_sources; evidence recall uses relevant_evidence keys found in retrieved chunks.",
+ "cases": [
+  {
+   "id": "aadhaar-poa-en",
+   "language": "en",
+   "category": "alternatives",
+   "question": "Which documents can I use as proof of my new address to update my Aadhaar?",
+   "expected_behavior": "answer",
+   "expected_services": [
+    "aadhaar-address-update"
+   ],
+   "relevant_sources": [
+    "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+    "https://uidai.gov.in/en/updating-data-on-aadhaar"
+   ],
+   "relevant_evidence": [
+    "uidai-poa-electricity",
+    "uidai-poa-passport",
+    "uidai-poa-sale-rent",
+    "uidai-poa-voter",
+    "uidai-poa-passbook",
+    "uidai-list4-heading",
+    "uidai-online-poa-upload"
+   ],
+   "must_mention": [
+    [
+     "electricity",
+     "utility"
+    ],
+    [
+     "passport"
+    ],
+    [
+     "bank"
+    ]
+   ],
+   "pair": "aadhaar-poa"
+  },
+  {
+   "id": "aadhaar-poa-hi",
+   "language": "hi",
+   "category": "alternatives",
+   "question": "आधार में नया पता अपडेट करने के लिए पते के प्रमाण के रूप में कौन-से दस्तावेज़ इस्तेमाल कर सकते हैं?",
+   "expected_behavior": "answer",
+   "expected_services": [
+    "aadhaar-address-update"
+   ],
+   "relevant_sources": [
+    "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+    "https://uidai.gov.in/en/updating-data-on-aadhaar"
+   ],
+   "relevant_evidence": [
+    "uidai-poa-electricity",
+    "uidai-poa-passport",
+    "uidai-poa-sale-rent",
+    "uidai-poa-voter",
+    "uidai-poa-passbook",
+    "uidai-list4-heading",
+    "uidai-online-poa-upload"
+   ],
+   "must_mention": [
+    [
+     "बिजली",
+     "electricity"
+    ],
+    [
+     "पासपोर्ट",
+     "passport"
+    ],
+    [
+     "बैंक",
+     "bank"
+    ]
+   ],
+   "pair": "aadhaar-poa"
+  },
+  {
+   "id": "aadhaar-dl-as-poa-en",
+   "language": "en",
+   "category": "alternatives",
+   "question": "Can I use my driving licence as address proof for an Aadhaar address update?",
+   "expected_behavior": "partial",
+   "expected_services": [
+    "aadhaar-address-update"
+   ],
+   "relevant_sources": [
+    "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf"
+   ],
+   "relevant_evidence": [
+    "uidai-poa-driving-licence-not-allowed",
+    "uidai-list4-heading"
+   ],
+   "must_mention": [],
+   "note": "UIDAI List IV marks driving licence as NOT allowed for PoA, but that mark is an image; the extracted text only shows the row. Correct: not in the verified PoA list / not accepted. Wrong: says it is accepted."
+  },
+  {
+   "id": "aadhaar-online-en",
+   "language": "en",
+   "category": "conditional",
+   "question": "Can I update my Aadhaar address online, and what do I need for that?",
+   "expected_behavior": "answer",
+   "expected_services": [
+    "aadhaar-address-update"
+   ],
+   "relevant_sources": [
+    "https://uidai.gov.in/en/updating-data-on-aadhaar"
+   ],
+   "relevant_evidence": [
+    "uidai-online-mode",
+    "uidai-online-poa-upload"
+   ],
+   "must_mention": [
+    [
+     "mobile"
+    ],
+    [
+     "otp"
+    ],
+    [
+     "myaadhaar"
+    ]
+   ]
+  },
+  {
+   "id": "voter-form8-en",
+   "language": "en",
+   "category": "procedure",
+   "question": "I moved to a new house in a different constituency. How do I change the address on my voter ID?",
+   "expected_behavior": "answer",
+   "expected_services": [
+    "voter-id-address-change-form-8"
+   ],
+   "relevant_sources": [
+    "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+    "https://voters.eci.gov.in/formspdf/Form_8_English.pdf"
+   ],
+   "relevant_evidence": [
+    "eci-g8-new-constituency",
+    "eci-f8-shift-request",
+    "eci-g8-registered-elector",
+    "eci-f8-address-proof"
+   ],
+   "must_mention": [
+    [
+     "form 8",
+     "form-8"
+    ],
+    [
+     "electoral registration officer",
+     "ero"
+    ]
+   ],
+   "pair": "voter-form8"
+  },
+  {
+   "id": "voter-form8-hi",
+   "language": "hi",
+   "category": "procedure",
+   "question": "मैं दूसरे निर्वाचन क्षेत्र में नए घर में चला गया हूँ। मतदाता पहचान पत्र में पता कैसे बदलूँ?",
+   "expected_behavior": "answer",
+   "expected_services": [
+    "voter-id-address-change-form-8"
+   ],
+   "relevant_sources": [
+    "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+    "https://voters.eci.gov.in/formspdf/Form_8_English.pdf"
+   ],
+   "relevant_evidence": [
+    "eci-g8-new-constituency",
+    "eci-f8-shift-request",
+    "eci-g8-registered-elector",
+    "eci-f8-address-proof"
+   ],
+   "must_mention": [
+    [
+     "फ़ॉर्म 8",
+     "फॉर्म 8",
+     "form 8",
+     "फ़ॉर्म-8",
+     "फॉर्म-8"
+    ],
+    [
+     "निर्वाचक रजिस्ट्रीकरण अधिकारी",
+     "ero",
+     "electoral registration officer",
+     "रजिस्ट्रीकरण",
+     "पंजीकरण अधिकारी"
+    ]
+   ],
+   "pair": "voter-form8"
+  },
+  {
+   "id": "voter-aadhaar-prereq-en",
+   "language": "en",
+   "category": "dependency",
+   "question": "Do I have to update my Aadhaar before I can change the address on my voter ID?",
+   "expected_behavior": "answer",
+   "expected_services": [
+    "voter-id-address-change-form-8",
+    "aadhaar-address-update"
+   ],
+   "relevant_sources": [
+    "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+    "https://voters.eci.gov.in/formspdf/Form_8_English.pdf"
+   ],
+   "relevant_evidence": [
+    "eci-g8-aadhaar-optional",
+    "eci-f8-aadhaar-not-available"
+   ],
+   "must_mention": [
+    [
+     "not",
+     "no"
+    ]
+   ],
+   "expected_dependencies": [],
+   "note": "Official Form 8 lets applicants without an Aadhaar number say so; Aadhaar update is NOT a prerequisite."
+  },
+  {
+   "id": "voter-poa-en",
+   "language": "en",
+   "category": "alternatives",
+   "question": "Which address proof documents are accepted with Form 8 for shifting my residence?",
+   "expected_behavior": "answer",
+   "expected_services": [
+    "voter-id-address-change-form-8"
+   ],
+   "relevant_sources": [
+    "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+    "https://voters.eci.gov.in/guidelines/Form-8_en.pdf"
+   ],
+   "relevant_evidence": [
+    "eci-f8-utility-bill",
+    "eci-f8-aadhaar",
+    "eci-f8-passbook",
+    "eci-f8-passport",
+    "eci-f8-rent-deed",
+    "eci-f8-sale-deed",
+    "eci-f8-land-records",
+    "eci-f8-address-proof"
+   ],
+   "must_mention": [
+    [
+     "electricity",
+     "water",
+     "gas"
+    ],
+    [
+     "passport"
+    ],
+    [
+     "rent"
+    ],
+    [
+     "sale deed"
+    ]
+   ]
+  },
+  {
+   "id": "passport-docs-en",
+   "language": "en",
+   "category": "mandatory",
+   "question": "What documents do I need to get my passport reissued with my new address?",
+   "expected_behavior": "answer",
+   "expected_services": [
+    "passport-reissue-change-of-address"
+   ],
+   "relevant_sources": [
+    "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf"
+   ],
+   "relevant_evidence": [
+    "pp-reissue-old-passport",
+    "pp-poa-list",
+    "pp-poa-if-different",
+    "pp-reissue-change-particulars"
+   ],
+   "must_mention": [
+    [
+     "old passport"
+    ],
+    [
+     "address"
+    ]
+   ],
+   "pair": "passport-docs"
+  },
+  {
+   "id": "passport-docs-hi",
+   "language": "hi",
+   "category": "mandatory",
+   "question": "नए पते के साथ पासपोर्ट पुनः जारी करवाने के लिए कौन-से दस्तावेज़ चाहिए?",
+   "expected_behavior": "answer",
+   "expected_services": [
+    "passport-reissue-change-of-address"
+   ],
+   "relevant_sources": [
+    "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf"
+   ],
+   "relevant_evidence": [
+    "pp-reissue-old-passport",
+    "pp-poa-list",
+    "pp-poa-if-different",
+    "pp-reissue-change-particulars"
+   ],
+   "must_mention": [
+    [
+     "पुराना पासपोर्ट",
+     "पुराने पासपोर्ट",
+     "old passport"
+    ],
+    [
+     "पते",
+     "address"
+    ]
+   ],
+   "pair": "passport-docs"
+  },
+  {
+   "id": "passport-bank-statement-en",
+   "language": "en",
+   "category": "alternatives",
+   "question": "Can I use my bank statement as address proof for a passport reissue?",
+   "expected_behavior": "partial",
+   "expected_services": [
+    "passport-reissue-change-of-address"
+   ],
+   "relevant_sources": [
+    "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf"
+   ],
+   "relevant_evidence": [
+    "pp-poa-passbook",
+    "pp-poa-list"
+   ],
+   "must_mention": [
+    [
+     "passbook"
+    ]
+   ],
+   "note": "The booklet lists only a photo passbook of a running bank account; bank statements are not listed. Correct: not in the listed documents; a photo passbook is. Wrong: says statement is accepted."
+  },
+  {
+   "id": "dl-poa-en",
+   "language": "en",
+   "category": "alternatives",
+   "question": "What proof of address is accepted for changing the address on my driving licence?",
+   "expected_behavior": "answer",
+   "expected_services": [
+    "driving-licence-address-change"
+   ],
+   "relevant_sources": [
+    "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf"
+   ],
+   "relevant_evidence": [
+    "form2-aadhaar",
+    "form2-address-proof-required",
+    "form2-annexure-address-age",
+    "form2-state-specified"
+   ],
+   "must_mention": [
+    [
+     "aadhaar"
+    ],
+    [
+     "passport"
+    ],
+    [
+     "electoral roll",
+     "voter"
+    ]
+   ]
+  },
+  {
+   "id": "dl-online-en",
+   "language": "en",
+   "category": "procedure",
+   "question": "How can I apply online to change the address on my driving licence?",
+   "expected_behavior": "answer",
+   "expected_services": [
+    "driving-licence-address-change"
+   ],
+   "relevant_sources": [
+    "https://parivahan.gov.in/en/node/246"
+   ],
+   "relevant_evidence": [
+    "parivahan-dl-steps",
+    "parivahan-dl-online"
+   ],
+   "must_mention": [
+    [
+     "sarathi"
+    ],
+    [
+     "date of birth"
+    ]
+   ]
+  },
+  {
+   "id": "rc-docs-en",
+   "language": "en",
+   "category": "mandatory",
+   "question": "What documents do I need to change the address on my vehicle registration certificate?",
+   "expected_behavior": "answer",
+   "expected_services": [
+    "vehicle-rc-address-change"
+   ],
+   "relevant_sources": [
+    "https://parivahan.gov.in/en/content/address-change",
+    "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf"
+   ],
+   "relevant_evidence": [
+    "rc-documents",
+    "form33-rc-enclosed",
+    "form33-evidence-enclosed"
+   ],
+   "must_mention": [
+    [
+     "form 33"
+    ],
+    [
+     "insurance"
+    ],
+    [
+     "pollution",
+     "puc"
+    ]
+   ],
+   "pair": "rc-docs"
+  },
+  {
+   "id": "rc-docs-hi",
+   "language": "hi",
+   "category": "mandatory",
+   "question": "वाहन की आरसी में पता बदलने के लिए कौन-से दस्तावेज़ चाहिए?",
+   "expected_behavior": "answer",
+   "expected_services": [
+    "vehicle-rc-address-change"
+   ],
+   "relevant_sources": [
+    "https://parivahan.gov.in/en/content/address-change",
+    "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf"
+   ],
+   "relevant_evidence": [
+    "rc-documents",
+    "form33-rc-enclosed",
+    "form33-evidence-enclosed"
+   ],
+   "must_mention": [
+    [
+     "33"
+    ],
+    [
+     "बीमा",
+     "insurance"
+    ],
+    [
+     "प्रदूषण",
+     "pollution",
+     "puc"
+    ]
+   ],
+   "pair": "rc-docs"
+  },
+  {
+   "id": "rc-loan-noc-en",
+   "language": "en",
+   "category": "conditional",
+   "question": "My car is on a bank loan. Is anything extra needed for the RC address change?",
+   "expected_behavior": "answer",
+   "expected_services": [
+    "vehicle-rc-address-change"
+   ],
+   "relevant_sources": [
+    "https://parivahan.gov.in/en/content/address-change",
+    "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf"
+   ],
+   "relevant_evidence": [
+    "rc-noc"
+   ],
+   "must_mention": [
+    [
+     "no objection",
+     "noc"
+    ]
+   ]
+  },
+  {
+   "id": "rc-deadline-en",
+   "language": "en",
+   "category": "procedure",
+   "question": "Within how many days of moving must I apply to change the address on my vehicle RC?",
+   "expected_behavior": "answer",
+   "expected_services": [
+    "vehicle-rc-address-change"
+   ],
+   "relevant_sources": [
+    "https://parivahan.gov.in/en/content/address-change"
+   ],
+   "relevant_evidence": [
+    "rc-within-14-days"
+   ],
+   "must_mention": [
+    [
+     "14"
+    ]
+   ]
+  },
+  {
+   "id": "bill-age-conflict-en",
+   "language": "en",
+   "category": "conflicting",
+   "question": "Does my electricity bill need to be recent to use it as address proof?",
+   "expected_behavior": "partial",
+   "expected_services": [
+    "aadhaar-address-update",
+    "voter-id-address-change-form-8"
+   ],
+   "relevant_sources": [
+    "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+    "https://voters.eci.gov.in/formspdf/Form_8_English.pdf"
+   ],
+   "relevant_evidence": [
+    "uidai-poa-electricity",
+    "eci-f8-utility-bill"
+   ],
+   "must_mention": [
+    [
+     "3 months",
+     "three months"
+    ]
+   ],
+   "note": "Rules differ by service: UIDAI wants a bill not older than 3 months; Form 8 lists a connection bill for that address (at least 1 year). A good answer distinguishes services."
+  },
+  {
+   "id": "wf-aadhaar-dl-en",
+   "language": "en",
+   "category": "workflow",
+   "question": "I moved within Bengaluru. I have my Aadhaar number, my driving licence and an electricity bill in my name at the new address. I want to update both Aadhaar and my driving licence. What should I do first?",
+   "expected_behavior": "answer",
+   "expected_services": [
+    "aadhaar-address-update",
+    "driving-licence-address-change"
+   ],
+   "relevant_sources": [
+    "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+    "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf"
+   ],
+   "relevant_evidence": [
+    "uidai-poa-electricity",
+    "form2-aadhaar"
+   ],
+   "must_mention": [
+    [
+     "aadhaar"
+    ]
+   ],
+   "pair": "wf-aadhaar-dl",
+   "workflow": {
+    "target_service_ids": [
+     "aadhaar-address-update",
+     "driving-licence-address-change"
+    ],
+    "owned_document_ids": [
+     "aadhaar_number",
+     "driving_licence_existing",
+     "electricity_bill"
+    ],
+    "completed_service_ids": []
+   },
+   "expected_next_action": {
+    "type": "start_service",
+    "service_ids": [
+     "aadhaar-address-update"
+    ]
+   },
+   "expected_dependencies": [
+    [
+     "aadhaar-address-update",
+     "driving-licence-address-change"
+    ]
+   ],
+   "note": "Electricity bill is accepted by UIDAI but not listed for DL; an updated Aadhaar is accepted for DL, so Aadhaar first."
+  },
+  {
+   "id": "wf-aadhaar-dl-hi",
+   "language": "hi",
+   "category": "workflow",
+   "question": "मैं बेंगलुरु में ही नए घर में आया हूँ। मेरे पास आधार नंबर, ड्राइविंग लाइसेंस और नए पते पर मेरे नाम का बिजली बिल है। मुझे आधार और ड्राइविंग लाइसेंस दोनों अपडेट करने हैं। पहले क्या करूँ?",
+   "expected_behavior": "answer",
+   "expected_services": [
+    "aadhaar-address-update",
+    "driving-licence-address-change"
+   ],
+   "relevant_sources": [
+    "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+    "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf"
+   ],
+   "relevant_evidence": [
+    "uidai-poa-electricity",
+    "form2-aadhaar"
+   ],
+   "must_mention": [
+    [
+     "आधार",
+     "aadhaar"
+    ]
+   ],
+   "pair": "wf-aadhaar-dl",
+   "workflow": {
+    "target_service_ids": [
+     "aadhaar-address-update",
+     "driving-licence-address-change"
+    ],
+    "owned_document_ids": [
+     "aadhaar_number",
+     "driving_licence_existing",
+     "electricity_bill"
+    ],
+    "completed_service_ids": []
+   },
+   "expected_next_action": {
+    "type": "start_service",
+    "service_ids": [
+     "aadhaar-address-update"
+    ]
+   },
+   "expected_dependencies": [
+    [
+     "aadhaar-address-update",
+     "driving-licence-address-change"
+    ]
+   ]
+  },
+  {
+   "id": "wf-three-independent-en",
+   "language": "en",
+   "category": "workflow",
+   "question": "I need to update Aadhaar, my voter ID and my passport after moving. I have my Aadhaar number, voter ID number, old passport and a registered rent agreement for my new flat. In what order should I do these?",
+   "expected_behavior": "answer",
+   "expected_services": [
+    "aadhaar-address-update",
+    "voter-id-address-change-form-8",
+    "passport-reissue-change-of-address"
+   ],
+   "relevant_sources": [
+    "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+    "https://voters.eci.gov.in/formspdf/Form_8_English.pdf",
+    "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf"
+   ],
+   "relevant_evidence": [
+    "uidai-poa-sale-rent",
+    "eci-f8-rent-deed",
+    "pp-poa-rent"
+   ],
+   "must_mention": [
+    [
+     "any order",
+     "independent",
+     "parallel",
+     "same time",
+     "simultaneous"
+    ]
+   ],
+   "workflow": {
+    "target_service_ids": [
+     "aadhaar-address-update",
+     "voter-id-address-change-form-8",
+     "passport-reissue-change-of-address"
+    ],
+    "owned_document_ids": [
+     "aadhaar_number",
+     "epic_existing",
+     "passport_existing",
+     "rent_or_lease_agreement"
+    ],
+    "completed_service_ids": []
+   },
+   "expected_next_action": {
+    "type": "start_service",
+    "service_ids": [
+     "aadhaar-address-update",
+     "voter-id-address-change-form-8",
+     "passport-reissue-change-of-address"
+    ]
+   },
+   "expected_dependencies": [],
+   "note": "The rent agreement is accepted by all three, so no ordering is required; any of them may start first."
+  },
+  {
+   "id": "wf-interstate-dl-rc-en",
+   "language": "en",
+   "category": "workflow",
+   "question": "I am moving from Delhi to Pune in another state. I want to change the address on my driving licence and my vehicle RC. I have my licence, RC, insurance, PUC and an electricity bill for the new home. What do I do?",
+   "expected_behavior": "partial",
+   "expected_services": [
+    "driving-licence-address-change",
+    "vehicle-rc-address-change"
+   ],
+   "relevant_sources": [
+    "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+    "https://parivahan.gov.in/en/content/address-change"
+   ],
+   "relevant_evidence": [
+    "form2-aadhaar",
+    "rc-documents"
+   ],
+   "must_mention": [],
+   "workflow": {
+    "target_service_ids": [
+     "driving-licence-address-change",
+     "vehicle-rc-address-change"
+    ],
+    "owned_document_ids": [
+     "driving_licence_existing",
+     "rc_existing",
+     "vehicle_insurance_certificate",
+     "puc_certificate",
+     "electricity_bill"
+    ],
+    "completed_service_ids": []
+   },
+   "expected_next_action": {
+    "type": "obtain_document",
+    "service_ids": []
+   },
+   "note": "Electricity bill is not listed for DL; RC proof of address is unspecified. Inter-state transfer rules are not in the knowledge base, so the answer must flag that limitation."
+  },
+  {
+   "id": "wf-rc-blocked-en",
+   "language": "en",
+   "category": "workflow",
+   "question": "I want to change the address on my RC. I have the RC, insurance and PUC certificate but no document showing my new address. What can I do?",
+   "expected_behavior": "answer",
+   "expected_services": [
+    "vehicle-rc-address-change"
+   ],
+   "relevant_sources": [
+    "https://parivahan.gov.in/en/content/address-change"
+   ],
+   "relevant_evidence": [
+    "rc-documents"
+   ],
+   "must_mention": [
+    [
+     "proof"
+    ]
+   ],
+   "workflow": {
+    "target_service_ids": [
+     "vehicle-rc-address-change"
+    ],
+    "owned_document_ids": [
+     "rc_existing",
+     "vehicle_insurance_certificate",
+     "puc_certificate"
+    ],
+    "completed_service_ids": []
+   },
+   "expected_next_action": {
+    "type": "obtain_document",
+    "service_ids": []
+   },
+   "expected_dependencies": []
+  },
+  {
+   "id": "abstain-passport-fee-en",
+   "language": "en",
+   "category": "insufficient",
+   "question": "How much is the fee for a passport reissue for change of address?",
+   "expected_behavior": "abstain",
+   "expected_services": [
+    "passport-reissue-change-of-address"
+   ],
+   "relevant_sources": [],
+   "relevant_evidence": [],
+   "must_mention": [],
+   "note": "No fee amount in the verified sources. Must not state an amount."
+  },
+  {
+   "id": "abstain-aadhaar-time-hi",
+   "language": "hi",
+   "category": "insufficient",
+   "question": "आधार में पता अपडेट होने में कितने दिन लगते हैं?",
+   "expected_behavior": "abstain",
+   "expected_services": [
+    "aadhaar-address-update"
+   ],
+   "relevant_sources": [],
+   "relevant_evidence": [],
+   "must_mention": [],
+   "note": "No processing time in the verified sources. Must not state a number of days."
+  },
+  {
+   "id": "abstain-pan-en",
+   "language": "en",
+   "category": "out_of_scope",
+   "question": "How do I apply for a new PAN card?",
+   "expected_behavior": "abstain",
+   "expected_services": [],
+   "relevant_sources": [],
+   "relevant_evidence": [],
+   "must_mention": [],
+   "note": "Out of scope (PAN card is not one of the five services)."
+  }
+ ]
+}

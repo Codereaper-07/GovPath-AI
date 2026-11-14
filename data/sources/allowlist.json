@@ -1,0 +1,21 @@
+{
+  "_comment": "Only these official government domains (and their subdomains) may be fetched. HTTPS only. Each source below is fetched explicitly; linked PDFs are followed only when follow_pdfs is true and they are also on the allowlist.",
+  "allowed_domains": [
+    "uidai.gov.in",
+    "eci.gov.in",
+    "parivahan.gov.in",
+    "passportindia.gov.in"
+  ],
+  "sources": [
+    {"url": "https://uidai.gov.in/en/updating-data-on-aadhaar", "authority": "Unique Identification Authority of India (UIDAI)", "follow_pdfs": true, "max_linked_pdfs": 2},
+    {"url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf", "authority": "Unique Identification Authority of India (UIDAI)"},
+    {"url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf", "authority": "Election Commission of India (ECI)"},
+    {"url": "https://voters.eci.gov.in/formspdf/Form_8_English.pdf", "authority": "Election Commission of India (ECI)"},
+    {"url": "https://parivahan.gov.in/en/node/246", "authority": "Ministry of Road Transport and Highways (Parivahan Sewa)"},
+    {"url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf", "authority": "Ministry of Road Transport and Highways (Parivahan Sewa)"},
+    {"url": "https://parivahan.gov.in/en/content/address-change", "authority": "Ministry of Road Transport and Highways (Parivahan Sewa)"},
+    {"url": "https://parivahan.gov.in/en/node/155", "authority": "Ministry of Road Transport and Highways (Parivahan Sewa)"},
+    {"url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf", "authority": "Ministry of Road Transport and Highways (Parivahan Sewa)"},
+    {"url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf", "authority": "Ministry of External Affairs (Passport Seva)"}
+  ]
+}

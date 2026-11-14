@@ -1,0 +1,92 @@
+{
+  "slug": "driving-licence-address-change",
+  "name": "Driving licence address change",
+  "name_hi": "ड्राइविंग लाइसेंस में पता परिवर्तन",
+  "description": "Apply to the Licensing Authority for change of address in the driving licence using CMVR Form 2, online through Sarathi (Services on Driving License > Change of Address) or at the RTO, with proof of the new address.",
+  "description_hi": "CMVR फ़ॉर्म 2 के माध्यम से लाइसेंसिंग प्राधिकरण को ड्राइविंग लाइसेंस में पता परिवर्तन के लिए आवेदन करें — सारथी पर ऑनलाइन (Services on Driving License > Change of Address) या RTO में, नए पते के प्रमाण के साथ।",
+  "authority": "State Transport Department / Licensing Authority (Parivahan Sewa, MoRTH)",
+  "jurisdiction": "state",
+  "state": null,
+  "category": "transport",
+  "application_form": "Form 2 (CMVR)",
+  "official_info_url": "https://parivahan.gov.in/en/node/246",
+  "application_url": "https://sarathi.parivahan.gov.in/",
+  "last_verified_on": "2026-11-14",
+  "verification_notes": "The Form 2 annexure gives a combined 'Proof of Address and Age' list. Only the entries that are evidently address documents are modelled (Aadhaar card, electoral roll, life insurance policy, passport); age-only documents are omitted. States may specify other documents and procedures, and fees vary by state.",
+  "evidence": [
+    "parivahan-dl-online",
+    "parivahan-dl-steps",
+    "form2-change-of-address-service"
+  ],
+  "requirements": [
+    {
+      "slug": "existing-licence",
+      "name": "Existing driving licence",
+      "name_hi": "मौजूदा ड्राइविंग लाइसेंस",
+      "type": "mandatory",
+      "description": "Form 2 asks for particulars of the existing licence; the online service starts from the DL number.",
+      "evidence": [
+        "form2-existing-licence",
+        "parivahan-dl-steps"
+      ],
+      "options": [
+        {
+          "document": "driving_licence_existing"
+        }
+      ]
+    },
+    {
+      "slug": "proof-of-address",
+      "name": "Proof of new address (any one)",
+      "name_hi": "नए पते का प्रमाण (कोई एक)",
+      "type": "mandatory",
+      "description": "Address proof must be enclosed for a change of address.",
+      "notes": "Source lists these under 'Proof of Address and Age'. Your State Government may accept other documents.",
+      "evidence": [
+        "form2-address-proof-required",
+        "form2-annexure-address-age",
+        "form2-state-specified"
+      ],
+      "options": [
+        {
+          "document": "aadhaar_current_address",
+          "evidence": "form2-aadhaar"
+        },
+        {
+          "document": "electoral_roll_entry_current_address",
+          "evidence": "form2-aadhaar"
+        },
+        {
+          "document": "life_insurance_policy",
+          "evidence": "form2-aadhaar"
+        },
+        {
+          "document": "passport_current_address",
+          "evidence": "form2-aadhaar"
+        }
+      ]
+    },
+    {
+      "slug": "photograph",
+      "name": "Passport-size photograph",
+      "name_hi": "पासपोर्ट आकार का फ़ोटो",
+      "type": "conditional",
+      "condition": "Listed under 'Other documents to be enclosed or uploaded if applicable'.",
+      "evidence": [
+        "form2-if-applicable"
+      ],
+      "options": [
+        {
+          "document": "photograph"
+        }
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "document": "driving_licence_current_address",
+      "evidence": "form2-address-printed"
+    }
+  ],
+  "prerequisites": []
+}

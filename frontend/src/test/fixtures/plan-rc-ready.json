@@ -1,0 +1,592 @@
+{
+ "generated_by": "deterministic-planner",
+ "selected_service_ids": [
+  "vehicle-rc-address-change"
+ ],
+ "completed_service_ids": [],
+ "steps": [
+  {
+   "step_number": 1,
+   "stage": 1,
+   "service_id": "vehicle-rc-address-change",
+   "service_name": "Vehicle RC address change",
+   "role": "target",
+   "status": "ready",
+   "depends_on": [],
+   "unblocks": [],
+   "requirements": [
+    {
+     "requirement_id": "vehicle-rc-address-change.certificate-of-registration",
+     "service_id": "vehicle-rc-address-change",
+     "name": "Certificate of registration (RC)",
+     "kind": "mandatory",
+     "state": "satisfied",
+     "document_options": [
+      "rc_existing"
+     ],
+     "is_alternative_group": false,
+     "satisfied_by_document_id": "rc_existing",
+     "acquired_via_service_id": null,
+     "acquired_document_id": null,
+     "condition": null,
+     "notes": null,
+     "evidence_ids": [
+      "rc-documents",
+      "form33-rc-enclosed"
+     ]
+    },
+    {
+     "requirement_id": "vehicle-rc-address-change.proof-of-address",
+     "service_id": "vehicle-rc-address-change",
+     "name": "Proof of new address",
+     "kind": "mandatory",
+     "state": "satisfied",
+     "document_options": [
+      "rto_accepted_address_proof"
+     ],
+     "is_alternative_group": false,
+     "satisfied_by_document_id": "rto_accepted_address_proof",
+     "acquired_via_service_id": null,
+     "acquired_document_id": null,
+     "condition": null,
+     "notes": "Specific acceptable documents are not listed by Parivahan for this service.",
+     "evidence_ids": [
+      "rc-documents",
+      "form33-evidence-enclosed"
+     ]
+    },
+    {
+     "requirement_id": "vehicle-rc-address-change.insurance",
+     "service_id": "vehicle-rc-address-change",
+     "name": "Valid insurance certificate",
+     "kind": "mandatory",
+     "state": "satisfied",
+     "document_options": [
+      "vehicle_insurance_certificate"
+     ],
+     "is_alternative_group": false,
+     "satisfied_by_document_id": "vehicle_insurance_certificate",
+     "acquired_via_service_id": null,
+     "acquired_document_id": null,
+     "condition": null,
+     "notes": null,
+     "evidence_ids": [
+      "rc-documents"
+     ]
+    },
+    {
+     "requirement_id": "vehicle-rc-address-change.puc",
+     "service_id": "vehicle-rc-address-change",
+     "name": "Pollution under control certificate",
+     "kind": "mandatory",
+     "state": "satisfied",
+     "document_options": [
+      "puc_certificate"
+     ],
+     "is_alternative_group": false,
+     "satisfied_by_document_id": "puc_certificate",
+     "acquired_via_service_id": null,
+     "acquired_document_id": null,
+     "condition": null,
+     "notes": null,
+     "evidence_ids": [
+      "rc-documents"
+     ]
+    },
+    {
+     "requirement_id": "vehicle-rc-address-change.financier-noc",
+     "service_id": "vehicle-rc-address-change",
+     "name": "No Objection Certificate from financier",
+     "kind": "conditional",
+     "state": "not_provided",
+     "document_options": [
+      "financier_noc"
+     ],
+     "is_alternative_group": false,
+     "satisfied_by_document_id": null,
+     "acquired_via_service_id": null,
+     "acquired_document_id": null,
+     "condition": "Only if the vehicle is hypothecated / held under hire-purchase or lease.",
+     "notes": null,
+     "evidence_ids": [
+      "rc-noc"
+     ]
+    },
+    {
+     "requirement_id": "vehicle-rc-address-change.pan-or-form-60-61",
+     "service_id": "vehicle-rc-address-change",
+     "name": "Attested copy of PAN card or Form 60 / Form 61",
+     "kind": "conditional",
+     "state": "not_provided",
+     "document_options": [
+      "pan_or_form_60_61"
+     ],
+     "is_alternative_group": false,
+     "satisfied_by_document_id": null,
+     "acquired_via_service_id": null,
+     "acquired_document_id": null,
+     "condition": "May be required in some states (as applicable).",
+     "notes": null,
+     "evidence_ids": [
+      "rc-pan",
+      "rc-some-states"
+     ]
+    },
+    {
+     "requirement_id": "vehicle-rc-address-change.chassis-engine-pencil-print",
+     "service_id": "vehicle-rc-address-change",
+     "name": "Pencil print of chassis and engine number",
+     "kind": "conditional",
+     "state": "not_provided",
+     "document_options": [
+      "chassis_engine_pencil_print"
+     ],
+     "is_alternative_group": false,
+     "satisfied_by_document_id": null,
+     "acquired_via_service_id": null,
+     "acquired_document_id": null,
+     "condition": "May be required in some states.",
+     "notes": null,
+     "evidence_ids": [
+      "rc-pencil-print",
+      "rc-some-states"
+     ]
+    }
+   ],
+   "evidence_ids": [
+    "form33-evidence-enclosed",
+    "form33-rc-enclosed",
+    "form33-title",
+    "rc-about",
+    "rc-documents",
+    "rc-fee",
+    "rc-noc",
+    "rc-online-change-of-address",
+    "rc-pan",
+    "rc-pencil-print",
+    "rc-some-states",
+    "rc-within-14-days"
+   ]
+  }
+ ],
+ "parallel_groups": [
+  [
+   "vehicle-rc-address-change"
+  ]
+ ],
+ "required_documents": [
+  {
+   "requirement_id": "vehicle-rc-address-change.certificate-of-registration",
+   "service_id": "vehicle-rc-address-change",
+   "name": "Certificate of registration (RC)",
+   "kind": "mandatory",
+   "state": "satisfied",
+   "document_options": [
+    "rc_existing"
+   ],
+   "is_alternative_group": false,
+   "satisfied_by_document_id": "rc_existing",
+   "acquired_via_service_id": null,
+   "acquired_document_id": null,
+   "condition": null,
+   "notes": null,
+   "evidence_ids": [
+    "rc-documents",
+    "form33-rc-enclosed"
+   ]
+  },
+  {
+   "requirement_id": "vehicle-rc-address-change.proof-of-address",
+   "service_id": "vehicle-rc-address-change",
+   "name": "Proof of new address",
+   "kind": "mandatory",
+   "state": "satisfied",
+   "document_options": [
+    "rto_accepted_address_proof"
+   ],
+   "is_alternative_group": false,
+   "satisfied_by_document_id": "rto_accepted_address_proof",
+   "acquired_via_service_id": null,
+   "acquired_document_id": null,
+   "condition": null,
+   "notes": "Specific acceptable documents are not listed by Parivahan for this service.",
+   "evidence_ids": [
+    "rc-documents",
+    "form33-evidence-enclosed"
+   ]
+  },
+  {
+   "requirement_id": "vehicle-rc-address-change.insurance",
+   "service_id": "vehicle-rc-address-change",
+   "name": "Valid insurance certificate",
+   "kind": "mandatory",
+   "state": "satisfied",
+   "document_options": [
+    "vehicle_insurance_certificate"
+   ],
+   "is_alternative_group": false,
+   "satisfied_by_document_id": "vehicle_insurance_certificate",
+   "acquired_via_service_id": null,
+   "acquired_document_id": null,
+   "condition": null,
+   "notes": null,
+   "evidence_ids": [
+    "rc-documents"
+   ]
+  },
+  {
+   "requirement_id": "vehicle-rc-address-change.puc",
+   "service_id": "vehicle-rc-address-change",
+   "name": "Pollution under control certificate",
+   "kind": "mandatory",
+   "state": "satisfied",
+   "document_options": [
+    "puc_certificate"
+   ],
+   "is_alternative_group": false,
+   "satisfied_by_document_id": "puc_certificate",
+   "acquired_via_service_id": null,
+   "acquired_document_id": null,
+   "condition": null,
+   "notes": null,
+   "evidence_ids": [
+    "rc-documents"
+   ]
+  }
+ ],
+ "satisfied_requirements": [
+  {
+   "requirement_id": "vehicle-rc-address-change.certificate-of-registration",
+   "service_id": "vehicle-rc-address-change",
+   "name": "Certificate of registration (RC)",
+   "kind": "mandatory",
+   "state": "satisfied",
+   "document_options": [
+    "rc_existing"
+   ],
+   "is_alternative_group": false,
+   "satisfied_by_document_id": "rc_existing",
+   "acquired_via_service_id": null,
+   "acquired_document_id": null,
+   "condition": null,
+   "notes": null,
+   "evidence_ids": [
+    "rc-documents",
+    "form33-rc-enclosed"
+   ]
+  },
+  {
+   "requirement_id": "vehicle-rc-address-change.proof-of-address",
+   "service_id": "vehicle-rc-address-change",
+   "name": "Proof of new address",
+   "kind": "mandatory",
+   "state": "satisfied",
+   "document_options": [
+    "rto_accepted_address_proof"
+   ],
+   "is_alternative_group": false,
+   "satisfied_by_document_id": "rto_accepted_address_proof",
+   "acquired_via_service_id": null,
+   "acquired_document_id": null,
+   "condition": null,
+   "notes": "Specific acceptable documents are not listed by Parivahan for this service.",
+   "evidence_ids": [
+    "rc-documents",
+    "form33-evidence-enclosed"
+   ]
+  },
+  {
+   "requirement_id": "vehicle-rc-address-change.insurance",
+   "service_id": "vehicle-rc-address-change",
+   "name": "Valid insurance certificate",
+   "kind": "mandatory",
+   "state": "satisfied",
+   "document_options": [
+    "vehicle_insurance_certificate"
+   ],
+   "is_alternative_group": false,
+   "satisfied_by_document_id": "vehicle_insurance_certificate",
+   "acquired_via_service_id": null,
+   "acquired_document_id": null,
+   "condition": null,
+   "notes": null,
+   "evidence_ids": [
+    "rc-documents"
+   ]
+  },
+  {
+   "requirement_id": "vehicle-rc-address-change.puc",
+   "service_id": "vehicle-rc-address-change",
+   "name": "Pollution under control certificate",
+   "kind": "mandatory",
+   "state": "satisfied",
+   "document_options": [
+    "puc_certificate"
+   ],
+   "is_alternative_group": false,
+   "satisfied_by_document_id": "puc_certificate",
+   "acquired_via_service_id": null,
+   "acquired_document_id": null,
+   "condition": null,
+   "notes": null,
+   "evidence_ids": [
+    "rc-documents"
+   ]
+  }
+ ],
+ "missing_documents": [],
+ "optional_documents": [
+  {
+   "requirement_id": "vehicle-rc-address-change.financier-noc",
+   "service_id": "vehicle-rc-address-change",
+   "name": "No Objection Certificate from financier",
+   "kind": "conditional",
+   "state": "not_provided",
+   "document_options": [
+    "financier_noc"
+   ],
+   "is_alternative_group": false,
+   "satisfied_by_document_id": null,
+   "acquired_via_service_id": null,
+   "acquired_document_id": null,
+   "condition": "Only if the vehicle is hypothecated / held under hire-purchase or lease.",
+   "notes": null,
+   "evidence_ids": [
+    "rc-noc"
+   ]
+  },
+  {
+   "requirement_id": "vehicle-rc-address-change.pan-or-form-60-61",
+   "service_id": "vehicle-rc-address-change",
+   "name": "Attested copy of PAN card or Form 60 / Form 61",
+   "kind": "conditional",
+   "state": "not_provided",
+   "document_options": [
+    "pan_or_form_60_61"
+   ],
+   "is_alternative_group": false,
+   "satisfied_by_document_id": null,
+   "acquired_via_service_id": null,
+   "acquired_document_id": null,
+   "condition": "May be required in some states (as applicable).",
+   "notes": null,
+   "evidence_ids": [
+    "rc-pan",
+    "rc-some-states"
+   ]
+  },
+  {
+   "requirement_id": "vehicle-rc-address-change.chassis-engine-pencil-print",
+   "service_id": "vehicle-rc-address-change",
+   "name": "Pencil print of chassis and engine number",
+   "kind": "conditional",
+   "state": "not_provided",
+   "document_options": [
+    "chassis_engine_pencil_print"
+   ],
+   "is_alternative_group": false,
+   "satisfied_by_document_id": null,
+   "acquired_via_service_id": null,
+   "acquired_document_id": null,
+   "condition": "May be required in some states.",
+   "notes": null,
+   "evidence_ids": [
+    "rc-pencil-print",
+    "rc-some-states"
+   ]
+  }
+ ],
+ "prerequisite_services": [],
+ "acquisition_routes": [],
+ "blockers": [],
+ "next_action": {
+  "type": "start_service",
+  "reason": {
+   "code": "ready_independent",
+   "message": "Start 'Vehicle RC address change' now: every mandatory requirement is met and it does not depend on any other step.",
+   "unblocks": [],
+   "parallel_with": [],
+   "documents_used": [
+    "rc_existing",
+    "rto_accepted_address_proof",
+    "vehicle_insurance_certificate",
+    "puc_certificate"
+   ],
+   "document_options": []
+  },
+  "service_id": "vehicle-rc-address-change",
+  "requirement_id": null,
+  "document_options": []
+ },
+ "evidence": [
+  {
+   "id": "form33-evidence-enclosed",
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "source_title": "CMVR Form 33: Intimation of change of address in the certificate of registration",
+   "excerpt": "The present address is given below (evidence to be enclosed).",
+   "locator": null,
+   "verified_at": "2026-11-14"
+  },
+  {
+   "id": "form33-rc-enclosed",
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "source_title": "CMVR Form 33: Intimation of change of address in the certificate of registration",
+   "excerpt": "The certificate of registration is enclosed. I/We request that the change of address may be recorded in the certificate of registration and Form 24.",
+   "locator": null,
+   "verified_at": "2026-11-14"
+  },
+  {
+   "id": "form33-title",
+   "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+   "source_title": "CMVR Form 33: Intimation of change of address in the certificate of registration",
+   "excerpt": "INTIMATION OF CHANGE OF ADDRESS RECORDED IN THE CERTIFICATE OF REGISTRATION AND OFFICE RECORDS",
+   "locator": null,
+   "verified_at": "2026-11-14"
+  },
+  {
+   "id": "rc-about",
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "source_title": "Change Of Address (Vehicle Registration) - Parivahan Sewa",
+   "excerpt": "The Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate of registration of the motor vehicle.",
+   "locator": null,
+   "verified_at": "2026-11-14"
+  },
+  {
+   "id": "rc-documents",
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "source_title": "Change Of Address (Vehicle Registration) - Parivahan Sewa",
+   "excerpt": "Documents required Application in Form 33 Certificate of registration Proof of new address Valid insurance certificate Pollution under control certificate",
+   "locator": null,
+   "verified_at": "2026-11-14"
+  },
+  {
+   "id": "rc-fee",
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "source_title": "Change Of Address (Vehicle Registration) - Parivahan Sewa",
+   "excerpt": "Pay appropriate fee as specified in rule 81 of the Central Motor Vehicle Rules 1989",
+   "locator": null,
+   "verified_at": "2026-11-14"
+  },
+  {
+   "id": "rc-noc",
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "source_title": "Change Of Address (Vehicle Registration) - Parivahan Sewa",
+   "excerpt": "No Objection Certificate from financier (in case of hypothecation)",
+   "locator": null,
+   "verified_at": "2026-11-14"
+  },
+  {
+   "id": "rc-online-change-of-address",
+   "source_url": "https://parivahan.gov.in/en/node/155",
+   "source_title": "How do I make changes to my details in Vehicle Registration Certificate? - Parivahan Sewa",
+   "excerpt": "Select \"Change Of Address\"",
+   "locator": null,
+   "verified_at": "2026-11-14"
+  },
+  {
+   "id": "rc-pan",
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "source_title": "Change Of Address (Vehicle Registration) - Parivahan Sewa",
+   "excerpt": "Attested copy of PAN card or Form 60 and Form 61 (as applicable)",
+   "locator": null,
+   "verified_at": "2026-11-14"
+  },
+  {
+   "id": "rc-pencil-print",
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "source_title": "Change Of Address (Vehicle Registration) - Parivahan Sewa",
+   "excerpt": "Pencil Print of Chassis & Engine Number",
+   "locator": null,
+   "verified_at": "2026-11-14"
+  },
+  {
+   "id": "rc-some-states",
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "source_title": "Change Of Address (Vehicle Registration) - Parivahan Sewa",
+   "excerpt": "Documents marked with asterisk (*) may be required in some states.",
+   "locator": null,
+   "verified_at": "2026-11-14"
+  },
+  {
+   "id": "rc-within-14-days",
+   "source_url": "https://parivahan.gov.in/en/content/address-change",
+   "source_title": "Change Of Address (Vehicle Registration) - Parivahan Sewa",
+   "excerpt": "Apply for recording the change in residence (within 14 days of address changed) in the certificate of registration of a motor vehicle of the registered owner of the vehicle in",
+   "locator": null,
+   "verified_at": "2026-11-14"
+  }
+ ],
+ "services": {
+  "vehicle-rc-address-change": {
+   "name": "Vehicle RC address change",
+   "name_hi": "वाहन आरसी में पता परिवर्तन"
+  }
+ },
+ "requirements": {
+  "vehicle-rc-address-change.certificate-of-registration": {
+   "name": "Certificate of registration (RC)",
+   "name_hi": "पंजीकरण प्रमाणपत्र (आरसी)"
+  },
+  "vehicle-rc-address-change.proof-of-address": {
+   "name": "Proof of new address",
+   "name_hi": "नए पते का प्रमाण"
+  },
+  "vehicle-rc-address-change.insurance": {
+   "name": "Valid insurance certificate",
+   "name_hi": "वैध बीमा प्रमाणपत्र"
+  },
+  "vehicle-rc-address-change.puc": {
+   "name": "Pollution under control certificate",
+   "name_hi": "प्रदूषण नियंत्रण (PUC) प्रमाणपत्र"
+  },
+  "vehicle-rc-address-change.financier-noc": {
+   "name": "No Objection Certificate from financier",
+   "name_hi": "फ़ाइनेंसर से अनापत्ति प्रमाणपत्र (NOC)"
+  },
+  "vehicle-rc-address-change.pan-or-form-60-61": {
+   "name": "Attested copy of PAN card or Form 60 / Form 61",
+   "name_hi": "पैन कार्ड की सत्यापित प्रति या फ़ॉर्म 60 / फ़ॉर्म 61"
+  },
+  "vehicle-rc-address-change.chassis-engine-pencil-print": {
+   "name": "Pencil print of chassis and engine number",
+   "name_hi": "चेसिस और इंजन नंबर की पेंसिल प्रिंट"
+  }
+ },
+ "documents": {
+  "chassis_engine_pencil_print": {
+   "name": "Pencil print of chassis and engine number",
+   "name_hi": "चेसिस और इंजन नंबर की पेंसिल प्रिंट",
+   "category": "vehicle"
+  },
+  "financier_noc": {
+   "name": "No Objection Certificate from financier",
+   "name_hi": "फ़ाइनेंसर से अनापत्ति प्रमाणपत्र (NOC)",
+   "category": "financial"
+  },
+  "pan_or_form_60_61": {
+   "name": "PAN card copy or Form 60 / Form 61",
+   "name_hi": "पैन कार्ड की प्रति या फ़ॉर्म 60 / फ़ॉर्म 61",
+   "category": "financial"
+  },
+  "puc_certificate": {
+   "name": "Pollution Under Control (PUC) certificate",
+   "name_hi": "प्रदूषण नियंत्रण (PUC) प्रमाणपत्र",
+   "category": "vehicle"
+  },
+  "rc_existing": {
+   "name": "Certificate of registration (RC) of the vehicle",
+   "name_hi": "वाहन का पंजीकरण प्रमाणपत्र (आरसी)",
+   "category": "existing_record"
+  },
+  "rto_accepted_address_proof": {
+   "name": "Proof of new address accepted by the Registering Authority",
+   "name_hi": "पंजीकरण प्राधिकरण द्वारा मान्य नए पते का प्रमाण",
+   "category": "address_proof"
+  },
+  "vehicle_insurance_certificate": {
+   "name": "Valid vehicle insurance certificate",
+   "name_hi": "वैध वाहन बीमा प्रमाणपत्र",
+   "category": "vehicle"
+  }
+ }
+}

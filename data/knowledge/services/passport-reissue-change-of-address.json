@@ -1,0 +1,109 @@
+{
+  "slug": "passport-reissue-change-of-address",
+  "name": "Passport reissue for change of address",
+  "name_hi": "पता परिवर्तन हेतु पासपोर्ट पुनः जारी करना",
+  "description": "Apply for re-issue of passport to change personal particulars (address), submitting the old passport and proof of the present address.",
+  "description_hi": "व्यक्तिगत विवरण (पता) बदलने के लिए पासपोर्ट पुनः जारी करने का आवेदन करें, जिसमें पुराना पासपोर्ट और वर्तमान पते का प्रमाण जमा करना होता है।",
+  "authority": "Ministry of External Affairs (Passport Seva)",
+  "jurisdiction": "national",
+  "state": null,
+  "category": "travel",
+  "application_form": "Passport application form (re-issue)",
+  "official_info_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+  "application_url": "https://www.passportindia.gov.in/",
+  "last_verified_on": "2026-11-14",
+  "verification_notes": "Based on the Passport Seva instruction booklet V3.0 hosted on passportindia.gov.in; the booklet's publication date isn't stated in the text. The Passport Seva web pages (psp) are rendered with JavaScript and could not be ingested. Category-specific additional documents (Annexures, Tatkaal, minors, government employees) are not modelled. The applicant may need to check the jurisdictional Passport Office for additional documents.",
+  "evidence": [
+    "pp-reissue-change-particulars",
+    "pp-aadhaar-expedites"
+  ],
+  "requirements": [
+    {
+      "slug": "old-passport",
+      "name": "Old passport in original (with self-attested copies)",
+      "name_hi": "मूल पुराना पासपोर्ट (स्व-सत्यापित प्रतियों सहित)",
+      "type": "mandatory",
+      "description": "Original old passport with self-attested photocopy of its first two and last two pages.",
+      "evidence": [
+        "pp-reissue-old-passport"
+      ],
+      "options": [
+        {
+          "document": "passport_existing"
+        }
+      ]
+    },
+    {
+      "slug": "proof-of-present-address",
+      "name": "Proof of present address (any one)",
+      "name_hi": "वर्तमान पते का प्रमाण (कोई एक)",
+      "type": "mandatory",
+      "description": "Needed because the address differs from the old passport.",
+      "notes": "Proof of the present address only is needed, irrespective of how long you have lived there.",
+      "evidence": [
+        "pp-poa-if-different",
+        "pp-poa-list",
+        "pp-present-address-only"
+      ],
+      "options": [
+        {
+          "document": "water_bill",
+          "evidence": "pp-poa-water"
+        },
+        {
+          "document": "telephone_bill",
+          "notes": "Landline or postpaid mobile bill.",
+          "evidence": "pp-poa-telephone"
+        },
+        {
+          "document": "electricity_bill",
+          "evidence": "pp-poa-electricity"
+        },
+        {
+          "document": "income_tax_assessment_order",
+          "evidence": "pp-poa-it-order"
+        },
+        {
+          "document": "voter_id_current_address",
+          "notes": "Election Commission Photo ID card.",
+          "evidence": "pp-poa-epic"
+        },
+        {
+          "document": "gas_bill",
+          "evidence": "pp-poa-gas"
+        },
+        {
+          "document": "employer_certificate",
+          "notes": "Only public limited companies, on letterhead with seal.",
+          "evidence": "pp-poa-employer"
+        },
+        {
+          "document": "spouse_passport",
+          "notes": "Only if the applicant's present address matches the address in the spouse's passport.",
+          "evidence": "pp-poa-spouse-passport"
+        },
+        {
+          "document": "aadhaar_current_address",
+          "notes": "Subject to successful validation with the Aadhaar database.",
+          "evidence": "pp-poa-aadhaar"
+        },
+        {
+          "document": "rent_or_lease_agreement",
+          "evidence": "pp-poa-rent"
+        },
+        {
+          "document": "bank_or_post_office_passbook",
+          "notes": "Photo passbook of a running account in a scheduled public/private sector Indian bank or RRB only (the official list does not mention bank statements).",
+          "evidence": "pp-poa-passbook"
+        }
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "document": "passport_current_address",
+      "evidence": "pp-reissue-change-particulars"
+    }
+  ],
+  "prerequisites": []
+}

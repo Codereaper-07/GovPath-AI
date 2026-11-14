@@ -1,0 +1,213 @@
+# PROGRESS — GovPath AI
+
+_Last updated: 2026-11-14_
+
+## Architecture decisions
+| Decision | Choice |
+|----------|--------|
+| Repo | Monorepo: `frontend/`, `backend/`, `docs/`, `data/` |
+| Frontend | React 19, Vite 8, TypeScript, Tailwind CSS v4, React Router 7, TanStack Query 5, react-i18next |
+| Backend | FastAPI, SQLAlchemy 2.1 async + psycopg 3, Alembic, pytest, ruff |
+| Database | Supabase PostgreSQL 17 + pgvector 0.8.2 (hosted) |
+| Ingestion | httpx + BeautifulSoup (`html.parser`) + PyMuPDF; allowlist + robots.txt |
+| Planning | Pure Python, stdlib `graphlib`; no AI |
+| LLM / embeddings | `gemini-3.6-flash` / `gemini-embedding-2` @ 768 dims (3.8-flash was unavailable in validation) |
+| Scope | India; English and Hindi; 5 address-change services |
+| Tests | In-memory SQLite (aiosqlite); HTTP mocked with `httpx.MockTransport`; never touches Supabase |
+
+## Milestone 1 — foundation ✅
+Git, monorepo, frontend dashboard shell, FastAPI health endpoints, Supabase connection, Alembic
+`0001_enable_pgvector`, Gemini client wrapper (see `README.md`).
+
+## Milestone 2 — knowledge base, ingestion, workflow engine ✅
+
+### Database
+- Migration **`0002_knowledge_base`** applied to Supabase (current head). Verified with
+  `alembic check` (no drift) and a downgrade → upgrade round-trip before seeding.
+- Tables: `government_services`, `document_types`, `service_requirements`, `requirement_options`,
+  `service_outputs`, `service_prerequisites`, `source_documents`, `evidence`, `service_evidence`,
+  `requirement_evidence`.
+
+### Seed status (Supabase, 2026-11-14)
+- `python -m scripts.seed` was run twice; the second run created nothing (idempotent).
+- Totals: 5 services, 35 document types, 18 requirements (52 document options), 6 service outputs,
+  0 prerequisites, 10 curated sources (+1 linked UIDAI Citizen Charter PDF, unverified, unused),
+  77 evidence excerpts.
+- Verification: 10/10 curated sources, 77/77 evidence and 18/18 requirements `verified`.
+- After live ingestion, **77/77 excerpts were found verbatim** in the freshly fetched official text.
+
+### Official sources used (all fetched 2026-11-14)
+| Service | Sources |
+|---------|---------|
+| Aadhaar address update | uidai.gov.in/en/updating-data-on-aadhaar; UIDAI "List of Acceptable Documents for Enrolment and Update" PDF (List IV) |
+| Voter ID (Form 8) | voters.eci.gov.in Form-8 guidelines PDF; Form 8 (English) PDF |
+| Driving licence address change | parivahan.gov.in/en/node/246; CMVR Form 2 PDF |
+| Vehicle RC address change | parivahan.gov.in/en/content/address-change; parivahan.gov.in/en/node/155; CMVR Form 33 PDF |
+| Passport reissue (address) | passportindia.gov.in Application Form Instruction Booklet V3.0 PDF |
+
+### Verified findings that shape the planner
+- **No official source makes any of the five services a prerequisite of another.** The Form 8
+  Aadhaar number is optional ("If the applicant does not have Aadhaar number…"), and for passport,
+  Aadhaar only "will expedite processing". So `service_prerequisites` is empty.
+- Real **acquisition routes** exist through accepted address proofs. An updated Aadhaar, an EPIC
+  (or electoral-roll entry) at the new address, or a passport with the new address is accepted by
+  some of the other services.
+- A **driving licence is NOT accepted as Proof of Address for Aadhaar update** (UIDAI List IV, row 4,
+  PoA column "not allowed"), and it isn't in the passport PoA list. It is never used as a route.
+
+### Ingestion capabilities
+- Allowlist file (`data/sources/allowlist.json`, 4 domains, 10 sources); HTTPS-only;
+  subdomain-aware; redirects re-checked.
+- robots.txt honoured; politeness delay; timeouts; 15 MB cap; retry without compression for
+  broken gzip (needed for uidai.gov.in).
+- HTML: boilerplate removal, title, headings, links, PDF links, `lang`/description metadata.
+  PDF: text, title, page count, per-page character counts (for future page-cited chunking).
+- Dedupe by normalised-text hash (markup-only changes ignored), change detection with previous
+  hash, duplicate pointer across URLs, failure capture without creating rows.
+- Verification stage: changed verified sources become `needs_review`, and evidence excerpts are
+  re-checked against the new text.
+- Live run: 11 sources `new`, then 11 `unchanged` on the re-run.
+
+### Planner behaviour
+OR groups; optional/conditional never block; owned and completed-service outputs satisfy
+requirements; verified prerequisites; acquisition routes with cycle avoidance; blockers with
+propagation; parallel stages; deterministic next-best-action with a structured reason;
+evidence references; replanning by resubmitting owned/completed ids. See `CLAUDE.md` for the rules.
+
+### API
+- `GET /api/services`: service summaries.
+- `GET /api/services/{service_id}`: detail with requirements, OR-group options, outputs,
+  prerequisites, and evidence (404 if unknown, 422 if the id is invalid).
+- `GET /api/documents`: document types with issuing and accepting services.
+- `POST /api/workflows/plan`: `{target_service_ids, owned_document_ids?, completed_service_ids?}`.
+  Returns 422 `unknown_ids` / `empty_selection` / validation errors, 409 `dependency_cycle`,
+  and 503 if the DB is not configured.
+- Smoke-tested live against Supabase (all endpoints, a 3-service plan, and the error path).
+
+### Test results
+`pytest`: **122 passed** (planner 33, ingestion 36, knowledge/seed 12, dataset planner 10, API 9,
+layer boundaries 7, config 9, health 3, embeddings 3). `ruff check` and `ruff format --check` are
+clean. `alembic check`: no drift.
+
+### Known limitations
+- Only a subset of UIDAI's ~30 accepted PoA documents is modelled. Head-of-Family and
+  family-member-declaration routes are not modelled.
+- UIDAI's PoA allowed/not-allowed marks are images. They were checked visually from the rendered
+  PDF (noted on each evidence row); the automated check only confirms the row text exists.
+- DL: the Form 2 annexure combines "Proof of Address and Age"; only clearly address-bearing items
+  are modelled. State-specific documents and fees are not modelled.
+- RC: Parivahan does not list which address proofs are accepted, so this is a generic document,
+  and the planner reports it as a blocker if it isn't held.
+- Passport: booklet V3.0 has no stated publication date. Passport Seva `psp` pages are rendered
+  with JavaScript and could not be ingested. Category-specific annexures are not modelled.
+- Voter: Form 8's "Any Other" document is not modelled. Enrolment (Form 6) is out of scope, so a
+  missing EPIC is a blocker.
+- Document validity conditions (e.g. "not older than 3 months") are shown as option notes; the
+  planner trusts the user's claim that they hold a valid document.
+- Hindi translations of service/document names are not stored yet.
+
+## Milestone 3 — frontend services, planner, Hindi ✅
+- **Services:** catalogue cards (authority, jurisdiction, verification, official link). The detail
+  page groups mandatory, optional and "only in some cases" documents, shows OR-group alternatives
+  with notes and verbatim evidence plus source links, and styles unverified items distinctly.
+- **Planner:** pick services and owned documents, then generate. Results show the next action
+  (with "How to apply" and "Mark as done"), a single blocker panel, and a vertical timeline by
+  parallel group. Each step states its own dependencies; independent steps are labelled as such.
+  Missing documents can be ticked inline. Every change (documents, services, completed steps)
+  re-calls the backend planner. Selections persist in localStorage, and stale ids are dropped.
+- **Documents page:** each document with the services that accept or issue it.
+- **Hindi:** migration **`0003_hindi_names`** (applied to Supabase) adds `name_hi` to services,
+  requirements and document types, and `description_hi` to services. All 5 services, 18
+  requirements and 35 documents are seeded in Hindi, and all UI strings exist in en and hi.
+- **Backend changes (no planner logic touched):**
+  - Hindi fields and plan display-name maps.
+  - `requirement_count` on the service summary.
+  - Fixed slow responses (9–16 s, down to about 1–2 s cold and a few ms cached). Evidence
+    eager-loading was dragging every source's full extracted text; it now loads only the needed
+    source columns, uses `joinedload` for many-to-one relations, and adds a per-app TTL cache.
+- **Verification:**
+  - Backend `pytest` 124 passed, ruff clean, `alembic check` no drift.
+  - Frontend Vitest 16 passed, `tsc -b` clean, oxlint clean, `vite build` ok.
+  - Headless-Chrome screenshots checked: services, detail, parallel plan, blocked plan, Hindi, 390 px mobile.
+
+### Known limitations (frontend)
+- Requirement notes and conditions, source notes and authority names are shown in English;
+  only names and descriptions have stored Hindi.
+- The planner trusts the user's ticks (it cannot check document age or validity).
+- After re-seeding, the API serves cached knowledge for up to `KNOWLEDGE_CACHE_SECONDS` (60 s).
+- When nothing is held, the backend can chain several blocked acquisition steps. This is correct
+  per the rules, but the plan becomes long.
+
+## Milestone 4 — RAG, retrieval, AI assistant ✅
+- **Models (checked against the Gemini docs, no API calls made):**
+  - `gemini-3.8-flash`: Stable, free tier, structured output, thinking levels low/medium/high
+    (`minimal` unsupported). Using `low`; thinking tokens count toward `max_output_tokens`
+    (2048).
+  - `gemini-embedding-2`: Stable, free tier, 128–3072 dims (default 3072, 768 recommended and
+    auto-normalised). The pgvector column is `vector(768)`.
+  - Fixed a latent bug: a list of strings is aggregated into **one** embedding; each text is now
+    its own `Content`.
+- **Database:** migration **`0004_source_chunks`** applied (HNSW cosine index), `alembic check` clean.
+  `scripts.embed --dry-run` created **199 chunks** from 11 stored sources (re-run: 0 new).
+  **No embeddings were generated** (to protect the quota). The pgvector query path was verified
+  on Supabase with a probe vector in a rolled-back transaction.
+- **Pipeline:** page-aware, heading-aware chunks with overlap, content-hash keys, and language.
+  Embedding is incremental (skips current, re-embeds on content/model/dimension change), batched
+  (16), committed per batch, and stops on quota exhaustion.
+- **Assistant:** `POST /api/assistant/query`. Retrieval (top-5, min similarity 0.5, max 2 chunks
+  per source, verified sources only) plus verified structured facts plus the read-only planner
+  summary, then a grounded Gemini JSON answer with server-validated citations and an AI label.
+  No Gemini call when nothing relevant is found, and question-embedding and answer caches are in
+  place.
+- **Frontend:** Assistant page with question input, examples, "use my saved plan", AI-labelled
+  answers, clickable `[S#]` citations, expandable exact excerpts, evidence-status badge, and
+  friendly errors (quota, rate limit, index not built, network, validation), in English and Hindi.
+- **Tests:** backend pytest **177 passed** (all Gemini calls faked; `genai.Client` blocked in
+  tests), ruff clean. Frontend Vitest **26 passed**, `tsc -b`, oxlint and `vite build` clean.
+
+### Known limitations
+- Daily caps and throttling are per API process, in memory (they reset on restart; the provider's
+  quota still applies).
+- Free-tier RPM/RPD numbers are not published in the docs, so the defaults are conservative and
+  configurable.
+- Retrieval quality and answer quality with the real models have not been measured yet (no live
+  calls were allowed).
+
+## Milestone 5 — validation & completion (2026-11-14)
+- **Vector index:** built with real embeddings, 199/199 chunks at 768 dims, no duplicates. The
+  run was incremental and resumed after a per-minute rate limit.
+- **Generation model:** now `gemini-3.6-flash`. `gemini-3.8-flash` returned 503/504 on every
+  request. The smoke test passes (3.3 s).
+- **Retrieval evaluation (26 cases):**
+  - P@5 0.548 (0.87 of the achievable ceiling), evidence R@5 0.749, MRR 0.924, success 1.0;
+    EN and HI comparable.
+  - `RAG_MIN_SIMILARITY` tuned 0.5 → 0.66 from the score distribution.
+- **Planner:** validated independently. All 5 workflow expectations match, plus replanning when a
+  document is reported missing, stability under input order, and no invented edges.
+- **Answer evaluation:** proposed system 19/26 cases.
+  - Schema 19/19, 0 invalid citations, 0 unsupported fees/durations, citation precision 0.836.
+  - Out-of-scope abstention with no generation call. Median latency 5.4 s.
+  - Manual review of the 3 automatic failures: 2 correct (strict labels / image-only evidence),
+    1 caused by an overstated curated note, now fixed.
+- **Baselines A/B/C: not run.** The free-tier quota stopped generation after 18 evaluation calls.
+  They resume from cache with `python -m evaluation.run answers P,C,B,A`.
+- **Fixes:**
+  - requirement notes included in the facts, plus mandatory/optional/alternative rules;
+  - covered-services list in every prompt;
+  - relocation questions get all service facts;
+  - citation marker normalisation (backend + frontend);
+  - whole-word keyword matching (car≠card, कार≠सरकार);
+  - corrected passport passbook note;
+  - embed CLI daily cap;
+  - site-wide informational disclaimer.
+- **Tests:** backend 193 passed, ruff clean, `alembic check` clean. Frontend 27 passed,
+  typecheck, lint and build clean. End-to-end in the real app: all pages, planner replanning, and
+  live EN/HI assistant answers with working citations; 0 console errors.
+
+## Remaining work
+- [ ] Complete the answer evaluation and the A/B/C baselines when Gemini quota allows (≤ 85 requests).
+- [ ] Narrow relocation detection (generic "new address" phrases over-include services).
+- [ ] Persist usage counters across API restarts.
+
+## Later
+- [ ] Scheduled re-ingestion and a review queue for `needs_review` items
