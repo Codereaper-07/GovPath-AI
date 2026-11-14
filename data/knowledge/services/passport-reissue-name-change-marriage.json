@@ -1,0 +1,67 @@
+{
+  "slug": "passport-reissue-name-change-marriage",
+  "name": "Passport reissue for change of name after marriage",
+  "name_hi": "विवाह के बाद नाम परिवर्तन हेतु पासपोर्ट पुनः जारी करना",
+  "description": "Apply for re-issue of an existing passport to change the name/surname due to marriage, submitting the old passport and either a marriage certificate or a joint photo declaration.",
+  "description_hi": "विवाह के कारण नाम/उपनाम बदलने के लिए मौजूदा पासपोर्ट पुनः जारी करने का आवेदन करें, पुराने पासपोर्ट के साथ विवाह प्रमाणपत्र या संयुक्त फ़ोटो घोषणा जमा करें।",
+  "authority": "Ministry of External Affairs (Passport Seva)",
+  "jurisdiction": "national",
+  "state": null,
+  "category": "travel",
+  "life_events": [
+    "marriage-family"
+  ],
+  "application_form": "Passport application form (re-issue)",
+  "official_info_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+  "application_url": "https://www.passportindia.gov.in/",
+  "last_verified_on": "2026-11-14",
+  "verification_notes": "The booklet row is worded for 'A woman applying for change of name/ surname in existing Passport due to marriage' and lists documents '5, 14 or 56'; this is read as document 5 (old passport) plus either 14 (marriage certificate) or 56 (joint photo declaration). Address proof (document 1) applies only if the address also changed. Booklet V3.0 has no stated publication date.",
+  "evidence": [
+    "pp-name-change-marriage-row"
+  ],
+  "requirements": [
+    {
+      "slug": "old-passport",
+      "name": "Old passport in original (with self-attested copies)",
+      "name_hi": "मूल पुराना पासपोर्ट (स्व-सत्यापित प्रतियों सहित)",
+      "type": "mandatory",
+      "evidence": [
+        "pp-reissue-old-passport",
+        "pp-name-change-marriage-row"
+      ],
+      "options": [
+        {
+          "document": "passport_existing"
+        }
+      ]
+    },
+    {
+      "slug": "marriage-proof",
+      "name": "Marriage certificate or joint photo declaration (any one)",
+      "name_hi": "विवाह प्रमाणपत्र या संयुक्त फ़ोटो घोषणा (कोई एक)",
+      "type": "mandatory",
+      "evidence": [
+        "pp-name-change-marriage-row"
+      ],
+      "options": [
+        {
+          "document": "marriage_certificate",
+          "notes": "Attested copy issued by the Registrar of Marriage.",
+          "evidence": "pp-doc-14-marriage-certificate"
+        },
+        {
+          "document": "joint_photo_declaration",
+          "notes": "Signed by both husband and wife as per Annexure J.",
+          "evidence": "pp-doc-56-joint-photo"
+        }
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "document": "passport_updated_name",
+      "evidence": "pp-name-change-marriage-row"
+    }
+  ],
+  "prerequisites": []
+}

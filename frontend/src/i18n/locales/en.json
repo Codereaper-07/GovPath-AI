@@ -37,21 +37,30 @@
   "services": {
     "title": "Government services",
     "empty": "No services are available yet.",
-    "intro": "Verified requirements for changing your address, taken from official government sources.",
+    "intro": "Verified requirements for government services, taken from official sources. Search or filter by life event.",
     "loadError": "Could not load the service information.",
     "partlyVerified": "{{verified}} of {{total}} requirements verified",
     "authority": "Authority",
     "lastVerified": "Last verified {{date}}",
     "viewRequirements": "View requirements",
-    "officialSite": "Official website"
+    "officialSite": "Official website",
+    "searchLabel": "Search services",
+    "searchPlaceholder": "Search by service, authority or keyword…",
+    "filterLabel": "Filter by life event",
+    "allEvents": "All",
+    "noMatches": "No services match your search.",
+    "noVerifiedInEvent": "No services in this life event have been verified yet.",
+    "coverageNote": "GovPath only lists services whose requirements are verified from official sources.",
+    "clearFilters": "Clear filters",
+    "lifeEventsLabel": "Life events"
   },
   "planner": {
     "title": "Workflow planner",
-    "intro": "Choose what you need to update and tick the documents you already have. GovPath works out the order, what is missing and what to do next.",
-    "step1": "1. What do you need to update?",
+    "intro": "Choose the services you need and tick the documents you already have. GovPath works out the order, what is missing and what to do next.",
+    "step1": "1. Which services do you need?",
     "step1Hint": "Select one or more services.",
     "step2": "2. Which documents do you have?",
-    "step2Hint": "Tick documents that already show your new address, plus the records being updated.",
+    "step2Hint": "Tick the documents you already have, such as records being updated and proofs that already show the right details.",
     "ownedCount_one": "{{count}} selected",
     "ownedCount_other": "{{count}} selected",
     "selectServiceFirst": "Select a service to see the documents it accepts.",
@@ -157,7 +166,9 @@
       "unknown_ids": "Your saved plan contains selections that no longer exist. Update it in the planner.",
       "validation": "Please enter a question between 3 and 1000 characters.",
       "generic": "Something went wrong while answering. Please try again."
-    }
+    },
+    "example4": "What documents do I need to register my marriage in Delhi?",
+    "example5": "How can I get a PAN card online?"
   },
   "scope": {
     "aadhaar": "Aadhaar address update",
@@ -261,5 +272,57 @@
     "financial": "Financial documents",
     "identity": "Identity / photo",
     "other": "Other"
+  },
+  "home": {
+    "eyebrow": "Government services, step by step",
+    "title": "Know what to do, in what order, with which documents",
+    "subtitle": "GovPath AI turns life events, such as moving home, getting married or having a child, into a personal checklist of government services. Every requirement is backed by official sources.",
+    "ctaPlan": "Plan my steps",
+    "ctaBrowse": "Browse services",
+    "coverage_one": "{{count}} government service verified from official sources",
+    "coverage_other": "{{count}} government services verified from official sources",
+    "lastVerified": "last verified {{date}}",
+    "lifeEventsTitle": "Start from a life event",
+    "lifeEventsHint": "Choose what is happening in your life to see the services that may apply.",
+    "noVerifiedYet": "No verified services yet",
+    "serviceCount_one": "{{count}} verified service",
+    "serviceCount_other": "{{count}} verified services",
+    "howTitle": "How it works",
+    "how1Title": "Pick your services",
+    "how1Text": "Choose the services you need from any life event.",
+    "how2Title": "Tick your documents",
+    "how2Text": "Mark the documents you already have. Alternatives count.",
+    "how3Title": "Follow your plan",
+    "how3Text": "See the order, blockers and next step. Ask the assistant for explanations with sources.",
+    "savedTitle": "Your saved plan",
+    "savedServices": "Services selected",
+    "savedDocuments": "Documents ticked",
+    "savedDone": "Steps done",
+    "savedContinue": "Continue planning",
+    "savedEmpty": "You have not started a plan yet. Your selections are saved on this device when you do.",
+    "trustTitle": "Where the information comes from",
+    "trustText": "Requirements are taken from official government websites and documents, quoted exactly and dated. The planner uses fixed rules; the assistant only explains them. Coverage is limited to the services listed here."
+  },
+  "lifeEvents": {
+    "relocation-identity": {
+      "name": "Relocation & Identity",
+      "description": "Moving home and keeping identity documents up to date."
+    },
+    "marriage-family": {
+      "name": "Marriage & Family",
+      "description": "Registering a marriage and updating your name afterwards."
+    },
+    "birth-parenthood": {
+      "name": "Birth & Parenthood",
+      "description": "Identity documents for a newborn or young child."
+    },
+    "employment-career": {
+      "name": "Employment & Career",
+      "description": "Tax and identity services useful when starting work."
+    },
+    "starting-business": {
+      "name": "Starting a Business",
+      "description": "Registrations for a new enterprise."
+    }
   }
 }

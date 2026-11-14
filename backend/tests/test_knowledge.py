@@ -27,6 +27,11 @@ SERVICES = {
     "driving-licence-address-change",
     "vehicle-rc-address-change",
     "passport-reissue-change-of-address",
+    "marriage-registration-delhi",
+    "aadhaar-name-update",
+    "passport-reissue-name-change-marriage",
+    "child-aadhaar-enrolment",
+    "instant-e-pan",
 }
 
 
@@ -173,7 +178,7 @@ async def test_seeding_is_idempotent(session_factory, seed_data):
     async with session_factory() as s:
         second = await apply_seed(s, seed_data)
         await s.commit()
-    assert first.created["government_services"] == 5
+    assert first.created["government_services"] == len(SERVICES)
     assert second.created == {}
     assert first.totals == second.totals
     assert first.warnings == second.warnings == []

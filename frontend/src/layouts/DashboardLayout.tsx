@@ -1,14 +1,15 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { NavLink, Outlet } from 'react-router-dom'
+import { Icon } from '../components/ui/Icon'
 import { LanguageSwitcher } from './LanguageSwitcher'
 
 const NAV_ITEMS = [
-  { to: '/', key: 'nav.dashboard', end: true },
-  { to: '/services', key: 'nav.services' },
-  { to: '/planner', key: 'nav.planner' },
-  { to: '/documents', key: 'nav.documents' },
-  { to: '/assistant', key: 'nav.assistant' },
+  { to: '/', key: 'nav.dashboard', icon: 'relocation-identity', end: true },
+  { to: '/services', key: 'nav.services', icon: 'search' },
+  { to: '/planner', key: 'nav.planner', icon: 'plan' },
+  { to: '/documents', key: 'nav.documents', icon: 'doc' },
+  { to: '/assistant', key: 'nav.assistant', icon: 'chat' },
 ] as const
 
 export function DashboardLayout() {
@@ -34,11 +35,12 @@ export function DashboardLayout() {
               end={'end' in item ? item.end : false}
               onClick={() => setOpen(false)}
               className={({ isActive }) =>
-                `rounded-md px-3 py-2 text-sm font-medium ${
+                `flex items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium transition ${
                   isActive ? 'bg-brand-50 text-brand-700' : 'text-slate-600 hover:bg-slate-50'
                 }`
               }
             >
+              <Icon name={item.icon} className="h-4 w-4" />
               {t(item.key)}
             </NavLink>
           ))}

@@ -1,0 +1,84 @@
+{
+  "slug": "child-aadhaar-enrolment",
+  "name": "Aadhaar enrolment for a child under 5",
+  "name_hi": "5 वर्ष से कम आयु के बच्चे का आधार नामांकन",
+  "description": "Enrol a resident child up to five years of age for Aadhaar through Head-of-Family based enrolment, using the child's birth certificate and a parent's or legal guardian's Aadhaar.",
+  "description_hi": "बच्चे के जन्म प्रमाणपत्र और माता-पिता या कानूनी अभिभावक के आधार के साथ परिवार-मुखिया आधारित नामांकन द्वारा पाँच वर्ष तक के निवासी बच्चे का आधार नामांकन कराएँ।",
+  "authority": "Unique Identification Authority of India (UIDAI)",
+  "jurisdiction": "national",
+  "state": null,
+  "category": "identity",
+  "life_events": [
+    "birth-parenthood"
+  ],
+  "application_form": null,
+  "official_info_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+  "application_url": null,
+  "last_verified_on": "2026-11-14",
+  "verification_notes": "From UIDAI List I (enrolment up to five years). Allowed/not-allowed marks are images, checked visually. Modelled for Head-of-Family based enrolment of resident children; the NRI passport option and document-based enrolment via District Child Protection Officer are not modelled. Biometric authentication by one parent/guardian is mandatory (not a document). Birth registration itself is not in the knowledge base (the official CRS FAQ is disallowed by robots.txt), so a missing birth certificate is reported as a blocker.",
+  "evidence": [
+    "uidai-list1-heading",
+    "uidai-list1-hof-based",
+    "uidai-list1-hof-valid-aadhaar"
+  ],
+  "requirements": [
+    {
+      "slug": "parent-aadhaar",
+      "name": "Aadhaar number(s) of parent(s) / legal guardian",
+      "name_hi": "माता-पिता / कानूनी अभिभावक के आधार नंबर",
+      "type": "mandatory",
+      "notes": "Both parents' Aadhaar numbers, or only that of the single parent/legal guardian the child lives with. The Head of Family must hold a valid Aadhaar.",
+      "evidence": [
+        "uidai-list1-parents-aadhaar",
+        "uidai-list1-hof-valid-aadhaar"
+      ],
+      "options": [
+        {
+          "document": "parent_aadhaar_numbers"
+        }
+      ]
+    },
+    {
+      "slug": "proof-of-relationship",
+      "name": "Proof of relationship with the Head of Family (any one)",
+      "name_hi": "परिवार-मुखिया से संबंध का प्रमाण (कोई एक)",
+      "type": "mandatory",
+      "evidence": [
+        "uidai-list1-hof-based"
+      ],
+      "options": [
+        {
+          "document": "birth_certificate",
+          "evidence": "uidai-list1-birth-certificate"
+        },
+        {
+          "document": "legal_guardianship_document",
+          "evidence": "uidai-list1-guardianship"
+        }
+      ]
+    },
+    {
+      "slug": "proof-of-date-of-birth",
+      "name": "Proof of date of birth",
+      "name_hi": "जन्म तिथि का प्रमाण",
+      "type": "mandatory",
+      "notes": "Among List I documents for resident children, only the birth certificate is marked as proof of date of birth (a passport applies only to NRIs).",
+      "evidence": [
+        "uidai-list1-hof-based"
+      ],
+      "options": [
+        {
+          "document": "birth_certificate",
+          "evidence": "uidai-list1-birth-certificate"
+        }
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "document": "child_aadhaar",
+      "evidence": "uidai-list1-heading"
+    }
+  ],
+  "prerequisites": []
+}

@@ -13,6 +13,13 @@ export interface DbHealthResponse {
   detail: string | null
 }
 
+export type LifeEventId =
+  | 'relocation-identity'
+  | 'marriage-family'
+  | 'birth-parenthood'
+  | 'employment-career'
+  | 'starting-business'
+
 export type VerificationStatus = 'verified' | 'unverified' | 'needs_review' | 'rejected'
 export type RequirementType = 'mandatory' | 'optional' | 'conditional'
 
@@ -38,6 +45,7 @@ export interface ServiceSummary {
   jurisdiction: 'national' | 'state'
   state: string | null
   category: string
+  life_events: LifeEventId[]
   application_form: string | null
   official_info_url: string
   application_url: string | null

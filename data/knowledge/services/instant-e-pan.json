@@ -1,0 +1,105 @@
+{
+  "slug": "instant-e-pan",
+  "name": "Instant e-PAN (free PAN through Aadhaar)",
+  "name_hi": "इंस्टेंट ई-पैन (आधार से निःशुल्क पैन)",
+  "description": "Individuals without a PAN can obtain a digitally signed e-PAN free of cost on the Income Tax e-Filing portal using Aadhaar e-KYC, the Aadhaar-linked mobile number and DigiLocker.",
+  "description_hi": "जिन व्यक्तियों के पास पैन नहीं है, वे आधार ई-केवाईसी, आधार से जुड़े मोबाइल नंबर और डिजिलॉकर की मदद से आयकर ई-फ़ाइलिंग पोर्टल पर निःशुल्क डिजिटल हस्ताक्षरित ई-पैन प्राप्त कर सकते हैं।",
+  "authority": "Income Tax Department, Ministry of Finance",
+  "jurisdiction": "national",
+  "state": null,
+  "category": "tax",
+  "life_events": [
+    "employment-career"
+  ],
+  "application_form": null,
+  "official_info_url": "https://www.incometax.gov.in/iec/foportal/help/all-topics/e-filing-services/instant-e-pan/instant-UM",
+  "application_url": "https://www.incometax.gov.in/",
+  "last_verified_on": "2026-11-14",
+  "verification_notes": "Eligibility: individual without an existing PAN, not a minor on the date of request, and not a Representative Assessee (u/s 160 of the Income Tax Act, 1961 / u/s 303 of the Income Tax Act, 2025). These eligibility conditions are stated in the description, not modelled as documents. Its relevance to employment is general (PAN is a tax identifier); no official source here states that an employer requires it.",
+  "evidence": [
+    "epan-overview",
+    "epan-prereq-no-pan",
+    "epan-prereq-not-minor",
+    "epan-output"
+  ],
+  "requirements": [
+    {
+      "slug": "aadhaar-number",
+      "name": "Valid Aadhaar",
+      "name_hi": "वैध आधार",
+      "type": "mandatory",
+      "evidence": [
+        "epan-prereq-aadhaar"
+      ],
+      "options": [
+        {
+          "document": "aadhaar_number"
+        }
+      ]
+    },
+    {
+      "slug": "aadhaar-linked-mobile",
+      "name": "Mobile number linked to Aadhaar",
+      "name_hi": "आधार से जुड़ा मोबाइल नंबर",
+      "type": "mandatory",
+      "evidence": [
+        "epan-prereq-aadhaar"
+      ],
+      "options": [
+        {
+          "document": "mobile_linked_to_aadhaar"
+        }
+      ]
+    },
+    {
+      "slug": "digilocker",
+      "name": "Access to DigiLocker",
+      "name_hi": "डिजिलॉकर तक पहुँच",
+      "type": "mandatory",
+      "evidence": [
+        "epan-prereq-aadhaar",
+        "epan-overview"
+      ],
+      "options": [
+        {
+          "document": "digilocker_access"
+        }
+      ]
+    },
+    {
+      "slug": "date-of-birth-proof",
+      "name": "Proof of date of birth available in DigiLocker (any one)",
+      "name_hi": "डिजिलॉकर में उपलब्ध जन्म तिथि का प्रमाण (कोई एक)",
+      "type": "mandatory",
+      "notes": "Fetched from DigiLocker with the applicant's consent.",
+      "evidence": [
+        "epan-dob-list",
+        "epan-dob-options"
+      ],
+      "options": [
+        {
+          "document": "birth_certificate"
+        },
+        {
+          "document": "matriculation_certificate"
+        },
+        {
+          "document": "driving_licence_existing"
+        },
+        {
+          "document": "matriculation_marksheet"
+        },
+        {
+          "document": "cghs_card"
+        }
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "document": "pan_card",
+      "evidence": "epan-output"
+    }
+  ],
+  "prerequisites": []
+}

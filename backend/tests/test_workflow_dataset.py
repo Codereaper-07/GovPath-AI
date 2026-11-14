@@ -39,7 +39,9 @@ def step(result, sid):
 
 
 def test_snapshot_contains_only_verified_facts(snapshot):
-    assert set(snapshot.services) == {AADHAAR, VOTER, DL, RC, PASSPORT}
+    assert {AADHAAR, VOTER, DL, RC, PASSPORT} <= set(snapshot.services) and len(
+        snapshot.services
+    ) == 10
     assert all(s.prerequisites == () for s in snapshot.services.values())
     assert snapshot.producers_of("aadhaar_current_address") == [AADHAAR]
     assert snapshot.producers_of("driving_licence_current_address") == [DL]

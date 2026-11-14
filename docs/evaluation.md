@@ -216,6 +216,9 @@ Other manual observations:
   browser console errors, 0 failed HTTP responses and 0 server tracebacks.
 
 ## 7. Limitations
+- **Dataset predates expansion:** the evaluation ran before the 5 new services were added. The
+  `abstain-pan-en` case was out of scope then but is now covered by Instant e-PAN; its cached
+  result reflects the earlier scope.
 - **Coverage:** 5 services, a subset of the accepted documents, no fees, no processing times, no
   inter-state vehicle re-registration rules, and no state-specific variations. RC "proof of new
   address" is unspecified by Parivahan.

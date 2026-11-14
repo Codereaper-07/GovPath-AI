@@ -11,7 +11,7 @@ import { AnswerCard } from './AnswerCard'
 import { useAskAssistant } from './api'
 
 const MAX_CHARS = 1000
-const EXAMPLES = ['example1', 'example2', 'example3'] as const
+const EXAMPLES = ['example1', 'example2', 'example3', 'example4', 'example5'] as const
 
 interface Exchange {
   id: number

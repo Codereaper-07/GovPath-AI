@@ -1,0 +1,196 @@
+{
+  "slug": "marriage-registration-delhi",
+  "name": "Marriage registration (Delhi, Hindu Marriage Act)",
+  "name_hi": "विवाह पंजीकरण (दिल्ली, हिंदू विवाह अधिनियम)",
+  "description": "Register an already-solemnised marriage with the Revenue Department of the Government of NCT of Delhi and receive a Marriage Registration Certificate. Apply at the office of the Deputy Commissioner/ADM with jurisdiction.",
+  "description_hi": "पहले से संपन्न विवाह को दिल्ली सरकार के राजस्व विभाग में पंजीकृत कराएँ और विवाह पंजीकरण प्रमाणपत्र प्राप्त करें। अधिकार क्षेत्र वाले उपायुक्त/एडीएम कार्यालय में आवेदन करें।",
+  "authority": "Revenue Department, Government of NCT of Delhi",
+  "jurisdiction": "state",
+  "state": "Delhi",
+  "category": "family",
+  "life_events": [
+    "marriage-family"
+  ],
+  "application_form": "Marriage registration application form",
+  "official_info_url": "https://revenue.delhi.gov.in/revenue/registration-marriage",
+  "application_url": null,
+  "last_verified_on": "2026-11-14",
+  "verification_notes": "Delhi only; other states run their own marriage registration. Modelled for the Hindu Marriage Act, 1955 route (both parties Hindu, Buddhist, Jain or Sikh); the Special Marriage Act route has a 30-day notice procedure that is not modelled. Fees are not modelled. The page's identification certificate with attested photographs ('the proof may be in the form of...') is ambiguous and not modelled as a separate requirement.",
+  "evidence": [
+    "dl-mr-what",
+    "dl-mr-where",
+    "dl-mr-response",
+    "dl-mrg-hma-eligibility",
+    "dl-mrg-age",
+    "dl-mrg-presence"
+  ],
+  "requirements": [
+    {
+      "slug": "identity-proof",
+      "name": "Identity proof of both parties (any one each)",
+      "name_hi": "दोनों पक्षों का पहचान प्रमाण (प्रत्येक का कोई एक)",
+      "type": "mandatory",
+      "notes": "Aadhaar is not compulsory; any one of the listed identity proofs is accepted instead.",
+      "evidence": [
+        "dl-mr-identity"
+      ],
+      "options": [
+        {
+          "document": "aadhaar_number"
+        },
+        {
+          "document": "epic_existing"
+        },
+        {
+          "document": "driving_licence_existing"
+        },
+        {
+          "document": "passport_existing"
+        },
+        {
+          "document": "pan_card"
+        }
+      ]
+    },
+    {
+      "slug": "date-of-birth-proof",
+      "name": "Date-of-birth proof of both parties (any one each)",
+      "name_hi": "दोनों पक्षों की जन्म तिथि का प्रमाण (प्रत्येक का कोई एक)",
+      "type": "mandatory",
+      "notes": "Self-attested.",
+      "evidence": [
+        "dl-mr-dob"
+      ],
+      "options": [
+        {
+          "document": "matriculation_certificate"
+        },
+        {
+          "document": "passport_existing"
+        },
+        {
+          "document": "birth_certificate"
+        }
+      ]
+    },
+    {
+      "slug": "residence-proof",
+      "name": "Residential proof of both parties (any one each)",
+      "name_hi": "दोनों पक्षों का निवास प्रमाण (प्रत्येक का कोई एक)",
+      "type": "mandatory",
+      "notes": "Self-attested. The source ends the list with 'etc.', so other residence proofs may also be accepted.",
+      "evidence": [
+        "dl-mr-residence"
+      ],
+      "options": [
+        {
+          "document": "epic_existing"
+        },
+        {
+          "document": "ration_card"
+        },
+        {
+          "document": "driving_licence_existing"
+        },
+        {
+          "document": "passport_existing"
+        }
+      ]
+    },
+    {
+      "slug": "affidavits",
+      "name": "Separate affidavits of husband and wife",
+      "name_hi": "पति और पत्नी के अलग-अलग शपथपत्र",
+      "type": "mandatory",
+      "evidence": [
+        "dl-mr-affidavits"
+      ],
+      "options": [
+        {
+          "document": "marriage_affidavits"
+        }
+      ]
+    },
+    {
+      "slug": "photographs",
+      "name": "Attested passport-size and ceremonial photographs",
+      "name_hi": "सत्यापित पासपोर्ट आकार व समारोह के फ़ोटो",
+      "type": "mandatory",
+      "evidence": [
+        "dl-mr-photos"
+      ],
+      "options": [
+        {
+          "document": "marriage_photographs_attested"
+        }
+      ]
+    },
+    {
+      "slug": "invitation-card",
+      "name": "Marriage invitation card",
+      "name_hi": "विवाह निमंत्रण पत्र",
+      "type": "optional",
+      "description": "Only if available.",
+      "evidence": [
+        "dl-mr-invitation"
+      ],
+      "options": [
+        {
+          "document": "marriage_invitation_card"
+        }
+      ]
+    },
+    {
+      "slug": "divorce-or-death-certificate",
+      "name": "Divorce decree or former spouse's death certificate",
+      "name_hi": "तलाक़ की डिक्री या पूर्व जीवनसाथी का मृत्यु प्रमाणपत्र",
+      "type": "conditional",
+      "condition": "Only if a party is divorced or widowed.",
+      "evidence": [
+        "dl-mr-divorce"
+      ],
+      "options": [
+        {
+          "document": "divorce_decree_or_spouse_death_certificate"
+        }
+      ]
+    },
+    {
+      "slug": "priest-certificate",
+      "name": "Certificate from the priest",
+      "name_hi": "पुजारी का प्रमाणपत्र",
+      "type": "conditional",
+      "condition": "Only if the marriage was solemnised at a religious place.",
+      "evidence": [
+        "dl-mr-priest"
+      ],
+      "options": [
+        {
+          "document": "priest_certificate"
+        }
+      ]
+    },
+    {
+      "slug": "embassy-certificate",
+      "name": "Embassy certificate of marital status",
+      "name_hi": "वैवाहिक स्थिति का दूतावास प्रमाणपत्र",
+      "type": "conditional",
+      "condition": "Only if a party is a foreign national.",
+      "evidence": [
+        "dl-mr-foreign"
+      ],
+      "options": [
+        {
+          "document": "embassy_marital_status_certificate"
+        }
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "document": "marriage_certificate",
+      "evidence": "dl-mr-what"
+    }
+  ],
+  "prerequisites": []
+}

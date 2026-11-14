@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { Link, useParams } from 'react-router-dom'
 import { EvidenceList } from '../../components/knowledge/EvidenceList'
 import { Pill, VerificationBadge } from '../../components/ui/Badge'
+import { Icon } from '../../components/ui/Icon'
 import { ErrorState, LoadingState } from '../../components/ui/States'
 import { ApiError } from '../../lib/apiClient'
 import { useFormatDate, useLocalized } from '../../lib/useLocalized'
@@ -50,7 +51,12 @@ function ServiceDetailView({ service: s }: { service: ServiceDetail }) {
       <BackLink />
       <header className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="flex flex-wrap gap-2">
-          <Pill>{t(`jurisdiction.${s.jurisdiction}`)}</Pill>
+          {s.life_events.map((e) => (
+            <Link key={e} to={`/services?event=${e}`} className="inline-flex items-center gap-1 rounded-full bg-brand-50 px-2 py-0.5 text-xs font-medium text-brand-700 ring-1 ring-brand-100 ring-inset hover:bg-brand-100">
+              <Icon name={e} className="h-3.5 w-3.5" /> {t(`lifeEvents.${e}.name`)}
+            </Link>
+          ))}
+          <Pill>{t(`jurisdiction.${s.jurisdiction}`)}{s.state ? ` · ${s.state}` : ''}</Pill>
           {s.application_form && <Pill tone="blue">{s.application_form}</Pill>}
         </div>
         <h1 className="mt-3 text-2xl font-semibold text-slate-900">{pick(s.name, s.name_hi)}</h1>

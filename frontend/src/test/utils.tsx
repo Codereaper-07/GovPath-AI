@@ -3,6 +3,7 @@ import { render } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { vi } from 'vitest'
 import { AssistantPage } from '../features/assistant/AssistantPage'
+import { DashboardPage } from '../features/dashboard/DashboardPage'
 import { PlannerPage } from '../features/planner/PlannerPage'
 import { ServiceDetailPage } from '../features/services/ServiceDetailPage'
 import { ServicesPage } from '../features/services/ServicesPage'
@@ -15,6 +16,7 @@ export function renderApp(path: string) {
       <MemoryRouter initialEntries={[path]}>
         <Routes>
           <Route element={<DashboardLayout />}>
+            <Route path="/" element={<DashboardPage />} />
             <Route path="/services" element={<ServicesPage />} />
             <Route path="/services/:serviceId" element={<ServiceDetailPage />} />
             <Route path="/planner" element={<PlannerPage />} />

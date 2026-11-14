@@ -204,9 +204,53 @@ clean. `alembic check`: no drift.
   typecheck, lint and build clean. End-to-end in the real app: all pages, planner replanning, and
   live EN/HI assistant answers with working citations; 0 console errors.
 
+## Milestone 6 — multi-life-event expansion & frontend (2026-11-14)
+- **Life events:** migration **`0005_life_events`** adds `government_services.life_events`
+  (JSON, default `[]`). There are five categories: relocation-identity, marriage-family,
+  birth-parenthood, employment-career, starting-business.
+- **5 new verified services (10 total)**, all requirements verified with exact quotes:
+
+  | Service | Life event | Official source |
+  |---|---|---|
+  | Marriage registration (Delhi, Hindu Marriage Act) | marriage-family | revenue.delhi.gov.in page + guidelines PDF |
+  | Aadhaar name update | marriage-family, relocation-identity | UIDAI List IV, rows 11 and 18 (PoI marks checked visually) |
+  | Passport reissue for name change after marriage | marriage-family | Passport booklet Table 2 E.1, docs 14/56 |
+  | Aadhaar enrolment for a child under 5 | birth-parenthood | UIDAI List I (marks checked visually) |
+  | Instant e-PAN | employment-career | incometax.gov.in user manual |
+
+  - Distribution: relocation & identity 6, marriage & family 3, birth & parenthood 1,
+    employment & career 1, **starting a business 0** (no machine-readable official source
+    verified: Udyam pages need JavaScript).
+  - Data: 55 document types (+20), 38 requirements, 111 evidence excerpts. **All 111 were found
+    verbatim in live fetched text**; 38/38 requirements verified; the seed is idempotent.
+  - Real cross-event route: marriage registration issues a marriage certificate, which the
+    Aadhaar and passport name changes accept. No prerequisite edges were invented.
+- **Gaps recorded (not filled with assumptions):**
+  - birth registration: the CRS FAQ is disallowed by robots.txt, so a missing birth certificate
+    is shown as a blocker;
+  - EPFO: FAQ PDFs return 404;
+  - GST / Udyam: not verified;
+  - marriage registration: Delhi only, Special Marriage Act route not modelled.
+- **RAG:** the 3 new sources were ingested and chunked (21 new chunks) but **not embedded**, to
+  save quota (`python -m scripts.embed`, about 2 requests). The assistant uses the new services'
+  verified facts; keywords were added for the new services.
+- **Frontend:**
+  - dashboard: hero, life-event cards with live counts, how-it-works, saved-plan progress, trust
+    note;
+  - services catalogue: search (EN/HI), life-event filter chips (in the URL), tags, honest empty
+    states;
+  - planner: picker grouped by life event; life-event tags on service detail; nav icons;
+  - new assistant examples; all new strings in English and Hindi.
+- **Tests:** backend 202 passed (new `test_life_events.py`); frontend 34 passed (new
+  `lifeEvents.test.tsx`); typecheck, lint, build and `alembic check` clean. Real-app check: no
+  console errors, no failed requests, no horizontal overflow at 390 px.
+- **Gemini calls this milestone: 0.** No model, billing or provider change.
+
 ## Remaining work
 - [ ] Complete the answer evaluation and the A/B/C baselines when Gemini quota allows (≤ 85 requests).
 - [ ] Narrow relocation detection (generic "new address" phrases over-include services).
+- [ ] Starting-a-business services (Udyam, GST) and birth registration: find machine-readable official sources.
+- [ ] Embed the 21 new chunks (`python -m scripts.embed`, ~2 requests) when quota allows.
 - [ ] Persist usage counters across API restarts.
 
 ## Later

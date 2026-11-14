@@ -26,7 +26,7 @@ describe('Services catalogue', () => {
       'href',
       'https://uidai.gov.in/en/updating-data-on-aadhaar',
     )
-    expect(screen.getAllByRole('article')).toHaveLength(5)
+    expect(screen.getAllByRole('article')).toHaveLength(10)
   })
 
   it('switches service names and labels to Hindi', async () => {
@@ -36,7 +36,7 @@ describe('Services catalogue', () => {
     await userEvent.selectOptions(screen.getByRole('combobox'), 'hi')
     expect(await screen.findByRole('link', { name: 'आधार में पता अपडेट' })).toBeInTheDocument()
     expect(screen.getByRole('heading', { level: 1, name: 'सरकारी सेवाएँ' })).toBeInTheDocument()
-    expect(screen.getAllByText('आधिकारिक वेबसाइट ↗').length).toBe(5)
+    expect(screen.getAllByText('आधिकारिक वेबसाइट ↗').length).toBe(10)
     // Authority names are official English names and are not translated.
     expect(screen.getAllByText(/Unique Identification Authority of India/).length).toBeGreaterThan(0)
     await i18n.changeLanguage('en')

@@ -52,6 +52,34 @@ SERVICE_KEYWORDS: dict[str, tuple[str, ...]] = {
         "बाइक",
     ),
     "passport-reissue-change-of-address": ("passport", "पासपोर्ट"),
+    "marriage-registration-delhi": ("marriage", "married", "wedding", "विवाह", "शादी"),
+    "aadhaar-name-update": (
+        "aadhaar",
+        "aadhar",
+        "आधार",
+        "name change",
+        "change my name",
+        "surname",
+        "नाम",
+    ),
+    "passport-reissue-name-change-marriage": (
+        "passport",
+        "पासपोर्ट",
+        "surname",
+        "maiden name",
+        "नाम",
+    ),
+    "child-aadhaar-enrolment": (
+        "child",
+        "baby",
+        "newborn",
+        "baal aadhaar",
+        "बच्चे",
+        "बच्चा",
+        "शिशु",
+        "बाल आधार",
+    ),
+    "instant-e-pan": ("pan", "e-pan", "pan card", "पैन", "ई-पैन"),
 }
 
 

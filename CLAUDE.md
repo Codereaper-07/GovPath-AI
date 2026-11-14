@@ -54,6 +54,8 @@ Architecture: `docs/architecture.md`. Status, sources and next tasks: `PROGRESS.
 - Evidence links: `service_evidence`, `requirement_evidence`, `requirement_options.evidence_id`,
   `service_outputs.evidence_id`, `service_prerequisites.evidence_id`.
 - Verification status: `unverified` | `verified` | `needs_review` | `rejected`.
+- Life events: `government_services.life_events` is a JSON list of `LifeEvent` values (seed
+  requires ≥1). A category with no verified services is shown as such, never padded.
 - Hindi: nullable `name_hi` on services, requirements and document types, plus `description_hi`
   on services (migration `0003`). No generic translation system.
 

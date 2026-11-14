@@ -1,6 +1,14 @@
 from enum import StrEnum
 
 
+class LifeEvent(StrEnum):
+    RELOCATION_IDENTITY = "relocation-identity"
+    MARRIAGE_FAMILY = "marriage-family"
+    BIRTH_PARENTHOOD = "birth-parenthood"
+    EMPLOYMENT_CAREER = "employment-career"
+    STARTING_BUSINESS = "starting-business"
+
+
 class Jurisdiction(StrEnum):
     NATIONAL = "national"
     STATE = "state"

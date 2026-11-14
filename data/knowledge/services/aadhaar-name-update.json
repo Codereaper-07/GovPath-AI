@@ -1,0 +1,71 @@
+{
+  "slug": "aadhaar-name-update",
+  "name": "Aadhaar name update (e.g. after marriage)",
+  "name_hi": "आधार में नाम अपडेट (जैसे विवाह के बाद)",
+  "description": "Update the name recorded in Aadhaar at an Aadhaar Enrolment Centre with a supporting Proof of Identity document in the new name.",
+  "description_hi": "आधार नामांकन केंद्र पर नए नाम वाले पहचान प्रमाण दस्तावेज़ के साथ आधार में दर्ज नाम अपडेट करें।",
+  "authority": "Unique Identification Authority of India (UIDAI)",
+  "jurisdiction": "national",
+  "state": null,
+  "category": "identity",
+  "life_events": [
+    "marriage-family",
+    "relocation-identity"
+  ],
+  "application_form": null,
+  "official_info_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+  "application_url": null,
+  "last_verified_on": "2026-11-14",
+  "verification_notes": "From UIDAI List IV (update). PoI eligibility marks are images and were checked visually. Only two PoI documents are modelled (marriage certificate, gazette notification); other List IV PoI documents issued in the new name are also accepted but not modelled. UIDAI's online mode is described for address updates only, so the enrolment-centre route is modelled. Limits on how often a name can be changed are not modelled.",
+  "evidence": [
+    "uidai-update-fields",
+    "uidai-centre-mode",
+    "uidai-list4-heading"
+  ],
+  "requirements": [
+    {
+      "slug": "aadhaar-number",
+      "name": "Existing Aadhaar number",
+      "name_hi": "मौजूदा आधार नंबर",
+      "type": "mandatory",
+      "evidence": [
+        "uidai-centre-mode"
+      ],
+      "options": [
+        {
+          "document": "aadhaar_number"
+        }
+      ]
+    },
+    {
+      "slug": "proof-of-identity-new-name",
+      "name": "Proof of identity in the new name (any one)",
+      "name_hi": "नए नाम में पहचान का प्रमाण (कोई एक)",
+      "type": "mandatory",
+      "notes": "Documents must be issued in the name of the person seeking the update.",
+      "evidence": [
+        "uidai-list4-own-name",
+        "uidai-list4-heading"
+      ],
+      "options": [
+        {
+          "document": "marriage_certificate",
+          "notes": "Issued by Central/State Government. If it has no photograph, a supporting PoI document bearing the old name with photograph is also required.",
+          "evidence": "uidai-poi-marriage-certificate"
+        },
+        {
+          "document": "gazette_notification_name_change",
+          "notes": "For change in first name or full name.",
+          "evidence": "uidai-poi-gazette"
+        }
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "document": "aadhaar_updated_name",
+      "evidence": "uidai-update-fields"
+    }
+  ],
+  "prerequisites": []
+}

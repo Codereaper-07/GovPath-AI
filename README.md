@@ -103,8 +103,10 @@ Errors: `422` validation / `unknown_ids`, `409` dependency cycle, `429` `quota_e
 `502` `model_error`. Responses never include keys, prompts or raw provider errors.
 
 ## Limitations
-- **Coverage:** five address-change services, a subset of accepted documents, and no fees,
-  processing times, inter-state vehicle re-registration or state-specific rules. RC "proof of new
+- **Coverage:** 10 verified services across four life events (relocation & identity, marriage &
+  family, birth & parenthood, employment & career). Starting-a-business has no verified services
+  yet. Marriage registration covers Delhi only. Accepted documents are a subset, and there are no
+  fees, processing times, inter-state vehicle re-registration or other state-specific rules. RC "proof of new
   address" is not enumerated by Parivahan, so GovPath says so instead of guessing.
 - **Not authoritative:** an informational guide only. No application submission and no
   eligibility decisions.

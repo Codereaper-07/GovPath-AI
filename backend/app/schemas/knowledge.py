@@ -90,6 +90,7 @@ class ServiceSummary(BaseModel):
     jurisdiction: str
     state: str | None
     category: str
+    life_events: list[str]
     application_form: str | None
     official_info_url: str
     application_url: str | None
@@ -110,6 +111,7 @@ class ServiceSummary(BaseModel):
             jurisdiction=s.jurisdiction.value,
             state=s.state,
             category=s.category,
+            life_events=list(s.life_events or []),
             application_form=s.application_form,
             official_info_url=s.official_info_url,
             application_url=s.application_url,

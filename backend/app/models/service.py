@@ -5,7 +5,7 @@ from datetime import datetime
 import sqlalchemy as sa
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.models.base import Base, TimestampMixin, enum_column
+from app.models.base import Base, JSONType, TimestampMixin, enum_column
 from app.models.document import DocumentType
 from app.models.enums import Jurisdiction, RequirementType, VerificationStatus
 from app.models.source import Evidence
@@ -46,6 +46,8 @@ class GovernmentService(TimestampMixin, Base):
     jurisdiction: Mapped[Jurisdiction] = mapped_column(enum_column(Jurisdiction, "jurisdiction"))
     state: Mapped[str | None] = mapped_column(sa.String(100))
     category: Mapped[str] = mapped_column(sa.String(50), index=True)
+    # Life-event categories (app.models.enums.LifeEvent values) this service belongs to.
+    life_events: Mapped[list[str]] = mapped_column(JSONType, default=list, server_default="[]")
     application_form: Mapped[str | None] = mapped_column(sa.String(100))
     official_info_url: Mapped[str] = mapped_column(sa.String(1000))
     application_url: Mapped[str | None] = mapped_column(sa.String(1000))

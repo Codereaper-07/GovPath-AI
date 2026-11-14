@@ -8,6 +8,9 @@
   "jurisdiction": "state",
   "state": null,
   "category": "transport",
+  "life_events": [
+    "relocation-identity"
+  ],
   "application_form": "Form 2 (CMVR)",
   "official_info_url": "https://parivahan.gov.in/en/node/246",
   "application_url": "https://sarathi.parivahan.gov.in/",
