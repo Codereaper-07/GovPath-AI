@@ -39,6 +39,14 @@ describe('Dashboard life-event discovery', () => {
     expect(within(saved).getByRole('link', { name: /Continue planning/ })).toHaveAttribute('href', '/planner')
   })
 
+  it('hands a described situation to the assistant', async () => {
+    mockFetch(api)
+    renderApp('/')
+    await userEvent.type(await screen.findByLabelText('Describe your situation'), 'I got married')
+    await userEvent.click(screen.getByRole('button', { name: /Ask GovPath/ }))
+    expect(await screen.findByLabelText('Your question')).toHaveValue('I got married')
+  })
+
   it('renders in Hindi', async () => {
     mockFetch(api)
     renderApp('/')

@@ -7,9 +7,9 @@ import type { PlanResponse, PlanStep, RequirementStatus, StepStatus } from '../.
 import type { PlanNames } from '../names'
 
 const STATUS: Record<StepStatus, { tone: Tone; dot: string; card: string }> = {
-  ready: { tone: 'blue', dot: 'bg-brand-600 ring-brand-100', card: 'border-brand-600' },
-  waiting: { tone: 'slate', dot: 'bg-slate-400 ring-slate-100', card: 'border-slate-200' },
-  blocked: { tone: 'red', dot: 'bg-red-500 ring-red-100', card: 'border-red-300' },
+  ready: { tone: 'blue', dot: 'bg-brand-700 ring-brand-100', card: 'border-line border-l-brand-700' },
+  waiting: { tone: 'slate', dot: 'bg-slate-300 ring-slate-100', card: 'border-line border-l-slate-300' },
+  blocked: { tone: 'red', dot: 'bg-red-500 ring-red-100', card: 'border-red-200 border-l-red-500' },
 }
 
 /**
@@ -40,9 +40,9 @@ export function Timeline({
       </h2>
       <ol className="mt-3 space-y-6">
         {[...byStage.entries()].map(([stage, steps]) => (
-          <li key={stage} className="relative border-l-2 border-slate-200 pl-6">
-            <span className="absolute top-0 -left-[9px] flex h-4 w-4 rounded-full bg-white ring-2 ring-slate-300" />
-            <p className="text-xs font-semibold tracking-wide text-slate-500 uppercase">
+          <li key={stage} className="relative ml-3.5 border-l-2 border-line pb-2 pl-8">
+            <span aria-hidden className="absolute -top-0.5 -left-[15px] flex h-7 w-7 items-center justify-center rounded-full bg-surface font-display text-sm font-semibold text-brand-800 ring-2 ring-brand-200">{stage}</span>
+            <p className="pt-1 text-xs font-semibold tracking-wide text-slate-500 uppercase">
               {t('planner.stage', { n: stage })}
               {steps.length > 1 && (
                 <span className="ml-2 font-normal tracking-normal normal-case">
@@ -58,14 +58,14 @@ export function Timeline({
           </li>
         ))}
         {plan.completed_service_ids.length > 0 && (
-          <li className="relative border-l-2 border-green-300 pl-6">
-            <span className="absolute top-0 -left-[9px] flex h-4 w-4 rounded-full bg-green-500 ring-2 ring-green-100" />
+          <li className="relative ml-3.5 border-l-2 border-green-200 pl-8">
+            <span aria-hidden className="absolute -top-0.5 -left-[15px] flex h-7 w-7 items-center justify-center rounded-full bg-verified text-white ring-2 ring-green-100">✓</span>
             <p className="text-xs font-semibold tracking-wide text-green-700 uppercase">{t('planner.completed')}</p>
             <ul className="mt-2 space-y-2">
               {plan.completed_service_ids.map((id) => (
                 <li
                   key={id}
-                  className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-green-200 bg-green-50 px-4 py-2 text-sm"
+                  className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-green-200 bg-green-50/70 px-4 py-3 text-sm"
                 >
                   <span className="font-medium text-green-900">✓ {names.service(id)}</span>
                   <button type="button" onClick={() => onUndoDone(id)} className="text-xs text-green-800 underline">
@@ -105,7 +105,7 @@ function StepCard({
     <article
       data-testid={`step-${step.service_id}`}
       data-status={step.status}
-      className={`rounded-xl border-2 bg-white p-4 shadow-sm ${style.card}`}
+      className={`rounded-xl border border-l-4 bg-surface p-5 shadow-card transition hover:shadow-raised ${style.card}`}
     >
       <div className="flex items-start gap-3">
         <span className={`mt-1 h-3 w-3 shrink-0 rounded-full ring-4 ${style.dot}`} aria-hidden />
@@ -114,7 +114,7 @@ function StepCard({
             <Pill tone={style.tone}>{t(`stepStatus.${step.status}`)}</Pill>
             <Pill tone={step.role === 'target' ? 'slate' : 'violet'}>{t(`stepRole.${step.role}`)}</Pill>
           </div>
-          <h3 className="mt-2 font-semibold text-slate-900">
+          <h3 className="mt-2 font-display text-lg font-semibold text-slate-900">
             <Link to={`/services/${step.service_id}`} className="hover:underline">
               {names.service(step.service_id)}
             </Link>
@@ -124,9 +124,13 @@ function StepCard({
             {step.role === 'target' && t('planner.why.target')}
             {step.role === 'prerequisite' && t('planner.why.prerequisite', { services: names.services(step.unblocks) })}
             {step.role === 'acquisition' &&
-              routes
-                .map((r) =>
-                  t('planner.why.acquisition', { document: names.document(r.document_id), service: names.service(r.for_service_id) }),
+              // One sentence per obtained document (several services may accept the same one).
+              [...new Set(routes.map((r) => r.document_id))]
+                .map((docId) =>
+                  t('planner.why.acquisition', {
+                    document: names.document(docId),
+                    service: names.services([...new Set(routes.filter((r) => r.document_id === docId).map((r) => r.for_service_id))]),
+                  }),
                 )
                 .join(' ')}
           </p>

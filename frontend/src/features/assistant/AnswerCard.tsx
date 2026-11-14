@@ -51,14 +51,14 @@ export function AnswerCard({
   return (
     <article
       data-testid="assistant-answer"
-      className={`rounded-xl border bg-white p-5 shadow-sm ${insufficient ? 'border-amber-300' : 'border-slate-200'}`}
+      className={`rounded-2xl rounded-tl-md border bg-surface p-5 shadow-card sm:p-6 ${insufficient ? 'border-amber-300' : 'border-line'}`}
     >
       <div className="flex flex-wrap items-center gap-2">
         {a.generated_by === 'ai' && <AIBadge />}
         <Pill tone={STATUS_TONE[a.evidence_status]}>{t(`assistant.status.${a.evidence_status}`)}</Pill>
       </div>
 
-      <div lang={a.language} className="mt-3 space-y-2 text-slate-800">
+      <div lang={a.language} className="mt-4 space-y-3 text-[15px] leading-relaxed text-slate-800">
         {a.answer
           .split(/\n+/)
           .filter(Boolean)
@@ -68,7 +68,7 @@ export function AnswerCard({
       </div>
 
       {a.workflow && (
-        <div className="mt-4 rounded-lg border border-brand-100 bg-brand-50 p-3 text-sm">
+        <div className="mt-5 rounded-xl border border-accent-100 bg-accent-50 p-4 text-sm">
           <p className="font-medium text-slate-800">{t('assistant.planContext')}</p>
           <p className="text-slate-700">
             {a.workflow.next_action.service_id
@@ -80,8 +80,8 @@ export function AnswerCard({
       )}
 
       {a.citations.length > 0 && (
-        <section className="mt-4 border-t border-slate-100 pt-3">
-          <h3 className="text-sm font-semibold text-slate-900">{t('assistant.sources')}</h3>
+        <section className="mt-5 border-t border-line pt-4">
+          <h3 className="text-xs font-semibold tracking-wide text-slate-500 uppercase">{t('assistant.sources')}</h3>
           <ol className="mt-2 space-y-2">
             {a.citations.map((c) => (
               <CitationItem key={c.id} c={c} anchor={`${prefix}-${c.id}`} />
@@ -103,7 +103,7 @@ function CitationItem({ c, anchor }: { c: Citation; anchor: string }) {
     c.locator,
   ].filter(Boolean)
   return (
-    <li id={anchor} className="rounded-lg bg-slate-50 p-3 text-sm">
+    <li id={anchor} className="rounded-xl border border-line bg-canvas p-3.5 text-sm target:ring-2 target:ring-brand-300">
       <div className="flex flex-wrap items-center gap-2">
         <span className="font-mono text-xs font-semibold text-brand-700">[{c.id}]</span>
         <a href={c.source_url} target="_blank" rel="noreferrer" className="font-medium text-brand-700 underline">

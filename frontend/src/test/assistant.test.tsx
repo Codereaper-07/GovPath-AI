@@ -115,6 +115,25 @@ describe('Assistant', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent(message)
   })
 
+  it('retries the last question after an error', async () => {
+    let fail = true
+    const calls = backend(() => (fail ? json(503, { detail: { code: 'model_unavailable' } }) : answer))
+    renderApp('/assistant')
+    await ask('Passport proof of address?')
+    expect(await screen.findByRole('alert')).toHaveTextContent('temporarily unavailable')
+    fail = false
+    await userEvent.click(screen.getByRole('button', { name: 'Try again' }))
+    expect(await screen.findByTestId('assistant-answer')).toBeInTheDocument()
+    expect(assistantCalls(calls).map((c) => c.question)).toEqual(['Passport proof of address?', 'Passport proof of address?'])
+  })
+
+  it('prefills a question handed over from the dashboard without sending it', async () => {
+    const calls = backend(() => answer)
+    renderApp('/assistant?q=I%20got%20married')
+    expect(await screen.findByLabelText('Your question')).toHaveValue('I got married')
+    expect(assistantCalls(calls)).toHaveLength(0)
+  })
+
   it('shows a network error', async () => {
     mockFetch((url) => {
       if (url.endsWith('/api/services')) return services

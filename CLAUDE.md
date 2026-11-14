@@ -15,6 +15,10 @@ Architecture: `docs/architecture.md`. Status, sources and next tasks: `PROGRESS.
   - Data names come from `name`/`name_hi` via `useLocalized()`. Official quotes, authority names,
     URLs and source notes stay in English (`lang="en"`).
   - Tests: Vitest + Testing Library with fixtures captured from the real API (`src/test/fixtures`).
+  - Design system: tokens in `src/index.css` (`brand-*` civic navy, `accent-*` saffron used only for
+    the next action, `canvas/surface/line`, `font-display` serif for headings, Inter/Noto Devanagari
+    for UI). Use `buttonClass()` (`components/ui/Button.ts`) and `PageHeader` instead of ad-hoc styles.
+    No Zustand: state is React state plus the localStorage-backed `usePlannerState`.
 - `backend/app/` (single FastAPI service):
   - `api/routes/`: thin HTTP handlers only (health, services, documents, workflows).
   - `schemas/`: Pydantic request/response models. Public IDs are **slugs**, never DB keys.

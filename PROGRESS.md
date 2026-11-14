@@ -246,12 +246,32 @@ clean. `alembic check`: no drift.
   console errors, no failed requests, no horizontal overflow at 390 px.
 - **Gemini calls this milestone: 0.** No model, billing or provider change.
 
+## Milestone 7 — frontend redesign (2026-11-14)
+- **Design system:** tokens (navy primary, saffron next-action accent, warm-neutral surfaces),
+  editorial serif headings with Devanagari fallbacks, `buttonClass`, `PageHeader`, logo mark,
+  focus rings, reduced-motion support.
+- **Shell:** refined sidebar with active indicator, language switcher and sources note; mobile
+  drawer; skip link.
+- **Dashboard:** hero with a "describe your situation" hand-off to the assistant (pre-filled, never
+  auto-sent), live life-event counts, saved-plan progress plus live next action (deterministic
+  planner), how-it-works and trust sections.
+- **Services and detail:** card hierarchy; typed requirement groups with colour-coded edges and
+  alternative grids; sticky actions/side panel; refined evidence quotes.
+- **Planner:** progress panel, saffron next-action card, numbered journey timeline, and grouped
+  acquisition reasons (display only; planner logic unchanged).
+- **Assistant:** chronological conversation, welcome state with example cards, docked composer,
+  retry on error.
+- **Checks:** frontend-only changes (no backend, API or migration changes). Vitest 37 passed (3
+  new); typecheck, lint and build clean. Real-app screenshots in EN/HI and at 390 px: no overflow,
+  0 console errors, 0 failed requests, 0 Gemini calls.
+
 ## Remaining work
 - [ ] Complete the answer evaluation and the A/B/C baselines when Gemini quota allows (≤ 85 requests).
 - [ ] Narrow relocation detection (generic "new address" phrases over-include services).
 - [ ] Starting-a-business services (Udyam, GST) and birth registration: find machine-readable official sources.
 - [ ] Embed the 21 new chunks (`python -m scripts.embed`, ~2 requests) when quota allows.
 - [ ] Persist usage counters across API restarts.
+- [ ] Code-split the frontend bundle (JS ~510 kB, just over Vite's 500 kB advisory).
 
 ## Later
 - [ ] Scheduled re-ingestion and a review queue for `needs_review` items

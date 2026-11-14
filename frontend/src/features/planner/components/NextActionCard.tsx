@@ -19,13 +19,13 @@ export function NextActionCard({
   const a = plan.next_action
   const tone =
     a.type === 'start_service'
-      ? 'border-brand-600 bg-brand-50'
+      ? 'border-accent-500 bg-accent-50'
       : a.type === 'obtain_document'
         ? 'border-amber-400 bg-amber-50'
         : 'border-green-500 bg-green-50'
 
   return (
-    <section aria-labelledby="next-action" className={`rounded-xl border-2 p-5 ${tone}`}>
+    <section aria-labelledby="next-action" className={`relative overflow-hidden rounded-2xl border-l-[6px] p-6 shadow-raised ring-1 ring-line ${tone}`}>
       <p id="next-action" className="text-xs font-semibold tracking-wide text-slate-600 uppercase">
         {t('planner.nextAction')}
       </p>

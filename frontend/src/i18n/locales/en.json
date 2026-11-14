@@ -9,7 +9,11 @@
     "services": "Services",
     "planner": "Workflow planner",
     "documents": "Documents",
-    "assistant": "Assistant"
+    "assistant": "Assistant",
+    "skip": "Skip to content",
+    "label": "Main navigation",
+    "menu": "Open menu",
+    "sourcesNote": "Requirements quoted from official government sources, with dates."
   },
   "language": {
     "label": "Language"
@@ -52,7 +56,8 @@
     "noVerifiedInEvent": "No services in this life event have been verified yet.",
     "coverageNote": "GovPath only lists services whose requirements are verified from official sources.",
     "clearFilters": "Clear filters",
-    "lifeEventsLabel": "Life events"
+    "lifeEventsLabel": "Life events",
+    "eyebrow": "Service catalogue"
   },
   "planner": {
     "title": "Workflow planner",
@@ -114,13 +119,15 @@
     "countCompleted_other": "{{count}} done",
     "andMore_one": "+{{count}} more",
     "andMore_other": "+{{count}} more",
-    "alsoWaiting": "Also on hold until these are resolved: {{services}}."
+    "alsoWaiting": "Also on hold until these are resolved: {{services}}.",
+    "eyebrow": "Your personal plan"
   },
   "documents": {
     "title": "Documents",
     "intro": "Every document GovPath knows about, which services accept it, and which services issue it.",
     "acceptedBy": "Accepted by",
-    "issuedBy": "Issued or updated by"
+    "issuedBy": "Issued or updated by",
+    "eyebrow": "Document guide"
   },
   "assistant": {
     "title": "Assistant",
@@ -168,7 +175,10 @@
       "generic": "Something went wrong while answering. Please try again."
     },
     "example4": "What documents do I need to register my marriage in Delhi?",
-    "example5": "How can I get a PAN card online?"
+    "example5": "How can I get a PAN card online?",
+    "eyebrow": "AI explanations with official sources",
+    "welcomeTitle": "How can GovPath help?",
+    "tryAsking": "Try asking"
   },
   "scope": {
     "aadhaar": "Aadhaar address update",
@@ -301,7 +311,22 @@
     "savedContinue": "Continue planning",
     "savedEmpty": "You have not started a plan yet. Your selections are saved on this device when you do.",
     "trustTitle": "Where the information comes from",
-    "trustText": "Requirements are taken from official government websites and documents, quoted exactly and dated. The planner uses fixed rules; the assistant only explains them. Coverage is limited to the services listed here."
+    "trustText": "Requirements are taken from official government websites and documents, quoted exactly and dated. The planner uses fixed rules; the assistant only explains them. Coverage is limited to the services listed here.",
+    "viewAll": "View all services",
+    "situationLabel": "Describe your situation",
+    "situationPlaceholder": "e.g. I got married and want to change my surname",
+    "situationSubmit": "Ask GovPath",
+    "situationHint": "Opens the assistant with your question. Answers cite official sources.",
+    "progress": "Progress",
+    "progressValue": "{{done}} of {{total}} steps done",
+    "trust": {
+      "sourcesTitle": "Official sources",
+      "sourcesText": "Every requirement quotes an official government page or document, with its verification date.",
+      "rulesTitle": "Rules, not guesses",
+      "rulesText": "The order of steps, blockers and next action come from fixed rules over verified data.",
+      "aiTitle": "AI that explains",
+      "aiText": "The assistant explains in plain language, cites its sources and says when evidence is missing."
+    }
   },
   "lifeEvents": {
     "relocation-identity": {

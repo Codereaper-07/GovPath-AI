@@ -18,13 +18,14 @@ export function EvidenceList({ items, compact = false }: { items: EvidenceItem[]
   if (items.length === 0) return null
   return (
     <details className="group mt-2 text-sm">
-      <summary className="cursor-pointer select-none text-brand-700 hover:underline">
+      <summary className="inline-flex cursor-pointer list-none items-center gap-1.5 text-xs font-semibold text-brand-700 select-none hover:text-brand-800 [&::-webkit-details-marker]:hidden">
+        <span aria-hidden className="transition group-open:rotate-90">›</span>
         {t('evidence.toggle', { count: items.length })}
       </summary>
-      <ul className={`mt-2 space-y-3 ${compact ? '' : 'border-l-2 border-slate-200 pl-3'}`}>
+      <ul className={`mt-3 space-y-3 ${compact ? '' : ''}`}>
         {items.map((e) => (
           <li key={e.id}>
-            <blockquote lang="en" className="text-slate-700 italic">
+            <blockquote lang="en" className="rounded-lg border-l-2 border-brand-300 bg-brand-50/50 px-3 py-2 font-display text-[15px] leading-relaxed text-slate-800">
               “{e.excerpt}”
             </blockquote>
             <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500">
@@ -32,7 +33,7 @@ export function EvidenceList({ items, compact = false }: { items: EvidenceItem[]
                 href={e.source_url}
                 target="_blank"
                 rel="noreferrer"
-                className="font-medium text-brand-700 underline"
+                className="font-medium text-brand-700 underline decoration-brand-200 underline-offset-2 hover:decoration-brand-700"
               >
                 {e.source_title ?? e.source_url}
               </a>

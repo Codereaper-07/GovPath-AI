@@ -6,8 +6,8 @@ const TONES = {
   green: 'bg-green-50 text-green-800 ring-green-200',
   amber: 'bg-amber-50 text-amber-800 ring-amber-200',
   red: 'bg-red-50 text-red-800 ring-red-200',
-  blue: 'bg-brand-50 text-brand-700 ring-brand-100',
-  slate: 'bg-slate-100 text-slate-700 ring-slate-200',
+  blue: 'bg-brand-50 text-brand-800 ring-brand-100',
+  slate: 'bg-slate-50 text-slate-700 ring-line',
   violet: 'bg-violet-50 text-ai ring-violet-200',
 } as const
 

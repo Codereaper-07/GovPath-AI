@@ -24,7 +24,7 @@ export function DocumentsPage() {
 
   return (
     <>
-      <PageHeader title={t('documents.title')}>{t('documents.intro')}</PageHeader>
+      <PageHeader eyebrow={t("documents.eyebrow")} title={t("documents.title")}>{t('documents.intro')}</PageHeader>
       <div className="space-y-6">
         {ORDER.map((cat) => {
           const docs = documents.data.filter((d) => d.category === cat)
@@ -34,7 +34,7 @@ export function DocumentsPage() {
               <h2 className="mb-2 text-sm font-semibold tracking-wide text-slate-500 uppercase">
                 {t(`documentCategory.${cat}`)}
               </h2>
-              <ul className="divide-y divide-slate-100 rounded-xl border border-slate-200 bg-white shadow-sm">
+              <ul className="divide-y divide-line rounded-2xl border border-line bg-surface shadow-card">
                 {docs.map((d) => (
                   <li key={d.id} className="p-4 text-sm">
                     <p className="font-medium text-slate-900">{pick(d.name, d.name_hi)}</p>

@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
+import { buttonClass } from '../../components/ui/Button'
 import { PageHeader } from '../../components/ui/PageHeader'
 import { ErrorState, LoadingState } from '../../components/ui/States'
 import { ApiError } from '../../lib/apiClient'
@@ -75,10 +76,10 @@ export function PlannerPage() {
 
   return (
     <>
-      <PageHeader title={t('planner.title')}>{t('planner.intro')}</PageHeader>
+      <PageHeader eyebrow={t('planner.eyebrow')} title={t('planner.title')}>{t('planner.intro')}</PageHeader>
       <div className="grid gap-6 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)]">
         <aside
-          className={`space-y-6 rounded-xl border border-slate-200 bg-white p-5 shadow-sm lg:sticky lg:top-0 lg:order-1 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto ${
+          className={`space-y-6 rounded-2xl border border-line bg-surface p-5 shadow-card lg:sticky lg:top-0 lg:order-1 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto ${
             sel.generated ? 'order-2' : ''
           }`}
         >
@@ -95,7 +96,7 @@ export function PlannerPage() {
               type="button"
               disabled={sel.targets.length === 0}
               onClick={state.generate}
-              className="w-full rounded-lg bg-brand-600 px-4 py-2.5 font-semibold text-white hover:bg-brand-700 disabled:cursor-not-allowed disabled:bg-slate-300"
+              className={buttonClass('primary', 'lg', 'w-full')}
             >
               {t('planner.generate')}
             </button>
@@ -155,7 +156,7 @@ function Results(props: {
 
   if (!props.hasTargets || !props.generated) {
     return (
-      <div className="rounded-xl border border-dashed border-slate-300 bg-white p-8 text-center text-slate-600">
+      <div className="rounded-2xl border border-dashed border-line bg-surface px-8 py-14 text-center text-slate-600">
         <p className="font-medium text-slate-800">{props.hasTargets ? t('planner.readyToGenerate') : t('planner.emptyTitle')}</p>
         <p className="mt-1 text-sm">{t('planner.emptyHint')}</p>
       </div>
@@ -182,21 +183,30 @@ function Results(props: {
 
   const counts = { ready: 0, waiting: 0, blocked: 0 }
   for (const s of plan.steps) counts[s.status] += 1
+  const total = plan.steps.length + plan.completed_service_ids.length
 
   return (
     <div className={`space-y-6 transition-opacity ${props.isFetching ? 'opacity-60' : ''}`}>
-      <div className="flex flex-wrap items-center gap-2 text-sm">
-        {props.isFetching && (
-          <span role="status" className="text-slate-500">
-            {t('planner.updating')}
+      <div className="rounded-2xl border border-line bg-surface p-5 shadow-card">
+        <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
+          <span className="font-semibold text-slate-900">{t('home.progressValue', { done: plan.completed_service_ids.length, total })}</span>
+          {props.isFetching && (
+            <span role="status" className="text-slate-500">
+              {t('planner.updating')}
+            </span>
+          )}
+        </div>
+        <div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-100">
+          <div className="h-full rounded-full bg-verified transition-all duration-500" style={{ width: `${total ? (plan.completed_service_ids.length / total) * 100 : 0}%` }} />
+        </div>
+        <div className="mt-3 flex flex-wrap gap-2 text-xs font-medium">
+          <span className="rounded-full bg-brand-50 px-2.5 py-1 text-brand-800">{t('planner.countReady', { count: counts.ready })}</span>
+          <span className="rounded-full bg-slate-100 px-2.5 py-1 text-slate-700">{t('planner.countWaiting', { count: counts.waiting })}</span>
+          <span className="rounded-full bg-red-50 px-2.5 py-1 text-red-700">{t('planner.countBlocked', { count: counts.blocked })}</span>
+          <span className="rounded-full bg-green-50 px-2.5 py-1 text-green-800">
+            {t('planner.countCompleted', { count: plan.completed_service_ids.length })}
           </span>
-        )}
-        <span className="rounded-full bg-brand-50 px-2.5 py-1 text-brand-700">{t('planner.countReady', { count: counts.ready })}</span>
-        <span className="rounded-full bg-slate-100 px-2.5 py-1 text-slate-700">{t('planner.countWaiting', { count: counts.waiting })}</span>
-        <span className="rounded-full bg-red-50 px-2.5 py-1 text-red-700">{t('planner.countBlocked', { count: counts.blocked })}</span>
-        <span className="rounded-full bg-green-50 px-2.5 py-1 text-green-700">
-          {t('planner.countCompleted', { count: plan.completed_service_ids.length })}
-        </span>
+        </div>
       </div>
       <NextActionCard plan={plan} names={names} onMarkDone={props.onMarkDone} onOwn={props.onOwn} />
       <IssuesPanel plan={plan} names={names} />
