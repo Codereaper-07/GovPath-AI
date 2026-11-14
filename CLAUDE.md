@@ -26,8 +26,16 @@ Architecture: `docs/architecture.md`. Status, sources and next tasks: `PROGRESS.
     write re-applies this tab's missing change (`selectionSync.ts`; same item: later edit wins); pruning
     only against non-empty successful lists). The assistant sends `planRequestOf(saved)`. Route pages are
     lazy-loaded via `app/lazyPages.tsx` (tests import pages directly through `test/utils.tsx`).
+  - Accounts (`features/auth/`): `supabase-js` for auth only (`lib/supabase.ts`, null when
+    `VITE_SUPABASE_*` unset → app works without accounts). `AuthProvider`/`useAuth`; `apiAuthed()` adds the
+    bearer token (refresh once on 401, then local sign-out); public endpoints never send it. `RequireAuth`
+    guards `/profile` only. Auth never touches planner storage. `renderApp(path, fakeAuthClient)` in tests.
 - `backend/app/` (single FastAPI service):
-  - `api/routes/`: thin HTTP handlers only (health, services, documents, workflows).
+  - `api/routes/`: thin HTTP handlers only (health, services, documents, workflows, situation, assistant,
+    profile).
+  - `auth.py`: Supabase access-token verification (JWKS, ES256/RS256 only; exp/iss/aud/role checked;
+    unknown-kid refetch throttled) and `CurrentUser`. **User identity = token `sub` only**; user-scoped
+    routes live under `/api/me/*` and never accept a user id. Tests: `tests/auth_fakes.py` (real JWKS blocked).
   - `schemas/`: Pydantic request/response models. Public IDs are **slugs**, never DB keys.
     The plan response includes `services`/`requirements`/`documents` display-name maps (en + hi).
   - `models/`: SQLAlchemy ORM (portable: VARCHAR+CHECK enums, JSONB variant), `migrations/` (Alembic).
@@ -165,7 +173,10 @@ Architecture: `docs/architecture.md`. Status, sources and next tasks: `PROGRESS.
 4. **No** LangChain, Neo4j, Docker, microservices, autonomous agents, or LLM-based dependency inference.
 5. Tests must never touch Supabase: they use in-memory SQLite and `build_engine` is patched to raise.
 6. Never print or commit `.env` values. Don't claim external integrations work until tested.
+   Never put the Supabase service-role key in the frontend or backend config.
 7. Two-day timeline: prefer simple, working code. The UI uses a timeline, not a graph view.
+8. **Every new table in `public` must enable RLS and revoke `anon`/`authenticated`** (Supabase grants them
+   full access by default and the publishable key is public); add own-row policies only where needed.
 
 ## Commands (from `backend/`, venv at `.venv`)
 - Tests/lint: `.venv/bin/pytest`, `.venv/bin/ruff check . && .venv/bin/ruff format .`

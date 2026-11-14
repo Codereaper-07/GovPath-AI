@@ -4,6 +4,7 @@ import { Link, NavLink, Outlet } from 'react-router-dom'
 import { Icon, type IconName } from '../components/ui/Icon'
 import { LogoMark } from '../components/ui/Logo'
 import { LoadingState } from '../components/ui/States'
+import { AccountLink } from './AccountLink'
 import { LanguageSwitcher } from './LanguageSwitcher'
 
 const NAV_ITEMS: { to: string; key: string; icon: IconName; end?: boolean }[] = [
@@ -72,6 +73,7 @@ export function DashboardLayout() {
           </nav>
           <div className="ml-auto flex items-center gap-2 lg:ml-0">
             <LanguageSwitcher />
+            <AccountLink onNavigate={() => setOpen(false)} />
             <button
               type="button"
               className="flex h-10 w-10 items-center justify-center rounded-full text-ink transition hover:bg-paper-deep lg:hidden"

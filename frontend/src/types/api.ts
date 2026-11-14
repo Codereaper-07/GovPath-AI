@@ -406,3 +406,17 @@ export interface ProposalResponse {
   uncovered_goals: string[]
   uncovered_life_events: string[]
 }
+
+/** The signed-in citizen's profile (`/api/me/profile`; user id comes from the verified token). */
+export interface Profile {
+  user_id: string
+  email: string | null
+  full_name: string | null
+  state: string | null
+  city: string | null
+  preferred_language: 'en' | 'hi'
+  created_at: string
+  updated_at: string
+}
+
+export type ProfileUpdate = Partial<Pick<Profile, 'full_name' | 'state' | 'city' | 'preferred_language'>>

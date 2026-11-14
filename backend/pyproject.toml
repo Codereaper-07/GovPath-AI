@@ -16,6 +16,8 @@ dependencies = [
     "httpx>=0.28",
     "beautifulsoup4>=4.15",
     "pymupdf>=2.1",
+    "pyjwt[crypto]>=2.10,<3",
+    "certifi>=2024.2",
 ]
 
 [project.optional-dependencies]

@@ -50,3 +50,10 @@ class VerificationStatus(StrEnum):
 class SourceType(StrEnum):
     WEBPAGE = "webpage"
     PDF = "pdf"
+
+
+class Language(StrEnum):
+    """Interface languages a citizen can prefer (matches the frontend's i18n locales)."""
+
+    EN = "en"
+    HI = "hi"

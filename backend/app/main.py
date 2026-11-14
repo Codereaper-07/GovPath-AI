@@ -4,7 +4,16 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app import __version__
-from app.api.routes import assistant, documents, health, services, situation, workflows
+from app.api.routes import (
+    assistant,
+    documents,
+    health,
+    profile,
+    services,
+    situation,
+    workflows,
+)
+from app.auth import build_token_verifier
 from app.config import get_settings
 from app.db import dispose_engine
 from app.knowledge.cache import TTLCache
@@ -34,6 +43,8 @@ def create_app() -> FastAPI:
     gemini = GeminiClient(settings, guard=guard)  # one client: shared caps and throttle
     app.state.assistant = Assistant(settings, gemini)
     app.state.situation_interpreter = SituationInterpreter(gemini)
+    # Supabase Auth token verification (signing keys fetched lazily on the first request).
+    app.state.token_verifier = build_token_verifier(settings)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.cors_origins,
@@ -48,6 +59,7 @@ def create_app() -> FastAPI:
         workflows.router,
         situation.router,
         assistant.router,
+        profile.router,
     )
     for router in routers:
         app.include_router(router, prefix="/api")

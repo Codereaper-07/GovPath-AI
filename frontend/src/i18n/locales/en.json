@@ -13,7 +13,8 @@
     "skip": "Skip to content",
     "label": "Main navigation",
     "menu": "Open menu",
-    "sourcesNote": "Requirements quoted from official government sources, with dates."
+    "sourcesNote": "Requirements quoted from official government sources, with dates.",
+    "account": "Account"
   },
   "language": {
     "label": "Language"
@@ -564,5 +565,66 @@
     "explainQuestion": "Explain this proposed plan: what should I do first, and why?",
     "lifeEventsLabel": "Life events (from your description):",
     "removeEvent": "Remove {{event}}"
+  },
+  "auth": {
+    "asideEyebrow": "Your account",
+    "asideTitle": "Keep your details in one place.",
+    "asideBody": "Save your name, state and preferred language. GovPath never asks for your Aadhaar, PAN or other ID numbers, and you can use every guide without an account.",
+    "loginTitle": "Sign in",
+    "loginIntro": "Sign in with your email and password.",
+    "signupTitle": "Create an account",
+    "signupIntro": "An account keeps your profile. Guides and the planner stay free to use without one.",
+    "email": "Email",
+    "password": "Password",
+    "passwordHint": "At least {{min}} characters.",
+    "passwordTooShort": "Too short: use at least {{min}} characters.",
+    "signIn": "Sign in",
+    "signingIn": "Signing in…",
+    "signOut": "Sign out",
+    "createAccount": "Create account",
+    "creatingAccount": "Creating account…",
+    "noAccount": "New to GovPath?",
+    "haveAccount": "Already have an account?",
+    "checkEmailTitle": "Check your email",
+    "checkEmail": "If {{email}} can be used, we have sent it a confirmation link. Open it to finish creating your account, then sign in.",
+    "backToSignIn": "Back to sign in",
+    "sessionExpired": "Your session has ended. Please sign in again.",
+    "unconfiguredTitle": "Accounts are not available",
+    "unconfigured": "Sign-in has not been set up on this GovPath server yet. All guides and the planner still work without an account.",
+    "privacyNote": "Your password is handled by our sign-in provider (Supabase Auth); GovPath never stores it.",
+    "errors": {
+      "invalid_credentials": "The email or password is not correct.",
+      "email_not_confirmed": "Confirm your email first: open the link we sent you, then sign in.",
+      "user_already_exists": "An account with this email already exists. Sign in instead.",
+      "weak_password": "Choose a stronger password.",
+      "email_address_invalid": "Enter a valid email address.",
+      "over_email_send_rate_limit": "Too many emails were sent. Wait a few minutes and try again.",
+      "over_request_rate_limit": "Too many attempts. Wait a few minutes and try again.",
+      "signup_disabled": "New accounts cannot be created right now.",
+      "network": "Cannot reach the sign-in service. Check your connection and try again.",
+      "unconfigured": "Sign-in has not been set up on this server.",
+      "unknown": "Something went wrong. Please try again."
+    }
+  },
+  "profile": {
+    "eyebrow": "Your account",
+    "title": "Your profile",
+    "intro": "These details belong to your account. Only you can see or change them.",
+    "details": "Profile details",
+    "fullName": "Full name",
+    "state": "State or union territory",
+    "city": "City or district",
+    "language": "Preferred language",
+    "notSet": "Not set",
+    "stateNote": "Your state helps GovPath check which services apply where you live. You can still choose a different state when planning.",
+    "save": "Save changes",
+    "saving": "Saving…",
+    "saved": "Your profile has been saved.",
+    "saveError": "Your changes could not be saved. Please try again.",
+    "loadError": "Your profile could not be loaded.",
+    "deviceTitle": "Your plan on this device",
+    "devicePlan_one": "Your workflow plan ({{count}} service) is saved in this browser only. It stays here when you sign in or out. Saving plans to your account will come in a later update.",
+    "devicePlan_other": "Your workflow plan ({{count}} services) is saved in this browser only. It stays here when you sign in or out. Saving plans to your account will come in a later update.",
+    "deviceNoPlan": "Workflow plans are saved in this browser for now. Saving plans to your account will come in a later update."
   }
 }

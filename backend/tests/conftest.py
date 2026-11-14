@@ -1,5 +1,6 @@
 from collections.abc import AsyncIterator
 
+import jwt
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import event
@@ -33,6 +34,16 @@ def _never_call_real_gemini(monkeypatch: pytest.MonkeyPatch) -> None:
         raise RuntimeError("tests must not call the real Gemini API")
 
     monkeypatch.setattr(app.llm.client.genai, "Client", _refuse)
+
+
+@pytest.fixture(autouse=True)
+def _never_fetch_real_jwks(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Tests must never fetch signing keys from Supabase (use tests/auth_fakes.py)."""
+
+    def _refuse(*_a, **_kw):
+        raise RuntimeError("tests must not contact Supabase Auth")
+
+    monkeypatch.setattr(jwt.PyJWKClient, "fetch_data", _refuse)
 
 
 @pytest.fixture

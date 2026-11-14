@@ -22,6 +22,12 @@ class Settings(BaseSettings):
     # Seconds to cache read-only knowledge in the API process (0 disables).
     knowledge_cache_seconds: float = 60
 
+    # Supabase Auth (email). Only the project URL is needed: access tokens are verified against
+    # the project's public signing keys (JWKS). Never put the service-role key here.
+    supabase_url: str | None = None
+    supabase_jwt_audience: str = "authenticated"
+    supabase_jwks_cache_seconds: int = 600
+
     # Gemini
     gemini_api_key: str | None = None
     # gemini-3.8-flash returned 503/504 for every request during validation (2026-11-14);
@@ -63,7 +69,7 @@ class Settings(BaseSettings):
             return [o.strip() for o in v.split(",") if o.strip()]
         return v
 
-    @field_validator("database_url", "gemini_api_key", mode="before")
+    @field_validator("database_url", "gemini_api_key", "supabase_url", mode="before")
     @classmethod
     def _empty_to_none(cls, v: object) -> object:
         return None if isinstance(v, str) and not v.strip() else v
@@ -71,6 +77,10 @@ class Settings(BaseSettings):
     @property
     def database_configured(self) -> bool:
         return self.database_url is not None
+
+    @property
+    def auth_configured(self) -> bool:
+        return self.supabase_url is not None
 
     @property
     def sqlalchemy_database_url(self) -> str:

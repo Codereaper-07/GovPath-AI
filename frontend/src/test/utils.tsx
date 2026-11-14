@@ -3,17 +3,25 @@ import { render } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { vi } from 'vitest'
 import { AssistantPage } from '../features/assistant/AssistantPage'
+import { AuthProvider } from '../features/auth/AuthProvider'
+import { LoginPage } from '../features/auth/LoginPage'
+import { ProfilePage } from '../features/auth/ProfilePage'
+import { RequireAuth } from '../features/auth/RequireAuth'
+import { SignupPage } from '../features/auth/SignupPage'
 import { DashboardPage } from '../features/dashboard/DashboardPage'
 import { DocumentsPage } from '../features/documents/DocumentsPage'
 import { PlannerPage } from '../features/planner/PlannerPage'
 import { ServiceDetailPage } from '../features/services/ServiceDetailPage'
 import { ServicesPage } from '../features/services/ServicesPage'
 import { DashboardLayout } from '../layouts/DashboardLayout'
+import type { AuthClient } from '../lib/supabase'
 
-export function renderApp(path: string) {
+/** Renders the app at `path`. `auth` is a fake Supabase auth client (default: sign-in not configured). */
+export function renderApp(path: string, auth: AuthClient | null = null) {
   const client = new QueryClient({ defaultOptions: { queries: { retry: false } } })
   return render(
     <QueryClientProvider client={client}>
+      <AuthProvider client={auth}>
       <MemoryRouter initialEntries={[path]}>
         <Routes>
           <Route element={<DashboardLayout />}>
@@ -23,9 +31,20 @@ export function renderApp(path: string) {
             <Route path="/planner" element={<PlannerPage />} />
             <Route path="/assistant" element={<AssistantPage />} />
             <Route path="/documents" element={<DocumentsPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route
+              path="/profile"
+              element={
+                <RequireAuth>
+                  <ProfilePage />
+                </RequireAuth>
+              }
+            />
           </Route>
         </Routes>
       </MemoryRouter>
+      </AuthProvider>
     </QueryClientProvider>,
   )
 }

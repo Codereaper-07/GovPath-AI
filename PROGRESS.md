@@ -336,10 +336,30 @@ clean. `alembic check`: no drift.
   its 3 confirmed defects fixed with regression tests.
 - Pending: live Gemini validation of the situation reader (quota exhausted).
 
+## Identity milestone 1 — accounts & citizen profile (2026-11-14)
+- Supabase Auth (email/password) via `supabase-js` (auth only; publishable key). Backend verifies access
+  tokens locally against the project JWKS (ES256; signature, exp, iss, aud, role=authenticated); the user id
+  is only ever the token's `sub`. `GET/PATCH /api/me/profile` (created on first access from the sign-up name).
+- Migration `0007_citizen_profiles` (applied to Supabase): `profiles` (FK `auth.users` ON DELETE CASCADE, RLS:
+  own-row SELECT only through the Data API; writes only via the backend). **Security fix:** all 12 existing
+  tables had RLS off and full anon/authenticated grants; RLS now on and those grants revoked (backend role
+  `postgres` bypasses RLS; unaffected). Live check: `python -m scripts.check_rls` (rolled back) 13/13.
+- Frontend: `/login`, `/signup`, `/profile` (protected); every existing page stays public. Planner data
+  (`govpath.planner.v1`) is never read-modified by auth; sign-in/out keeps it.
+- Checks: backend 290 passed, frontend 103 passed; ruff, alembic check, typecheck, lint, build clean.
+  Browser E2E 30/30 against a local Supabase-compatible auth fake (real backend auth code, SQLite).
+- Not yet tested against live Supabase Auth: needs `VITE_SUPABASE_URL` + `VITE_SUPABASE_PUBLISHABLE_KEY`
+  in `frontend/.env` and dashboard URL settings (Site URL, redirect `…/profile`, min password 8, SMTP).
+- Local plan migration path (next milestone): add `user_plans` (owner = `auth.uid()`, RLS) + `/api/me/plan`;
+  after sign-in, if the device has a plan and the account has none, *offer* "save this plan to my account"
+  (never automatic: devices can be shared); upload `version`+fields as-is, keep the local copy until the
+  server confirms; conflicts resolved by the user, not silently.
+
 ## Remaining work
 - [ ] Validate the AI situation reader (`/api/situation/interpret`) against live Gemini when quota allows.
 - [ ] Verified service prerequisites: none found in official sources yet (engine supports them).
-- [ ] Persist workflows server-side (currently localStorage); departmental status integration (read-only).
+- [ ] Persist workflows server-side for signed-in users (path above); departmental status integration (read-only).
+- [ ] Live Supabase Auth test (sign-up/confirm/sign-in/refresh/sign-out) once the publishable key is configured.
 - [ ] Complete the answer evaluation and the A/B/C baselines when Gemini quota allows (≤ 85 requests).
 - [ ] Narrow relocation detection (generic "new address" phrases over-include services).
 - [ ] Starting-a-business services (Udyam, GST) and birth registration: find machine-readable official sources.

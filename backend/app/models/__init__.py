@@ -3,6 +3,7 @@
 from app.models.base import Base
 from app.models.chunk import SourceChunk
 from app.models.document import DocumentType
+from app.models.profile import CitizenProfile
 from app.models.service import (
     GovernmentService,
     RequirementOption,
@@ -16,6 +17,7 @@ from app.models.source import Evidence, SourceDocument
 
 __all__ = [
     "Base",
+    "CitizenProfile",
     "DocumentType",
     "Evidence",
     "GovernmentService",

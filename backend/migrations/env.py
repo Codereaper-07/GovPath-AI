@@ -14,11 +14,20 @@ if config.config_file_name is not None:
 
 target_metadata = Base.metadata
 
+# Database objects managed outside this metadata (see 0007_citizen_profiles): the foreign key
+# from profiles to Supabase's auth.users. Skipped so `alembic check` does not try to drop it.
+UNMANAGED = {("foreign_key_constraint", "fk_profiles_id_users")}
+
+
+def include_object(obj, name, type_, reflected, compare_to) -> bool:
+    return (type_, name) not in UNMANAGED
+
 
 def run_migrations_offline() -> None:
     context.configure(
         url=get_settings().sqlalchemy_database_url,
         target_metadata=target_metadata,
+        include_object=include_object,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
     )
@@ -27,7 +36,9 @@ def run_migrations_offline() -> None:
 
 
 def _do_run(connection: Connection) -> None:
-    context.configure(connection=connection, target_metadata=target_metadata)
+    context.configure(
+        connection=connection, target_metadata=target_metadata, include_object=include_object
+    )
     with context.begin_transaction():
         context.run_migrations()
 
