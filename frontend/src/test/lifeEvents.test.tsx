@@ -52,7 +52,7 @@ describe('Dashboard life-event discovery', () => {
     renderApp('/')
     await screen.findByTestId('life-event-marriage-family')
     await userEvent.selectOptions(screen.getByRole('combobox'), 'hi')
-    expect(await screen.findByText('विवाह और परिवार')).toBeInTheDocument()
+    expect(await within(screen.getByTestId('life-event-marriage-family')).findByText('विवाह और परिवार')).toBeInTheDocument()
     expect(screen.getByTestId('life-event-starting-business')).toHaveTextContent('अभी कोई सत्यापित सेवा नहीं')
     await i18n.changeLanguage('en')
   })

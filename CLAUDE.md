@@ -15,10 +15,13 @@ Architecture: `docs/architecture.md`. Status, sources and next tasks: `PROGRESS.
   - Data names come from `name`/`name_hi` via `useLocalized()`. Official quotes, authority names,
     URLs and source notes stay in English (`lang="en"`).
   - Tests: Vitest + Testing Library with fixtures captured from the real API (`src/test/fixtures`).
-  - Design system: tokens in `src/index.css` (`brand-*` civic navy, `accent-*` saffron used only for
-    the next action, `canvas/surface/line`, `font-display` serif for headings, Inter/Noto Devanagari
-    for UI). Use `buttonClass()` (`components/ui/Button.ts`) and `PageHeader` instead of ad-hoc styles.
-    No Zustand: state is React state plus the localStorage-backed `usePlannerState`.
+  - Design system "Paper & Route" (tokens in `src/index.css`): `paper/card/rule` surfaces, `ink` text and
+    dark panels, `jade-*` verified/official, `zest-*` (lime) only for "you are here"/next action, `crimson-*`
+    blockers, `honey-*` caution, `lilac-*` AI only; life-event hues via `EVENT_TONE` (`lib/lifeEvents.ts`).
+    Fonts: Fraunces / Tiro Devanagari Hindi (`font-display`), Manrope / Noto Sans Devanagari (UI); Hindi
+    resets letter-spacing. Use `buttonClass()`, `PageHeader`, `Seal`, planner `StatusNode`; top-bar layout.
+    No Zustand: state is React state plus the localStorage-backed `usePlannerState`. Route pages are
+    lazy-loaded via `app/lazyPages.tsx` (tests import pages directly through `test/utils.tsx`).
 - `backend/app/` (single FastAPI service):
   - `api/routes/`: thin HTTP handlers only (health, services, documents, workflows).
   - `schemas/`: Pydantic request/response models. Public IDs are **slugs**, never DB keys.

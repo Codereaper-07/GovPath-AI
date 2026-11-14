@@ -1,9 +1,8 @@
-import { type FormEvent, useEffect, useRef, useState } from 'react'
+import { type FormEvent, type ReactNode, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
 import { buttonClass } from '../../components/ui/Button'
 import { Icon } from '../../components/ui/Icon'
-import { PageHeader } from '../../components/ui/PageHeader'
 import { ErrorState } from '../../components/ui/States'
 import { ApiError } from '../../lib/apiClient'
 import { useLocalized } from '../../lib/useLocalized'
@@ -15,6 +14,7 @@ import { useAskAssistant } from './api'
 
 const MAX_CHARS = 1000
 const EXAMPLES = ['example1', 'example2', 'example3', 'example4', 'example5'] as const
+const PLAN_EXAMPLES = ['planQ1', 'planQ2'] as const
 
 interface Exchange {
   id: number
@@ -97,109 +97,212 @@ export function AssistantPage() {
   }
 
   const empty = history.length === 0 && !ask.isPending && !ask.isError
+  const ask_ = (text: string) => {
+    setQuestion(text)
+    submit(text)
+  }
 
-  return (
-    <div className="flex min-h-[calc(100vh-12rem)] flex-col">
-      <PageHeader eyebrow={t('assistant.eyebrow')} title={t('assistant.title')}>
-        {t('assistant.intro')}
-      </PageHeader>
+  const composer = (
+    <form
+      onSubmit={onSubmit}
+      className={`rounded-[1.75rem] bg-card p-3 ring-2 ring-ink/85 transition focus-within:shadow-lift focus-within:ring-ink ${empty ? 'shadow-lift' : 'shadow-soft'}`}
+    >
+      <label htmlFor="assistant-question" className="sr-only">
+        {t('assistant.questionLabel')}
+      </label>
+      <textarea
+        id="assistant-question"
+        value={question}
+        maxLength={MAX_CHARS}
+        rows={empty ? 3 : 2}
+        onChange={(e) => setQuestion(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) submit(question)
+        }}
+        placeholder={t('assistant.placeholder')}
+        className="w-full resize-none bg-transparent px-3 pt-2 text-base text-ink placeholder:text-faint focus:outline-none"
+      />
+      <div className="flex flex-wrap items-center justify-between gap-3 px-1">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 pl-2 text-xs text-muted">
+          <span className="tabular-nums">{t('assistant.chars', { count: question.length, max: MAX_CHARS })}</span>
+          {hasPlan && (
+            <label className="flex cursor-pointer items-center gap-2 font-semibold text-ink">
+              <input type="checkbox" className="h-4 w-4" checked={usePlan} onChange={(e) => setUsePlan(e.target.checked)} />
+              {t('assistant.usePlan')}
+            </label>
+          )}
+        </div>
+        <button type="submit" disabled={question.trim().length < 3 || ask.isPending} className={buttonClass('primary', 'md')}>
+          <Icon name="send" className="h-4 w-4" />
+          {ask.isPending ? t('assistant.thinking') : t('assistant.ask')}
+        </button>
+      </div>
+    </form>
+  )
 
-      <div className="flex-1 space-y-8" aria-live="polite">
-        {empty && (
-          <section className="rounded-2xl border border-line bg-surface p-6 shadow-card sm:p-8">
-            <div className="flex items-center gap-3">
-              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-50 text-ai"><Icon name="spark" /></span>
-              <div>
-                <p className="font-display text-xl font-semibold text-slate-900">{t('assistant.welcomeTitle')}</p>
-                <p className="text-sm text-slate-600">{t('assistant.empty')}</p>
-              </div>
-            </div>
-            <p className="mt-6 text-xs font-semibold tracking-wide text-slate-500 uppercase">{t('assistant.tryAsking')}</p>
-            <ul className="mt-3 grid gap-3 sm:grid-cols-2">
-              {EXAMPLES.map((k) => (
+  if (empty) {
+    return (
+      <div className="mx-auto max-w-3xl">
+        <div className="animate-rise text-center">
+          <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-ink text-zest-400 shadow-lift">
+            <Icon name="spark" className="h-7 w-7" />
+          </span>
+          <p className="mt-6 text-xs font-bold tracking-[0.18em] text-jade-700 uppercase">{t('assistant.eyebrow')}</p>
+          <h1 className="mt-3 font-display text-4xl leading-tight font-semibold tracking-tight text-ink sm:text-5xl">{t('assistant.welcomeTitle')}</h1>
+          <p className="mx-auto mt-4 max-w-xl leading-relaxed text-muted">{t('assistant.intro')}</p>
+        </div>
+
+        <div className="mt-10 animate-rise" style={{ animationDelay: '0.08s' }}>
+          {composer}
+          <p className="mt-3 text-center text-[11px] text-faint">{t('assistant.quotaNote')}</p>
+        </div>
+
+        {hasPlan && (
+          <section className="mt-10 animate-rise" style={{ animationDelay: '0.14s' }}>
+            <p className="flex items-center gap-2 text-xs font-bold tracking-[0.16em] text-ink uppercase">
+              <span className="h-2 w-2 animate-beacon rounded-full bg-zest-400" aria-hidden />
+              {t('assistant.aboutYourPlan')}
+            </p>
+            <ul className="mt-3 grid gap-2 sm:grid-cols-2">
+              {PLAN_EXAMPLES.map((k) => (
                 <li key={k}>
-                  <button
-                    type="button"
-                    disabled={ask.isPending}
-                    onClick={() => {
-                      setQuestion(t(`assistant.${k}`))
-                      submit(t(`assistant.${k}`))
-                    }}
-                    className="flex h-full w-full items-start gap-2 rounded-xl border border-line bg-canvas p-4 text-left text-sm text-slate-700 transition hover:border-brand-300 hover:bg-brand-50/50 hover:text-slate-900"
-                  >
-                    <Icon name="chat" className="mt-0.5 h-4 w-4 shrink-0 text-brand-600" />
+                  <SuggestionButton disabled={ask.isPending} accent onClick={() => ask_(t(`assistant.${k}`))}>
                     {t(`assistant.${k}`)}
-                  </button>
+                  </SuggestionButton>
                 </li>
               ))}
             </ul>
           </section>
         )}
 
+        <section className="mt-10 animate-rise" style={{ animationDelay: '0.2s' }}>
+          <p className="text-xs font-bold tracking-[0.16em] text-muted uppercase">{t('assistant.tryAsking')}</p>
+          <ul className="mt-3 divide-y divide-rule border-y border-rule">
+            {EXAMPLES.map((k) => (
+              <li key={k}>
+                <SuggestionButton disabled={ask.isPending} onClick={() => ask_(t(`assistant.${k}`))}>
+                  {t(`assistant.${k}`)}
+                </SuggestionButton>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section aria-labelledby="how-answers" className="mt-12 animate-rise" style={{ animationDelay: '0.26s' }}>
+          <h2 id="how-answers" className="text-xs font-bold tracking-[0.16em] text-muted uppercase">
+            {t('assistant.howAnswers')}
+          </h2>
+          <ul className="mt-4 grid gap-3 sm:grid-cols-3">
+            <li className="rounded-2xl border border-rule bg-card p-4">
+              <span className="rounded-md bg-ink px-1.5 py-0.5 font-mono text-[11px] font-bold text-paper">S1</span>
+              <p className="mt-3 text-sm leading-relaxed text-ink/80">{t('assistant.legendExcerpt')}</p>
+            </li>
+            <li className="rounded-2xl bg-jade-50 p-4 ring-1 ring-jade-100">
+              <span className="rounded-md bg-jade-600 px-1.5 py-0.5 font-mono text-[11px] font-bold text-paper">K1</span>
+              <p className="mt-3 text-sm leading-relaxed text-jade-800">{t('assistant.legendFact')}</p>
+            </li>
+            <li className="rounded-2xl bg-lilac-50 p-4 ring-1 ring-lilac-100">
+              <span className="text-xs font-bold text-lilac-700">✦ AI</span>
+              <p className="mt-3 text-sm leading-relaxed text-lilac-700">{t('assistant.legendAi')}</p>
+            </li>
+          </ul>
+        </section>
+      </div>
+    )
+  }
+
+  return (
+    <div className="mx-auto flex min-h-[calc(100vh-14rem)] max-w-3xl flex-col">
+      <header className="flex items-center gap-3 border-b border-rule pb-5">
+        <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-ink text-zest-400">
+          <Icon name="spark" className="h-5 w-5" />
+        </span>
+        <div>
+          <h1 className="font-display text-2xl font-semibold tracking-tight text-ink">{t('assistant.title')}</h1>
+          <p className="text-xs text-muted">{t('assistant.conversationHint')}</p>
+        </div>
+      </header>
+
+      <div className="flex-1 space-y-10 py-8" aria-live="polite">
         {history.map((ex) => (
-          <div key={ex.id} className="space-y-3">
-            <div className="flex justify-end">
-              <p className="max-w-[85%] rounded-2xl rounded-br-md bg-brand-800 px-4 py-2.5 text-sm text-white shadow-card sm:max-w-[70%]">{ex.question}</p>
-            </div>
-            <div className="flex gap-3">
-              <span className="mt-1 hidden h-8 w-8 shrink-0 items-center justify-center rounded-full bg-violet-50 text-ai sm:flex" aria-hidden>
-                <Icon name="spark" className="h-4 w-4" />
-              </span>
-              <div className="min-w-0 flex-1">
-                <AnswerCard answer={ex.answer} prefix={`a${ex.id}`} serviceName={serviceName} />
-              </div>
-            </div>
+          <div key={ex.id} className="space-y-5">
+            <UserBubble text={ex.question} />
+            <AssistantTurn>
+              <AnswerCard answer={ex.answer} prefix={`a${ex.id}`} serviceName={serviceName} />
+            </AssistantTurn>
           </div>
         ))}
 
         {ask.isPending && (
-          <div className="space-y-3">
-            <div className="flex justify-end">
-              <p className="max-w-[85%] rounded-2xl rounded-br-md bg-brand-800/90 px-4 py-2.5 text-sm text-white sm:max-w-[70%]">{lastQuestion}</p>
-            </div>
-            <div role="status" className="flex items-center gap-3 rounded-2xl border border-line bg-surface px-5 py-4 text-sm text-slate-500 shadow-card">
-              <span className="h-4 w-4 animate-spin rounded-full border-2 border-violet-100 border-t-ai" />
-              {t('assistant.searching')}
-            </div>
+          <div className="space-y-5">
+            <UserBubble text={lastQuestion} />
+            <AssistantTurn>
+              <div role="status" className="rounded-[1.5rem] rounded-tl-md bg-card p-5 ring-1 ring-rule sm:p-6">
+                <p className="flex items-center gap-3 text-sm font-semibold text-ink">
+                  <span className="flex gap-1" aria-hidden>
+                    {[0, 1, 2].map((i) => (
+                      <span key={i} className="h-1.5 w-1.5 animate-dots rounded-full bg-lilac-500" style={{ animationDelay: `${i * 0.15}s` }} />
+                    ))}
+                  </span>
+                  {t('assistant.searching')}
+                </p>
+                <div className="mt-5 space-y-2.5" aria-hidden>
+                  {['w-11/12', 'w-full', 'w-3/4'].map((w) => (
+                    <span key={w} className={`block h-3 animate-pulse rounded-full bg-paper-deep ${w}`} />
+                  ))}
+                </div>
+              </div>
+            </AssistantTurn>
           </div>
         )}
-        {ask.isError && <ErrorState message={t(errorKey(ask.error))} onRetry={lastQuestion ? () => submit(lastQuestion) : undefined} />}
+        {ask.isError && (
+          <AssistantTurn>
+            <ErrorState message={t(errorKey(ask.error))} onRetry={lastQuestion ? () => submit(lastQuestion) : undefined} />
+          </AssistantTurn>
+        )}
         <div ref={endRef} />
       </div>
 
-      <form onSubmit={onSubmit} className="sticky bottom-0 mt-8 -mx-1 rounded-2xl border border-line bg-surface/95 p-4 shadow-raised backdrop-blur">
-        <label htmlFor="assistant-question" className="text-sm font-semibold text-slate-900">
-          {t('assistant.questionLabel')}
-        </label>
-        <textarea
-          id="assistant-question"
-          value={question}
-          maxLength={MAX_CHARS}
-          rows={2}
-          onChange={(e) => setQuestion(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) submit(question)
-          }}
-          placeholder={t('assistant.placeholder')}
-          className="mt-2 w-full resize-none rounded-xl border border-line bg-canvas p-3 text-sm placeholder:text-slate-400 focus:border-brand-500 focus:bg-surface focus:ring-2 focus:ring-brand-100 focus:outline-none"
-        />
-        <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
-          <div className="flex flex-wrap items-center gap-4 text-xs text-slate-500">
-            <span>{t('assistant.chars', { count: question.length, max: MAX_CHARS })}</span>
-            {hasPlan && (
-              <label className="flex cursor-pointer items-center gap-2">
-                <input type="checkbox" className="h-4 w-4 accent-brand-700" checked={usePlan} onChange={(e) => setUsePlan(e.target.checked)} />
-                {t('assistant.usePlan')}
-              </label>
-            )}
-          </div>
-          <button type="submit" disabled={question.trim().length < 3 || ask.isPending} className={buttonClass('primary', 'md')}>
-            <Icon name="send" className="h-4 w-4" />
-            {ask.isPending ? t('assistant.thinking') : t('assistant.ask')}
-          </button>
-        </div>
-        <p className="mt-2 text-[11px] text-slate-400">{t('assistant.quotaNote')}</p>
-      </form>
+      <div className="sticky bottom-0 bg-gradient-to-t from-paper via-paper to-paper/0 pt-6 pb-4">
+        {composer}
+        <p className="mt-2 text-center text-[11px] text-faint">{t('assistant.quotaNote')}</p>
+      </div>
     </div>
+  )
+}
+
+function UserBubble({ text }: { text: string }) {
+  return (
+    <div className="flex justify-end">
+      <p className="max-w-[85%] rounded-[1.5rem] rounded-br-md bg-ink px-5 py-3 text-[15px] leading-relaxed text-paper sm:max-w-[75%]">{text}</p>
+    </div>
+  )
+}
+
+function AssistantTurn({ children }: { children: ReactNode }) {
+  return (
+    <div className="flex gap-3">
+      <span className="mt-1 hidden h-9 w-9 shrink-0 items-center justify-center rounded-full bg-lilac-50 text-lilac-700 ring-1 ring-lilac-100 sm:flex" aria-hidden>
+        <Icon name="spark" className="h-4 w-4" />
+      </span>
+      <div className="min-w-0 flex-1">{children}</div>
+    </div>
+  )
+}
+
+function SuggestionButton({ children, onClick, disabled, accent = false }: { children: ReactNode; onClick: () => void; disabled: boolean; accent?: boolean }) {
+  return (
+    <button
+      type="button"
+      disabled={disabled}
+      onClick={onClick}
+      className={`group flex h-full w-full items-center gap-3 text-left text-sm transition ${
+        accent ? 'rounded-2xl bg-zest-100 px-4 py-3.5 font-semibold text-ink ring-1 ring-zest-300 hover:bg-zest-200' : 'px-1 py-3.5 text-ink/85 hover:text-ink'
+      }`}
+    >
+      <Icon name={accent ? 'plan' : 'chat'} className={`h-4 w-4 shrink-0 ${accent ? 'text-ink' : 'text-jade-600'}`} />
+      <span className="flex-1">{children}</span>
+      <Icon name="arrow" className="h-4 w-4 shrink-0 text-faint transition group-hover:translate-x-0.5 group-hover:text-ink" />
+    </button>
   )
 }

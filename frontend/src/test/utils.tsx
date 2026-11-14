@@ -4,6 +4,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { vi } from 'vitest'
 import { AssistantPage } from '../features/assistant/AssistantPage'
 import { DashboardPage } from '../features/dashboard/DashboardPage'
+import { DocumentsPage } from '../features/documents/DocumentsPage'
 import { PlannerPage } from '../features/planner/PlannerPage'
 import { ServiceDetailPage } from '../features/services/ServiceDetailPage'
 import { ServicesPage } from '../features/services/ServicesPage'
@@ -21,6 +22,7 @@ export function renderApp(path: string) {
             <Route path="/services/:serviceId" element={<ServiceDetailPage />} />
             <Route path="/planner" element={<PlannerPage />} />
             <Route path="/assistant" element={<AssistantPage />} />
+            <Route path="/documents" element={<DocumentsPage />} />
           </Route>
         </Routes>
       </MemoryRouter>

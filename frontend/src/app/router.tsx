@@ -1,11 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom'
 import { DashboardLayout } from '../layouts/DashboardLayout'
-import { AssistantPage } from '../features/assistant/AssistantPage'
-import { DashboardPage } from '../features/dashboard/DashboardPage'
-import { DocumentsPage } from '../features/documents/DocumentsPage'
-import { PlannerPage } from '../features/planner/PlannerPage'
-import { ServiceDetailPage } from '../features/services/ServiceDetailPage'
-import { ServicesPage } from '../features/services/ServicesPage'
+import { AssistantPage, DashboardPage, DocumentsPage, PlannerPage, ServiceDetailPage, ServicesPage } from './lazyPages'
 import { NotFoundPage } from './NotFoundPage'
 
 export const router = createBrowserRouter([

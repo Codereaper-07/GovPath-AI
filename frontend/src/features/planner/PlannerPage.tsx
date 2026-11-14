@@ -2,6 +2,7 @@ import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
 import { buttonClass } from '../../components/ui/Button'
+import { Icon } from '../../components/ui/Icon'
 import { PageHeader } from '../../components/ui/PageHeader'
 import { ErrorState, LoadingState } from '../../components/ui/States'
 import { ApiError } from '../../lib/apiClient'
@@ -12,6 +13,7 @@ import { DocumentChecklist } from './components/DocumentChecklist'
 import { IssuesPanel } from './components/IssuesPanel'
 import { NextActionCard } from './components/NextActionCard'
 import { ServicePicker } from './components/ServicePicker'
+import { type NodeKind, StatusNode } from './components/StatusNode'
 import { Timeline } from './components/Timeline'
 import { type PlanNames, usePlanNames } from './names'
 import { usePlannerState } from './usePlannerState'
@@ -77,37 +79,39 @@ export function PlannerPage() {
   return (
     <>
       <PageHeader eyebrow={t('planner.eyebrow')} title={t('planner.title')}>{t('planner.intro')}</PageHeader>
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)]">
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,23rem)_minmax(0,1fr)] lg:gap-10">
         <aside
-          className={`space-y-6 rounded-2xl border border-line bg-surface p-5 shadow-card lg:sticky lg:top-0 lg:order-1 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto ${
-            sel.generated ? 'order-2' : ''
-          }`}
+          aria-label={t('planner.setupLabel')}
+          className={`lg:sticky lg:top-24 lg:order-1 lg:max-h-[calc(100vh-7.5rem)] lg:self-start lg:overflow-y-auto ${sel.generated ? 'order-2' : ''}`}
         >
-          <ServicePicker services={services.data} selected={sel.targets} onChange={setTarget} />
-          <DocumentChecklist
-            documents={documents.data}
-            relevantServiceIds={relevant}
-            owned={sel.owned}
-            highlight={highlight}
-            onChange={state.setOwned}
-          />
-          {!sel.generated ? (
-            <button
-              type="button"
-              disabled={sel.targets.length === 0}
-              onClick={state.generate}
-              className={buttonClass('primary', 'lg', 'w-full')}
-            >
-              {t('planner.generate')}
-            </button>
-          ) : (
-            <div className="flex items-center justify-between gap-2 text-xs text-slate-500">
-              <span>{t('planner.autoUpdate')}</span>
-              <button type="button" onClick={state.reset} className="text-brand-700 underline">
-                {t('planner.startOver')}
+          <div className="space-y-8 rounded-[2rem] bg-paper-deep/60 p-5 ring-1 ring-rule sm:p-6">
+            <ServicePicker services={services.data} selected={sel.targets} onChange={setTarget} />
+            <DocumentChecklist
+              documents={documents.data}
+              relevantServiceIds={relevant}
+              owned={sel.owned}
+              highlight={highlight}
+              onChange={state.setOwned}
+            />
+          </div>
+          <div className="sticky bottom-0 bg-gradient-to-t from-paper via-paper to-paper/0 pt-4 pb-1">
+            {!sel.generated ? (
+              <button type="button" disabled={sel.targets.length === 0} onClick={state.generate} className={buttonClass('primary', 'lg', 'w-full')}>
+                <Icon name="plan" className="h-5 w-5" />
+                {t('planner.generate')}
               </button>
-            </div>
-          )}
+            ) : (
+              <div className="flex items-center justify-between gap-3 rounded-2xl bg-card px-4 py-3 text-xs text-muted ring-1 ring-rule">
+                <span className="flex items-center gap-2">
+                  <span className="h-2 w-2 rounded-full bg-jade-500" aria-hidden />
+                  {t('planner.autoUpdate')}
+                </span>
+                <button type="button" onClick={state.reset} className="shrink-0 font-bold text-ink underline">
+                  {t('planner.startOver')}
+                </button>
+              </div>
+            )}
+          </div>
         </aside>
 
         {/* On small screens, show the plan above the checklist once it exists. */}
@@ -156,10 +160,49 @@ function Results(props: {
 
   if (!props.hasTargets || !props.generated) {
     return (
-      <div className="rounded-2xl border border-dashed border-line bg-surface px-8 py-14 text-center text-slate-600">
-        <p className="font-medium text-slate-800">{props.hasTargets ? t('planner.readyToGenerate') : t('planner.emptyTitle')}</p>
-        <p className="mt-1 text-sm">{t('planner.emptyHint')}</p>
-      </div>
+      <section className="ink-panel relative overflow-hidden rounded-[2rem] p-7 shadow-lift sm:p-10">
+        <span aria-hidden className="absolute -right-24 -bottom-24 h-80 w-80 rounded-full border-[36px] border-zest-400/10" />
+        <p className="relative text-xs font-bold tracking-[0.18em] text-zest-400 uppercase">{t('planner.previewEyebrow')}</p>
+        <p className="relative mt-3 max-w-xl font-display text-3xl leading-tight font-semibold tracking-tight text-paper sm:text-4xl">
+          {props.hasTargets ? t('planner.readyToGenerate') : t('planner.emptyTitle')}
+        </p>
+        <p className="relative mt-3 max-w-lg text-paper/70">{t('planner.emptyHint')}</p>
+        <ol className="relative mt-10 grid gap-8 md:grid-cols-3 md:gap-6">
+          <span aria-hidden className="absolute top-4 right-8 left-4 hidden h-0.5 bg-paper/15 md:block" />
+          {(['1', '2', '3'] as const).map((n, i) => (
+            <li key={n} className="relative animate-rise" style={{ animationDelay: `${0.1 + i * 0.12}s` }}>
+              <span
+                className={`relative flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold ${
+                  n === '3' ? 'animate-beacon bg-zest-400 text-ink' : 'bg-ink-soft text-paper ring-2 ring-paper/25'
+                }`}
+              >
+                {n}
+              </span>
+              <p className="mt-4 font-display text-lg font-semibold text-paper">{t(`planner.preview.${n}Title`)}</p>
+              <p className="mt-1 text-sm leading-relaxed text-paper/65">{t(`planner.preview.${n}Text`)}</p>
+            </li>
+          ))}
+        </ol>
+        <div className="relative mt-10 rounded-2xl bg-paper p-5 text-ink">
+          <p className="text-xs font-bold tracking-[0.16em] text-muted uppercase">{t('planner.legend')}</p>
+          <ul className="mt-3 flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold">
+            {(
+              [
+                ['next', 'planner.youAreHere'],
+                ['ready', 'stepStatus.ready'],
+                ['waiting', 'stepStatus.waiting'],
+                ['blocked', 'stepStatus.blocked'],
+                ['done', 'planner.completed'],
+              ] as const
+            ).map(([kind, key]) => (
+              <li key={key} className="flex items-center gap-2">
+                <StatusNode kind={kind} size="sm" />
+                {t(key)}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
     )
   }
 
@@ -184,30 +227,44 @@ function Results(props: {
   const counts = { ready: 0, waiting: 0, blocked: 0 }
   for (const s of plan.steps) counts[s.status] += 1
   const total = plan.steps.length + plan.completed_service_ids.length
+  const nextId = plan.next_action.type === 'start_service' ? plan.next_action.service_id : null
+  const stops = [
+    ...plan.completed_service_ids.map((id) => ({ id, kind: 'done' as NodeKind })),
+    ...plan.steps.map((s) => ({ id: s.service_id, kind: (s.service_id === nextId ? 'next' : s.status) as NodeKind })),
+  ]
 
   return (
-    <div className={`space-y-6 transition-opacity ${props.isFetching ? 'opacity-60' : ''}`}>
-      <div className="rounded-2xl border border-line bg-surface p-5 shadow-card">
-        <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
-          <span className="font-semibold text-slate-900">{t('home.progressValue', { done: plan.completed_service_ids.length, total })}</span>
+    <div className={`space-y-6 transition-opacity duration-300 ${props.isFetching ? 'opacity-60' : ''}`}>
+      <section aria-label={t('planner.overview')} className="rounded-[2rem] bg-card p-6 ring-1 ring-rule sm:p-7">
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <p className="font-display text-2xl font-semibold tracking-tight text-ink">
+            {t('home.progressValue', { done: plan.completed_service_ids.length, total })}
+          </p>
           {props.isFetching && (
-            <span role="status" className="text-slate-500">
+            <span role="status" className="flex items-center gap-2 text-sm text-muted">
+              <span className="h-2 w-2 animate-dots rounded-full bg-jade-500" aria-hidden />
               {t('planner.updating')}
             </span>
           )}
         </div>
-        <div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-100">
-          <div className="h-full rounded-full bg-verified transition-all duration-500" style={{ width: `${total ? (plan.completed_service_ids.length / total) * 100 : 0}%` }} />
-        </div>
-        <div className="mt-3 flex flex-wrap gap-2 text-xs font-medium">
-          <span className="rounded-full bg-brand-50 px-2.5 py-1 text-brand-800">{t('planner.countReady', { count: counts.ready })}</span>
-          <span className="rounded-full bg-slate-100 px-2.5 py-1 text-slate-700">{t('planner.countWaiting', { count: counts.waiting })}</span>
-          <span className="rounded-full bg-red-50 px-2.5 py-1 text-red-700">{t('planner.countBlocked', { count: counts.blocked })}</span>
-          <span className="rounded-full bg-green-50 px-2.5 py-1 text-green-800">
-            {t('planner.countCompleted', { count: plan.completed_service_ids.length })}
-          </span>
-        </div>
-      </div>
+        <ol className="-mx-2 mt-5 flex overflow-x-auto px-2 pb-1" aria-hidden>
+          {stops.map((s, i) => (
+            <li key={s.id} className="flex min-w-[6.5rem] flex-1 flex-col">
+              <div className="flex items-center">
+                <StatusNode kind={s.kind} size="sm" />
+                {i < stops.length - 1 && <span className={`mx-1 h-1 flex-1 rounded ${s.kind === 'done' ? 'bg-jade-600' : 'bg-rule-strong'}`} />}
+              </div>
+              <span className={`mt-2 line-clamp-2 pr-3 text-xs leading-snug ${s.kind === 'next' ? 'font-bold text-ink' : 'text-muted'}`}>{names.service(s.id)}</span>
+            </li>
+          ))}
+        </ol>
+        <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-1.5 border-t border-rule pt-4 text-xs font-semibold text-muted">
+          <li className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-ink" aria-hidden />{t('planner.countReady', { count: counts.ready })}</li>
+          <li className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full border-2 border-waiting" aria-hidden />{t('planner.countWaiting', { count: counts.waiting })}</li>
+          <li className="flex items-center gap-1.5 text-crimson-600"><span className="h-2 w-2 rounded-full bg-crimson-500" aria-hidden />{t('planner.countBlocked', { count: counts.blocked })}</li>
+          <li className="flex items-center gap-1.5 text-jade-700"><span className="h-2 w-2 rounded-full bg-jade-600" aria-hidden />{t('planner.countCompleted', { count: plan.completed_service_ids.length })}</li>
+        </ul>
+      </section>
       <NextActionCard plan={plan} names={names} onMarkDone={props.onMarkDone} onOwn={props.onOwn} />
       <IssuesPanel plan={plan} names={names} />
       <Timeline plan={plan} names={names} onMarkDone={props.onMarkDone} onUndoDone={props.onUndoDone} onOwn={props.onOwn} />

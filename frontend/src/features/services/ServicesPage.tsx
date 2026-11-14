@@ -5,9 +5,10 @@ import { Pill, VerifiedBadge } from '../../components/ui/Badge'
 import { buttonClass } from '../../components/ui/Button'
 import { Icon } from '../../components/ui/Icon'
 import { PageHeader } from '../../components/ui/PageHeader'
+import { Seal } from '../../components/ui/Seal'
 import { ErrorState, LoadingState } from '../../components/ui/States'
+import { countByLifeEvent, EVENT_TONE, isLifeEvent, LIFE_EVENTS } from '../../lib/lifeEvents'
 import { useFormatDate, useLocalized } from '../../lib/useLocalized'
-import { countByLifeEvent, isLifeEvent, LIFE_EVENTS } from '../../lib/lifeEvents'
 import type { LifeEventId, ServiceSummary } from '../../types/api'
 import { useServices } from './api'
 
@@ -47,134 +48,177 @@ export function ServicesPage() {
           .toLocaleLowerCase()
           .includes(q)),
   )
+  // Browsing everything: group by each service's primary life event (each service appears once).
+  const groups: { key: LifeEventId | 'all'; items: ServiceSummary[] }[] =
+    event || q
+      ? [{ key: event ?? 'all', items: visible }]
+      : LIFE_EVENTS.map((e) => ({ key: e, items: visible.filter((s) => s.life_events[0] === e) })).filter((g) => g.items.length)
 
   return (
     <>
-      <PageHeader eyebrow={t('services.eyebrow')} title={t('services.title')}>{t('services.intro')}</PageHeader>
-      <div className="mb-5 space-y-3">
-        <label className="relative block">
-          <span className="sr-only">{t('services.searchLabel')}</span>
-          <span className="pointer-events-none absolute inset-y-0 left-4 flex items-center text-slate-400"><Icon name="search" /></span>
-          <input
-            type="search"
-            value={query}
-            onChange={(e) => update({ q: e.target.value })}
-            placeholder={t('services.searchPlaceholder')}
-            className="w-full rounded-xl border border-line bg-surface py-3 pr-4 pl-11 text-sm shadow-card placeholder:text-slate-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-100 focus:outline-none"
-          />
-        </label>
-        <div role="group" aria-label={t('services.filterLabel')} className="flex flex-wrap gap-2">
-          <FilterChip active={!event} onClick={() => update({ event: null })}>
-            {t('services.allEvents')} <span className="text-xs opacity-70">{services.data.length}</span>
-          </FilterChip>
-          {LIFE_EVENTS.map((e) => (
-            <FilterChip key={e} active={event === e} onClick={() => update({ event: e })}>
-              <Icon name={e} className="h-4 w-4" /> {t(`lifeEvents.${e}.name`)} <span className="text-xs opacity-70">{counts[e]}</span>
-            </FilterChip>
-          ))}
+      <PageHeader eyebrow={t('services.eyebrow')} title={t('services.title')}>
+        {t('services.intro')}
+      </PageHeader>
+
+      <div className="grid gap-8 lg:grid-cols-[16rem_minmax(0,1fr)] lg:gap-12">
+        <aside className="space-y-5 lg:sticky lg:top-24 lg:self-start">
+          <label className="relative block">
+            <span className="sr-only">{t('services.searchLabel')}</span>
+            <span className="pointer-events-none absolute inset-y-0 left-4 flex items-center text-muted">
+              <Icon name="search" className="h-4 w-4" />
+            </span>
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => update({ q: e.target.value })}
+              placeholder={t('services.searchPlaceholder')}
+              className="w-full rounded-full border-2 border-rule-strong bg-card py-3 pr-4 pl-10 text-sm text-ink placeholder:text-faint focus:border-ink focus:outline-none"
+            />
+          </label>
+          <div>
+            <p className="mb-2 hidden px-1 text-xs font-bold tracking-[0.18em] text-muted uppercase lg:block">{t('services.filterLabel')}</p>
+            <div role="group" aria-label={t('services.filterLabel')} className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 lg:mx-0 lg:flex-col lg:gap-1 lg:overflow-visible lg:px-0">
+              <FilterItem active={!event} onClick={() => update({ event: null })} count={services.data.length}>
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-paper-deep text-ink" aria-hidden>
+                  <Icon name="layers" className="h-4 w-4" />
+                </span>
+                {t('services.allEvents')}
+              </FilterItem>
+              {LIFE_EVENTS.map((e) => (
+                <FilterItem key={e} active={event === e} onClick={() => update({ event: e })} count={counts[e]}>
+                  <Seal event={e} size="sm" muted={counts[e] === 0} />
+                  {t(`lifeEvents.${e}.name`)}
+                </FilterItem>
+              ))}
+            </div>
+          </div>
+        </aside>
+
+        <div className="min-w-0">
+          {event && <EventBanner event={event} count={counts[event]} />}
+
+          {visible.length === 0 ? (
+            <div className="flex animate-rise flex-col items-center rounded-3xl border-2 border-dashed border-rule-strong px-6 py-14 text-center">
+              {event ? <Seal event={event} size="lg" muted /> : <Icon name="search" className="h-10 w-10 text-faint" />}
+              <p className="mt-5 max-w-md font-display text-2xl font-semibold text-ink">
+                {event && counts[event] === 0 ? t('services.noVerifiedInEvent') : t('services.noMatches')}
+              </p>
+              <p className="mt-2 max-w-md text-sm text-muted">{t('services.coverageNote')}</p>
+              <button type="button" onClick={() => update({ event: null, q: '' })} className={buttonClass('primary', 'md', 'mt-6')}>
+                {t('services.clearFilters')}
+              </button>
+            </div>
+          ) : (
+            <div className="space-y-12">
+              {groups.map((g) => (
+                <section key={g.key} aria-label={g.key === 'all' ? undefined : t(`lifeEvents.${g.key}.name`)}>
+                  {!event && g.key !== 'all' && (
+                    <div className="mb-4 flex items-center gap-3">
+                      <span className={`h-2.5 w-2.5 rounded-full ${EVENT_TONE[g.key].solid}`} aria-hidden />
+                      <p className="font-display text-xl font-semibold text-ink">{t(`lifeEvents.${g.key}.name`)}</p>
+                      <span className="h-px flex-1 bg-rule" aria-hidden />
+                    </div>
+                  )}
+                  <div className="space-y-3">
+                    {g.items.map((s, i) => (
+                      <ServiceRow key={s.id} service={s} index={i} />
+                    ))}
+                  </div>
+                </section>
+              ))}
+            </div>
+          )}
         </div>
       </div>
-
-      {event && <p className="mb-4 text-sm text-slate-600">{t(`lifeEvents.${event}.description`)}</p>}
-
-      {visible.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-line bg-surface p-10 text-center">
-          <p className="font-medium text-slate-800">
-            {event && counts[event] === 0 ? t('services.noVerifiedInEvent') : t('services.noMatches')}
-          </p>
-          <p className="mt-1 text-sm text-slate-500">{t('services.coverageNote')}</p>
-          <button type="button" onClick={() => update({ event: null, q: '' })} className="mt-3 text-sm font-semibold text-brand-700 hover:underline">
-            {t('services.clearFilters')}
-          </button>
-        </div>
-      ) : (
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {visible.map((s) => (
-            <ServiceCard key={s.id} service={s} />
-          ))}
-        </div>
-      )}
     </>
   )
 }
 
-function FilterChip({ active, onClick, children }: { active: boolean; onClick: () => void; children: ReactNode }) {
+function FilterItem({ active, onClick, count, children }: { active: boolean; onClick: () => void; count: number; children: ReactNode }) {
   return (
     <button
       type="button"
       aria-pressed={active}
       onClick={onClick}
-      className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium transition ${
-        active ? 'bg-brand-800 text-white shadow-card' : 'bg-surface text-slate-700 ring-1 ring-line ring-inset hover:bg-slate-50 hover:text-slate-900'
+      className={`flex shrink-0 items-center gap-2.5 rounded-full py-1.5 pr-3.5 pl-1.5 text-left text-sm font-semibold whitespace-nowrap transition lg:w-full lg:rounded-2xl lg:whitespace-normal ${
+        active ? 'bg-ink text-paper shadow-soft' : 'bg-card text-ink ring-1 ring-rule ring-inset hover:ring-ink lg:bg-transparent lg:ring-0 lg:hover:bg-paper-deep'
       }`}
     >
       {children}
+      <span className={`ml-auto pl-2 text-xs tabular-nums ${active ? 'text-zest-400' : count === 0 ? 'text-clay-700' : 'text-muted'}`}>{count}</span>
     </button>
   )
 }
 
-function ServiceCard({ service: s }: { service: ServiceSummary }) {
+function EventBanner({ event, count }: { event: LifeEventId; count: number }) {
+  const { t } = useTranslation()
+  const tone = EVENT_TONE[event]
+  return (
+    <div className={`relative mb-8 flex animate-rise items-center gap-5 overflow-hidden rounded-3xl p-6 sm:p-8 ${count === 0 ? 'bg-paper-deep' : tone.bg}`}>
+      <span className={`absolute -right-8 -bottom-12 h-44 w-44 rounded-full border-[22px] border-current opacity-[0.07] ${tone.text}`} aria-hidden />
+      <Seal event={event} size="lg" muted={count === 0} />
+      <div>
+        <p className="font-display text-3xl font-semibold tracking-tight text-ink">{t(`lifeEvents.${event}.name`)}</p>
+        <p className="mt-1 text-muted">{t(`lifeEvents.${event}.description`)}</p>
+      </div>
+    </div>
+  )
+}
+
+function ServiceRow({ service: s, index }: { service: ServiceSummary; index: number }) {
   const { t } = useTranslation()
   const pick = useLocalized()
   const formatDate = useFormatDate()
   const fullyVerified = s.requirement_count > 0 && s.verified_requirement_count === s.requirement_count
   const primary = s.life_events[0]
+  const tone = primary ? EVENT_TONE[primary] : null
 
   return (
-    <article className="group flex flex-col rounded-2xl border border-line bg-surface shadow-card transition duration-150 hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-raised">
-      <div className="flex flex-1 flex-col p-6">
-        <div className="flex items-start justify-between gap-3">
-          {primary && (
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
-              <Icon name={primary} className="h-5 w-5" />
-            </span>
-          )}
-          <div className="flex flex-wrap justify-end gap-1.5">
-            {fullyVerified ? (
-              <VerifiedBadge />
-            ) : (
-              <Pill tone="amber">
-                ⚠ {t('services.partlyVerified', { verified: s.verified_requirement_count, total: s.requirement_count })}
-              </Pill>
-            )}
-            <Pill>{t(`jurisdiction.${s.jurisdiction}`)}{s.state ? ` · ${s.state}` : ''}</Pill>
-          </div>
-        </div>
-        <h2 className="mt-4 font-display text-xl leading-snug font-semibold text-slate-900">
-          <Link to={`/services/${s.id}`} className="hover:text-brand-700">
+    <article
+      className="group relative grid animate-rise gap-5 overflow-hidden rounded-3xl bg-card p-6 ring-1 ring-rule transition duration-200 hover:shadow-lift hover:ring-ink/30 sm:grid-cols-[auto_minmax(0,1fr)] sm:p-7 xl:grid-cols-[auto_minmax(0,1fr)_auto]"
+      style={{ animationDelay: `${Math.min(index, 6) * 0.04}s` }}
+    >
+      {tone && <span className={`absolute inset-y-0 left-0 w-1 ${tone.solid}`} aria-hidden />}
+      {primary && <Seal event={primary} />}
+      <div className="min-w-0">
+        <p lang="en" className="text-xs font-bold tracking-wide text-muted uppercase">
+          {s.authority}
+        </p>
+        <h2 className="mt-1.5 font-display text-2xl leading-snug font-semibold tracking-tight text-ink">
+          <Link to={`/services/${s.id}`} className="decoration-jade-500 decoration-2 underline-offset-4 hover:underline">
             {pick(s.name, s.name_hi)}
           </Link>
         </h2>
-        <p className="mt-2 line-clamp-3 text-sm text-slate-600">{pick(s.description, s.description_hi)}</p>
-        <ul className="mt-3 flex flex-wrap gap-1.5" aria-label={t('services.lifeEventsLabel')}>
+        <p className="mt-2 line-clamp-2 max-w-2xl text-sm leading-relaxed text-muted">{pick(s.description, s.description_hi)}</p>
+        <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
+          {fullyVerified ? (
+            <VerifiedBadge />
+          ) : (
+            <Pill tone="amber">⚠ {t('services.partlyVerified', { verified: s.verified_requirement_count, total: s.requirement_count })}</Pill>
+          )}
+          <span className="font-semibold text-ink">
+            {t(`jurisdiction.${s.jurisdiction}`)}
+            {s.state ? ` · ${s.state}` : ''}
+          </span>
+          {s.application_form && <span className="text-muted">{s.application_form}</span>}
+          {s.last_verified_at && <span className="text-muted">{t('services.lastVerified', { date: formatDate(s.last_verified_at) })}</span>}
+        </div>
+        <ul className="mt-3 flex flex-wrap gap-x-3 gap-y-1" aria-label={t('services.lifeEventsLabel')}>
           {s.life_events.map((e) => (
-            <li key={e} className="inline-flex items-center gap-1 rounded-md bg-slate-50 px-2 py-0.5 text-xs text-slate-600 ring-1 ring-line ring-inset">
-              <Icon name={e} className="h-3.5 w-3.5" /> {t(`lifeEvents.${e}.name`)}
+            <li key={e} className={`inline-flex items-center gap-1.5 text-xs font-semibold ${EVENT_TONE[e].text}`}>
+              <span className={`h-1.5 w-1.5 rounded-full ${EVENT_TONE[e].solid}`} aria-hidden />
+              {t(`lifeEvents.${e}.name`)}
             </li>
           ))}
-          {s.application_form && (
-            <li className="rounded-md bg-brand-50 px-2 py-0.5 text-xs text-brand-800">{s.application_form}</li>
-          )}
         </ul>
       </div>
-      <div className="border-t border-line px-6 py-4">
-        <dl className="space-y-0.5 text-xs text-slate-500">
-          <div>
-            <dt className="inline">{t('services.authority')}: </dt>
-            <dd className="inline text-slate-700" lang="en">
-              {s.authority}
-            </dd>
-          </div>
-          {s.last_verified_at && <div>{t('services.lastVerified', { date: formatDate(s.last_verified_at) })}</div>}
-        </dl>
-        <div className="mt-3 flex flex-wrap gap-2">
-          <Link to={`/services/${s.id}`} className={buttonClass('primary', 'sm')}>
-            {t('services.viewRequirements')}
-          </Link>
-          <a href={s.official_info_url} target="_blank" rel="noreferrer" className={buttonClass('secondary', 'sm')}>
-            {t('services.officialSite')} ↗
-          </a>
-        </div>
+      <div className="flex flex-wrap items-center gap-2 sm:col-start-2 xl:col-start-3 xl:flex-col xl:items-stretch xl:justify-center">
+        <Link to={`/services/${s.id}`} className={buttonClass('primary', 'sm')}>
+          {t('services.viewRequirements')} <Icon name="arrow" className="h-3.5 w-3.5" />
+        </Link>
+        <a href={s.official_info_url} target="_blank" rel="noreferrer" className={buttonClass('ghost', 'sm')}>
+          {t('services.officialSite')} ↗
+        </a>
       </div>
     </article>
   )

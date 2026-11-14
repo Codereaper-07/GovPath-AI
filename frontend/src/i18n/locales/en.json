@@ -120,14 +120,38 @@
     "andMore_one": "+{{count}} more",
     "andMore_other": "+{{count}} more",
     "alsoWaiting": "Also on hold until these are resolved: {{services}}.",
-    "eyebrow": "Your personal plan"
+    "eyebrow": "Your personal plan",
+    "previewEyebrow": "How your plan is built",
+    "legend": "Step status",
+    "unlocks": "Completing this unlocks: {{services}}",
+    "preview": {
+      "1Title": "Verified requirements",
+      "1Text": "GovPath checks each selected service against requirements quoted from official sources.",
+      "2Title": "Ordered by rules",
+      "2Text": "It works out what must come first, what can run in parallel and which documents unlock later steps.",
+      "3Title": "Your next step",
+      "3Text": "Blockers are flagged and one next action is recommended. Change a tick and the plan recalculates."
+    },
+    "setupLabel": "Your situation",
+    "overview": "Route overview",
+    "youAreHere": "You are here",
+    "journeyHint": "Numbered stops run in order. Steps at the same stop are independent."
   },
   "documents": {
     "title": "Documents",
     "intro": "Every document GovPath knows about, which services accept it, and which services issue it.",
     "acceptedBy": "Accepted by",
     "issuedBy": "Issued or updated by",
-    "eyebrow": "Document guide"
+    "eyebrow": "Document guide",
+    "searchLabel": "Search documents",
+    "searchPlaceholder": "Search documents…",
+    "categories": "Document categories",
+    "noMatches": "No documents match your search.",
+    "usefulFor_one": "Accepted by {{count}} service",
+    "usefulFor_other": "Accepted by {{count}} services",
+    "issuedByGovPath": "issued by a listed service",
+    "legendAccepted": "Accepted as proof by a service",
+    "legendIssued": "Issued or updated by a service"
   },
   "assistant": {
     "title": "Assistant",
@@ -178,7 +202,15 @@
     "example5": "How can I get a PAN card online?",
     "eyebrow": "AI explanations with official sources",
     "welcomeTitle": "How can GovPath help?",
-    "tryAsking": "Try asking"
+    "tryAsking": "Try asking",
+    "howAnswers": "How answers work",
+    "legendExcerpt": "An exact excerpt from an official government page or PDF.",
+    "legendFact": "A verified requirement from GovPath's knowledge base, with its source.",
+    "legendAi": "The explanation itself is AI-generated and labelled. It never changes facts or your plan.",
+    "aboutYourPlan": "About your saved plan",
+    "planQ1": "What is my next step and why?",
+    "planQ2": "Which documents am I still missing?",
+    "conversationHint": "Answers cite official sources. The plan itself always comes from the planner."
   },
   "scope": {
     "aadhaar": "Aadhaar address update",
@@ -238,7 +270,16 @@
     "aboutData": "About this information",
     "unverifiedWarning": "This requirement has not been verified against an official source. Treat it with caution.",
     "onlyIf": "Only if",
-    "anyOne": "Any one of these documents is accepted:"
+    "anyOne": "Any one of these documents is accepted:",
+    "glance": {
+      "mandatory": "Mandatory",
+      "optional": "Optional",
+      "conditional": "Only in some cases",
+      "outputs": "You receive",
+      "quotes": "Official quotes"
+    },
+    "coverage": "Coverage",
+    "or": "or"
   },
   "reason": {
     "unblocksDownstream_one": "{{service}} can start now: all its mandatory documents are available, and completing it unblocks {{services}}.",
@@ -297,7 +338,7 @@
     "noVerifiedYet": "No verified services yet",
     "serviceCount_one": "{{count}} verified service",
     "serviceCount_other": "{{count}} verified services",
-    "howTitle": "How it works",
+    "howTitle": "How GovPath works",
     "how1Title": "Pick your services",
     "how1Text": "Choose the services you need from any life event.",
     "how2Title": "Tick your documents",
@@ -326,7 +367,29 @@
       "rulesText": "The order of steps, blockers and next action come from fixed rules over verified data.",
       "aiTitle": "AI that explains",
       "aiText": "The assistant explains in plain language, cites its sources and says when evidence is missing."
-    }
+    },
+    "statsTitle": "Verified coverage",
+    "statServices": "Services",
+    "statDocuments": "Document types",
+    "statLifeEvents": "Life events covered",
+    "statLanguages": "Languages",
+    "savedNotGenerated": "Open the planner and generate your plan to see the next step.",
+    "flow": {
+      "1Title": "Understand your situation",
+      "1Text": "Describe what is happening, or pick a life event.",
+      "2Title": "Discover services",
+      "2Text": "See which government services apply and who runs them.",
+      "3Title": "Verify requirements",
+      "3Text": "Every document requirement is quoted from an official source.",
+      "4Title": "Get an ordered plan",
+      "4Text": "Fixed rules work out the order, blockers and your next step."
+    },
+    "heroA": "Know what to do,",
+    "heroB": "in what order,",
+    "heroC": "with which documents.",
+    "discoverEyebrow": "Discover",
+    "exploreEvent": "Explore services",
+    "honestGap": "We only list services verified from official sources."
   },
   "lifeEvents": {
     "relocation-identity": {

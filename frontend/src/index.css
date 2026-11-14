@@ -1,55 +1,153 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Serif+Devanagari:wght@600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Manrope:wght@400..800&family=Noto+Sans+Devanagari:wght@400..700&family=Tiro+Devanagari+Hindi&display=swap");
 @import "tailwindcss";
 
-/* ---------------------------------------------------------------- GovPath design tokens */
+/* ------------------------------------------------------------------ "Paper & Route"
+   Warm paper, green-black ink, jade for verified/official, lime for "you are here".
+   Life events each own a muted hue; blockers are crimson; AI is lilac.            */
 @theme {
-  --font-sans: "Inter", "Noto Sans Devanagari", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-display: "Source Serif 4", "Noto Serif Devanagari", Georgia, "Times New Roman", serif;
+  --font-sans: "Manrope", "Noto Sans Devanagari", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Fraunces", "Tiro Devanagari Hindi", Georgia, "Times New Roman", serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
-  /* Civic navy: primary actions, links, active navigation */
-  --color-brand-50: #f1f5fd;
-  --color-brand-100: #dfe8fa;
-  --color-brand-200: #bfd0f4;
-  --color-brand-300: #8eaae6;
-  --color-brand-500: #3b67c8;
-  --color-brand-600: #2453b4;
-  --color-brand-700: #1c4193;
-  --color-brand-800: #17336f;
-  --color-brand-900: #0f2147;
+  /* Surfaces & ink */
+  --color-paper: #f4f0e8;
+  --color-paper-deep: #ebe5d8;
+  --color-card: #fcfaf6;
+  --color-rule: #e3dbcc;
+  --color-rule-strong: #cbc0ab;
+  --color-ink: #17211c;
+  --color-ink-soft: #24302a;
+  --color-ink-line: #34423a;
+  --color-muted: #6a665c;
+  --color-faint: #9b958a;
 
-  /* Saffron: reserved for the single "next action" emphasis */
-  --color-accent-50: #fff7ed;
-  --color-accent-100: #ffedd5;
-  --color-accent-500: #e57d13;
-  --color-accent-600: #c4640b;
-  --color-accent-700: #9b4c08;
+  /* Jade: verified, official, primary actions */
+  --color-jade-50: #ebf3ee;
+  --color-jade-100: #d4e7dc;
+  --color-jade-200: #b0d3bf;
+  --color-jade-300: #86bc9f;
+  --color-jade-500: #2f8a68;
+  --color-jade-600: #23704f;
+  --color-jade-700: #1b5a3f;
+  --color-jade-800: #144430;
 
-  /* Surfaces */
-  --color-canvas: #f6f6f3;
-  --color-surface: #ffffff;
-  --color-line: #e4e4de;
+  /* Zest (lime): the single "you are here / next" highlight */
+  --color-zest-100: #f1f9cf;
+  --color-zest-200: #e6f5a8;
+  --color-zest-300: #d8ef78;
+  --color-zest-400: #c8e650;
+  --color-zest-600: #7f9a17;
+  --color-zest-800: #46560b;
 
-  --color-verified: #15803d;
-  --color-ai: #6d28d9;
+  /* Crimson: blockers and errors */
+  --color-crimson-50: #fcedf0;
+  --color-crimson-100: #f6d5dc;
+  --color-crimson-200: #ecb0bd;
+  --color-crimson-500: #b23a55;
+  --color-crimson-600: #962b45;
+  --color-crimson-700: #7a2238;
 
-  --shadow-card: 0 1px 2px rgb(15 33 71 / 0.04), 0 1px 3px rgb(15 33 71 / 0.06);
-  --shadow-raised: 0 4px 12px -2px rgb(15 33 71 / 0.08), 0 2px 4px -2px rgb(15 33 71 / 0.06);
+  /* Honey: caution, unverified, conditional */
+  --color-honey-50: #fbf4df;
+  --color-honey-100: #f4e6b5;
+  --color-honey-500: #b98a12;
+  --color-honey-700: #7a5b08;
+
+  /* Lilac: AI-generated content only */
+  --color-lilac-50: #f3effc;
+  --color-lilac-100: #e5ddf8;
+  --color-lilac-300: #bba8ee;
+  --color-lilac-500: #7a5bd0;
+  --color-lilac-700: #51339a;
+
+  /* Life-event hues */
+  --color-petal-50: #f9e9ee;
+  --color-petal-500: #c25c7e;
+  --color-petal-700: #8e3555;
+  --color-lagoon-50: #e4f1f3;
+  --color-lagoon-500: #2b7a8c;
+  --color-lagoon-700: #1c5664;
+  --color-clay-50: #f1e9e1;
+  --color-clay-500: #8b6b55;
+  --color-clay-700: #634a39;
+
+  /* Workflow status semantics */
+  --color-done: #23704f;
+  --color-ready: #17211c;
+  --color-waiting: #b5ae9f;
+  --color-blocked: #b23a55;
+
+  --shadow-soft: 0 1px 0 rgb(23 33 28 / 0.03), 0 10px 30px -18px rgb(23 33 28 / 0.25);
+  --shadow-lift: 0 1px 0 rgb(23 33 28 / 0.04), 0 22px 48px -24px rgb(23 33 28 / 0.4);
+
+  --animate-rise: rise 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-beacon: beacon 2.4s ease-out infinite;
+  --animate-draw: draw 1.8s cubic-bezier(0.65, 0, 0.35, 1) 0.2s both;
+  --animate-dots: dots 1.2s ease-in-out infinite;
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes beacon {
+    0% { box-shadow: 0 0 0 0 rgb(200 230 80 / 0.7); }
+    70%, 100% { box-shadow: 0 0 0 12px rgb(200 230 80 / 0); }
+  }
+  @keyframes draw {
+    from { stroke-dashoffset: 1; }
+    to { stroke-dashoffset: 0; }
+  }
+  @keyframes dots {
+    0%, 80%, 100% { opacity: 0.25; transform: translateY(0); }
+    40% { opacity: 1; transform: translateY(-3px); }
+  }
 }
 
 @layer base {
-  html, body, #root { height: 100%; }
+  html, body, #root { min-height: 100%; }
   body {
-    background-color: var(--color-canvas);
-    color: var(--color-slate-800);
+    background-color: var(--color-paper);
+    color: var(--color-ink);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    font-feature-settings: "ss01", "cv11";
   }
-  :lang(hi) { line-height: 1.65; }
-  :focus-visible { outline: 2px solid var(--color-brand-500); outline-offset: 2px; border-radius: 4px; }
-  ::selection { background: var(--color-brand-100); }
+  :lang(hi) { line-height: 1.7; }
+  /* Tiro Devanagari has one weight: never fake-bold it. */
+  :lang(hi) .font-display { font-synthesis-weight: none; letter-spacing: 0; }
+  :focus-visible { outline: 2.5px solid var(--color-jade-500); outline-offset: 2px; border-radius: 6px; }
+  ::selection { background: var(--color-zest-200); color: var(--color-ink); }
+  input[type="checkbox"] { accent-color: var(--color-jade-600); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }
+
+/* Map paper: faint dot grid behind the planner journey. */
+@utility map-paper {
+  background-image: radial-gradient(rgb(23 33 28 / 0.09) 1px, transparent 1.2px);
+  background-size: 18px 18px;
+}
+
+/* Ink surface with a faint dot grid (hero moments). */
+@utility ink-panel {
+  background-color: var(--color-ink);
+  background-image: radial-gradient(rgb(255 255 255 / 0.07) 1px, transparent 1.2px);
+  background-size: 18px 18px;
+  color: var(--color-paper);
+}
+
+/* SVG route lines that draw themselves once (pathLength="1"). */
+@utility route-draw {
+  stroke-dasharray: 1;
+  animation: var(--animate-draw);
+}
+
+/* Letter-spacing splits Devanagari conjuncts: reset it for Hindi (unlayered, so it beats utilities). */
+:lang(hi) [class*="tracking-"] { letter-spacing: 0; }

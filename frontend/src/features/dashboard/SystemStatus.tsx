@@ -1,28 +1,26 @@
 import { useTranslation } from 'react-i18next'
-import { Card } from '../../components/ui/Card'
 import { useApiHealth, useDbHealth } from './api'
 
 type Tone = 'ok' | 'warn' | 'error' | 'pending'
 
 const DOT: Record<Tone, string> = {
-  ok: 'bg-green-500',
-  warn: 'bg-amber-400',
-  error: 'bg-red-500',
-  pending: 'bg-slate-300',
+  ok: 'bg-jade-500',
+  warn: 'bg-honey-500',
+  error: 'bg-crimson-500',
+  pending: 'bg-waiting',
 }
 
-function Row({ label, value, tone }: { label: string; value: string; tone: Tone }) {
+function Item({ label, value, tone }: { label: string; value: string; tone: Tone }) {
   return (
-    <div className="flex items-center justify-between py-2 text-sm">
-      <span className="text-slate-600">{label}</span>
-      <span className="flex items-center gap-2 font-medium">
-        <span className={`h-2 w-2 rounded-full ${DOT[tone]}`} />
-        {value}
-      </span>
-    </div>
+    <li className="flex items-center gap-2">
+      <span className={`h-2 w-2 rounded-full ${DOT[tone]}`} aria-hidden />
+      <span className="text-muted">{label}</span>
+      <span className="font-semibold text-ink">{value}</span>
+    </li>
   )
 }
 
+/** Live connection status, as a quiet status line. */
 export function SystemStatus() {
   const { t } = useTranslation()
   const api = useApiHealth()
@@ -49,12 +47,15 @@ export function SystemStatus() {
         : ['—', 'pending']
 
   return (
-    <Card title={t('status.title')}>
-      <div className="divide-y divide-slate-100">
-        <Row label={t('status.api')} value={apiRow[0]} tone={apiRow[1]} />
-        <Row label={t('status.database')} value={dbRow[0]} tone={dbRow[1]} />
-        <Row label={t('status.pgvector')} value={vecRow[0]} tone={vecRow[1]} />
-      </div>
-    </Card>
+    <section aria-labelledby="system-status" className="flex flex-wrap items-center gap-x-8 gap-y-3 rounded-2xl border border-rule px-5 py-4 text-sm">
+      <h2 id="system-status" className="text-xs font-bold tracking-[0.18em] text-muted uppercase">
+        {t('status.title')}
+      </h2>
+      <ul className="flex flex-wrap gap-x-6 gap-y-2">
+        <Item label={t('status.api')} value={apiRow[0]} tone={apiRow[1]} />
+        <Item label={t('status.database')} value={dbRow[0]} tone={dbRow[1]} />
+        <Item label={t('status.pgvector')} value={vecRow[0]} tone={vecRow[1]} />
+      </ul>
+    </section>
   )
 }

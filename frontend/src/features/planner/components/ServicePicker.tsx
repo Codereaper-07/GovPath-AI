@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Icon } from '../../../components/ui/Icon'
+import { Seal } from '../../../components/ui/Seal'
 import { LIFE_EVENTS } from '../../../lib/lifeEvents'
 import { useLocalized } from '../../../lib/useLocalized'
 import type { ServiceSummary } from '../../../types/api'
@@ -21,31 +22,34 @@ export function ServicePicker({
   )
   return (
     <fieldset>
-      <legend className="text-sm font-semibold text-slate-900">{t('planner.step1')}</legend>
-      <p className="mb-2 text-xs text-slate-500">{t('planner.step1Hint')}</p>
-      <div className="space-y-4">
+      <legend className="font-display text-xl font-semibold text-ink">{t('planner.step1')}</legend>
+      <p className="mt-1 mb-4 text-sm text-muted">{t('planner.step1Hint')}</p>
+      <div className="space-y-5">
         {groups.map(({ e, items }) => (
           <div key={e}>
-            <h3 className="mb-1.5 flex items-center gap-1.5 text-xs font-semibold tracking-wide text-slate-500 uppercase">
-              <Icon name={e} className="h-4 w-4" /> {t(`lifeEvents.${e}.name`)}
+            <h3 className="mb-2 flex items-center gap-2 text-xs font-bold tracking-[0.14em] text-muted uppercase">
+              <Seal event={e} size="sm" /> {t(`lifeEvents.${e}.name`)}
             </h3>
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               {items.map((s) => {
                 const on = selected.includes(s.id)
                 return (
                   <label
                     key={`${e}-${s.id}`}
-                    className={`flex cursor-pointer items-start gap-3 rounded-lg border p-3 text-sm transition ${
-                      on ? 'border-brand-600 bg-brand-50' : 'border-slate-200 bg-white hover:bg-slate-50'
+                    className={`group flex cursor-pointer items-center gap-3 rounded-2xl px-3.5 py-3 text-sm transition ${
+                      on ? 'bg-ink text-paper shadow-soft' : 'bg-card text-ink ring-1 ring-rule hover:ring-ink/40'
                     }`}
                   >
-                    <input
-                      type="checkbox"
-                      className="mt-0.5 h-4 w-4 accent-brand-600"
-                      checked={on}
-                      onChange={(ev) => onChange(s.id, ev.target.checked)}
-                    />
-                    <span className="font-medium text-slate-800">{pick(s.name, s.name_hi)}</span>
+                    <input type="checkbox" className="peer sr-only" checked={on} onChange={(ev) => onChange(s.id, ev.target.checked)} />
+                    <span
+                      aria-hidden
+                      className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md transition peer-focus-visible:ring-2 peer-focus-visible:ring-zest-400 peer-focus-visible:ring-offset-2 ${
+                        on ? 'bg-zest-400 text-ink' : 'border-2 border-rule-strong bg-card'
+                      }`}
+                    >
+                      {on && <Icon name="check" className="h-3.5 w-3.5" strokeWidth={3} />}
+                    </span>
+                    <span className="font-semibold">{pick(s.name, s.name_hi)}</span>
                   </label>
                 )
               })}

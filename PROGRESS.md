@@ -265,13 +265,43 @@ clean. `alembic check`: no drift.
   new); typecheck, lint and build clean. Real-app screenshots in EN/HI and at 390 px: no overflow,
   0 console errors, 0 failed requests, 0 Gemini calls.
 
+## Milestone 8 — premium UI pass (2026-11-14)
+- **Foundation:** route-level code splitting (`app/lazyPages.tsx` + `Suspense`; main JS 510 → 279 kB),
+  workflow status tokens (`done/ready/waiting/blocked`), `blueprint` navy grid surface.
+- **Dashboard:** navy hero with the situation input first, life-event quick links and live
+  coverage stats from the API; saved-plan strip (live next action + progress) or a start prompt;
+  4-step process; life-event list; trust section.
+- **Planner:** explanatory panel and status legend before generation; status icons on steps and
+  "Completing this unlocks: …" from the plan's `unblocks` (backend data only).
+- **Services/detail:** search + life-event filter panel with counts and a context banner;
+  at-a-glance requirement counts on the detail page.
+- **Documents:** search, category index, accepted-by/issued-by service links.
+- **Assistant:** evidence-first opening state (S/K/AI legend) and saved-plan suggestions.
+- **Checks:** frontend only. Vitest 43 passed (6 new); typecheck, lint, build clean. Real-app
+  journey (select → generate → untick/re-tick → mark done → reload) verified; EN/HI, 390 px:
+  no overflow, 0 console errors, 0 failed requests, 0 Gemini calls.
+
+## Milestone 9 — visual identity "Paper & Route" (2026-11-14)
+- Replaced the navy/white/saffron look: warm paper, green-black ink, jade (verified), lime (next
+  action only), crimson (blockers), lilac (AI); Fraunces + Manrope, Tiro/Noto for Hindi; top-bar
+  navigation with an ink footer; transit-route motif (logo, dashboard, planner).
+- Dashboard: editorial hero + situation input, route-drawn "how it works" panel with live stats,
+  boarding-pass saved plan (live next action, stop strip), life-event bento with live service names.
+- Services: life-event index rail, catalogue grouped by primary event, ledger rows. Detail: tinted
+  hero, numbered / "if" / open markers instead of badges, "or" alternatives, ink "you receive".
+- Planner: route map (completed segment, numbered stops, parallel groups, "You are here"), stop
+  overview strip, ink next-action panel, crimson blockers. All data from the backend plan.
+- Documents: relationship rows (issued-by / accepted-by lanes, usage meter). Assistant: centred
+  composer that docks once a conversation starts, AI/fact/excerpt colour separation, skeleton loading.
+- Checks: Vitest 45 passed (2 new); typecheck, lint, build clean. Real app EN/HI, 1440/390 px: no
+  overflow, 0 console errors, 0 failed requests, 0 Gemini calls; journeys re-verified.
+
 ## Remaining work
 - [ ] Complete the answer evaluation and the A/B/C baselines when Gemini quota allows (≤ 85 requests).
 - [ ] Narrow relocation detection (generic "new address" phrases over-include services).
 - [ ] Starting-a-business services (Udyam, GST) and birth registration: find machine-readable official sources.
 - [ ] Embed the 21 new chunks (`python -m scripts.embed`, ~2 requests) when quota allows.
 - [ ] Persist usage counters across API restarts.
-- [ ] Code-split the frontend bundle (JS ~510 kB, just over Vite's 500 kB advisory).
 
 ## Later
 - [ ] Scheduled re-ingestion and a review queue for `needs_review` items
