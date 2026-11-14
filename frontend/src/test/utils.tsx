@@ -2,6 +2,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { render } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { vi } from 'vitest'
+import { ActivityPage } from '../features/account/ActivityPage'
+import { VaultPage } from '../features/account/VaultPage'
 import { AssistantPage } from '../features/assistant/AssistantPage'
 import { AuthProvider } from '../features/auth/AuthProvider'
 import { LoginPage } from '../features/auth/LoginPage'
@@ -38,6 +40,22 @@ export function renderApp(path: string, auth: AuthClient | null = null) {
               element={
                 <RequireAuth>
                   <ProfilePage />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/vault"
+              element={
+                <RequireAuth>
+                  <VaultPage />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/activity"
+              element={
+                <RequireAuth>
+                  <ActivityPage />
                 </RequireAuth>
               }
             />

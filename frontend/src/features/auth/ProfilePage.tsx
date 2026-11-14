@@ -1,6 +1,6 @@
 import { type FormEvent, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { buttonClass } from '../../components/ui/Button'
 import { Icon } from '../../components/ui/Icon'
 import { PageHeader } from '../../components/ui/PageHeader'
@@ -152,13 +152,26 @@ function DevicePlanNote() {
   const { t } = useTranslation()
   const services = useMemo(() => readSavedPlan().targets.length, [])
   return (
-    <aside className="h-fit rounded-[2rem] border border-rule bg-paper-deep/40 p-6">
+    <aside className="h-fit space-y-5 rounded-[2rem] border border-rule bg-paper-deep/40 p-6">
+      <nav aria-label={t('profile.accountData')} className="flex flex-wrap gap-2">
+        <Link to="/planner" className={buttonClass('secondary', 'sm')}>
+          {t('account.savedTab')}
+        </Link>
+        <Link to="/vault" className={buttonClass('secondary', 'sm')}>
+          {t('vault.title')}
+        </Link>
+        <Link to="/activity" className={buttonClass('secondary', 'sm')}>
+          {t('activity.title')}
+        </Link>
+      </nav>
+      <div>
       <p className="flex items-center gap-2 text-sm font-bold text-ink">
         <Icon name="plan" className="h-4 w-4 text-jade-700" /> {t('profile.deviceTitle')}
       </p>
       <p className="mt-2 text-sm leading-relaxed text-muted">
         {services > 0 ? t('profile.devicePlan', { count: services }) : t('profile.deviceNoPlan')}
       </p>
+      </div>
     </aside>
   )
 }

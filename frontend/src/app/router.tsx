@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import { RequireAuth } from '../features/auth/RequireAuth'
 import { DashboardLayout } from '../layouts/DashboardLayout'
 import {
+  ActivityPage,
   AssistantPage,
   DashboardPage,
   DocumentsPage,
@@ -11,6 +12,7 @@ import {
   ServiceDetailPage,
   ServicesPage,
   SignupPage,
+  VaultPage,
 } from './lazyPages'
 import { NotFoundPage } from './NotFoundPage'
 
@@ -33,6 +35,22 @@ export const router = createBrowserRouter([
         element: (
           <RequireAuth>
             <ProfilePage />
+          </RequireAuth>
+        ),
+      },
+      {
+        path: 'vault',
+        element: (
+          <RequireAuth>
+            <VaultPage />
+          </RequireAuth>
+        ),
+      },
+      {
+        path: 'activity',
+        element: (
+          <RequireAuth>
+            <ActivityPage />
           </RequireAuth>
         ),
       },

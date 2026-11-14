@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { AIBadge } from '../../components/ui/Badge'
@@ -6,7 +6,20 @@ import { buttonClass } from '../../components/ui/Button'
 import { Icon } from '../../components/ui/Icon'
 import { ErrorState, LoadingState } from '../../components/ui/States'
 import { ApiError } from '../../lib/apiClient'
-import type { ApiErrorDetail, PlanRequest, ProposalResponse, ProposeRequest, SituationInterpretation } from '../../types/api'
+import type {
+  ApiErrorDetail,
+  HeldDocument,
+  PlanRequest,
+  ProcessState,
+  ProposalResponse,
+  ProposeRequest,
+  SituationInterpretation,
+  VaultDocument,
+  VaultStatus,
+} from '../../types/api'
+import { useAccountProgress, useCreatePlan, useSavedPlans, useUpdatePlan, useVault } from '../account/api'
+import { useProfile } from '../auth/api'
+import { useAuth } from '../auth/useAuth'
 import { useInterpretSituation, useProposal, useVocabulary } from '../planner/api'
 import { IssuesPanel } from '../planner/components/IssuesPanel'
 import { NextActionCard } from '../planner/components/NextActionCard'
@@ -20,7 +33,10 @@ import { useDocuments, useServices } from '../services/api'
  * Describe → understand → discover → plan → review → accept.
  * AI only extracts facts (reviewed and editable here). Services come from deterministic discovery
  * over the curated knowledge base, and the workflow from the existing planner (`/propose`).
- * Nothing is saved until the citizen accepts; acceptance merges into, or replaces, the saved plan.
+ * Nothing is saved until the citizen accepts. Guests: acceptance merges into, or replaces, the
+ * plan in this browser. Signed in: the vault and account progress are the starting facts, and
+ * acceptance saves a new account plan (or adds to one); reviewed documents missing from the vault
+ * are added to it.
  */
 
 type Phase = 'describe' | 'review' | 'proposal'
@@ -47,6 +63,32 @@ function draftFromSaved(): Draft {
   return { goals: s.goals, lifeEvents: [], state: s.state, held: s.owned, lacking: s.lacking, docStates: s.docStates, fromAI: false, unknowns: [], dropped: 0 }
 }
 
+/** Signed in: the vault is the source of truth for documents (same rule as the backend: a type
+ * is usable if any copy is valid; otherwise its most hopeful problem state is shown). */
+function draftFromAccount(vault: VaultDocument[], state: string | null, goals: string[]): Draft {
+  const byType = new Map<string, Set<VaultStatus>>()
+  for (const d of vault) byType.set(d.document_type, (byType.get(d.document_type) ?? new Set()).add(d.effective_status))
+  const docStates: Record<string, ProblemState> = {}
+  for (const [type, statuses] of byType) {
+    if (statuses.has('valid')) continue
+    docStates[type] = statuses.has('unsure') ? 'unsure' : statuses.has('expired') ? 'expired' : 'invalid'
+  }
+  return { goals, lifeEvents: [], state, held: [...byType.keys()], lacking: [], docStates, fromAI: false, unknowns: [], dropped: 0 }
+}
+
+/** Progress facts for a proposal: the account's when signed in, else this browser's. */
+function useProgressFacts() {
+  const { status } = useAuth()
+  const account = useAccountProgress()
+  const saved = readSavedPlan()
+  if (status !== 'signedIn') return { completed: saved.completed, progress: saved.progress as Record<string, ProcessState> }
+  const entries = Object.entries(account.data ?? {})
+  return {
+    completed: entries.filter(([, p]) => p === 'completed').map(([s]) => s),
+    progress: Object.fromEntries(entries.filter(([, p]) => p !== 'completed')) as Record<string, ProcessState>,
+  }
+}
+
 function withInterpretation(d: Draft, r: SituationInterpretation): Draft {
   const held = uniq([...d.held, ...r.held_document_ids]).filter((x) => !r.lacking_document_ids.includes(x))
   const states = { ...d.docStates, ...(r.document_states ?? {}) }
@@ -69,7 +111,19 @@ export function SituationJourney({ onExplain }: { onExplain?: (workflow: PlanReq
   const [draft, setDraft] = useState<Draft>(draftFromSaved)
   const [targets, setTargets] = useState<string[] | null>(null) // null = discovery's recommendation
 
-  const saved = readSavedPlan()
+  // Signed in: start from the vault (once, before the citizen has changed anything).
+  const { status } = useAuth()
+  const vault = useVault()
+  const profile = useProfile()
+  const seeded = useRef(false)
+  const profileSettled = !profile.isPending || profile.fetchStatus === 'idle'
+  useEffect(() => {
+    if (status !== 'signedIn' || seeded.current || !vault.data || !profileSettled || phase !== 'describe') return
+    seeded.current = true
+    setDraft(draftFromAccount(vault.data, profile.data?.state ?? null, []))
+  }, [status, vault.data, profile.data, profileSettled, phase])
+
+  const saved = useProgressFacts()
   // Saved ids the knowledge base no longer has would make the whole request fail (422): drop
   // them, but only against successful, non-empty catalogues (never prune on a failed load).
   const services = useServices()
@@ -390,6 +444,12 @@ function Proposal({
   const { t } = useTranslation()
   const navigate = useNavigate()
   const planner = usePlannerState()
+  const { status } = useAuth()
+  const signedIn = status === 'signedIn'
+  const accountPlans = useSavedPlans('active')
+  const createPlan = useCreatePlan()
+  const updatePlan = useUpdatePlan()
+  const facts = useProgressFacts()
   const services = useServices()
   const documents = useDocuments()
   const vocabulary = useVocabulary()
@@ -408,7 +468,8 @@ function Proposal({
 
   const stale = query.isPlaceholderData || query.isFetching
   const saved = readSavedPlan()
-  const hasPlan = saved.targets.length > 0
+  const latestPlan = accountPlans.data?.[0] ?? null
+  const hasPlan = signedIn ? latestPlan !== null : saved.targets.length > 0
   const name = names.service
   const candidate = (id: string) => data.discovery.candidates.find((c) => c.service_id === id)
   const supportIds = new Set(data.supporting.map((s) => s.service_id))
@@ -424,11 +485,25 @@ function Proposal({
     setAccepted(true)
     navigate('/planner')
   }
+  const held: HeldDocument[] = draft.held.map((d) => ({ document_type: d, status: (draft.docStates[d] ?? 'valid') as VaultStatus }))
+  /** Signed in: save to the account (explicit action). The browser's plan is not touched. */
+  const acceptToAccount = (mode: 'new' | 'add') => {
+    const done = { onSuccess: (p: { id: string }) => navigate(`/planner?plan=${p.id}`) }
+    if (mode === 'add' && latestPlan) {
+      updatePlan.mutate(
+        { id: latestPlan.id, target_service_ids: [...new Set([...latestPlan.target_service_ids, ...outcomes])], held_documents: held },
+        done,
+      )
+    } else {
+      createPlan.mutate({ source: 'proposal', target_service_ids: outcomes, goals: draft.goals, state: draft.state, held_documents: held }, done)
+    }
+  }
+  const saving = createPlan.isPending || updatePlan.isPending
   const workflow = (): PlanRequest => ({
     target_service_ids: sorted(outcomes),
     owned_document_ids: sorted(draft.held),
-    completed_service_ids: sorted(saved.completed),
-    progress: sortObj(saved.progress),
+    completed_service_ids: sorted(facts.completed),
+    progress: sortObj(facts.progress),
     document_states: sortObj(draft.docStates),
     state: draft.state,
   })
@@ -578,9 +653,21 @@ function Proposal({
 
       <div className="sticky bottom-0 -mx-2 space-y-2 rounded-2xl bg-ink p-4 text-paper shadow-lift">
         <p className="text-sm font-semibold">{t(hasPlan ? 'journey.acceptExisting' : 'journey.acceptNew')}</p>
-        <p className="text-xs text-paper/70">{t('journey.acceptNote')}</p>
+        <p className="text-xs text-paper/70">{t(signedIn ? 'journey.acceptAccountNote' : 'journey.acceptNote')}</p>
+        {(createPlan.isError || updatePlan.isError) && <p className="text-xs font-semibold text-zest-300">{t('account.saveError')}</p>}
         <div className="flex flex-wrap gap-2">
-          {hasPlan ? (
+          {signedIn ? (
+            <>
+              <button type="button" disabled={!data.plan || stale || saving} onClick={() => acceptToAccount('new')} className={buttonClass('zest', 'md')}>
+                {t('journey.acceptSaveNew')}
+              </button>
+              {latestPlan && (
+                <button type="button" disabled={!data.plan || stale || saving} onClick={() => acceptToAccount('add')} className={buttonClass('inverse', 'md')}>
+                  {t('journey.acceptAddTo', { plan: latestPlan.title || latestPlan.target_service_ids.map(name).join(', ') })}
+                </button>
+              )}
+            </>
+          ) : hasPlan ? (
             <>
               <button type="button" disabled={!data.plan || stale || accepted} onClick={() => accept('merge')} className={buttonClass('zest', 'md')}>
                 {t('journey.acceptMerge')}

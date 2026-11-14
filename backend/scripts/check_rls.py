@@ -27,8 +27,19 @@ AS_A = [
     ("A inserts a profile: denied", f"insert into public.profiles (id) values ('{NEW}')", True),
     ("A deletes B: denied", f"delete from public.profiles where id = '{B}'", True),
     ("authenticated reads knowledge: denied", "select 1 from public.government_services", True),
-    ("authenticated writes knowledge: denied", "update public.service_outputs set id = id", True),
+    ("auth writes knowledge: denied", "update public.document_types set slug = slug", True),
 ]  # fmt: skip
+# Account tables (0008): one row per user is inserted, then checked as A and as anon.
+ACCOUNT_ROWS = {
+    "vault_documents": "insert into public.vault_documents (id, user_id, document_type, status) "
+    "values (gen_random_uuid(), :u, 'pan_card', 'valid')",
+    "service_progress": "insert into public.service_progress (user_id, service_id, state) "
+    "values (:u, 'instant-e-pan', 'started')",
+    "user_plans": "insert into public.user_plans (id, user_id, status, target_service_ids, goals) "
+    "values (gen_random_uuid(), :u, 'active', '[]', '[]')",
+    "activity_events": "insert into public.activity_events (user_id, event_type, entity_type, "
+    "details) values (:u, 'document_added', 'document', '{}')",
+}
 AS_ANON = [
     ("anon reads profiles: denied", "select 1 from public.profiles", True),
     ("anon reads knowledge: denied", "select 1 from public.government_services", True),
@@ -61,6 +72,8 @@ async def main() -> None:
                     {"id": uid, "email": f"rls-check-{uid[:4]}@example.invalid"},
                 )  # fmt: skip
                 await c.execute(text("insert into public.profiles (id) values (:id)"), {"id": uid})
+                for sql in ACCOUNT_ROWS.values():
+                    await c.execute(text(sql), {"u": uid})
 
             await c.execute(text("savepoint as_a"))
             await c.execute(text("set local role authenticated"))
@@ -73,13 +86,34 @@ async def main() -> None:
                 if name.startswith("A reads profiles"):
                     ok = ok and detail == f"rows=[('{A}',)]"
                 results.append((name, ok, detail))
+            for table in ACCOUNT_ROWS:
+                ok, detail = await _attempt(c, f"select user_id::text from public.{table}", False)
+                results.append(
+                    (f"A reads {table}: only own rows", ok and detail == f"rows=[('{A}',)]", detail)
+                )
+                ok, detail = await _attempt(
+                    c, f"delete from public.{table} where user_id = '{B}'", True
+                )
+                results.append((f"A deletes B's {table}: denied", ok, detail))
+                ok, detail = await _attempt(c, f"update public.{table} set user_id = user_id", True)
+                results.append((f"A updates {table}: denied", ok, detail))
             await c.execute(text("rollback to savepoint as_a"))
 
             await c.execute(text("savepoint as_anon"))
             await c.execute(text("set local role anon"))
             for name, sql, expect_error in AS_ANON:
                 results.append((name, *(await _attempt(c, sql, expect_error))))
+            for table in ACCOUNT_ROWS:
+                results.append(
+                    (
+                        f"anon reads {table}: denied",
+                        *(await _attempt(c, f"select 1 from public.{table}", True)),
+                    )
+                )
             await c.execute(text("rollback to savepoint as_anon"))
+
+            ok, detail = await _attempt(c, "update public.activity_events set details = '{}'", True)
+            results.append(("history UPDATE rejected even for the backend role", ok, detail))
 
             ok, detail = await _attempt(c, "select 1 from public.government_services", False)
             results.append(("backend role still reads knowledge", ok, detail))
@@ -88,6 +122,13 @@ async def main() -> None:
                 await c.execute(text(f"select count(*) from public.profiles where id = '{A}'"))
             ).scalar()
             results.append(("deleting the auth user deletes the profile", left == 0, str(left)))
+            for table in ACCOUNT_ROWS:
+                n = (
+                    await c.execute(
+                        text(f"select count(*) from public.{table} where user_id = '{A}'")
+                    )
+                ).scalar()
+                results.append((f"deleting the auth user deletes {table}", n == 0, str(n)))
         finally:
             await tx.rollback()
     await engine.dispose()

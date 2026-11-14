@@ -14,9 +14,15 @@ if config.config_file_name is not None:
 
 target_metadata = Base.metadata
 
-# Database objects managed outside this metadata (see 0007_citizen_profiles): the foreign key
-# from profiles to Supabase's auth.users. Skipped so `alembic check` does not try to drop it.
-UNMANAGED = {("foreign_key_constraint", "fk_profiles_id_users")}
+# Database objects managed outside this metadata (see 0007/0008): foreign keys to Supabase's
+# auth.users. Skipped so `alembic check` does not try to drop it.
+UNMANAGED = {
+    ("foreign_key_constraint", "fk_profiles_id_users"),
+    *(
+        ("foreign_key_constraint", f"fk_{t}_user_id_users")
+        for t in ("vault_documents", "service_progress", "user_plans", "activity_events")
+    ),
+}
 
 
 def include_object(obj, name, type_, reflected, compare_to) -> bool:

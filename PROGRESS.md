@@ -355,10 +355,20 @@ clean. `alembic check`: no drift.
   (never automatic: devices can be shared); upload `version`+fields as-is, keep the local copy until the
   server confirms; conflicts resolved by the user, not silently.
 
+## Identity milestone 2 — vault, saved plans, activity (2026-11-15)
+- Migration `0008_account_data` (applied): `vault_documents`, `service_progress`, `user_plans`, `activity_events`;
+  FK `auth.users` ON DELETE CASCADE; RLS own-row SELECT only, no Data-API writes; UPDATE trigger makes history
+  append-only (even for the backend role). Live `python -m scripts.check_rls` (rolled back): 34/34.
+- `/api/me/documents`, `/progress`, `/plans` (+ archive/restore/recalculate/delete), `/activity` (read-only).
+  Document/progress writes deterministically re-evaluate active plans and log diffs; progress never changes
+  from documents. Journey acceptance (signed in) saves an account plan; device plan import is explicit + previewed.
+- Checks: backend 317, frontend 115; ruff, alembic check, typecheck, lint, build clean. Browser E2E 27/27 with
+  real backend code on local SQLite and a local Supabase-Auth fake (live Auth not used: would create real users).
+
 ## Remaining work
 - [ ] Validate the AI situation reader (`/api/situation/interpret`) against live Gemini when quota allows.
 - [ ] Verified service prerequisites: none found in official sources yet (engine supports them).
-- [ ] Persist workflows server-side for signed-in users (path above); departmental status integration (read-only).
+- [ ] Departmental status integration (read-only).
 - [ ] Live Supabase Auth test (sign-up/confirm/sign-in/refresh/sign-out) once the publishable key is configured.
 - [ ] Complete the answer evaluation and the A/B/C baselines when Gemini quota allows (≤ 85 requests).
 - [ ] Narrow relocation detection (generic "new address" phrases over-include services).

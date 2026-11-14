@@ -98,5 +98,6 @@ async function request<T>(path: string, init: RequestInit): Promise<T> {
     }
     throw new ApiError(res.status, `${init.method} ${path} failed with ${res.status}`, detail)
   }
+  if (res.status === 204) return undefined as T
   return (await res.json()) as T
 }

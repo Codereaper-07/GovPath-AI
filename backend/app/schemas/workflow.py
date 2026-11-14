@@ -224,6 +224,25 @@ class PlanResponse(_Out):
     documents: dict[str, DocumentNameOut] = {}
 
 
+def service_names_out(names: dict) -> dict[str, NameOut]:
+    return {k: NameOut(name=n, name_hi=hi) for k, (n, hi) in names.items()}
+
+
+def document_names_out(names: dict) -> dict[str, DocumentNameOut]:
+    return {k: DocumentNameOut(name=n, name_hi=hi, category=c) for k, (n, hi, c) in names.items()}
+
+
+def build_plan_response(result: object, names: dict) -> PlanResponse:
+    """PlanResponse for a planner result plus its display names (see workflow.service)."""
+    response = PlanResponse.model_validate(result)
+    response.services = service_names_out(names["services"])
+    response.requirements = {
+        k: NameOut(name=n, name_hi=hi) for k, (n, hi) in names["requirements"].items()
+    }
+    response.documents = document_names_out(names["documents"])
+    return response
+
+
 # ---------------------------------------------------------------- discovery
 
 

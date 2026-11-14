@@ -57,3 +57,39 @@ class Language(StrEnum):
 
     EN = "en"
     HI = "hi"
+
+
+class VaultDocumentStatus(StrEnum):
+    """The citizen's OWN assessment of a document they hold. GovPath never verifies documents;
+    "valid" means "the citizen says it is current and usable", not "officially verified"."""
+
+    VALID = "valid"
+    EXPIRED = "expired"
+    INVALID = "invalid"
+    UNSURE = "unsure"
+
+
+class ReportedProgress(StrEnum):
+    """Service-step progress reported by the citizen (not_started = no row)."""
+
+    STARTED = "started"
+    SUBMITTED = "submitted"
+    COMPLETED = "completed"
+
+
+class PlanStatus(StrEnum):
+    ACTIVE = "active"
+    ARCHIVED = "archived"
+
+
+class ActivityType(StrEnum):
+    DOCUMENT_ADDED = "document_added"
+    DOCUMENT_UPDATED = "document_updated"
+    DOCUMENT_REMOVED = "document_removed"
+    PLAN_CREATED = "plan_created"
+    PLAN_UPDATED = "plan_updated"
+    PLAN_ARCHIVED = "plan_archived"
+    PLAN_RESTORED = "plan_restored"
+    PLAN_DELETED = "plan_deleted"
+    PLAN_RECALCULATED = "plan_recalculated"
+    PROGRESS_CHANGED = "progress_changed"

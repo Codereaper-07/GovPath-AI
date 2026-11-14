@@ -10,14 +10,15 @@ from app.models.enums import CitizenGoal, LifeEvent
 from app.schemas.workflow import (
     DiscoverIn,
     DiscoverResponse,
-    DocumentNameOut,
-    NameOut,
     PlanRequestIn,
     PlanResponse,
     ProposalResponse,
     ProposeIn,
     SupportingServiceOut,
     VocabularyOut,
+    build_plan_response,
+    document_names_out,
+    service_names_out,
 )
 from app.workflow.discovery import CitizenContext
 from app.workflow.errors import DependencyCycleError, EmptySelectionError, UnknownIdsError
@@ -38,12 +39,8 @@ def _unknown(exc: UnknownIdsError) -> HTTPException:
     )
 
 
-def _service_names(names: dict) -> dict[str, NameOut]:
-    return {k: NameOut(name=n, name_hi=hi) for k, (n, hi) in names.items()}
-
-
-def _document_names(names: dict) -> dict[str, DocumentNameOut]:
-    return {k: DocumentNameOut(name=n, name_hi=hi, category=c) for k, (n, hi, c) in names.items()}
+_service_names = service_names_out
+_document_names = document_names_out
 
 
 @router.get("/vocabulary", response_model=VocabularyOut)
@@ -91,14 +88,7 @@ def _context(body: DiscoverIn) -> CitizenContext:
     )
 
 
-def _plan_response(result, names: dict) -> PlanResponse:
-    response = PlanResponse.model_validate(result)
-    response.services = _service_names(names["services"])
-    response.requirements = {
-        k: NameOut(name=n, name_hi=hi) for k, (n, hi) in names["requirements"].items()
-    }
-    response.documents = _document_names(names["documents"])
-    return response
+_plan_response = build_plan_response
 
 
 @router.post("/propose", response_model=ProposalResponse)

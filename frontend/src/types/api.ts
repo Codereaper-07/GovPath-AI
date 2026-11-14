@@ -420,3 +420,111 @@ export interface Profile {
 }
 
 export type ProfileUpdate = Partial<Pick<Profile, 'full_name' | 'state' | 'city' | 'preferred_language'>>
+
+// ---- signed-in account data (`/api/me/*`; the owner always comes from the verified token)
+
+/** The citizen's OWN assessment. GovPath never verifies documents officially. */
+export type VaultStatus = 'valid' | 'expired' | 'invalid' | 'unsure'
+
+export interface VaultDocument {
+  id: string
+  document_type: string
+  name: string | null
+  name_hi: string | null
+  status: VaultStatus
+  /** What the planner uses: "expired" when a "valid" document's expiry date has passed. */
+  effective_status: VaultStatus
+  expiry_passed: boolean
+  label: string | null
+  issue_date: string | null
+  expiry_date: string | null
+  note: string | null
+  used_by_plan_ids: string[]
+  created_at: string
+  updated_at: string
+}
+
+export interface VaultDocumentInput {
+  document_type?: string
+  status?: VaultStatus
+  label?: string | null
+  issue_date?: string | null
+  expiry_date?: string | null
+  note?: string | null
+}
+
+export interface PlanChange {
+  plan_id: string
+  title: string | null
+  steps: { service_id: string; before: string | null; after: string | null }[]
+  blockers_added: string[]
+  blockers_removed: string[]
+  next_action_changed: boolean
+}
+
+export interface DocumentWriteResult {
+  document: VaultDocument | null
+  plan_changes: PlanChange[]
+}
+
+export interface SavedPlanSummary {
+  id: string
+  title: string | null
+  status: 'active' | 'archived'
+  target_service_ids: string[]
+  service_names: Record<string, { name: string; name_hi: string | null }>
+  total_services: number
+  completed: number
+  blocked: number
+  ready: number
+  next_action: { type: string; service_id: string | null } | null
+  evaluation_error: string | null
+  created_at: string
+  updated_at: string
+  archived_at: string | null
+}
+
+export interface SavedPlan extends SavedPlanSummary {
+  goals: string[]
+  citizen_state: string | null
+  evaluated_at: string | null
+  /** The deterministic planner's last output (same shape as POST /api/workflows/plan). */
+  plan: PlanResponse | null
+  document_refs: { document_type: string; vault_document_ids: string[]; requirement_ids: string[] }[]
+  created_document_ids: string[]
+  plan_changes: PlanChange[]
+}
+
+export interface HeldDocument {
+  document_type: string
+  status: VaultStatus
+}
+
+export interface SavedPlanInput {
+  title?: string | null
+  target_service_ids?: string[]
+  goals?: string[]
+  state?: string | null
+  held_documents?: HeldDocument[]
+  source?: 'proposal' | 'import' | 'planner'
+  progress?: Record<string, 'started' | 'submitted' | 'completed'>
+}
+
+export interface ActivityEvent {
+  id: number
+  event_type:
+    | 'document_added'
+    | 'document_updated'
+    | 'document_removed'
+    | 'plan_created'
+    | 'plan_updated'
+    | 'plan_archived'
+    | 'plan_restored'
+    | 'plan_deleted'
+    | 'plan_recalculated'
+    | 'progress_changed'
+  entity_type: 'document' | 'plan' | 'service'
+  entity_id: string | null
+  details: Record<string, unknown>
+  created_at: string
+}

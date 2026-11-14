@@ -43,6 +43,7 @@ export function AuthProvider({ client, children }: { client: AuthClient | null; 
         userInitiatedSignOut.current = false
         hadSession.current = false
         queryClient.removeQueries({ queryKey: ['profile'] })
+        queryClient.removeQueries({ queryKey: ['account'] })
       }
       if (event === 'SIGNED_IN') setExpired(false)
       apply(next)
@@ -114,6 +115,7 @@ export function AuthProvider({ client, children }: { client: AuthClient | null; 
       await client.signOut({ scope: 'local' }).catch(() => undefined)
     }
     queryClient.removeQueries({ queryKey: ['profile'] })
+    queryClient.removeQueries({ queryKey: ['account'] })
   }, [client, queryClient])
 
   const status: AuthStatus = !client ? 'unconfigured' : !ready ? 'loading' : session ? 'signedIn' : 'signedOut'

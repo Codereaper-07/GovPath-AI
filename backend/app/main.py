@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app import __version__
 from app.api.routes import (
+    account,
     assistant,
     documents,
     health,
@@ -60,6 +61,7 @@ def create_app() -> FastAPI:
         situation.router,
         assistant.router,
         profile.router,
+        account.router,
     )
     for router in routers:
         app.include_router(router, prefix="/api")

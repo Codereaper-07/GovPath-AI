@@ -26,6 +26,13 @@ async def load_planning_data(session: AsyncSession) -> tuple[KnowledgeSnapshot, 
     return await load_snapshot(session), await display_names(session)
 
 
+async def get_planning_data(
+    session: AsyncSession, cache: TTLCache | None
+) -> tuple[KnowledgeSnapshot, dict[str, dict]]:
+    """Verified snapshot + display names, through the per-app cache when given."""
+    return await _load(session, cache)
+
+
 async def _load(session: AsyncSession, cache: TTLCache | None):
     async def load() -> tuple[KnowledgeSnapshot, dict[str, dict]]:
         return await load_planning_data(session)

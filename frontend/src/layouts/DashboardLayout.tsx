@@ -4,6 +4,7 @@ import { Link, NavLink, Outlet } from 'react-router-dom'
 import { Icon, type IconName } from '../components/ui/Icon'
 import { LogoMark } from '../components/ui/Logo'
 import { LoadingState } from '../components/ui/States'
+import { useAuth } from '../features/auth/useAuth'
 import { AccountLink } from './AccountLink'
 import { LanguageSwitcher } from './LanguageSwitcher'
 
@@ -26,12 +27,17 @@ function Brand({ inverse = false }: { inverse?: boolean }) {
   )
 }
 
+// Shown only to signed-in citizens (their own saved documents).
+const VAULT_ITEM: (typeof NAV_ITEMS)[number] = { to: '/vault', key: 'nav.vault', icon: 'stamp' }
+
 export function DashboardLayout() {
   const { t } = useTranslation()
   const [open, setOpen] = useState(false)
+  const { status } = useAuth()
+  const items = status === 'signedIn' ? [...NAV_ITEMS.slice(0, 4), VAULT_ITEM, NAV_ITEMS[4]] : NAV_ITEMS
 
   const links = (mobile: boolean) =>
-    NAV_ITEMS.map((item) => (
+    items.map((item) => (
       <NavLink
         key={item.to}
         to={item.to}

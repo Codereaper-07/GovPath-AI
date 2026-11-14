@@ -29,13 +29,21 @@ Architecture: `docs/architecture.md`. Status, sources and next tasks: `PROGRESS.
   - Accounts (`features/auth/`): `supabase-js` for auth only (`lib/supabase.ts`, null when
     `VITE_SUPABASE_*` unset → app works without accounts). `AuthProvider`/`useAuth`; `apiAuthed()` adds the
     bearer token (refresh once on 401, then local sign-out); public endpoints never send it. `RequireAuth`
-    guards `/profile` only. Auth never touches planner storage. `renderApp(path, fakeAuthClient)` in tests.
+    guards `/profile`, `/vault`, `/activity`. Auth never touches planner storage. `renderApp(path, fakeAuthClient)`
+    in tests (`test/authFakes.ts`). Signed in, the planner shows saved account plans (`features/account/`); the
+    device planner stays one tab away and is imported only by an explicit, previewed action.
 - `backend/app/` (single FastAPI service):
   - `api/routes/`: thin HTTP handlers only (health, services, documents, workflows, situation, assistant,
     profile).
   - `auth.py`: Supabase access-token verification (JWKS, ES256/RS256 only; exp/iss/aud/role checked;
     unknown-kid refetch throttled) and `CurrentUser`. **User identity = token `sub` only**; user-scoped
     routes live under `/api/me/*` and never accept a user id. Tests: `tests/auth_fakes.py` (real JWKS blocked).
+  - `account/service.py` (+ `routes/account.py`, `models/account.py`): vault documents, per-user service
+    progress, saved plans, append-only activity. Vault → planner input: type owned if any copy; usable only if a
+    copy is `valid` (a `valid` copy past `expiry_date` counts as expired). Every vault/progress write re-runs the
+    existing planner for all **active** plans, stores the result as `user_plans.snapshot` (full PlanResponse, so
+    it still renders if the catalogue changes) and logs a `plan_recalculated` diff. Documents never change
+    progress. Archived plans are frozen. Free text rejecting identity numbers: `schemas/account.py`.
   - `schemas/`: Pydantic request/response models. Public IDs are **slugs**, never DB keys.
     The plan response includes `services`/`requirements`/`documents` display-name maps (en + hi).
   - `models/`: SQLAlchemy ORM (portable: VARCHAR+CHECK enums, JSONB variant), `migrations/` (Alembic).

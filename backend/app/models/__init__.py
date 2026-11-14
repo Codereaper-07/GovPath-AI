@@ -1,5 +1,6 @@
 """SQLAlchemy ORM models. Import every model module here so Alembic autogenerate sees it."""
 
+from app.models.account import ActivityEvent, ServiceProgress, UserPlan, VaultDocument
 from app.models.base import Base
 from app.models.chunk import SourceChunk
 from app.models.document import DocumentType
@@ -16,6 +17,10 @@ from app.models.service import (
 from app.models.source import Evidence, SourceDocument
 
 __all__ = [
+    "ActivityEvent",
+    "ServiceProgress",
+    "UserPlan",
+    "VaultDocument",
     "Base",
     "CitizenProfile",
     "DocumentType",

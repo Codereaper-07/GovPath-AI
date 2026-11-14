@@ -11,5 +11,7 @@ export const DocumentsPage = lazy(() => import('../features/documents/DocumentsP
 export const LoginPage = lazy(() => import('../features/auth/LoginPage').then((m) => ({ default: m.LoginPage })))
 export const SignupPage = lazy(() => import('../features/auth/SignupPage').then((m) => ({ default: m.SignupPage })))
 export const ProfilePage = lazy(() => import('../features/auth/ProfilePage').then((m) => ({ default: m.ProfilePage })))
+export const VaultPage = lazy(() => import('../features/account/VaultPage').then((m) => ({ default: m.VaultPage })))
+export const ActivityPage = lazy(() => import('../features/account/ActivityPage').then((m) => ({ default: m.ActivityPage })))
 export const AssistantPage = lazy(() => import('../features/assistant/AssistantPage').then((m) => ({ default: m.AssistantPage })))
 
