@@ -7,7 +7,7 @@ import { ErrorState } from '../../components/ui/States'
 import { ApiError } from '../../lib/apiClient'
 import { useLocalized } from '../../lib/useLocalized'
 import type { ApiErrorDetail, AssistantAnswer } from '../../types/api'
-import { readSavedPlan } from '../planner/usePlannerState'
+import { planRequestOf, readSavedPlan } from '../planner/usePlannerState'
 import { useServices } from '../services/api'
 import { AnswerCard } from './AnswerCard'
 import { useAskAssistant } from './api'
@@ -74,11 +74,8 @@ export function AssistantPage() {
         language,
         ...(usePlan && hasPlan
           ? {
-              workflow: {
-                target_service_ids: saved.targets,
-                owned_document_ids: saved.owned,
-                completed_service_ids: saved.completed,
-              },
+              // The same request the planner page sends, so both explain the same plan.
+              workflow: planRequestOf(saved),
             }
           : {}),
       },

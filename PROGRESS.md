@@ -296,7 +296,39 @@ clean. `alembic check`: no drift.
 - Checks: Vitest 45 passed (2 new); typecheck, lint, build clean. Real app EN/HI, 1440/390 px: no
   overflow, 0 console errors, 0 failed requests, 0 Gemini calls; journeys re-verified.
 
+## Milestone 10 — process-level workflow engine (2026-11-14)
+- **Model:** `goals` on services (migration `0006`, applied; seeded). Process states, user-reported vs
+  official completion, document states, in-progress steps, progress/document summaries, notices,
+  clarifications. Dependency edges now carry acceptance evidence as well as producer evidence.
+- **Engine:** jurisdiction-aware repair (Delhi-only marriage registration is never used for another
+  state; unknown state asks). Follow-up next action. Documents never complete a service.
+- **Discovery:** deterministic goal → service mapping with jurisdiction and existing-record checks and
+  structured questions. **AI situation reader** implemented and tested with fakes only (quota exhausted).
+- **Frontend:** "Your situation" (goals, state, AI reader with review, suggestions, questions), per-step
+  progress control, document condition, completion condition, alternatives, separate document
+  readiness, out-of-state blocker text, "reported by you" everywhere completion is shown.
+- **Checks:** backend 238 passed (36 new), frontend 55 passed (10 new); ruff, alembic check, typecheck,
+  lint, build clean. Real-app journey (discovery → repair in Delhi → Maharashtra block → submitted →
+  completed → expired passport → reload → dashboard), EN/HI, 390 px: 0 errors, 0 AI calls.
+
+### Persistence & consistency fixes (2026-11-14, after audit)
+- Assistant now plans with the same progress, document states and state as the planner (frontend,
+  `WorkflowInput`, route); plan summary adds state/progress/unusable/notice lines only when present.
+- A document marked expired/invalid/unsure is never satisfied by a completed service's output.
+- `usePlannerState`: versioned value (v2, v1 loads unchanged), no write on load, unknown fields kept,
+  stale-tab writes merge onto the latest stored copy, `storage` event sync, no pruning on empty/failed
+  lists, goals pruned against the vocabulary, "I don't have it" clears the condition.
+- Removed/re-added service keeps reported progress; out-of-plan progress is shown with a clear action.
+- Post-fix browser audit (real app, isolated headless Chrome, Gemini replaced by an offline fake):
+  found and fixed (1) near-simultaneous edits in two tabs could drop one tab's change (Chrome's
+  per-tab storage cache) → `selectionSync.ts` re-applies the missing change, same item: later edit
+  wins; (2) reviewed AI "you do not have X" left X held → now un-held. Checks: backend 243 passed,
+  frontend 73 passed; ruff, alembic check, typecheck, lint, build clean.
+
 ## Remaining work
+- [ ] Validate the AI situation reader (`/api/situation/interpret`) against live Gemini when quota allows.
+- [ ] Verified service prerequisites: none found in official sources yet (engine supports them).
+- [ ] Persist workflows server-side (currently localStorage); departmental status integration (read-only).
 - [ ] Complete the answer evaluation and the A/B/C baselines when Gemini quota allows (≤ 85 requests).
 - [ ] Narrow relocation detection (generic "new address" phrases over-include services).
 - [ ] Starting-a-business services (Udyam, GST) and birth registration: find machine-readable official sources.

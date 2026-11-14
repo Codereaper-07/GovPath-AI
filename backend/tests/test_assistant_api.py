@@ -137,3 +137,39 @@ def test_not_configured_and_index_not_built(seeded_factory):
     app.state.assistant = Assistant(RAG_SETTINGS, client)
     res = api.post(URL, json={"question": "Passport proof?"})
     assert res.status_code == 503 and res.json()["detail"]["code"] == "index_not_built"
+
+
+def _assistant_plan(api, **workflow):
+    body = {"target_service_ids": ["aadhaar-address-update"], **workflow}
+    body.setdefault("owned_document_ids", ["aadhaar_number", "electricity_bill"])
+    res = api.post(URL, json={"question": "What next?", "workflow": body})
+    assert res.status_code == 200, res.text
+    return {s["service_id"]: s["status"] for s in res.json()["workflow"]["steps"]}
+
+
+def test_assistant_plans_with_reported_progress(assistant_api):
+    api, _ = assistant_api
+    assert _assistant_plan(api)["aadhaar-address-update"] == "ready"
+    steps = _assistant_plan(api, progress={"aadhaar-address-update": "submitted"})
+    assert steps["aadhaar-address-update"] == "in_progress"
+
+
+def test_assistant_plans_with_document_states(assistant_api):
+    api, _ = assistant_api
+    steps = _assistant_plan(api, document_states={"electricity_bill": "expired"})
+    assert steps["aadhaar-address-update"] == "blocked"
+
+
+def test_assistant_plans_with_citizen_state(rag_factory, assistant_api):
+    api, models = assistant_api
+    wf = {
+        "target_service_ids": ["aadhaar-name-update"],
+        "owned_document_ids": ["aadhaar_number"],
+    }
+    res = api.post(URL, json={"question": "What next?", "workflow": {**wf, "state": "Delhi"}})
+    delhi = {s["service_id"] for s in res.json()["workflow"]["steps"]}
+    res = api.post(URL, json={"question": "What next?", "workflow": {**wf, "state": "Maharashtra"}})
+    elsewhere = {s["service_id"] for s in res.json()["workflow"]["steps"]}
+    assert "marriage-registration-delhi" in delhi and "marriage-registration-delhi" not in elsewhere
+    prompt = models.generate_calls[-1]["contents"]
+    assert "Citizen's state/UT: Maharashtra" in prompt

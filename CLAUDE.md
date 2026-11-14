@@ -20,7 +20,11 @@ Architecture: `docs/architecture.md`. Status, sources and next tasks: `PROGRESS.
     blockers, `honey-*` caution, `lilac-*` AI only; life-event hues via `EVENT_TONE` (`lib/lifeEvents.ts`).
     Fonts: Fraunces / Tiro Devanagari Hindi (`font-display`), Manrope / Noto Sans Devanagari (UI); Hindi
     resets letter-spacing. Use `buttonClass()`, `PageHeader`, `Seal`, planner `StatusNode`; top-bar layout.
-    No Zustand: state is React state plus the localStorage-backed `usePlannerState`. Route pages are
+    No Zustand: state is React state plus the localStorage-backed `usePlannerState` (key `govpath.planner.v1`,
+    schema `version` inside the value; never written on load; each action re-reads the stored copy, applies
+    the change and writes back, keeping unknown fields; other tabs sync via the `storage` event, and a racing
+    write re-applies this tab's missing change (`selectionSync.ts`; same item: later edit wins); pruning
+    only against non-empty successful lists). The assistant sends `planRequestOf(saved)`. Route pages are
     lazy-loaded via `app/lazyPages.tsx` (tests import pages directly through `test/utils.tsx`).
 - `backend/app/` (single FastAPI service):
   - `api/routes/`: thin HTTP handlers only (health, services, documents, workflows).
@@ -62,7 +66,8 @@ Architecture: `docs/architecture.md`. Status, sources and next tasks: `PROGRESS.
   `service_outputs.evidence_id`, `service_prerequisites.evidence_id`.
 - Verification status: `unverified` | `verified` | `needs_review` | `rejected`.
 - Life events: `government_services.life_events` is a JSON list of `LifeEvent` values (seed
-  requires ≥1). A category with no verified services is shown as such, never padded.
+  requires ≥1). `goals` (migration `0006`) is a JSON list of `CitizenGoal` values used only by
+  discovery (curated classification, not a government fact; seed requires ≥1). A category with no verified services is shown as such, never padded.
 - Hindi: nullable `name_hi` on services, requirements and document types, plus `description_hi`
   on services (migration `0003`). No generic translation system.
 
@@ -86,8 +91,17 @@ Architecture: `docs/architecture.md`. Status, sources and next tasks: `PROGRESS.
 - A requirement is `verified` only if it has evidence and **all** its evidence is verified.
 
 ## Workflow semantics (planner)
-- Input: target service ids, owned document ids, completed service ids (all slugs).
-- An owned option satisfies its requirement. Outputs of completed services count as owned.
+- Input: target ids, owned document ids, completed ids, `progress` (started/submitted/completed),
+  `document_states` (available/expired/invalid/unsure; only available satisfies) and the citizen's `state`.
+- Documents never complete a process. Completion is an explicit, **user-reported** action
+  (`CompletionSource.USER_REPORTED`; `official` is reserved, never produced). Completion condition =
+  the service's verified outputs. Started/submitted steps are `in_progress`; next action `follow_up`
+  only when nothing can be started and no document is missing.
+- Jurisdiction: a service with `state` set is used (target or repair) only in that state; unknown state
+  gives a `state_required` clarification; another state gives `missing_document_route_outside_jurisdiction`.
+- An owned option satisfies its requirement. Outputs of completed services count as owned, unless the
+  citizen marked that document expired/invalid/unsure (the mark wins). Reported progress is kept when a
+  service leaves the plan; the planner then emits a `progress_outside_plan` notice (UI can clear it).
 - Edges come only from (1) verified prerequisites or (2) acquisition routes: a missing *mandatory*
   document issued by another known service. Route choice: prefer a service already in the plan,
   then fewest unmet mandatory requirements, then slug. Routes that would form a cycle are skipped.
@@ -99,6 +113,11 @@ Architecture: `docs/architecture.md`. Status, sources and next tasks: `PROGRESS.
   that frees the most steps. The reason is a structured code plus a deterministic template message.
 - Errors: `UnknownIdsError` (422), `EmptySelectionError` (422), `DependencyCycleError` (409).
 - Only `verified` requirements, prerequisites and outputs reach the planner (`loader.py` filters).
+- Discovery (`workflow/discovery.py`, pure): goals (else life events) → candidates; excluded when out of
+  verified jurisdiction or when a required existing record (no producer) is declared lacking;
+  `needs_clarification` when state/record is unknown. API: `/api/workflows/discover`, `/vocabulary`.
+- `llm/situation.py` (+ `POST /api/situation/interpret`): AI extracts facts only, closed vocabularies,
+  validated; the UI shows it for review before use. Not yet validated against live Gemini.
 
 ## Assistant rules (Milestone 4)
 - Gemini only **explains**. Dependencies, ordering, blockers and next action come from the

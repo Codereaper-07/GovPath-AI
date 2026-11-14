@@ -12,6 +12,9 @@
     "marriage-family",
     "relocation-identity"
   ],
+  "goals": [
+    "update-name-after-marriage"
+  ],
   "application_form": null,
   "official_info_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
   "application_url": null,

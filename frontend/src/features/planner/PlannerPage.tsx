@@ -6,17 +6,18 @@ import { Icon } from '../../components/ui/Icon'
 import { PageHeader } from '../../components/ui/PageHeader'
 import { ErrorState, LoadingState } from '../../components/ui/States'
 import { ApiError } from '../../lib/apiClient'
-import type { ApiErrorDetail, PlanRequest, PlanResponse } from '../../types/api'
+import type { ApiErrorDetail, PlanRequest, PlanResponse, ProcessState } from '../../types/api'
 import { useDocuments, useServices } from '../services/api'
-import { usePlan } from './api'
+import { usePlan, useVocabulary } from './api'
 import { DocumentChecklist } from './components/DocumentChecklist'
 import { IssuesPanel } from './components/IssuesPanel'
 import { NextActionCard } from './components/NextActionCard'
 import { ServicePicker } from './components/ServicePicker'
+import { SituationPanel } from './components/SituationPanel'
 import { type NodeKind, StatusNode } from './components/StatusNode'
 import { Timeline } from './components/Timeline'
 import { type PlanNames, usePlanNames } from './names'
-import { usePlannerState } from './usePlannerState'
+import { planRequestOf, usePlannerState } from './usePlannerState'
 
 export function PlannerPage() {
   const { t } = useTranslation()
@@ -35,22 +36,20 @@ export function PlannerPage() {
     }
   }, [preselect, setTarget, setParams])
 
-  // Drop saved selections that the backend no longer knows about.
+  // Drop saved selections that the backend no longer knows about (only against successful,
+  // non-empty lists: loading, errors or an empty response never erase saved data).
+  const vocabulary = useVocabulary()
   useEffect(() => {
     if (services.data && documents.data) {
-      keepOnly(new Set(services.data.map((s) => s.id)), new Set(documents.data.map((d) => d.id)))
+      keepOnly({ services: new Set(services.data.map((s) => s.id)), documents: new Set(documents.data.map((d) => d.id)) })
     }
   }, [services.data, documents.data, keepOnly])
+  useEffect(() => {
+    if (vocabulary.data) keepOnly({ goals: new Set(vocabulary.data.goals) })
+  }, [vocabulary.data, keepOnly])
 
   const request: PlanRequest | null = useMemo(
-    () =>
-      sel.generated && sel.targets.length > 0
-        ? {
-            target_service_ids: [...sel.targets].sort(),
-            owned_document_ids: [...sel.owned].sort(),
-            completed_service_ids: [...sel.completed].sort(),
-          }
-        : null,
+    () => (sel.generated && sel.targets.length > 0 ? planRequestOf(sel) : null),
     [sel],
   )
   const plan = usePlan(request)
@@ -85,6 +84,17 @@ export function PlannerPage() {
           className={`lg:sticky lg:top-24 lg:order-1 lg:max-h-[calc(100vh-7.5rem)] lg:self-start lg:overflow-y-auto ${sel.generated ? 'order-2' : ''}`}
         >
           <div className="space-y-8 rounded-[2rem] bg-paper-deep/60 p-5 ring-1 ring-rule sm:p-6">
+            <SituationPanel
+              sel={sel}
+              docName={names.document}
+              onGoal={state.setGoal}
+              onState={state.setCitizenState}
+              onTarget={setTarget}
+              onAddTargets={state.addTargets}
+              onHave={(d) => state.setOwned(d, true)}
+              onLack={(d) => state.setLacking(d, true)}
+              onApply={state.applyContext}
+            />
             <ServicePicker services={services.data} selected={sel.targets} onChange={setTarget} />
             <DocumentChecklist
               documents={documents.data}
@@ -92,6 +102,8 @@ export function PlannerPage() {
               owned={sel.owned}
               highlight={highlight}
               onChange={state.setOwned}
+              docStates={sel.docStates}
+              onDocState={state.setDocState}
             />
           </div>
           <div className="sticky bottom-0 bg-gradient-to-t from-paper via-paper to-paper/0 pt-4 pb-1">
@@ -127,14 +139,15 @@ export function PlannerPage() {
             onRemoveUnknown={(d) => {
               const s = new Set(d.unknown_service_ids ?? [])
               const docs = new Set(d.unknown_document_ids ?? [])
-              keepOnly(
-                new Set(services.data.map((x) => x.id).filter((x) => !s.has(x))),
-                new Set(documents.data.map((x) => x.id).filter((x) => !docs.has(x))),
-              )
+              keepOnly({
+                services: new Set(services.data.map((x) => x.id).filter((x) => !s.has(x))),
+                documents: new Set(documents.data.map((x) => x.id).filter((x) => !docs.has(x))),
+              })
             }}
             onMarkDone={(id) => state.setCompleted(id, true)}
             onUndoDone={(id) => state.setCompleted(id, false)}
             onOwn={(id) => state.setOwned(id, true)}
+            onProcess={(id, p) => state.setProcess(id, p)}
           />
         </div>
       </div>
@@ -154,6 +167,7 @@ function Results(props: {
   onMarkDone: (id: string) => void
   onUndoDone: (id: string) => void
   onOwn: (id: string) => void
+  onProcess: (id: string, state: ProcessState) => void
 }) {
   const { t } = useTranslation()
   const { plan, names } = props
@@ -224,12 +238,15 @@ function Results(props: {
 
   if (!plan) return <LoadingState label={t('planner.generating')} />
 
-  const counts = { ready: 0, waiting: 0, blocked: 0 }
+  const counts = { ready: 0, waiting: 0, blocked: 0, in_progress: 0 }
   for (const s of plan.steps) counts[s.status] += 1
-  const total = plan.steps.length + plan.completed_service_ids.length
+  // Process progress only (documents never count). Completions are reported by the user.
+  const completedIds = plan.completed ? plan.completed.map((c) => c.service_id) : plan.completed_service_ids
+  const total = plan.progress?.total_services ?? plan.steps.length + completedIds.length
   const nextId = plan.next_action.type === 'start_service' ? plan.next_action.service_id : null
+  const docs = plan.document_summary
   const stops = [
-    ...plan.completed_service_ids.map((id) => ({ id, kind: 'done' as NodeKind })),
+    ...completedIds.map((id) => ({ id, kind: 'done' as NodeKind })),
     ...plan.steps.map((s) => ({ id: s.service_id, kind: (s.service_id === nextId ? 'next' : s.status) as NodeKind })),
   ]
 
@@ -237,9 +254,10 @@ function Results(props: {
     <div className={`space-y-6 transition-opacity duration-300 ${props.isFetching ? 'opacity-60' : ''}`}>
       <section aria-label={t('planner.overview')} className="rounded-[2rem] bg-card p-6 ring-1 ring-rule sm:p-7">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <p className="font-display text-2xl font-semibold tracking-tight text-ink">
-            {t('home.progressValue', { done: plan.completed_service_ids.length, total })}
-          </p>
+          <div>
+            <p className="font-display text-2xl font-semibold tracking-tight text-ink">{t('planner.servicesDone', { done: completedIds.length, total })}</p>
+            <p className="text-xs text-muted">{t('planner.progressSource')}</p>
+          </div>
           {props.isFetching && (
             <span role="status" className="flex items-center gap-2 text-sm text-muted">
               <span className="h-2 w-2 animate-dots rounded-full bg-jade-500" aria-hidden />
@@ -262,12 +280,59 @@ function Results(props: {
           <li className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-ink" aria-hidden />{t('planner.countReady', { count: counts.ready })}</li>
           <li className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full border-2 border-waiting" aria-hidden />{t('planner.countWaiting', { count: counts.waiting })}</li>
           <li className="flex items-center gap-1.5 text-crimson-600"><span className="h-2 w-2 rounded-full bg-crimson-500" aria-hidden />{t('planner.countBlocked', { count: counts.blocked })}</li>
-          <li className="flex items-center gap-1.5 text-jade-700"><span className="h-2 w-2 rounded-full bg-jade-600" aria-hidden />{t('planner.countCompleted', { count: plan.completed_service_ids.length })}</li>
+          {counts.in_progress > 0 && (
+            <li className="flex items-center gap-1.5 text-jade-700"><span className="h-2 w-2 rounded-full ring-2 ring-jade-500" aria-hidden />{t('planner.countInProgress', { count: counts.in_progress })}</li>
+          )}
+          <li className="flex items-center gap-1.5 text-jade-700"><span className="h-2 w-2 rounded-full bg-jade-600" aria-hidden />{t('planner.countCompleted', { count: completedIds.length })}</li>
         </ul>
+        {docs && (
+          <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1.5 rounded-2xl bg-paper px-4 py-3 text-xs ring-1 ring-rule">
+            <span className="flex items-center gap-1.5 font-bold text-ink"><Icon name="doc" className="h-3.5 w-3.5 text-jade-600" />{t('planner.docReadiness')}</span>
+            <span className="text-muted">{t('planner.docsMet', { done: docs.satisfied, total: docs.mandatory_requirements })}</span>
+            {docs.will_be_produced > 0 && <span className="text-muted">{t('planner.docsProduced', { count: docs.will_be_produced })}</span>}
+            {docs.missing > 0 && <span className="font-semibold text-crimson-600">{t('planner.docsMissing', { count: docs.missing })}</span>}
+            {docs.unusable.length > 0 && <span className="font-semibold text-honey-700">{t('planner.docsUnusable', { count: docs.unusable.length })}</span>}
+          </div>
+        )}
       </section>
+      {(plan.clarifications?.length ?? 0) > 0 && (
+        <p className="rounded-2xl bg-zest-100 px-5 py-4 text-sm font-semibold text-ink ring-1 ring-zest-300">
+          {t('planner.stateNeeded', {
+            services: names.services(plan.clarifications!.map((c) => c.service_id)),
+            regions: [...new Set(plan.clarifications!.map((c) => c.region ?? ''))].join(t('common.listSeparator')),
+          })}
+        </p>
+      )}
+      {(plan.notices ?? []).map((n) =>
+        n.code === 'progress_outside_plan' ? (
+          <div
+            key={`${n.code}-${n.service_id}`}
+            data-testid={`notice-progress-${n.service_id}`}
+            className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-honey-50 px-5 py-4 text-sm text-honey-700 ring-1 ring-honey-100"
+          >
+            <p className="min-w-0 flex-1">{t('planner.noticeProgressOutside', { service: names.service(n.service_id) })}</p>
+            <button type="button" onClick={() => props.onProcess(n.service_id, 'not_started')} className={buttonClass('secondary', 'sm')}>
+              {t('planner.clearProgress')}
+            </button>
+          </div>
+        ) : (
+          <p key={`${n.code}-${n.service_id}`} className="rounded-2xl bg-honey-50 px-5 py-4 text-sm text-honey-700 ring-1 ring-honey-100">
+            {n.code === 'started_before_dependencies'
+              ? t('planner.noticeEarlyStart', { service: names.service(n.service_id), services: names.services(n.related_service_ids) })
+              : t('planner.noticeOutside', { service: names.service(n.service_id), state: plan.citizen_state ?? '' })}
+          </p>
+        ),
+      )}
       <NextActionCard plan={plan} names={names} onMarkDone={props.onMarkDone} onOwn={props.onOwn} />
       <IssuesPanel plan={plan} names={names} />
-      <Timeline plan={plan} names={names} onMarkDone={props.onMarkDone} onUndoDone={props.onUndoDone} onOwn={props.onOwn} />
+      <Timeline
+        plan={plan}
+        names={names}
+        onMarkDone={props.onMarkDone}
+        onUndoDone={props.onUndoDone}
+        onOwn={props.onOwn}
+        onProcess={props.onProcess}
+      />
     </div>
   )
 }

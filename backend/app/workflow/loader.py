@@ -86,6 +86,10 @@ async def load_snapshot(session: AsyncSession) -> KnowledgeSnapshot:
             evidence_ids=keep(svc.evidence),
             output_evidence={o.document_type.slug: keep([o.evidence]) for o in outputs},
             prerequisite_evidence={p.prerequisite.slug: keep([p.evidence]) for p in prereqs},
+            authority=svc.authority,
+            region=svc.state,
+            goals=tuple(svc.goals or ()),
+            life_events=tuple(svc.life_events or ()),
         )
 
     docs = {d.slug: DocumentSpec(d.slug, d.name, d.category.value) for d, _, _ in documents}

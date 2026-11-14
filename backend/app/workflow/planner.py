@@ -1,18 +1,23 @@
 """Deterministic workflow planner.
 
-Given verified knowledge (a KnowledgeSnapshot), the services a user wants and the documents
-they already hold, produce an ordered, explainable plan. No AI, no I/O: the same input always
-yields the same output.
+Given verified knowledge (a KnowledgeSnapshot), the services a citizen wants, the documents they
+hold and how far they have got with each process, produce an ordered, explainable plan. No AI,
+no I/O: the same input always yields the same output.
 
-Semantics
-- A requirement's document options form an OR group; any owned option satisfies it.
-- Only MANDATORY requirements can block. OPTIONAL and CONDITIONAL never block.
-- Dependency edges come from exactly two places:
-  1. verified prerequisites (ServiceSpec.prerequisites), and
-  2. acquisition routes: a missing mandatory document that another known service issues.
-     The producing service becomes a step that must finish first. Routes that would create a
-     cycle are never chosen; if no route remains, the requirement is reported as a blocker.
-- Completed services are removed from the plan and their outputs count as owned documents.
+Three separate concepts
+- Document readiness: which documents the citizen holds and can use. Only documents marked
+  available satisfy a requirement; expired/invalid/unsure ones are reported but never count.
+- Process progress: not started / started / submitted / completed, as reported by the citizen.
+  Holding documents never completes a process. A completed process (always user-reported: there
+  is no departmental integration) makes its verified output documents available.
+- Workflow: the services involved, the edges between them, stages, blockers and next action.
+
+Edges come from exactly two places
+1. verified prerequisites (ServiceSpec.prerequisites, each with evidence), and
+2. acquisition routes (workflow repair): a missing mandatory document that another known service
+   issues. The producer becomes a step that must finish first. Producers whose verified coverage
+   excludes the citizen's state are never used; routes that would create a cycle are skipped; if
+   no route remains the requirement is a blocker. Nothing else ever creates an edge.
 """
 
 from collections.abc import Iterable
@@ -21,16 +26,26 @@ from app.workflow.domain import (
     AcquisitionRoute,
     Blocker,
     BlockerCode,
+    Clarification,
+    ClarificationCode,
+    CompletedService,
+    CompletionSource,
     Dependency,
     DependencyReason,
+    DocumentState,
+    DocumentSummary,
     Kind,
     KnowledgeSnapshot,
     MissingDocument,
     NextAction,
     NextActionType,
+    Notice,
+    NoticeCode,
     PlanRequest,
     PlanResult,
     PlanStep,
+    ProcessState,
+    ProgressSummary,
     Reason,
     ReasonCode,
     RequirementSpec,
@@ -38,11 +53,13 @@ from app.workflow.domain import (
     RequirementStatus,
     StepRole,
     StepStatus,
+    UnusableDocument,
 )
 from app.workflow.errors import EmptySelectionError, UnknownIdsError
 from app.workflow.graph import dependents_closure, reaches, topological_stages
 
 _ROLE_RANK = {StepRole.PREREQUISITE: 0, StepRole.ACQUISITION: 1, StepRole.TARGET: 2}
+_ACTIVE = (ProcessState.STARTED, ProcessState.SUBMITTED)
 
 
 def _dedupe(ids: Iterable[str]) -> list[str]:
@@ -56,10 +73,10 @@ def validate_request(snapshot: KnowledgeSnapshot, request: PlanRequest) -> None:
     targets = _dedupe(request.target_service_ids)
     if not targets:
         raise EmptySelectionError()
-    unknown_services = [
-        s for s in [*targets, *request.completed_service_ids] if s not in snapshot.services
-    ]
-    unknown_docs = [d for d in request.owned_document_ids if d not in snapshot.documents]
+    referenced = [*targets, *request.completed_service_ids, *request.progress]
+    unknown_services = [s for s in referenced if s not in snapshot.services]
+    docs = [*request.owned_document_ids, *request.document_states]
+    unknown_docs = [d for d in docs if d not in snapshot.documents]
     if unknown_services or unknown_docs:
         raise UnknownIdsError(unknown_services, unknown_docs)
 
@@ -67,17 +84,46 @@ def validate_request(snapshot: KnowledgeSnapshot, request: PlanRequest) -> None:
 class _Planner:
     def __init__(self, snapshot: KnowledgeSnapshot, request: PlanRequest):
         self.kb = snapshot
+        self.state = (request.citizen_state or "").strip() or None
         self.targets = _dedupe(request.target_service_ids)
-        self.completed = set(_dedupe(request.completed_service_ids))
-        self.owned = set(_dedupe(request.owned_document_ids))
+        self.completed = set(_dedupe(request.completed_service_ids)) | {
+            s for s, p in request.progress.items() if p is ProcessState.COMPLETED
+        }
+        self.active = {
+            s for s, p in request.progress.items() if p in _ACTIVE and s not in self.completed
+        }
+        self.progress = {
+            s: request.progress.get(s, ProcessState.NOT_STARTED) for s in self.kb.services
+        }
+        for s in self.completed:
+            self.progress[s] = ProcessState.COMPLETED
+
+        # Document readiness. Only AVAILABLE documents are usable.
+        self.unusable = {
+            d: st for d, st in request.document_states.items() if st is not DocumentState.AVAILABLE
+        }
+        owned = set(_dedupe(request.owned_document_ids)) | {
+            d for d, st in request.document_states.items() if st is DocumentState.AVAILABLE
+        }
+        self.owned = owned - set(self.unusable)
+        # A (user-reported) completed process makes its verified outputs available, unless the
+        # citizen marked that document expired/invalid/unsure: their assessment always wins.
+        self.from_completion: dict[str, str] = {}
         for sid in sorted(self.completed):
-            self.owned.update(self.kb.services[sid].outputs)
+            for doc in self.kb.services[sid].outputs:
+                if doc in self.unusable:
+                    continue
+                if doc not in self.owned:
+                    self.from_completion.setdefault(doc, sid)
+                self.owned.add(doc)
 
         self.roles: dict[str, StepRole] = {}
         self.deps: dict[str, dict[str, Dependency]] = {}
         self.req_status: dict[str, RequirementStatus] = {}
         self.routes: list[AcquisitionRoute] = []
         self.prereq_links: list[Dependency] = []
+        self.out_of_region: dict[str, tuple[str, ...]] = {}  # requirement id -> producers
+        self.clarify: dict[str, Clarification] = {}
 
     # ------------------------------------------------------------ build graph
 
@@ -89,6 +135,9 @@ class _Planner:
             return False
         self.roles[sid] = role
         self.deps[sid] = {}
+        spec = self.kb.services[sid]
+        if spec.available_in(self.state) is None:
+            self.clarify[sid] = Clarification(ClarificationCode.STATE_REQUIRED, sid, spec.region)
         return True
 
     def _add_edge(self, sid: str, dep: Dependency) -> bool:
@@ -148,6 +197,7 @@ class _Planner:
             condition=req.condition,
             notes=req.notes,
             evidence_ids=req.evidence_ids,
+            unusable_document_ids=tuple(d for d in req.document_ids if d in self.unusable),
         )
         if owned is not None:
             self.req_status[req.id] = RequirementStatus(
@@ -159,10 +209,14 @@ class _Planner:
             return []
 
         candidates: list[tuple[tuple, str, str]] = []
+        outside: set[str] = set()
         cycle_view = self._cycle_view()
         for doc in req.document_ids:
             for producer in self.kb.producers_of(doc):
                 if producer == sid or producer in self.completed:
+                    continue
+                if self.kb.services[producer].available_in(self.state) is False:
+                    outside.add(producer)
                     continue
                 # Adding edge sid -> producer must not create a cycle.
                 if reaches(producer, sid, cycle_view):
@@ -172,6 +226,8 @@ class _Planner:
                 rank = (in_plan, self._unmet_mandatory(producer), producer)
                 candidates.append((rank, producer, doc))
         if not candidates:
+            if outside:
+                self.out_of_region[req.id] = tuple(sorted(outside))
             self.req_status[req.id] = RequirementStatus(state=RequirementState.MISSING, **base)
             return []
 
@@ -185,9 +241,10 @@ class _Planner:
                 document_id=doc,
                 requirement_id=req.id,
                 evidence_ids=evidence,
+                acceptance_evidence_ids=req.evidence_ids,
             ),
         )
-        self.routes.append(AcquisitionRoute(producer, doc, sid, req.id, evidence))
+        self.routes.append(AcquisitionRoute(producer, doc, sid, req.id, evidence, req.evidence_ids))
         self.req_status[req.id] = RequirementStatus(
             state=RequirementState.PENDING_ACQUISITION,
             acquired_via_service_id=producer,
@@ -220,6 +277,7 @@ class _Planner:
         }
 
         blockers: list[Blocker] = []
+        notices: list[Notice] = []
         status: dict[str, StepStatus] = {}
         for sid in order:  # topological order: dependencies are decided first
             spec = self.kb.services[sid]
@@ -230,19 +288,7 @@ class _Planner:
             ]
             blocked_deps = sorted(d for d in dep_view[sid] if status[d] is StepStatus.BLOCKED)
             for m in missing:
-                blockers.append(
-                    Blocker(
-                        code=BlockerCode.MISSING_DOCUMENT_NO_ROUTE,
-                        service_id=sid,
-                        requirement_id=m.requirement_id,
-                        document_options=m.document_options,
-                        message=(
-                            f"'{spec.name}' needs {self._options_text(m.document_options)} "
-                            f"for '{m.name}'. None is held and no service in the knowledge base "
-                            "issues one."
-                        ),
-                    )
-                )
+                blockers.append(self._missing_blocker(spec.name, sid, m))
             if blocked_deps:
                 blockers.append(
                     Blocker(
@@ -255,12 +301,50 @@ class _Planner:
                         ),
                     )
                 )
-            if missing or blocked_deps:
+            if sid in self.active:
+                status[sid] = StepStatus.IN_PROGRESS
+                if dep_view[sid]:
+                    notices.append(
+                        Notice(
+                            code=NoticeCode.STARTED_BEFORE_DEPENDENCIES,
+                            service_id=sid,
+                            related_service_ids=tuple(sorted(dep_view[sid])),
+                            message=(
+                                f"'{spec.name}' was reported as started, but the plan expects "
+                                f"{self._names(sorted(dep_view[sid]))} to finish first."
+                            ),
+                        )
+                    )
+            elif missing or blocked_deps:
                 status[sid] = StepStatus.BLOCKED
             elif dep_view[sid]:
                 status[sid] = StepStatus.WAITING
             else:
                 status[sid] = StepStatus.READY
+        for t in self.targets:
+            if self.kb.services[t].available_in(self.state) is False:
+                region = self.kb.services[t].region
+                notices.append(
+                    Notice(
+                        code=NoticeCode.TARGET_OUTSIDE_JURISDICTION,
+                        service_id=t,
+                        message=(
+                            f"'{self.kb.services[t].name}' is verified only for {region}, "
+                            f"not {self.state}."
+                        ),
+                    )
+                )
+        for sid in sorted(self.active - set(order)):
+            notices.append(
+                Notice(
+                    code=NoticeCode.PROGRESS_OUTSIDE_PLAN,
+                    service_id=sid,
+                    message=(
+                        f"You reported '{self.kb.services[sid].name}' as "
+                        f"{self.progress[sid].value}, but it is not part of this plan."
+                    ),
+                )
+            )
 
         steps = []
         for n, sid in enumerate(order, start=1):
@@ -271,6 +355,9 @@ class _Planner:
                 evidence.update(r.evidence_ids)
             for d in self.deps[sid].values():
                 evidence.update(d.evidence_ids)
+            completion_ev = sorted(
+                {e for d in spec.outputs for e in spec.output_evidence.get(d, ())}
+            )
             steps.append(
                 PlanStep(
                     step_number=n,
@@ -282,13 +369,19 @@ class _Planner:
                     depends_on=tuple(sorted(self.deps[sid].values(), key=lambda d: d.service_id)),
                     unblocks=direct_dependents[sid],
                     requirements=reqs,
-                    evidence_ids=tuple(sorted(evidence)),
+                    evidence_ids=tuple(sorted(evidence | set(completion_ev))),
+                    process_state=self.progress[sid],
+                    authority=spec.authority,
+                    region=spec.region,
+                    completion_document_ids=spec.outputs,
+                    completion_evidence_ids=tuple(completion_ev),
                 )
             )
 
         all_reqs = [r for s in steps for r in s.requirements]
         mandatory = tuple(r for r in all_reqs if r.kind is Kind.MANDATORY)
         evidence_ids = sorted({e for s in steps for e in s.evidence_ids})
+        completed = self._completed_in_scope(all_reqs)
 
         return PlanResult(
             selected_service_ids=tuple(self.targets),
@@ -315,6 +408,78 @@ class _Planner:
             blockers=tuple(blockers),
             next_action=self._next_action(steps, blockers, dep_view),
             evidence=tuple(self.kb.evidence[e] for e in evidence_ids if e in self.kb.evidence),
+            completed=tuple(
+                CompletedService(
+                    service_id=sid,
+                    source=CompletionSource.USER_REPORTED,
+                    output_document_ids=self.kb.services[sid].outputs,
+                )
+                for sid in completed
+            ),
+            progress=ProgressSummary(
+                total_services=len(steps) + len(completed),
+                completed=len(completed),
+                completed_user_reported=len(completed),
+                completed_verified=0,
+                in_progress=sum(1 for s in steps if s.status is StepStatus.IN_PROGRESS),
+                ready=sum(1 for s in steps if s.status is StepStatus.READY),
+                waiting=sum(1 for s in steps if s.status is StepStatus.WAITING),
+                blocked=sum(1 for s in steps if s.status is StepStatus.BLOCKED),
+            ),
+            document_summary=DocumentSummary(
+                mandatory_requirements=len(mandatory),
+                satisfied=sum(1 for r in mandatory if r.state is RequirementState.SATISFIED),
+                will_be_produced=sum(
+                    1 for r in mandatory if r.state is RequirementState.PENDING_ACQUISITION
+                ),
+                missing=sum(1 for r in mandatory if r.state is RequirementState.MISSING),
+                unusable=tuple(UnusableDocument(d, st) for d, st in sorted(self.unusable.items())),
+            ),
+            notices=tuple(notices),
+            clarifications=tuple(self.clarify[s] for s in order if s in self.clarify),
+            citizen_state=self.state,
+        )
+
+    def _completed_in_scope(self, reqs: list[RequirementStatus]) -> list[str]:
+        """Completed services that belong to this plan: completed targets, plus completed
+        services whose outputs now satisfy one of the plan's requirements."""
+        used = {self.from_completion.get(r.satisfied_by_document_id or "") for r in reqs}
+        return sorted(s for s in self.completed if s in self.targets or s in used)
+
+    def _missing_blocker(self, service_name: str, sid: str, m: RequirementStatus) -> Blocker:
+        outside = self.out_of_region.get(m.requirement_id, ())
+        unusable = [d for d in m.document_options if d in self.unusable]
+        message = f"'{service_name}' needs {self._options_text(m.document_options)} for '{m.name}'."
+        if unusable:
+            message += (
+                f" You marked {self._options_text(tuple(unusable))} as "
+                f"{', '.join(sorted({self.unusable[d].value for d in unusable}))}."
+            )
+        if outside:
+            regions = sorted({self.kb.services[p].region or "" for p in outside})
+            message += (
+                f" {self._names(outside)} issues one, but GovPath has verified it only for "
+                f"{', '.join(regions)}" + (f", not {self.state}." if self.state else ".")
+            )
+            code = BlockerCode.ROUTE_OUTSIDE_JURISDICTION
+            evidence = tuple(
+                e
+                for p in outside
+                for d in m.document_options
+                for e in self.kb.services[p].output_evidence.get(d, ())
+            )
+        else:
+            message += " None is held and no service in the knowledge base issues one."
+            code = BlockerCode.MISSING_DOCUMENT_NO_ROUTE
+            evidence = ()
+        return Blocker(
+            code=code,
+            service_id=sid,
+            requirement_id=m.requirement_id,
+            document_options=m.document_options,
+            route_service_ids=outside,
+            evidence_ids=tuple(dict.fromkeys((*m.evidence_ids, *evidence))),
+            message=message,
         )
 
     def _next_action(
@@ -325,7 +490,10 @@ class _Planner:
                 type=NextActionType.NONE,
                 reason=Reason(
                     code=ReasonCode.ALL_COMPLETE,
-                    message="All selected services are already completed. Nothing left to do.",
+                    message=(
+                        "You have reported every selected service as completed. "
+                        "Nothing left to do in this plan."
+                    ),
                 ),
             )
 
@@ -358,6 +526,11 @@ class _Planner:
                 )
             if parallel:
                 message += f" It can be done in parallel with: {self._names(parallel)}."
+            evidence = tuple(
+                dict.fromkeys(
+                    e for r in best.requirements if r.kind is Kind.MANDATORY for e in r.evidence_ids
+                )
+            )
             return NextAction(
                 type=NextActionType.START_SERVICE,
                 service_id=best.service_id,
@@ -367,32 +540,69 @@ class _Planner:
                     unblocks=unblocks,
                     parallel_with=parallel,
                     documents_used=used,
+                    evidence_ids=evidence,
                 ),
             )
 
-        # Nothing is ready: the plan is blocked. Resolve the root blocker that frees the most.
-        roots = [b for b in blockers if b.code is BlockerCode.MISSING_DOCUMENT_NO_ROUTE]
+        # Nothing can be started. A document the citizen must obtain comes first.
+        roots = [
+            b
+            for b in blockers
+            if b.code
+            in (BlockerCode.MISSING_DOCUMENT_NO_ROUTE, BlockerCode.ROUTE_OUTSIDE_JURISDICTION)
+        ]
         order = {s.service_id: s.step_number for s in steps}
-        best_b = min(
-            roots,
-            key=lambda b: (-len(dependents_closure(b.service_id, dep_view)), order[b.service_id]),
+        if roots:
+            best_b = min(
+                roots,
+                key=lambda b: (
+                    -len(dependents_closure(b.service_id, dep_view)),
+                    order[b.service_id],
+                ),
+            )
+            freed = tuple(sorted(dependents_closure(best_b.service_id, dep_view)))
+            message = (
+                f"Obtain {self._options_text(best_b.document_options)} first. "
+                f"'{self.kb.services[best_b.service_id].name}' is blocked without it"
+            )
+            message += f", and so are: {self._names(freed)}." if freed else "."
+            return NextAction(
+                type=NextActionType.OBTAIN_DOCUMENT,
+                service_id=best_b.service_id,
+                requirement_id=best_b.requirement_id,
+                document_options=best_b.document_options,
+                reason=Reason(
+                    code=ReasonCode.RESOLVE_BLOCKER,
+                    message=message,
+                    unblocks=freed,
+                    document_options=best_b.document_options,
+                    evidence_ids=best_b.evidence_ids,
+                ),
+            )
+
+        # Otherwise everything left waits for a process the citizen has already started.
+        active = [s for s in steps if s.status is StepStatus.IN_PROGRESS]
+        best = min(
+            active,
+            key=lambda s: (-len(dependents_closure(s.service_id, dep_view)), s.step_number),
         )
-        freed = tuple(sorted(dependents_closure(best_b.service_id, dep_view)))
+        freed = tuple(sorted(dependents_closure(best.service_id, dep_view)))
+        outputs = (
+            self._options_text(best.completion_document_ids) if best.completion_document_ids else ""
+        )
         message = (
-            f"Obtain {self._options_text(best_b.document_options)} first. "
-            f"'{self.kb.services[best_b.service_id].name}' is blocked without it"
+            f"'{best.service_name}' is in progress. Follow it up with the authority; when you "
+            f"receive {outputs or 'the outcome'}, report it as completed"
         )
-        message += f", and so are: {self._names(freed)}." if freed else "."
+        message += f". That unblocks: {self._names(freed)}." if freed else "."
         return NextAction(
-            type=NextActionType.OBTAIN_DOCUMENT,
-            service_id=best_b.service_id,
-            requirement_id=best_b.requirement_id,
-            document_options=best_b.document_options,
+            type=NextActionType.FOLLOW_UP,
+            service_id=best.service_id,
             reason=Reason(
-                code=ReasonCode.RESOLVE_BLOCKER,
+                code=ReasonCode.AWAIT_IN_PROGRESS,
                 message=message,
                 unblocks=freed,
-                document_options=best_b.document_options,
+                evidence_ids=best.completion_evidence_ids,
             ),
         )
 

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { EvidenceList } from '../../../components/knowledge/EvidenceList'
 import { Icon } from '../../../components/ui/Icon'
-import type { PlanResponse, PlanStep, RequirementStatus, StepStatus } from '../../../types/api'
+import type { PlanResponse, PlanStep, ProcessState, RequirementStatus, StepStatus } from '../../../types/api'
 import type { PlanNames } from '../names'
 import { StatusNode } from './StatusNode'
 
@@ -11,7 +11,10 @@ const STATUS: Record<StepStatus, { label: string; card: string }> = {
   ready: { label: 'text-ink', card: 'bg-card ring-1 ring-ink/15' },
   waiting: { label: 'text-muted', card: 'bg-card/80 ring-1 ring-rule' },
   blocked: { label: 'text-crimson-600', card: 'bg-crimson-50/70 ring-2 ring-crimson-200' },
+  in_progress: { label: 'text-jade-700', card: 'bg-card ring-2 ring-jade-300' },
 }
+
+const PROCESS_STATES: ProcessState[] = ['not_started', 'started', 'submitted', 'completed']
 
 /**
  * The plan drawn as a route: completed stops, then the planner's parallel groups (stages) as
@@ -24,12 +27,14 @@ export function Timeline({
   onMarkDone,
   onUndoDone,
   onOwn,
+  onProcess,
 }: {
   plan: PlanResponse
   names: PlanNames
   onMarkDone: (serviceId: string) => void
   onUndoDone: (serviceId: string) => void
   onOwn: (documentId: string) => void
+  onProcess: (serviceId: string, state: ProcessState) => void
 }) {
   const { t } = useTranslation()
   const byStage = new Map<number, PlanStep[]>()
@@ -55,7 +60,10 @@ export function Timeline({
             <ul className="mt-3 space-y-2">
               {plan.completed_service_ids.map((id) => (
                 <li key={id} className="flex flex-wrap items-center justify-between gap-2 rounded-2xl bg-jade-50 px-4 py-3 text-sm ring-1 ring-jade-100">
-                  <span className="font-bold text-jade-800">✓ {names.service(id)}</span>
+                  <span className="flex flex-wrap items-baseline gap-x-2">
+                    <span className="font-bold text-jade-800">✓ {names.service(id)}</span>
+                    <span className="text-xs font-semibold text-jade-700/80">{t('planner.reportedByYou')}</span>
+                  </span>
                   <button type="button" onClick={() => onUndoDone(id)} className="text-xs font-semibold text-jade-700 underline">
                     {t('planner.undo')}
                   </button>
@@ -81,7 +89,16 @@ export function Timeline({
             </p>
             <div className={`mt-4 grid gap-4 ${steps.length > 1 ? '2xl:grid-cols-2' : ''}`}>
               {steps.map((s) => (
-                <StepCard key={s.service_id} step={s} plan={plan} names={names} isNext={s.service_id === nextId} onMarkDone={onMarkDone} onOwn={onOwn} />
+                <StepCard
+                  key={s.service_id}
+                  step={s}
+                  plan={plan}
+                  names={names}
+                  isNext={s.service_id === nextId}
+                  onMarkDone={onMarkDone}
+                  onOwn={onOwn}
+                  onProcess={onProcess}
+                />
               ))}
             </div>
           </li>
@@ -98,6 +115,7 @@ function StepCard({
   isNext,
   onMarkDone,
   onOwn,
+  onProcess,
 }: {
   step: PlanStep
   plan: PlanResponse
@@ -105,6 +123,7 @@ function StepCard({
   isNext: boolean
   onMarkDone: (serviceId: string) => void
   onOwn: (documentId: string) => void
+  onProcess: (serviceId: string, state: ProcessState) => void
 }) {
   const { t } = useTranslation()
   const style = STATUS[step.status]
@@ -122,7 +141,7 @@ function StepCard({
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
         <span className={`flex items-center gap-2 text-xs font-bold ${style.label}`}>
           <StatusNode kind={isNext ? 'next' : step.status} size="sm" />
-          <span>{t(`stepStatus.${step.status}`)}</span>
+          <span>{step.status === 'in_progress' ? t(`processState.${step.process_state ?? 'started'}`) : t(`stepStatus.${step.status}`)}</span>
         </span>
         <span className="text-xs font-semibold text-muted">{t(`stepRole.${step.role}`)}</span>
         {isNext && <span className="ml-auto rounded-full bg-zest-400 px-2.5 py-0.5 text-xs font-bold text-ink">{t('planner.youAreHere')}</span>}
@@ -132,6 +151,12 @@ function StepCard({
           {names.service(step.service_id)}
         </Link>
       </h3>
+      {step.authority && (
+        <p className="mt-1 text-xs font-semibold tracking-wide text-muted uppercase">
+          <span lang="en">{step.authority}</span>
+          {step.region && <span className="ml-1.5 normal-case">· {t('planner.regionOnly', { region: step.region })}</span>}
+        </p>
+      )}
 
       <p className="mt-2 text-sm text-ink/80">
         {step.role === 'target' && t('planner.why.target')}
@@ -181,6 +206,32 @@ function StepCard({
         </ul>
       )}
 
+      {(step.completion_document_ids?.length ?? 0) > 0 && (
+        <p className="mt-4 flex items-start gap-2 text-xs text-muted">
+          <Icon name="doc" className="mt-0.5 h-3.5 w-3.5 shrink-0 text-jade-600" />
+          {t('planner.doneWhen', { documents: (step.completion_document_ids ?? []).map(names.document).join(t('common.listSeparator')) })}
+        </p>
+      )}
+
+      <div className="mt-4 flex flex-wrap items-center gap-3 rounded-2xl bg-paper px-3 py-2.5 ring-1 ring-rule">
+        <label className="flex items-center gap-2 text-xs font-bold text-ink">
+          {t('planner.yourProgress')}
+          <select
+            aria-label={t('planner.progressFor', { service: names.service(step.service_id) })}
+            value={step.process_state ?? 'not_started'}
+            onChange={(e) => onProcess(step.service_id, e.target.value as ProcessState)}
+            className="rounded-full border border-rule-strong bg-card px-3 py-1 text-xs font-semibold text-ink focus:border-ink"
+          >
+            {PROCESS_STATES.map((p) => (
+              <option key={p} value={p}>
+                {t(`processState.${p}`)}
+              </option>
+            ))}
+          </select>
+        </label>
+        <span className="text-[11px] text-muted">{t('planner.progressNote')}</span>
+      </div>
+
       {step.status === 'ready' && (
         <button type="button" onClick={() => onMarkDone(step.service_id)} className="mt-4 rounded-full bg-card px-4 py-1.5 text-sm font-bold text-ink ring-1 ring-rule-strong transition hover:bg-jade-50 hover:ring-jade-500">
           ✓ {t('planner.markDone')}
@@ -203,7 +254,13 @@ function RequirementLine({ r, names, onOwn }: { r: RequirementStatus; names: Pla
     detail = t('req.satisfiedBy', { document: names.document(r.satisfied_by_document_id!) })
   } else if (r.state === 'pending_acquisition') {
     mark = <Icon name="clock" className="h-4 w-4 text-muted" strokeWidth={2.2} />
-    detail = t('req.pending', { service: names.service(r.acquired_via_service_id!), document: names.document(r.acquired_document_id!) })
+    const others = r.document_options.filter((d) => d !== r.acquired_document_id)
+    detail = (
+      <>
+        {t('req.pending', { service: names.service(r.acquired_via_service_id!), document: names.document(r.acquired_document_id!) })}
+        {others.length > 0 && <span className="block">{t('req.alternatives', { documents: others.map(names.document).join(t('common.listSeparator')) })}</span>}
+      </>
+    )
   } else if (r.state === 'missing') {
     mark = <Icon name="close" className="h-4 w-4 text-crimson-600" strokeWidth={2.6} />
   } else {
@@ -219,6 +276,11 @@ function RequirementLine({ r, names, onOwn }: { r: RequirementStatus; names: Pla
         <span className={optional ? 'text-muted' : 'font-semibold text-ink'}>{label}</span>
         {optional && <span className="ml-2 text-xs font-semibold text-faint italic">{t(`requirementType.${r.kind}`)}</span>}
         {detail && <span className="block text-xs text-muted">{detail}</span>}
+        {(r.unusable_document_ids?.length ?? 0) > 0 && (
+          <span className="block text-xs font-semibold text-honey-700">
+            {t('req.unusable', { documents: (r.unusable_document_ids ?? []).map(names.document).join(t('common.listSeparator')) })}
+          </span>
+        )}
         {r.state === 'missing' && (
           <div className="mt-1.5">
             <p className="text-xs font-semibold text-crimson-600">{t('req.missing')}</p>

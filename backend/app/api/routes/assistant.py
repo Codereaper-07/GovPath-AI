@@ -46,6 +46,9 @@ async def query(
             body.workflow.target_service_ids,
             body.workflow.owned_document_ids,
             body.workflow.completed_service_ids,
+            progress=dict(body.workflow.progress),
+            document_states=dict(body.workflow.document_states),
+            state=body.workflow.state,
         )
         if body.workflow
         else None

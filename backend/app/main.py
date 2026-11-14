@@ -4,11 +4,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app import __version__
-from app.api.routes import assistant, documents, health, services, workflows
+from app.api.routes import assistant, documents, health, services, situation, workflows
 from app.config import get_settings
 from app.db import dispose_engine
 from app.knowledge.cache import TTLCache
 from app.llm.client import GeminiClient, UsageGuard
+from app.llm.situation import SituationInterpreter
 from app.rag.assistant import Assistant
 
 
@@ -30,7 +31,9 @@ def create_app() -> FastAPI:
             "query_embedding": settings.gemini_daily_embedding_limit,
         },
     )
-    app.state.assistant = Assistant(settings, GeminiClient(settings, guard=guard))
+    gemini = GeminiClient(settings, guard=guard)  # one client: shared caps and throttle
+    app.state.assistant = Assistant(settings, gemini)
+    app.state.situation_interpreter = SituationInterpreter(gemini)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.cors_origins,
@@ -38,7 +41,14 @@ def create_app() -> FastAPI:
         allow_methods=["*"],
         allow_headers=["*"],
     )
-    routers = (health.router, services.router, documents.router, workflows.router, assistant.router)
+    routers = (
+        health.router,
+        services.router,
+        documents.router,
+        workflows.router,
+        situation.router,
+        assistant.router,
+    )
     for router in routers:
         app.include_router(router, prefix="/api")
     return app

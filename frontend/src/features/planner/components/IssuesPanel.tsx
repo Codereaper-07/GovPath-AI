@@ -9,7 +9,7 @@ import type { PlanNames } from '../names'
  */
 export function IssuesPanel({ plan, names }: { plan: PlanResponse; names: PlanNames }) {
   const { t } = useTranslation()
-  const missing = plan.blockers.filter((b) => b.code === 'missing_document_no_route')
+  const missing = plan.blockers.filter((b) => b.code !== 'dependency_blocked')
   const waiting = plan.blockers.filter((b) => b.code === 'dependency_blocked')
   if (plan.blockers.length === 0) return null
 
@@ -28,6 +28,14 @@ export function IssuesPanel({ plan, names }: { plan: PlanResponse; names: PlanNa
                 <span className="font-bold text-ink">{names.service(b.service_id)}</span>
                 {b.requirement_id && <span className="text-muted"> · {names.requirement(b.requirement_id, b.requirement_id)}</span>}
                 <span className="mt-0.5 block text-ink/80">{names.options(b.document_options, 3)}</span>
+                {b.code === 'missing_document_route_outside_jurisdiction' && (
+                  <span className="mt-1.5 block text-xs font-semibold text-crimson-700">
+                    {t('planner.routeOutside', {
+                      services: names.services(b.route_service_ids ?? []),
+                      state: plan.citizen_state ?? '',
+                    })}
+                  </span>
+                )}
               </li>
             ))}
           </ul>

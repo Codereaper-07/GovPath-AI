@@ -11,6 +11,9 @@
   "life_events": [
     "relocation-identity"
   ],
+  "goals": [
+    "update-address"
+  ],
   "application_form": "Form 33 (CMVR)",
   "official_info_url": "https://parivahan.gov.in/en/content/address-change",
   "application_url": "https://vahan.parivahan.gov.in/vahanservice/vahan/",

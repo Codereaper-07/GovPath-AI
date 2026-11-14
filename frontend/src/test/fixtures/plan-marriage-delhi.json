@@ -1,0 +1,1330 @@
+{
+  "generated_by": "deterministic-planner",
+  "selected_service_ids": [
+    "aadhaar-name-update",
+    "passport-reissue-name-change-marriage"
+  ],
+  "completed_service_ids": [],
+  "steps": [
+    {
+      "step_number": 1,
+      "stage": 1,
+      "service_id": "marriage-registration-delhi",
+      "service_name": "Marriage registration (Delhi, Hindu Marriage Act)",
+      "role": "acquisition",
+      "status": "ready",
+      "depends_on": [],
+      "unblocks": [
+        "aadhaar-name-update",
+        "passport-reissue-name-change-marriage"
+      ],
+      "requirements": [
+        {
+          "requirement_id": "marriage-registration-delhi.identity-proof",
+          "service_id": "marriage-registration-delhi",
+          "name": "Identity proof of both parties (any one each)",
+          "kind": "mandatory",
+          "state": "satisfied",
+          "document_options": [
+            "aadhaar_number",
+            "epic_existing",
+            "driving_licence_existing",
+            "passport_existing",
+            "pan_card"
+          ],
+          "is_alternative_group": true,
+          "satisfied_by_document_id": "aadhaar_number",
+          "acquired_via_service_id": null,
+          "acquired_document_id": null,
+          "condition": null,
+          "notes": "Aadhaar is not compulsory; any one of the listed identity proofs is accepted instead.",
+          "evidence_ids": [
+            "dl-mr-identity"
+          ],
+          "unusable_document_ids": []
+        },
+        {
+          "requirement_id": "marriage-registration-delhi.date-of-birth-proof",
+          "service_id": "marriage-registration-delhi",
+          "name": "Date-of-birth proof of both parties (any one each)",
+          "kind": "mandatory",
+          "state": "satisfied",
+          "document_options": [
+            "matriculation_certificate",
+            "passport_existing",
+            "birth_certificate"
+          ],
+          "is_alternative_group": true,
+          "satisfied_by_document_id": "passport_existing",
+          "acquired_via_service_id": null,
+          "acquired_document_id": null,
+          "condition": null,
+          "notes": "Self-attested.",
+          "evidence_ids": [
+            "dl-mr-dob"
+          ],
+          "unusable_document_ids": []
+        },
+        {
+          "requirement_id": "marriage-registration-delhi.residence-proof",
+          "service_id": "marriage-registration-delhi",
+          "name": "Residential proof of both parties (any one each)",
+          "kind": "mandatory",
+          "state": "satisfied",
+          "document_options": [
+            "epic_existing",
+            "ration_card",
+            "driving_licence_existing",
+            "passport_existing"
+          ],
+          "is_alternative_group": true,
+          "satisfied_by_document_id": "passport_existing",
+          "acquired_via_service_id": null,
+          "acquired_document_id": null,
+          "condition": null,
+          "notes": "Self-attested. The source ends the list with 'etc.', so other residence proofs may also be accepted.",
+          "evidence_ids": [
+            "dl-mr-residence"
+          ],
+          "unusable_document_ids": []
+        },
+        {
+          "requirement_id": "marriage-registration-delhi.affidavits",
+          "service_id": "marriage-registration-delhi",
+          "name": "Separate affidavits of husband and wife",
+          "kind": "mandatory",
+          "state": "satisfied",
+          "document_options": [
+            "marriage_affidavits"
+          ],
+          "is_alternative_group": false,
+          "satisfied_by_document_id": "marriage_affidavits",
+          "acquired_via_service_id": null,
+          "acquired_document_id": null,
+          "condition": null,
+          "notes": null,
+          "evidence_ids": [
+            "dl-mr-affidavits"
+          ],
+          "unusable_document_ids": []
+        },
+        {
+          "requirement_id": "marriage-registration-delhi.photographs",
+          "service_id": "marriage-registration-delhi",
+          "name": "Attested passport-size and ceremonial photographs",
+          "kind": "mandatory",
+          "state": "satisfied",
+          "document_options": [
+            "marriage_photographs_attested"
+          ],
+          "is_alternative_group": false,
+          "satisfied_by_document_id": "marriage_photographs_attested",
+          "acquired_via_service_id": null,
+          "acquired_document_id": null,
+          "condition": null,
+          "notes": null,
+          "evidence_ids": [
+            "dl-mr-photos"
+          ],
+          "unusable_document_ids": []
+        },
+        {
+          "requirement_id": "marriage-registration-delhi.invitation-card",
+          "service_id": "marriage-registration-delhi",
+          "name": "Marriage invitation card",
+          "kind": "optional",
+          "state": "not_provided",
+          "document_options": [
+            "marriage_invitation_card"
+          ],
+          "is_alternative_group": false,
+          "satisfied_by_document_id": null,
+          "acquired_via_service_id": null,
+          "acquired_document_id": null,
+          "condition": null,
+          "notes": null,
+          "evidence_ids": [
+            "dl-mr-invitation"
+          ],
+          "unusable_document_ids": []
+        },
+        {
+          "requirement_id": "marriage-registration-delhi.divorce-or-death-certificate",
+          "service_id": "marriage-registration-delhi",
+          "name": "Divorce decree or former spouse's death certificate",
+          "kind": "conditional",
+          "state": "not_provided",
+          "document_options": [
+            "divorce_decree_or_spouse_death_certificate"
+          ],
+          "is_alternative_group": false,
+          "satisfied_by_document_id": null,
+          "acquired_via_service_id": null,
+          "acquired_document_id": null,
+          "condition": "Only if a party is divorced or widowed.",
+          "notes": null,
+          "evidence_ids": [
+            "dl-mr-divorce"
+          ],
+          "unusable_document_ids": []
+        },
+        {
+          "requirement_id": "marriage-registration-delhi.priest-certificate",
+          "service_id": "marriage-registration-delhi",
+          "name": "Certificate from the priest",
+          "kind": "conditional",
+          "state": "not_provided",
+          "document_options": [
+            "priest_certificate"
+          ],
+          "is_alternative_group": false,
+          "satisfied_by_document_id": null,
+          "acquired_via_service_id": null,
+          "acquired_document_id": null,
+          "condition": "Only if the marriage was solemnised at a religious place.",
+          "notes": null,
+          "evidence_ids": [
+            "dl-mr-priest"
+          ],
+          "unusable_document_ids": []
+        },
+        {
+          "requirement_id": "marriage-registration-delhi.embassy-certificate",
+          "service_id": "marriage-registration-delhi",
+          "name": "Embassy certificate of marital status",
+          "kind": "conditional",
+          "state": "not_provided",
+          "document_options": [
+            "embassy_marital_status_certificate"
+          ],
+          "is_alternative_group": false,
+          "satisfied_by_document_id": null,
+          "acquired_via_service_id": null,
+          "acquired_document_id": null,
+          "condition": "Only if a party is a foreign national.",
+          "notes": null,
+          "evidence_ids": [
+            "dl-mr-foreign"
+          ],
+          "unusable_document_ids": []
+        }
+      ],
+      "evidence_ids": [
+        "dl-mr-affidavits",
+        "dl-mr-divorce",
+        "dl-mr-dob",
+        "dl-mr-foreign",
+        "dl-mr-identity",
+        "dl-mr-invitation",
+        "dl-mr-photos",
+        "dl-mr-priest",
+        "dl-mr-residence",
+        "dl-mr-response",
+        "dl-mr-what",
+        "dl-mr-where",
+        "dl-mrg-age",
+        "dl-mrg-hma-eligibility",
+        "dl-mrg-presence"
+      ],
+      "process_state": "not_started",
+      "authority": "Revenue Department, Government of NCT of Delhi",
+      "region": "Delhi",
+      "completion_document_ids": [
+        "marriage_certificate"
+      ],
+      "completion_evidence_ids": [
+        "dl-mr-what"
+      ]
+    },
+    {
+      "step_number": 2,
+      "stage": 2,
+      "service_id": "aadhaar-name-update",
+      "service_name": "Aadhaar name update (e.g. after marriage)",
+      "role": "target",
+      "status": "waiting",
+      "depends_on": [
+        {
+          "service_id": "marriage-registration-delhi",
+          "reason": "acquisition",
+          "document_id": "marriage_certificate",
+          "requirement_id": "aadhaar-name-update.proof-of-identity-new-name",
+          "evidence_ids": [
+            "dl-mr-what"
+          ],
+          "acceptance_evidence_ids": [
+            "uidai-list4-own-name",
+            "uidai-list4-heading",
+            "uidai-poi-marriage-certificate",
+            "uidai-poi-gazette"
+          ]
+        }
+      ],
+      "unblocks": [],
+      "requirements": [
+        {
+          "requirement_id": "aadhaar-name-update.aadhaar-number",
+          "service_id": "aadhaar-name-update",
+          "name": "Existing Aadhaar number",
+          "kind": "mandatory",
+          "state": "satisfied",
+          "document_options": [
+            "aadhaar_number"
+          ],
+          "is_alternative_group": false,
+          "satisfied_by_document_id": "aadhaar_number",
+          "acquired_via_service_id": null,
+          "acquired_document_id": null,
+          "condition": null,
+          "notes": null,
+          "evidence_ids": [
+            "uidai-centre-mode"
+          ],
+          "unusable_document_ids": []
+        },
+        {
+          "requirement_id": "aadhaar-name-update.proof-of-identity-new-name",
+          "service_id": "aadhaar-name-update",
+          "name": "Proof of identity in the new name (any one)",
+          "kind": "mandatory",
+          "state": "pending_acquisition",
+          "document_options": [
+            "marriage_certificate",
+            "gazette_notification_name_change"
+          ],
+          "is_alternative_group": true,
+          "satisfied_by_document_id": null,
+          "acquired_via_service_id": "marriage-registration-delhi",
+          "acquired_document_id": "marriage_certificate",
+          "condition": null,
+          "notes": "Documents must be issued in the name of the person seeking the update.",
+          "evidence_ids": [
+            "uidai-list4-own-name",
+            "uidai-list4-heading",
+            "uidai-poi-marriage-certificate",
+            "uidai-poi-gazette"
+          ],
+          "unusable_document_ids": []
+        }
+      ],
+      "evidence_ids": [
+        "dl-mr-what",
+        "uidai-centre-mode",
+        "uidai-list4-heading",
+        "uidai-list4-own-name",
+        "uidai-poi-gazette",
+        "uidai-poi-marriage-certificate",
+        "uidai-update-fields"
+      ],
+      "process_state": "not_started",
+      "authority": "Unique Identification Authority of India (UIDAI)",
+      "region": null,
+      "completion_document_ids": [
+        "aadhaar_updated_name"
+      ],
+      "completion_evidence_ids": [
+        "uidai-update-fields"
+      ]
+    },
+    {
+      "step_number": 3,
+      "stage": 2,
+      "service_id": "passport-reissue-name-change-marriage",
+      "service_name": "Passport reissue for change of name after marriage",
+      "role": "target",
+      "status": "waiting",
+      "depends_on": [
+        {
+          "service_id": "marriage-registration-delhi",
+          "reason": "acquisition",
+          "document_id": "marriage_certificate",
+          "requirement_id": "passport-reissue-name-change-marriage.marriage-proof",
+          "evidence_ids": [
+            "dl-mr-what"
+          ],
+          "acceptance_evidence_ids": [
+            "pp-name-change-marriage-row",
+            "pp-doc-14-marriage-certificate",
+            "pp-doc-56-joint-photo"
+          ]
+        }
+      ],
+      "unblocks": [],
+      "requirements": [
+        {
+          "requirement_id": "passport-reissue-name-change-marriage.old-passport",
+          "service_id": "passport-reissue-name-change-marriage",
+          "name": "Old passport in original (with self-attested copies)",
+          "kind": "mandatory",
+          "state": "satisfied",
+          "document_options": [
+            "passport_existing"
+          ],
+          "is_alternative_group": false,
+          "satisfied_by_document_id": "passport_existing",
+          "acquired_via_service_id": null,
+          "acquired_document_id": null,
+          "condition": null,
+          "notes": null,
+          "evidence_ids": [
+            "pp-reissue-old-passport",
+            "pp-name-change-marriage-row"
+          ],
+          "unusable_document_ids": []
+        },
+        {
+          "requirement_id": "passport-reissue-name-change-marriage.marriage-proof",
+          "service_id": "passport-reissue-name-change-marriage",
+          "name": "Marriage certificate or joint photo declaration (any one)",
+          "kind": "mandatory",
+          "state": "pending_acquisition",
+          "document_options": [
+            "marriage_certificate",
+            "joint_photo_declaration"
+          ],
+          "is_alternative_group": true,
+          "satisfied_by_document_id": null,
+          "acquired_via_service_id": "marriage-registration-delhi",
+          "acquired_document_id": "marriage_certificate",
+          "condition": null,
+          "notes": null,
+          "evidence_ids": [
+            "pp-name-change-marriage-row",
+            "pp-doc-14-marriage-certificate",
+            "pp-doc-56-joint-photo"
+          ],
+          "unusable_document_ids": []
+        }
+      ],
+      "evidence_ids": [
+        "dl-mr-what",
+        "pp-doc-14-marriage-certificate",
+        "pp-doc-56-joint-photo",
+        "pp-name-change-marriage-row",
+        "pp-reissue-old-passport"
+      ],
+      "process_state": "not_started",
+      "authority": "Ministry of External Affairs (Passport Seva)",
+      "region": null,
+      "completion_document_ids": [
+        "passport_updated_name"
+      ],
+      "completion_evidence_ids": [
+        "pp-name-change-marriage-row"
+      ]
+    }
+  ],
+  "parallel_groups": [
+    [
+      "marriage-registration-delhi"
+    ],
+    [
+      "aadhaar-name-update",
+      "passport-reissue-name-change-marriage"
+    ]
+  ],
+  "required_documents": [
+    {
+      "requirement_id": "marriage-registration-delhi.identity-proof",
+      "service_id": "marriage-registration-delhi",
+      "name": "Identity proof of both parties (any one each)",
+      "kind": "mandatory",
+      "state": "satisfied",
+      "document_options": [
+        "aadhaar_number",
+        "epic_existing",
+        "driving_licence_existing",
+        "passport_existing",
+        "pan_card"
+      ],
+      "is_alternative_group": true,
+      "satisfied_by_document_id": "aadhaar_number",
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": "Aadhaar is not compulsory; any one of the listed identity proofs is accepted instead.",
+      "evidence_ids": [
+        "dl-mr-identity"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "marriage-registration-delhi.date-of-birth-proof",
+      "service_id": "marriage-registration-delhi",
+      "name": "Date-of-birth proof of both parties (any one each)",
+      "kind": "mandatory",
+      "state": "satisfied",
+      "document_options": [
+        "matriculation_certificate",
+        "passport_existing",
+        "birth_certificate"
+      ],
+      "is_alternative_group": true,
+      "satisfied_by_document_id": "passport_existing",
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": "Self-attested.",
+      "evidence_ids": [
+        "dl-mr-dob"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "marriage-registration-delhi.residence-proof",
+      "service_id": "marriage-registration-delhi",
+      "name": "Residential proof of both parties (any one each)",
+      "kind": "mandatory",
+      "state": "satisfied",
+      "document_options": [
+        "epic_existing",
+        "ration_card",
+        "driving_licence_existing",
+        "passport_existing"
+      ],
+      "is_alternative_group": true,
+      "satisfied_by_document_id": "passport_existing",
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": "Self-attested. The source ends the list with 'etc.', so other residence proofs may also be accepted.",
+      "evidence_ids": [
+        "dl-mr-residence"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "marriage-registration-delhi.affidavits",
+      "service_id": "marriage-registration-delhi",
+      "name": "Separate affidavits of husband and wife",
+      "kind": "mandatory",
+      "state": "satisfied",
+      "document_options": [
+        "marriage_affidavits"
+      ],
+      "is_alternative_group": false,
+      "satisfied_by_document_id": "marriage_affidavits",
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": null,
+      "evidence_ids": [
+        "dl-mr-affidavits"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "marriage-registration-delhi.photographs",
+      "service_id": "marriage-registration-delhi",
+      "name": "Attested passport-size and ceremonial photographs",
+      "kind": "mandatory",
+      "state": "satisfied",
+      "document_options": [
+        "marriage_photographs_attested"
+      ],
+      "is_alternative_group": false,
+      "satisfied_by_document_id": "marriage_photographs_attested",
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": null,
+      "evidence_ids": [
+        "dl-mr-photos"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "aadhaar-name-update.aadhaar-number",
+      "service_id": "aadhaar-name-update",
+      "name": "Existing Aadhaar number",
+      "kind": "mandatory",
+      "state": "satisfied",
+      "document_options": [
+        "aadhaar_number"
+      ],
+      "is_alternative_group": false,
+      "satisfied_by_document_id": "aadhaar_number",
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": null,
+      "evidence_ids": [
+        "uidai-centre-mode"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "aadhaar-name-update.proof-of-identity-new-name",
+      "service_id": "aadhaar-name-update",
+      "name": "Proof of identity in the new name (any one)",
+      "kind": "mandatory",
+      "state": "pending_acquisition",
+      "document_options": [
+        "marriage_certificate",
+        "gazette_notification_name_change"
+      ],
+      "is_alternative_group": true,
+      "satisfied_by_document_id": null,
+      "acquired_via_service_id": "marriage-registration-delhi",
+      "acquired_document_id": "marriage_certificate",
+      "condition": null,
+      "notes": "Documents must be issued in the name of the person seeking the update.",
+      "evidence_ids": [
+        "uidai-list4-own-name",
+        "uidai-list4-heading",
+        "uidai-poi-marriage-certificate",
+        "uidai-poi-gazette"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "passport-reissue-name-change-marriage.old-passport",
+      "service_id": "passport-reissue-name-change-marriage",
+      "name": "Old passport in original (with self-attested copies)",
+      "kind": "mandatory",
+      "state": "satisfied",
+      "document_options": [
+        "passport_existing"
+      ],
+      "is_alternative_group": false,
+      "satisfied_by_document_id": "passport_existing",
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": null,
+      "evidence_ids": [
+        "pp-reissue-old-passport",
+        "pp-name-change-marriage-row"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "passport-reissue-name-change-marriage.marriage-proof",
+      "service_id": "passport-reissue-name-change-marriage",
+      "name": "Marriage certificate or joint photo declaration (any one)",
+      "kind": "mandatory",
+      "state": "pending_acquisition",
+      "document_options": [
+        "marriage_certificate",
+        "joint_photo_declaration"
+      ],
+      "is_alternative_group": true,
+      "satisfied_by_document_id": null,
+      "acquired_via_service_id": "marriage-registration-delhi",
+      "acquired_document_id": "marriage_certificate",
+      "condition": null,
+      "notes": null,
+      "evidence_ids": [
+        "pp-name-change-marriage-row",
+        "pp-doc-14-marriage-certificate",
+        "pp-doc-56-joint-photo"
+      ],
+      "unusable_document_ids": []
+    }
+  ],
+  "satisfied_requirements": [
+    {
+      "requirement_id": "marriage-registration-delhi.identity-proof",
+      "service_id": "marriage-registration-delhi",
+      "name": "Identity proof of both parties (any one each)",
+      "kind": "mandatory",
+      "state": "satisfied",
+      "document_options": [
+        "aadhaar_number",
+        "epic_existing",
+        "driving_licence_existing",
+        "passport_existing",
+        "pan_card"
+      ],
+      "is_alternative_group": true,
+      "satisfied_by_document_id": "aadhaar_number",
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": "Aadhaar is not compulsory; any one of the listed identity proofs is accepted instead.",
+      "evidence_ids": [
+        "dl-mr-identity"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "marriage-registration-delhi.date-of-birth-proof",
+      "service_id": "marriage-registration-delhi",
+      "name": "Date-of-birth proof of both parties (any one each)",
+      "kind": "mandatory",
+      "state": "satisfied",
+      "document_options": [
+        "matriculation_certificate",
+        "passport_existing",
+        "birth_certificate"
+      ],
+      "is_alternative_group": true,
+      "satisfied_by_document_id": "passport_existing",
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": "Self-attested.",
+      "evidence_ids": [
+        "dl-mr-dob"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "marriage-registration-delhi.residence-proof",
+      "service_id": "marriage-registration-delhi",
+      "name": "Residential proof of both parties (any one each)",
+      "kind": "mandatory",
+      "state": "satisfied",
+      "document_options": [
+        "epic_existing",
+        "ration_card",
+        "driving_licence_existing",
+        "passport_existing"
+      ],
+      "is_alternative_group": true,
+      "satisfied_by_document_id": "passport_existing",
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": "Self-attested. The source ends the list with 'etc.', so other residence proofs may also be accepted.",
+      "evidence_ids": [
+        "dl-mr-residence"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "marriage-registration-delhi.affidavits",
+      "service_id": "marriage-registration-delhi",
+      "name": "Separate affidavits of husband and wife",
+      "kind": "mandatory",
+      "state": "satisfied",
+      "document_options": [
+        "marriage_affidavits"
+      ],
+      "is_alternative_group": false,
+      "satisfied_by_document_id": "marriage_affidavits",
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": null,
+      "evidence_ids": [
+        "dl-mr-affidavits"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "marriage-registration-delhi.photographs",
+      "service_id": "marriage-registration-delhi",
+      "name": "Attested passport-size and ceremonial photographs",
+      "kind": "mandatory",
+      "state": "satisfied",
+      "document_options": [
+        "marriage_photographs_attested"
+      ],
+      "is_alternative_group": false,
+      "satisfied_by_document_id": "marriage_photographs_attested",
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": null,
+      "evidence_ids": [
+        "dl-mr-photos"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "aadhaar-name-update.aadhaar-number",
+      "service_id": "aadhaar-name-update",
+      "name": "Existing Aadhaar number",
+      "kind": "mandatory",
+      "state": "satisfied",
+      "document_options": [
+        "aadhaar_number"
+      ],
+      "is_alternative_group": false,
+      "satisfied_by_document_id": "aadhaar_number",
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": null,
+      "evidence_ids": [
+        "uidai-centre-mode"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "passport-reissue-name-change-marriage.old-passport",
+      "service_id": "passport-reissue-name-change-marriage",
+      "name": "Old passport in original (with self-attested copies)",
+      "kind": "mandatory",
+      "state": "satisfied",
+      "document_options": [
+        "passport_existing"
+      ],
+      "is_alternative_group": false,
+      "satisfied_by_document_id": "passport_existing",
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": null,
+      "evidence_ids": [
+        "pp-reissue-old-passport",
+        "pp-name-change-marriage-row"
+      ],
+      "unusable_document_ids": []
+    }
+  ],
+  "missing_documents": [
+    {
+      "requirement_id": "aadhaar-name-update.proof-of-identity-new-name",
+      "service_id": "aadhaar-name-update",
+      "document_options": [
+        "marriage_certificate",
+        "gazette_notification_name_change"
+      ],
+      "acquisition_service_id": "marriage-registration-delhi"
+    },
+    {
+      "requirement_id": "passport-reissue-name-change-marriage.marriage-proof",
+      "service_id": "passport-reissue-name-change-marriage",
+      "document_options": [
+        "marriage_certificate",
+        "joint_photo_declaration"
+      ],
+      "acquisition_service_id": "marriage-registration-delhi"
+    }
+  ],
+  "optional_documents": [
+    {
+      "requirement_id": "marriage-registration-delhi.invitation-card",
+      "service_id": "marriage-registration-delhi",
+      "name": "Marriage invitation card",
+      "kind": "optional",
+      "state": "not_provided",
+      "document_options": [
+        "marriage_invitation_card"
+      ],
+      "is_alternative_group": false,
+      "satisfied_by_document_id": null,
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": null,
+      "evidence_ids": [
+        "dl-mr-invitation"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "marriage-registration-delhi.divorce-or-death-certificate",
+      "service_id": "marriage-registration-delhi",
+      "name": "Divorce decree or former spouse's death certificate",
+      "kind": "conditional",
+      "state": "not_provided",
+      "document_options": [
+        "divorce_decree_or_spouse_death_certificate"
+      ],
+      "is_alternative_group": false,
+      "satisfied_by_document_id": null,
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": "Only if a party is divorced or widowed.",
+      "notes": null,
+      "evidence_ids": [
+        "dl-mr-divorce"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "marriage-registration-delhi.priest-certificate",
+      "service_id": "marriage-registration-delhi",
+      "name": "Certificate from the priest",
+      "kind": "conditional",
+      "state": "not_provided",
+      "document_options": [
+        "priest_certificate"
+      ],
+      "is_alternative_group": false,
+      "satisfied_by_document_id": null,
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": "Only if the marriage was solemnised at a religious place.",
+      "notes": null,
+      "evidence_ids": [
+        "dl-mr-priest"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "marriage-registration-delhi.embassy-certificate",
+      "service_id": "marriage-registration-delhi",
+      "name": "Embassy certificate of marital status",
+      "kind": "conditional",
+      "state": "not_provided",
+      "document_options": [
+        "embassy_marital_status_certificate"
+      ],
+      "is_alternative_group": false,
+      "satisfied_by_document_id": null,
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": "Only if a party is a foreign national.",
+      "notes": null,
+      "evidence_ids": [
+        "dl-mr-foreign"
+      ],
+      "unusable_document_ids": []
+    }
+  ],
+  "prerequisite_services": [],
+  "acquisition_routes": [
+    {
+      "service_id": "marriage-registration-delhi",
+      "document_id": "marriage_certificate",
+      "for_service_id": "aadhaar-name-update",
+      "for_requirement_id": "aadhaar-name-update.proof-of-identity-new-name",
+      "evidence_ids": [
+        "dl-mr-what"
+      ],
+      "acceptance_evidence_ids": [
+        "uidai-list4-own-name",
+        "uidai-list4-heading",
+        "uidai-poi-marriage-certificate",
+        "uidai-poi-gazette"
+      ]
+    },
+    {
+      "service_id": "marriage-registration-delhi",
+      "document_id": "marriage_certificate",
+      "for_service_id": "passport-reissue-name-change-marriage",
+      "for_requirement_id": "passport-reissue-name-change-marriage.marriage-proof",
+      "evidence_ids": [
+        "dl-mr-what"
+      ],
+      "acceptance_evidence_ids": [
+        "pp-name-change-marriage-row",
+        "pp-doc-14-marriage-certificate",
+        "pp-doc-56-joint-photo"
+      ]
+    }
+  ],
+  "blockers": [],
+  "next_action": {
+    "type": "start_service",
+    "reason": {
+      "code": "unblocks_downstream",
+      "message": "Start 'Marriage registration (Delhi, Hindu Marriage Act)' now: every mandatory requirement is met and completing it unblocks 2 other step(s): 'Aadhaar name update (e.g. after marriage)', 'Passport reissue for change of name after marriage'.",
+      "unblocks": [
+        "aadhaar-name-update",
+        "passport-reissue-name-change-marriage"
+      ],
+      "parallel_with": [],
+      "documents_used": [
+        "aadhaar_number",
+        "passport_existing",
+        "passport_existing",
+        "marriage_affidavits",
+        "marriage_photographs_attested"
+      ],
+      "document_options": [],
+      "evidence_ids": [
+        "dl-mr-identity",
+        "dl-mr-dob",
+        "dl-mr-residence",
+        "dl-mr-affidavits",
+        "dl-mr-photos"
+      ]
+    },
+    "service_id": "marriage-registration-delhi",
+    "requirement_id": null,
+    "document_options": []
+  },
+  "evidence": [
+    {
+      "id": "dl-mr-affidavits",
+      "source_url": "https://revenue.delhi.gov.in/revenue/registration-marriage",
+      "source_title": "Marriage Registration Certificate - Revenue Department, Govt. of NCT of Delhi",
+      "excerpt": "Separate affidavits in prescribed format from Husband & Wife giving:-",
+      "locator": null,
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "dl-mr-divorce",
+      "source_url": "https://revenue.delhi.gov.in/revenue/registration-marriage",
+      "source_title": "Marriage Registration Certificate - Revenue Department, Govt. of NCT of Delhi",
+      "excerpt": "Attested copy of divorce decree/order in case of a divorce and death certificate of spouse in case of widow/widower.",
+      "locator": null,
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "dl-mr-dob",
+      "source_url": "https://revenue.delhi.gov.in/revenue/registration-marriage",
+      "source_title": "Marriage Registration Certificate - Revenue Department, Govt. of NCT of Delhi",
+      "excerpt": "documentary evidence of date of birth of both parties. (Matriculation Certificate/Passport/Birth Certificate)",
+      "locator": null,
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "dl-mr-foreign",
+      "source_url": "https://revenue.delhi.gov.in/revenue/registration-marriage",
+      "source_title": "Marriage Registration Certificate - Revenue Department, Govt. of NCT of Delhi",
+      "excerpt": "In case of a foreign national, a certificate from the Embassy concerned regarding his or her present martial status.",
+      "locator": null,
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "dl-mr-identity",
+      "source_url": "https://revenue.delhi.gov.in/revenue/registration-marriage",
+      "source_title": "Marriage Registration Certificate - Revenue Department, Govt. of NCT of Delhi",
+      "excerpt": "Adhaar No. is not compulsory, if Adhaar No. is not available, Provide any one identity proof of Voter ID Card/Driving License/Passport/Pan Card",
+      "locator": null,
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "dl-mr-invitation",
+      "source_url": "https://revenue.delhi.gov.in/revenue/registration-marriage",
+      "source_title": "Marriage Registration Certificate - Revenue Department, Govt. of NCT of Delhi",
+      "excerpt": "Marriage Invitation card, if available.",
+      "locator": null,
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "dl-mr-photos",
+      "source_url": "https://revenue.delhi.gov.in/revenue/registration-marriage",
+      "source_title": "Marriage Registration Certificate - Revenue Department, Govt. of NCT of Delhi",
+      "excerpt": "Passport size photograph of both the parties (2 Copies each) as well as their Ceremonial photographs duly attested",
+      "locator": null,
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "dl-mr-priest",
+      "source_url": "https://revenue.delhi.gov.in/revenue/registration-marriage",
+      "source_title": "Marriage Registration Certificate - Revenue Department, Govt. of NCT of Delhi",
+      "excerpt": "Where marriage has been solemnized at a religious place, a certificate from the priest is required.",
+      "locator": null,
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "dl-mr-residence",
+      "source_url": "https://revenue.delhi.gov.in/revenue/registration-marriage",
+      "source_title": "Marriage Registration Certificate - Revenue Department, Govt. of NCT of Delhi",
+      "excerpt": "residential Proof of both the parties (Voter I-Card/Ration Card/Driving Licence/Passport etc.).",
+      "locator": null,
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "dl-mr-response",
+      "source_url": "https://revenue.delhi.gov.in/revenue/registration-marriage",
+      "source_title": "Marriage Registration Certificate - Revenue Department, Govt. of NCT of Delhi",
+      "excerpt": "Marriage Registration certificate is issued within 14 days.",
+      "locator": null,
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "dl-mr-what",
+      "source_url": "https://revenue.delhi.gov.in/revenue/registration-marriage",
+      "source_title": "Marriage Registration Certificate - Revenue Department, Govt. of NCT of Delhi",
+      "excerpt": "Marriage Registration Certificate is issued to both Husband and Wife whose marriage has already been solemnised. The Registration is done under Hindu Marriage Act, 1955 or under the Special Marriage Act, 1954.",
+      "locator": null,
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "dl-mr-where",
+      "source_url": "https://revenue.delhi.gov.in/revenue/registration-marriage",
+      "source_title": "Marriage Registration Certificate - Revenue Department, Govt. of NCT of Delhi",
+      "excerpt": "The applicants have to apply for registration of marriage to the office of the Deputy Commissioner in whose territorial jurisdiction either of the applicants resides.",
+      "locator": null,
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "dl-mrg-age",
+      "source_url": "https://revenue.delhi.gov.in/sites/default/files/revenue/important-news/guidelines_marriageregistration.pdf",
+      "source_title": "Guidelines for issuance of Marriage Registration Certificate - Revenue Department, Delhi",
+      "excerpt": "The groom should be of 21 years of age and the bride of 18 years (As on Marriage Date).",
+      "locator": null,
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "dl-mrg-hma-eligibility",
+      "source_url": "https://revenue.delhi.gov.in/sites/default/files/revenue/important-news/guidelines_marriageregistration.pdf",
+      "source_title": "Guidelines for issuance of Marriage Registration Certificate - Revenue Department, Delhi",
+      "excerpt": "Marriage has been solemnized between any two Hindus, Buddhists, Jains or Sikhs.",
+      "locator": null,
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "dl-mrg-presence",
+      "source_url": "https://revenue.delhi.gov.in/sites/default/files/revenue/important-news/guidelines_marriageregistration.pdf",
+      "source_title": "Guidelines for issuance of Marriage Registration Certificate - Revenue Department, Delhi",
+      "excerpt": "Both the parties (Bride and Groom) shall be present in persons along with two witnesses bearing proof of permanent resident of Delhi",
+      "locator": null,
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "pp-doc-14-marriage-certificate",
+      "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+      "source_title": "Instructions for filling of passport application form (booklet V3.0) - Passport Seva",
+      "excerpt": "14. An attested copy of marriage certificate issued by Registrar of Marriage",
+      "locator": "Table 3, Document No. 14",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "pp-doc-56-joint-photo",
+      "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+      "source_title": "Instructions for filling of passport application form (booklet V3.0) - Passport Seva",
+      "excerpt": "56. Joint Photo Declaration signed by both husband and wife as per Annexure J",
+      "locator": "Table 3, Document No. 56",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "pp-name-change-marriage-row",
+      "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+      "source_title": "Instructions for filling of passport application form (booklet V3.0) - Passport Seva",
+      "excerpt": "A woman applying for change of name/ surname in existing Passport due to marriage 5, 14 or 56",
+      "locator": "Table 2 (II) E.1",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "pp-reissue-old-passport",
+      "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+      "source_title": "Instructions for filling of passport application form (booklet V3.0) - Passport Seva",
+      "excerpt": "For re-issue of passport, an applicant is required to submit old Passport in original with self-attested photocopy of its first two and last two pages",
+      "locator": "Section D",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-centre-mode",
+      "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+      "source_title": "Updating Data on Aadhaar - UIDAI",
+      "excerpt": "Aadhaar number holders place the demographic/biometric update request with the help of an operator at an Aadhaar Enrolment Centre",
+      "locator": null,
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-list4-heading",
+      "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+      "source_title": "List of Acceptable Documents for Enrolment and Update - UIDAI",
+      "excerpt": "List IV -Documents that may be presented to evidence Proof of Identity, Address, Relationship or Date of Birth for update of information in respect of Aadhaar Number Holder of any age",
+      "locator": "List IV, page 9",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-list4-own-name",
+      "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+      "source_title": "List of Acceptable Documents for Enrolment and Update - UIDAI",
+      "excerpt": "PoI, PoA, PoR and PDB documents submitted for update must be issued in the name of the individual seeking update",
+      "locator": "List IV, Note (b)(iii), page 13",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-poi-gazette",
+      "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+      "source_title": "List of Acceptable Documents for Enrolment and Update - UIDAI",
+      "excerpt": "18. For change in first name or change in full name: Gazette notification",
+      "locator": "List IV, Sl. No. 18, page 10",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-poi-marriage-certificate",
+      "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+      "source_title": "List of Acceptable Documents for Enrolment and Update - UIDAI",
+      "excerpt": "11. Marriage Certificate with or without photograph issued by Central Government/ State Government (supporting PoI document bearing old name with photograph is required if the Marriage Certificate is without photograph)",
+      "locator": "List IV, Sl. No. 11, page 9",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-update-fields",
+      "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+      "source_title": "Updating Data on Aadhaar - UIDAI",
+      "excerpt": "Aadhaar details that can be updated are: Demographic Information Name, Address, Date of Birth/Age, Gender, Mobile Number, Email Address, Relationship Status and Information Sharing Consent",
+      "locator": null,
+      "verified_at": "2026-11-14"
+    }
+  ],
+  "completed": [],
+  "progress": {
+    "total_services": 3,
+    "completed": 0,
+    "completed_user_reported": 0,
+    "completed_verified": 0,
+    "in_progress": 0,
+    "ready": 1,
+    "waiting": 2,
+    "blocked": 0
+  },
+  "document_summary": {
+    "mandatory_requirements": 9,
+    "satisfied": 7,
+    "will_be_produced": 2,
+    "missing": 0,
+    "unusable": []
+  },
+  "notices": [],
+  "clarifications": [],
+  "citizen_state": "Delhi",
+  "services": {
+    "aadhaar-name-update": {
+      "name": "Aadhaar name update (e.g. after marriage)",
+      "name_hi": "\u0906\u0927\u093e\u0930 \u092e\u0947\u0902 \u0928\u093e\u092e \u0905\u092a\u0921\u0947\u091f (\u091c\u0948\u0938\u0947 \u0935\u093f\u0935\u093e\u0939 \u0915\u0947 \u092c\u093e\u0926)"
+    },
+    "marriage-registration-delhi": {
+      "name": "Marriage registration (Delhi, Hindu Marriage Act)",
+      "name_hi": "\u0935\u093f\u0935\u093e\u0939 \u092a\u0902\u091c\u0940\u0915\u0930\u0923 (\u0926\u093f\u0932\u094d\u0932\u0940, \u0939\u093f\u0902\u0926\u0942 \u0935\u093f\u0935\u093e\u0939 \u0905\u0927\u093f\u0928\u093f\u092f\u092e)"
+    },
+    "passport-reissue-name-change-marriage": {
+      "name": "Passport reissue for change of name after marriage",
+      "name_hi": "\u0935\u093f\u0935\u093e\u0939 \u0915\u0947 \u092c\u093e\u0926 \u0928\u093e\u092e \u092a\u0930\u093f\u0935\u0930\u094d\u0924\u0928 \u0939\u0947\u0924\u0941 \u092a\u093e\u0938\u092a\u094b\u0930\u094d\u091f \u092a\u0941\u0928\u0903 \u091c\u093e\u0930\u0940 \u0915\u0930\u0928\u093e"
+    }
+  },
+  "requirements": {
+    "marriage-registration-delhi.identity-proof": {
+      "name": "Identity proof of both parties (any one each)",
+      "name_hi": "\u0926\u094b\u0928\u094b\u0902 \u092a\u0915\u094d\u0937\u094b\u0902 \u0915\u093e \u092a\u0939\u091a\u093e\u0928 \u092a\u094d\u0930\u092e\u093e\u0923 (\u092a\u094d\u0930\u0924\u094d\u092f\u0947\u0915 \u0915\u093e \u0915\u094b\u0908 \u090f\u0915)"
+    },
+    "marriage-registration-delhi.date-of-birth-proof": {
+      "name": "Date-of-birth proof of both parties (any one each)",
+      "name_hi": "\u0926\u094b\u0928\u094b\u0902 \u092a\u0915\u094d\u0937\u094b\u0902 \u0915\u0940 \u091c\u0928\u094d\u092e \u0924\u093f\u0925\u093f \u0915\u093e \u092a\u094d\u0930\u092e\u093e\u0923 (\u092a\u094d\u0930\u0924\u094d\u092f\u0947\u0915 \u0915\u093e \u0915\u094b\u0908 \u090f\u0915)"
+    },
+    "marriage-registration-delhi.residence-proof": {
+      "name": "Residential proof of both parties (any one each)",
+      "name_hi": "\u0926\u094b\u0928\u094b\u0902 \u092a\u0915\u094d\u0937\u094b\u0902 \u0915\u093e \u0928\u093f\u0935\u093e\u0938 \u092a\u094d\u0930\u092e\u093e\u0923 (\u092a\u094d\u0930\u0924\u094d\u092f\u0947\u0915 \u0915\u093e \u0915\u094b\u0908 \u090f\u0915)"
+    },
+    "marriage-registration-delhi.affidavits": {
+      "name": "Separate affidavits of husband and wife",
+      "name_hi": "\u092a\u0924\u093f \u0914\u0930 \u092a\u0924\u094d\u0928\u0940 \u0915\u0947 \u0905\u0932\u0917-\u0905\u0932\u0917 \u0936\u092a\u0925\u092a\u0924\u094d\u0930"
+    },
+    "marriage-registration-delhi.photographs": {
+      "name": "Attested passport-size and ceremonial photographs",
+      "name_hi": "\u0938\u0924\u094d\u092f\u093e\u092a\u093f\u0924 \u092a\u093e\u0938\u092a\u094b\u0930\u094d\u091f \u0906\u0915\u093e\u0930 \u0935 \u0938\u092e\u093e\u0930\u094b\u0939 \u0915\u0947 \u092b\u093c\u094b\u091f\u094b"
+    },
+    "marriage-registration-delhi.invitation-card": {
+      "name": "Marriage invitation card",
+      "name_hi": "\u0935\u093f\u0935\u093e\u0939 \u0928\u093f\u092e\u0902\u0924\u094d\u0930\u0923 \u092a\u0924\u094d\u0930"
+    },
+    "marriage-registration-delhi.divorce-or-death-certificate": {
+      "name": "Divorce decree or former spouse's death certificate",
+      "name_hi": "\u0924\u0932\u093e\u0915\u093c \u0915\u0940 \u0921\u093f\u0915\u094d\u0930\u0940 \u092f\u093e \u092a\u0942\u0930\u094d\u0935 \u091c\u0940\u0935\u0928\u0938\u093e\u0925\u0940 \u0915\u093e \u092e\u0943\u0924\u094d\u092f\u0941 \u092a\u094d\u0930\u092e\u093e\u0923\u092a\u0924\u094d\u0930"
+    },
+    "marriage-registration-delhi.priest-certificate": {
+      "name": "Certificate from the priest",
+      "name_hi": "\u092a\u0941\u091c\u093e\u0930\u0940 \u0915\u093e \u092a\u094d\u0930\u092e\u093e\u0923\u092a\u0924\u094d\u0930"
+    },
+    "marriage-registration-delhi.embassy-certificate": {
+      "name": "Embassy certificate of marital status",
+      "name_hi": "\u0935\u0948\u0935\u093e\u0939\u093f\u0915 \u0938\u094d\u0925\u093f\u0924\u093f \u0915\u093e \u0926\u0942\u0924\u093e\u0935\u093e\u0938 \u092a\u094d\u0930\u092e\u093e\u0923\u092a\u0924\u094d\u0930"
+    },
+    "aadhaar-name-update.aadhaar-number": {
+      "name": "Existing Aadhaar number",
+      "name_hi": "\u092e\u094c\u091c\u0942\u0926\u093e \u0906\u0927\u093e\u0930 \u0928\u0902\u092c\u0930"
+    },
+    "aadhaar-name-update.proof-of-identity-new-name": {
+      "name": "Proof of identity in the new name (any one)",
+      "name_hi": "\u0928\u090f \u0928\u093e\u092e \u092e\u0947\u0902 \u092a\u0939\u091a\u093e\u0928 \u0915\u093e \u092a\u094d\u0930\u092e\u093e\u0923 (\u0915\u094b\u0908 \u090f\u0915)"
+    },
+    "passport-reissue-name-change-marriage.old-passport": {
+      "name": "Old passport in original (with self-attested copies)",
+      "name_hi": "\u092e\u0942\u0932 \u092a\u0941\u0930\u093e\u0928\u093e \u092a\u093e\u0938\u092a\u094b\u0930\u094d\u091f (\u0938\u094d\u0935-\u0938\u0924\u094d\u092f\u093e\u092a\u093f\u0924 \u092a\u094d\u0930\u0924\u093f\u092f\u094b\u0902 \u0938\u0939\u093f\u0924)"
+    },
+    "passport-reissue-name-change-marriage.marriage-proof": {
+      "name": "Marriage certificate or joint photo declaration (any one)",
+      "name_hi": "\u0935\u093f\u0935\u093e\u0939 \u092a\u094d\u0930\u092e\u093e\u0923\u092a\u0924\u094d\u0930 \u092f\u093e \u0938\u0902\u092f\u0941\u0915\u094d\u0924 \u092b\u093c\u094b\u091f\u094b \u0918\u094b\u0937\u0923\u093e (\u0915\u094b\u0908 \u090f\u0915)"
+    }
+  },
+  "documents": {
+    "aadhaar_number": {
+      "name": "Aadhaar number (existing Aadhaar)",
+      "name_hi": "\u0906\u0927\u093e\u0930 \u0928\u0902\u092c\u0930 (\u092e\u094c\u091c\u0942\u0926\u093e \u0906\u0927\u093e\u0930)",
+      "category": "existing_record"
+    },
+    "aadhaar_updated_name": {
+      "name": "Aadhaar showing updated name",
+      "name_hi": "\u0905\u0926\u094d\u092f\u0924\u0928 \u0928\u093e\u092e \u0935\u093e\u0932\u093e \u0906\u0927\u093e\u0930",
+      "category": "identity"
+    },
+    "birth_certificate": {
+      "name": "Birth certificate (Registration of Births and Deaths Act)",
+      "name_hi": "\u091c\u0928\u094d\u092e \u092a\u094d\u0930\u092e\u093e\u0923\u092a\u0924\u094d\u0930 (\u091c\u0928\u094d\u092e \u0914\u0930 \u092e\u0943\u0924\u094d\u092f\u0941 \u092a\u0902\u091c\u0940\u0915\u0930\u0923 \u0905\u0927\u093f\u0928\u093f\u092f\u092e)",
+      "category": "identity"
+    },
+    "divorce_decree_or_spouse_death_certificate": {
+      "name": "Divorce decree/order or death certificate of former spouse",
+      "name_hi": "\u0924\u0932\u093e\u0915\u093c \u0915\u0940 \u0921\u093f\u0915\u094d\u0930\u0940/\u0906\u0926\u0947\u0936 \u092f\u093e \u092a\u0942\u0930\u094d\u0935 \u091c\u0940\u0935\u0928\u0938\u093e\u0925\u0940 \u0915\u093e \u092e\u0943\u0924\u094d\u092f\u0941 \u092a\u094d\u0930\u092e\u093e\u0923\u092a\u0924\u094d\u0930",
+      "category": "existing_record"
+    },
+    "driving_licence_existing": {
+      "name": "Existing driving licence",
+      "name_hi": "\u092e\u094c\u091c\u0942\u0926\u093e \u0921\u094d\u0930\u093e\u0907\u0935\u093f\u0902\u0917 \u0932\u093e\u0907\u0938\u0947\u0902\u0938",
+      "category": "existing_record"
+    },
+    "embassy_marital_status_certificate": {
+      "name": "Embassy certificate of present marital status",
+      "name_hi": "\u0935\u0930\u094d\u0924\u092e\u093e\u0928 \u0935\u0948\u0935\u093e\u0939\u093f\u0915 \u0938\u094d\u0925\u093f\u0924\u093f \u0915\u093e \u0926\u0942\u0924\u093e\u0935\u093e\u0938 \u092a\u094d\u0930\u092e\u093e\u0923\u092a\u0924\u094d\u0930",
+      "category": "other"
+    },
+    "epic_existing": {
+      "name": "Existing Voter ID (EPIC) number",
+      "name_hi": "\u092e\u094c\u091c\u0942\u0926\u093e \u092e\u0924\u0926\u093e\u0924\u093e \u092a\u0939\u091a\u093e\u0928 \u092a\u0924\u094d\u0930 (EPIC) \u0928\u0902\u092c\u0930",
+      "category": "existing_record"
+    },
+    "gazette_notification_name_change": {
+      "name": "Gazette notification of name change",
+      "name_hi": "\u0928\u093e\u092e \u092a\u0930\u093f\u0935\u0930\u094d\u0924\u0928 \u0915\u0940 \u0930\u093e\u091c\u092a\u0924\u094d\u0930 (\u0917\u091c\u091f) \u0905\u0927\u093f\u0938\u0942\u091a\u0928\u093e",
+      "category": "identity"
+    },
+    "joint_photo_declaration": {
+      "name": "Joint photo declaration of husband and wife (Passport Annexure J)",
+      "name_hi": "\u092a\u0924\u093f-\u092a\u0924\u094d\u0928\u0940 \u0915\u0940 \u0938\u0902\u092f\u0941\u0915\u094d\u0924 \u092b\u093c\u094b\u091f\u094b \u0918\u094b\u0937\u0923\u093e (\u092a\u093e\u0938\u092a\u094b\u0930\u094d\u091f \u0905\u0928\u0941\u0932\u0917\u094d\u0928\u0915 J)",
+      "category": "identity"
+    },
+    "marriage_affidavits": {
+      "name": "Separate affidavits of husband and wife (prescribed format)",
+      "name_hi": "\u092a\u0924\u093f \u0914\u0930 \u092a\u0924\u094d\u0928\u0940 \u0915\u0947 \u0905\u0932\u0917-\u0905\u0932\u0917 \u0936\u092a\u0925\u092a\u0924\u094d\u0930 (\u0928\u093f\u0930\u094d\u0927\u093e\u0930\u093f\u0924 \u092a\u094d\u0930\u093e\u0930\u0942\u092a)",
+      "category": "other"
+    },
+    "marriage_certificate": {
+      "name": "Marriage certificate (issued by government / Registrar of Marriage)",
+      "name_hi": "\u0935\u093f\u0935\u093e\u0939 \u092a\u094d\u0930\u092e\u093e\u0923\u092a\u0924\u094d\u0930 (\u0938\u0930\u0915\u093e\u0930 / \u0935\u093f\u0935\u093e\u0939 \u0930\u091c\u093f\u0938\u094d\u091f\u094d\u0930\u093e\u0930 \u0926\u094d\u0935\u093e\u0930\u093e \u091c\u093e\u0930\u0940)",
+      "category": "existing_record"
+    },
+    "marriage_invitation_card": {
+      "name": "Marriage invitation card",
+      "name_hi": "\u0935\u093f\u0935\u093e\u0939 \u0928\u093f\u092e\u0902\u0924\u094d\u0930\u0923 \u092a\u0924\u094d\u0930",
+      "category": "other"
+    },
+    "marriage_photographs_attested": {
+      "name": "Attested passport-size and ceremonial photographs of both parties",
+      "name_hi": "\u0926\u094b\u0928\u094b\u0902 \u092a\u0915\u094d\u0937\u094b\u0902 \u0915\u0947 \u0938\u0924\u094d\u092f\u093e\u092a\u093f\u0924 \u092a\u093e\u0938\u092a\u094b\u0930\u094d\u091f \u0906\u0915\u093e\u0930 \u0935 \u0938\u092e\u093e\u0930\u094b\u0939 \u0915\u0947 \u092b\u093c\u094b\u091f\u094b",
+      "category": "identity"
+    },
+    "matriculation_certificate": {
+      "name": "Matriculation (Class 10) certificate",
+      "name_hi": "\u092e\u0948\u091f\u094d\u0930\u093f\u0915\u0941\u0932\u0947\u0936\u0928 (\u0915\u0915\u094d\u0937\u093e 10) \u092a\u094d\u0930\u092e\u093e\u0923\u092a\u0924\u094d\u0930",
+      "category": "identity"
+    },
+    "pan_card": {
+      "name": "PAN card / e-PAN",
+      "name_hi": "\u092a\u0948\u0928 \u0915\u093e\u0930\u094d\u0921 / \u0908-\u092a\u0948\u0928",
+      "category": "financial"
+    },
+    "passport_existing": {
+      "name": "Old passport (original)",
+      "name_hi": "\u092a\u0941\u0930\u093e\u0928\u093e \u092a\u093e\u0938\u092a\u094b\u0930\u094d\u091f (\u092e\u0942\u0932)",
+      "category": "existing_record"
+    },
+    "passport_updated_name": {
+      "name": "Passport showing updated name",
+      "name_hi": "\u0905\u0926\u094d\u092f\u0924\u0928 \u0928\u093e\u092e \u0935\u093e\u0932\u093e \u092a\u093e\u0938\u092a\u094b\u0930\u094d\u091f",
+      "category": "identity"
+    },
+    "priest_certificate": {
+      "name": "Certificate from the priest",
+      "name_hi": "\u092a\u0941\u091c\u093e\u0930\u0940 \u0915\u093e \u092a\u094d\u0930\u092e\u093e\u0923\u092a\u0924\u094d\u0930",
+      "category": "other"
+    },
+    "ration_card": {
+      "name": "Ration / PDS photo card / e-Ration card",
+      "name_hi": "\u0930\u093e\u0936\u0928 / \u092a\u0940\u0921\u0940\u090f\u0938 \u092b\u093c\u094b\u091f\u094b \u0915\u093e\u0930\u094d\u0921 / \u0908-\u0930\u093e\u0936\u0928 \u0915\u093e\u0930\u094d\u0921",
+      "category": "address_proof"
+    }
+  }
+}

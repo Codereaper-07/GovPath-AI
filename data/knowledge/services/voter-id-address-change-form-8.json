@@ -11,6 +11,9 @@
   "life_events": [
     "relocation-identity"
   ],
+  "goals": [
+    "update-address"
+  ],
   "application_form": "Form 8",
   "official_info_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
   "application_url": "https://voters.eci.gov.in/",

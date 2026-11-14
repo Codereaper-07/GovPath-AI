@@ -55,6 +55,9 @@ describe('Workflow planner', () => {
       target_service_ids: ['vehicle-rc-address-change'],
       owned_document_ids: ['puc_certificate', 'rc_existing', 'vehicle_insurance_certificate'],
       completed_service_ids: [],
+      progress: {},
+      document_states: {},
+      state: null,
     })
 
     // Tick the missing document straight from the step card: the backend is asked again.
@@ -101,7 +104,7 @@ describe('Workflow planner', () => {
     for (const s of ['Aadhaar address update', 'Driving licence address change', 'Passport reissue for change of address']) await choose(s)
     await userEvent.click(screen.getByRole('button', { name: 'Generate my plan' }))
     await screen.findByTestId('step-aadhaar-address-update')
-    await userEvent.selectOptions(screen.getByRole('combobox'), 'hi')
+    await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Language' }), 'hi')
     expect(await screen.findByRole('heading', { name: 'शुरू करें: आधार में पता अपडेट' })).toBeInTheDocument()
     expect(screen.getAllByText('शुरू करने के लिए तैयार').length).toBe(2)
     expect(screen.getByText('प्रतीक्षा में', { selector: 'span' })).toBeInTheDocument()

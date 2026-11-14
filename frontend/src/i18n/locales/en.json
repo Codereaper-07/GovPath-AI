@@ -62,9 +62,9 @@
   "planner": {
     "title": "Workflow planner",
     "intro": "Choose the services you need and tick the documents you already have. GovPath works out the order, what is missing and what to do next.",
-    "step1": "1. Which services do you need?",
-    "step1Hint": "Select one or more services.",
-    "step2": "2. Which documents do you have?",
+    "step1": "2. Which services do you need?",
+    "step1Hint": "Suggested services are added from your situation; you can add or remove any.",
+    "step2": "3. Which documents do you have?",
     "step2Hint": "Tick the documents you already have, such as records being updated and proofs that already show the right details.",
     "ownedCount_one": "{{count}} selected",
     "ownedCount_other": "{{count}} selected",
@@ -135,7 +135,34 @@
     "setupLabel": "Your situation",
     "overview": "Route overview",
     "youAreHere": "You are here",
-    "journeyHint": "Numbered stops run in order. Steps at the same stop are independent."
+    "journeyHint": "Numbered stops run in order. Steps at the same stop are independent.",
+    "regionOnly": "verified for {{region}} only",
+    "doneWhen": "Done when you receive: {{documents}}",
+    "yourProgress": "Your progress",
+    "progressFor": "Your progress on {{service}}",
+    "progressNote": "Reported by you. GovPath cannot see department records.",
+    "reportedByYou": "Reported by you",
+    "routeOutside": "{{services}} issues it, but GovPath has verified that service for another state only, so it is not used for {{state}}.",
+    "followUp": "Follow up: {{service}}",
+    "servicesDone": "{{done}} of {{total}} services completed",
+    "progressSource": "Completions are reported by you; ticking documents never completes a service.",
+    "countInProgress_one": "{{count}} in progress",
+    "countInProgress_other": "{{count}} in progress",
+    "docReadiness": "Documents",
+    "docsMet": "{{done}} of {{total}} mandatory requirements met",
+    "docsProduced_one": "{{count}} will come from an earlier step",
+    "docsProduced_other": "{{count}} will come from earlier steps",
+    "docsMissing_one": "{{count}} missing",
+    "docsMissing_other": "{{count}} missing",
+    "docsUnusable_one": "{{count}} marked not usable",
+    "docsUnusable_other": "{{count}} marked not usable",
+    "stateNeeded": "{{services}} is verified only for {{regions}}. Select where you live in “Your situation” to confirm this route.",
+    "noticeEarlyStart": "You reported {{service}} as started, but the plan expects {{services}} to finish first.",
+    "noticeOutside": "{{service}} is verified only for another state, not {{state}}.",
+    "noticeProgressOutside": "You reported progress on {{service}}, but it is not part of this plan now. Your report is kept and applies again if the service comes back into the plan.",
+    "clearProgress": "Forget this report",
+    "docCondition": "Condition of {{document}}",
+    "docNotCounted": "Not counted until it is valid."
   },
   "documents": {
     "title": "Documents",
@@ -288,12 +315,15 @@
     "resolveBlocker": "Get {{documents}} first. {{service}} cannot proceed without it.",
     "alsoBlocked": "This also unblocks: {{services}}.",
     "parallel": "You can do it alongside: {{services}}.",
-    "allComplete": "Nothing left to do for the selected services."
+    "allComplete": "Nothing left to do for the selected services.",
+    "awaitInProgress": "{{service}} is in progress. Follow it up with the authority; when you receive {{documents}}, report it as completed.",
+    "awaitUnblocks": "That unblocks: {{services}}."
   },
   "stepStatus": {
     "ready": "Ready to start",
     "waiting": "Waiting",
-    "blocked": "Blocked"
+    "blocked": "Blocked",
+    "in_progress": "In progress"
   },
   "stepRole": {
     "target": "Your service",
@@ -305,7 +335,9 @@
     "pending": "Will come from {{service}}: {{document}}",
     "missing": "Missing. Tick one if you have it:",
     "iHave": "I have {{document}}",
-    "optionalHint": "Not required to proceed."
+    "optionalHint": "Not required to proceed.",
+    "alternatives": "Or, if you already have one: {{documents}}",
+    "unusable": "You marked {{documents}} as not usable."
   },
   "requirementType": {
     "mandatory": "Mandatory",
@@ -412,5 +444,64 @@
       "name": "Starting a Business",
       "description": "Registrations for a new enterprise."
     }
+  },
+  "situation": {
+    "title": "1. Your situation",
+    "hint": "Tell GovPath what you want to achieve and where you live. It suggests the services that apply; you stay in control of the plan.",
+    "goalsLabel": "What do you want to do?",
+    "stateLabel": "Where do you live now?",
+    "stateUnknown": "Not specified",
+    "discoveryError": "Suggestions could not be loaded. You can still choose services below.",
+    "describeLabel": "Or describe it in your own words",
+    "describePlaceholder": "e.g. I got married in Delhi and want my new surname on my Aadhaar and passport",
+    "aiNote": "Optional. AI reads your text; you review the result before it is used.",
+    "read": "Read my situation",
+    "reading": "Reading…",
+    "aiBusy": "The AI reader is unavailable right now (usage limit). Choose your goals below: everything else works without AI.",
+    "aiUnavailable": "The AI reader is not available. Choose your goals below: everything else works without AI.",
+    "reviewNote": "Check these details before using them.",
+    "foundGoals": "Goals",
+    "foundState": "State",
+    "notStated": "Not stated",
+    "foundHeld": "You have",
+    "foundLacking": "You do not have",
+    "dropped_one": "{{count}} item was ignored because GovPath does not recognise it.",
+    "dropped_other": "{{count}} items were ignored because GovPath does not recognise them.",
+    "useDetails": "Use these details",
+    "discard": "Discard",
+    "suggested": "Suggested services",
+    "addSuggested_one": "Add {{count}} to my plan",
+    "addSuggested_other": "Add {{count}} to my plan",
+    "askRecord": "Do you have {{documents}}?",
+    "or": " or ",
+    "askRecordWhy": "Needed to update an existing record for: {{services}}.",
+    "yesHave": "Yes, I have it",
+    "noHave": "No",
+    "askState": "Which state do you live in? {{services}} is verified only for one state.",
+    "why": "Matches your goal: {{goals}}",
+    "statusCompleted": "You reported this as completed.",
+    "statusClarify": "Answer the question above to include it.",
+    "excludedRegion": "Not suggested: GovPath has verified this only for {{region}}.",
+    "excludedRecord": "Not suggested: it updates an existing {{documents}}, which you said you do not have.",
+    "discoveryNote": "Suggestions follow fixed rules over verified services; they are never decided by AI."
+  },
+  "goals": {
+    "update-address": "Update my address after moving",
+    "update-name-after-marriage": "Change my name after marriage",
+    "register-marriage": "Register my marriage",
+    "enrol-child-aadhaar": "Get Aadhaar for my child",
+    "get-pan": "Get a PAN card"
+  },
+  "processState": {
+    "not_started": "Not started",
+    "started": "Started",
+    "submitted": "Submitted, waiting",
+    "completed": "Completed (reported by you)"
+  },
+  "documentState": {
+    "available": "Valid",
+    "expired": "Expired",
+    "invalid": "Invalid or damaged",
+    "unsure": "Not sure"
   }
 }

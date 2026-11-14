@@ -54,7 +54,7 @@ describe('Route-map details', () => {
     const aadhaar = await screen.findByTestId('step-aadhaar-address-update')
     expect(within(aadhaar).getByText('You are here')).toBeInTheDocument()
     expect(screen.getAllByText('You are here')).toHaveLength(1)
-    expect(screen.getByLabelText('Route overview')).toHaveTextContent('0 of 3 steps done')
+    expect(screen.getByLabelText('Route overview')).toHaveTextContent('0 of 3 services completed')
   })
 
   it('groups the full catalogue by primary life event, listing every service once', async () => {

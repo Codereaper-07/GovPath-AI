@@ -48,6 +48,8 @@ class GovernmentService(TimestampMixin, Base):
     category: Mapped[str] = mapped_column(sa.String(50), index=True)
     # Life-event categories (app.models.enums.LifeEvent values) this service belongs to.
     life_events: Mapped[list[str]] = mapped_column(JSONType, default=list, server_default="[]")
+    # Citizen goals (app.models.enums.CitizenGoal values) this service directly serves.
+    goals: Mapped[list[str]] = mapped_column(JSONType, default=list, server_default="[]")
     application_form: Mapped[str | None] = mapped_column(sa.String(100))
     official_info_url: Mapped[str] = mapped_column(sa.String(1000))
     application_url: Mapped[str | None] = mapped_column(sa.String(1000))

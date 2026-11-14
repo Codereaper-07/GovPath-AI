@@ -31,9 +31,10 @@ export function NextActionCard({
       <h2 className="relative mt-3 max-w-2xl font-display text-3xl leading-tight font-semibold tracking-tight text-paper sm:text-4xl">
         {a.type === 'start_service' && a.service_id && t('planner.startService', { service: names.service(a.service_id) })}
         {a.type === 'obtain_document' && t('planner.obtainDocument')}
+        {a.type === 'follow_up' && a.service_id && t('planner.followUp', { service: names.service(a.service_id) })}
         {a.type === 'none' && t('planner.allDone')}
       </h2>
-      <p className="relative mt-3 max-w-2xl leading-relaxed text-paper/75">{reasonText(a, names)}</p>
+      <p className="relative mt-3 max-w-2xl leading-relaxed text-paper/75">{reasonText(a, names, plan)}</p>
 
       {a.type === 'obtain_document' && (
         <div className="relative mt-5">
@@ -57,6 +58,13 @@ export function NextActionCard({
             {t('planner.howToApply')} <Icon name="arrow" className="h-4 w-4" />
           </Link>
           <button type="button" onClick={() => onMarkDone(a.service_id!)} className={buttonClass('inverse', 'md')}>
+            ✓ {t('planner.markDone')}
+          </button>
+        </div>
+      )}
+      {a.type === 'follow_up' && a.service_id && (
+        <div className="relative mt-6 flex flex-wrap gap-3">
+          <button type="button" onClick={() => onMarkDone(a.service_id!)} className={buttonClass('zest', 'md')}>
             ✓ {t('planner.markDone')}
           </button>
         </div>

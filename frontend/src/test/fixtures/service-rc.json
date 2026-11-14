@@ -1,1 +1,378 @@
-{"id":"vehicle-rc-address-change","name":"Vehicle RC address change","name_hi":"वाहन आरसी में पता परिवर्तन","description":"Intimate the change of address to the Registering Authority in CMVR Form 33 within 14 days of moving, online via VAHAN (Basic Services > Change Of Address) or at the RTO, and pay the fee under rule 81 of CMVR 1989.","description_hi":"घर बदलने के 14 दिनों के भीतर CMVR फ़ॉर्म 33 में पंजीकरण प्राधिकरण को पता परिवर्तन की सूचना दें — VAHAN पर ऑनलाइन (Basic Services > Change Of Address) या RTO में — और CMVR 1989 के नियम 81 के अनुसार शुल्क जमा करें।","authority":"Registering Authority / RTO (Parivahan Sewa, MoRTH)","jurisdiction":"state","state":null,"category":"transport","life_events":["relocation-identity"],"application_form":"Form 33 (CMVR)","official_info_url":"https://parivahan.gov.in/en/content/address-change","application_url":"https://vahan.parivahan.gov.in/vahanservice/vahan/","last_verified_at":"2026-11-14T00:00:00Z","requirement_count":7,"mandatory_requirement_count":4,"verified_requirement_count":7,"verification_notes":"Parivahan lists 'Proof of new address' without naming the documents it accepts, so it is modelled as one generic document; check your State Transport Department. Items marked * on the source (smart card fee, PAN/Form 60/61, pencil print, owner signature identification) may be required in some states and are modelled as conditional where they are documents.","requirements":[{"id":"vehicle-rc-address-change.certificate-of-registration","name":"Certificate of registration (RC)","name_hi":"पंजीकरण प्रमाणपत्र (आरसी)","description":null,"requirement_type":"mandatory","is_alternative_group":false,"condition":null,"notes":null,"verification_status":"verified","options":[{"document_id":"rc_existing","document_name":"Certificate of registration (RC) of the vehicle","document_name_hi":"वाहन का पंजीकरण प्रमाणपत्र (आरसी)","notes":null,"evidence":null}],"evidence":[{"id":"rc-documents","excerpt":"Documents required Application in Form 33 Certificate of registration Proof of new address Valid insurance certificate Pollution under control certificate","locator":null,"note":null,"source_url":"https://parivahan.gov.in/en/content/address-change","source_title":"Change Of Address (Vehicle Registration) - Parivahan Sewa","source_authority":"Ministry of Road Transport and Highways (Parivahan Sewa)","verification_status":"verified","verified_at":"2026-11-14T00:00:00Z"},{"id":"form33-rc-enclosed","excerpt":"The certificate of registration is enclosed. I/We request that the change of address may be recorded in the certificate of registration and Form 24.","locator":null,"note":null,"source_url":"https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf","source_title":"CMVR Form 33: Intimation of change of address in the certificate of registration","source_authority":"Ministry of Road Transport and Highways (Parivahan Sewa)","verification_status":"verified","verified_at":"2026-11-14T00:00:00Z"}]},{"id":"vehicle-rc-address-change.proof-of-address","name":"Proof of new address","name_hi":"नए पते का प्रमाण","description":null,"requirement_type":"mandatory","is_alternative_group":false,"condition":null,"notes":"Specific acceptable documents are not listed by Parivahan for this service.","verification_status":"verified","options":[{"document_id":"rto_accepted_address_proof","document_name":"Proof of new address accepted by the Registering Authority","document_name_hi":"पंजीकरण प्राधिकरण द्वारा मान्य नए पते का प्रमाण","notes":null,"evidence":null}],"evidence":[{"id":"rc-documents","excerpt":"Documents required Application in Form 33 Certificate of registration Proof of new address Valid insurance certificate Pollution under control certificate","locator":null,"note":null,"source_url":"https://parivahan.gov.in/en/content/address-change","source_title":"Change Of Address (Vehicle Registration) - Parivahan Sewa","source_authority":"Ministry of Road Transport and Highways (Parivahan Sewa)","verification_status":"verified","verified_at":"2026-11-14T00:00:00Z"},{"id":"form33-evidence-enclosed","excerpt":"The present address is given below (evidence to be enclosed).","locator":null,"note":null,"source_url":"https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf","source_title":"CMVR Form 33: Intimation of change of address in the certificate of registration","source_authority":"Ministry of Road Transport and Highways (Parivahan Sewa)","verification_status":"verified","verified_at":"2026-11-14T00:00:00Z"}]},{"id":"vehicle-rc-address-change.insurance","name":"Valid insurance certificate","name_hi":"वैध बीमा प्रमाणपत्र","description":null,"requirement_type":"mandatory","is_alternative_group":false,"condition":null,"notes":null,"verification_status":"verified","options":[{"document_id":"vehicle_insurance_certificate","document_name":"Valid vehicle insurance certificate","document_name_hi":"वैध वाहन बीमा प्रमाणपत्र","notes":null,"evidence":null}],"evidence":[{"id":"rc-documents","excerpt":"Documents required Application in Form 33 Certificate of registration Proof of new address Valid insurance certificate Pollution under control certificate","locator":null,"note":null,"source_url":"https://parivahan.gov.in/en/content/address-change","source_title":"Change Of Address (Vehicle Registration) - Parivahan Sewa","source_authority":"Ministry of Road Transport and Highways (Parivahan Sewa)","verification_status":"verified","verified_at":"2026-11-14T00:00:00Z"}]},{"id":"vehicle-rc-address-change.puc","name":"Pollution under control certificate","name_hi":"प्रदूषण नियंत्रण (PUC) प्रमाणपत्र","description":null,"requirement_type":"mandatory","is_alternative_group":false,"condition":null,"notes":null,"verification_status":"verified","options":[{"document_id":"puc_certificate","document_name":"Pollution Under Control (PUC) certificate","document_name_hi":"प्रदूषण नियंत्रण (PUC) प्रमाणपत्र","notes":null,"evidence":null}],"evidence":[{"id":"rc-documents","excerpt":"Documents required Application in Form 33 Certificate of registration Proof of new address Valid insurance certificate Pollution under control certificate","locator":null,"note":null,"source_url":"https://parivahan.gov.in/en/content/address-change","source_title":"Change Of Address (Vehicle Registration) - Parivahan Sewa","source_authority":"Ministry of Road Transport and Highways (Parivahan Sewa)","verification_status":"verified","verified_at":"2026-11-14T00:00:00Z"}]},{"id":"vehicle-rc-address-change.financier-noc","name":"No Objection Certificate from financier","name_hi":"फ़ाइनेंसर से अनापत्ति प्रमाणपत्र (NOC)","description":null,"requirement_type":"conditional","is_alternative_group":false,"condition":"Only if the vehicle is hypothecated / held under hire-purchase or lease.","notes":null,"verification_status":"verified","options":[{"document_id":"financier_noc","document_name":"No Objection Certificate from financier","document_name_hi":"फ़ाइनेंसर से अनापत्ति प्रमाणपत्र (NOC)","notes":null,"evidence":null}],"evidence":[{"id":"rc-noc","excerpt":"No Objection Certificate from financier (in case of hypothecation)","locator":null,"note":null,"source_url":"https://parivahan.gov.in/en/content/address-change","source_title":"Change Of Address (Vehicle Registration) - Parivahan Sewa","source_authority":"Ministry of Road Transport and Highways (Parivahan Sewa)","verification_status":"verified","verified_at":"2026-11-14T00:00:00Z"}]},{"id":"vehicle-rc-address-change.pan-or-form-60-61","name":"Attested copy of PAN card or Form 60 / Form 61","name_hi":"पैन कार्ड की सत्यापित प्रति या फ़ॉर्म 60 / फ़ॉर्म 61","description":null,"requirement_type":"conditional","is_alternative_group":false,"condition":"May be required in some states (as applicable).","notes":null,"verification_status":"verified","options":[{"document_id":"pan_or_form_60_61","document_name":"PAN card copy or Form 60 / Form 61","document_name_hi":"पैन कार्ड की प्रति या फ़ॉर्म 60 / फ़ॉर्म 61","notes":null,"evidence":null}],"evidence":[{"id":"rc-pan","excerpt":"Attested copy of PAN card or Form 60 and Form 61 (as applicable)","locator":null,"note":null,"source_url":"https://parivahan.gov.in/en/content/address-change","source_title":"Change Of Address (Vehicle Registration) - Parivahan Sewa","source_authority":"Ministry of Road Transport and Highways (Parivahan Sewa)","verification_status":"verified","verified_at":"2026-11-14T00:00:00Z"},{"id":"rc-some-states","excerpt":"Documents marked with asterisk (*) may be required in some states.","locator":null,"note":null,"source_url":"https://parivahan.gov.in/en/content/address-change","source_title":"Change Of Address (Vehicle Registration) - Parivahan Sewa","source_authority":"Ministry of Road Transport and Highways (Parivahan Sewa)","verification_status":"verified","verified_at":"2026-11-14T00:00:00Z"}]},{"id":"vehicle-rc-address-change.chassis-engine-pencil-print","name":"Pencil print of chassis and engine number","name_hi":"चेसिस और इंजन नंबर की पेंसिल प्रिंट","description":null,"requirement_type":"conditional","is_alternative_group":false,"condition":"May be required in some states.","notes":null,"verification_status":"verified","options":[{"document_id":"chassis_engine_pencil_print","document_name":"Pencil print of chassis and engine number","document_name_hi":"चेसिस और इंजन नंबर की पेंसिल प्रिंट","notes":null,"evidence":null}],"evidence":[{"id":"rc-pencil-print","excerpt":"Pencil Print of Chassis & Engine Number","locator":null,"note":null,"source_url":"https://parivahan.gov.in/en/content/address-change","source_title":"Change Of Address (Vehicle Registration) - Parivahan Sewa","source_authority":"Ministry of Road Transport and Highways (Parivahan Sewa)","verification_status":"verified","verified_at":"2026-11-14T00:00:00Z"},{"id":"rc-some-states","excerpt":"Documents marked with asterisk (*) may be required in some states.","locator":null,"note":null,"source_url":"https://parivahan.gov.in/en/content/address-change","source_title":"Change Of Address (Vehicle Registration) - Parivahan Sewa","source_authority":"Ministry of Road Transport and Highways (Parivahan Sewa)","verification_status":"verified","verified_at":"2026-11-14T00:00:00Z"}]}],"outputs":[{"document_id":"rc_current_address","document_name":"RC showing current address","document_name_hi":"वर्तमान पते वाली आरसी","evidence":{"id":"rc-about","excerpt":"The Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate of registration of the motor vehicle.","locator":null,"note":null,"source_url":"https://parivahan.gov.in/en/content/address-change","source_title":"Change Of Address (Vehicle Registration) - Parivahan Sewa","source_authority":"Ministry of Road Transport and Highways (Parivahan Sewa)","verification_status":"verified","verified_at":"2026-11-14T00:00:00Z"}}],"prerequisites":[],"evidence":[{"id":"rc-about","excerpt":"The Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate of registration of the motor vehicle.","locator":null,"note":null,"source_url":"https://parivahan.gov.in/en/content/address-change","source_title":"Change Of Address (Vehicle Registration) - Parivahan Sewa","source_authority":"Ministry of Road Transport and Highways (Parivahan Sewa)","verification_status":"verified","verified_at":"2026-11-14T00:00:00Z"},{"id":"rc-within-14-days","excerpt":"Apply for recording the change in residence (within 14 days of address changed) in the certificate of registration of a motor vehicle of the registered owner of the vehicle in","locator":null,"note":null,"source_url":"https://parivahan.gov.in/en/content/address-change","source_title":"Change Of Address (Vehicle Registration) - Parivahan Sewa","source_authority":"Ministry of Road Transport and Highways (Parivahan Sewa)","verification_status":"verified","verified_at":"2026-11-14T00:00:00Z"},{"id":"rc-fee","excerpt":"Pay appropriate fee as specified in rule 81 of the Central Motor Vehicle Rules 1989","locator":null,"note":null,"source_url":"https://parivahan.gov.in/en/content/address-change","source_title":"Change Of Address (Vehicle Registration) - Parivahan Sewa","source_authority":"Ministry of Road Transport and Highways (Parivahan Sewa)","verification_status":"verified","verified_at":"2026-11-14T00:00:00Z"},{"id":"form33-title","excerpt":"INTIMATION OF CHANGE OF ADDRESS RECORDED IN THE CERTIFICATE OF REGISTRATION AND OFFICE RECORDS","locator":null,"note":null,"source_url":"https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf","source_title":"CMVR Form 33: Intimation of change of address in the certificate of registration","source_authority":"Ministry of Road Transport and Highways (Parivahan Sewa)","verification_status":"verified","verified_at":"2026-11-14T00:00:00Z"},{"id":"rc-online-change-of-address","excerpt":"Select \"Change Of Address\"","locator":null,"note":null,"source_url":"https://parivahan.gov.in/en/node/155","source_title":"How do I make changes to my details in Vehicle Registration Certificate? - Parivahan Sewa","source_authority":"Ministry of Road Transport and Highways (Parivahan Sewa)","verification_status":"verified","verified_at":"2026-11-14T00:00:00Z"}]}
+{
+  "id": "vehicle-rc-address-change",
+  "name": "Vehicle RC address change",
+  "name_hi": "\u0935\u093e\u0939\u0928 \u0906\u0930\u0938\u0940 \u092e\u0947\u0902 \u092a\u0924\u093e \u092a\u0930\u093f\u0935\u0930\u094d\u0924\u0928",
+  "description": "Intimate the change of address to the Registering Authority in CMVR Form 33 within 14 days of moving, online via VAHAN (Basic Services > Change Of Address) or at the RTO, and pay the fee under rule 81 of CMVR 1989.",
+  "description_hi": "\u0918\u0930 \u092c\u0926\u0932\u0928\u0947 \u0915\u0947 14 \u0926\u093f\u0928\u094b\u0902 \u0915\u0947 \u092d\u0940\u0924\u0930 CMVR \u092b\u093c\u0949\u0930\u094d\u092e 33 \u092e\u0947\u0902 \u092a\u0902\u091c\u0940\u0915\u0930\u0923 \u092a\u094d\u0930\u093e\u0927\u093f\u0915\u0930\u0923 \u0915\u094b \u092a\u0924\u093e \u092a\u0930\u093f\u0935\u0930\u094d\u0924\u0928 \u0915\u0940 \u0938\u0942\u091a\u0928\u093e \u0926\u0947\u0902 \u2014 VAHAN \u092a\u0930 \u0911\u0928\u0932\u093e\u0907\u0928 (Basic Services > Change Of Address) \u092f\u093e RTO \u092e\u0947\u0902 \u2014 \u0914\u0930 CMVR 1989 \u0915\u0947 \u0928\u093f\u092f\u092e 81 \u0915\u0947 \u0905\u0928\u0941\u0938\u093e\u0930 \u0936\u0941\u0932\u094d\u0915 \u091c\u092e\u093e \u0915\u0930\u0947\u0902\u0964",
+  "authority": "Registering Authority / RTO (Parivahan Sewa, MoRTH)",
+  "jurisdiction": "state",
+  "state": null,
+  "category": "transport",
+  "life_events": [
+    "relocation-identity"
+  ],
+  "goals": [
+    "update-address"
+  ],
+  "application_form": "Form 33 (CMVR)",
+  "official_info_url": "https://parivahan.gov.in/en/content/address-change",
+  "application_url": "https://vahan.parivahan.gov.in/vahanservice/vahan/",
+  "last_verified_at": "2026-11-14T00:00:00Z",
+  "requirement_count": 7,
+  "mandatory_requirement_count": 4,
+  "verified_requirement_count": 7,
+  "verification_notes": "Parivahan lists 'Proof of new address' without naming the documents it accepts, so it is modelled as one generic document; check your State Transport Department. Items marked * on the source (smart card fee, PAN/Form 60/61, pencil print, owner signature identification) may be required in some states and are modelled as conditional where they are documents.",
+  "requirements": [
+    {
+      "id": "vehicle-rc-address-change.certificate-of-registration",
+      "name": "Certificate of registration (RC)",
+      "name_hi": "\u092a\u0902\u091c\u0940\u0915\u0930\u0923 \u092a\u094d\u0930\u092e\u093e\u0923\u092a\u0924\u094d\u0930 (\u0906\u0930\u0938\u0940)",
+      "description": null,
+      "requirement_type": "mandatory",
+      "is_alternative_group": false,
+      "condition": null,
+      "notes": null,
+      "verification_status": "verified",
+      "options": [
+        {
+          "document_id": "rc_existing",
+          "document_name": "Certificate of registration (RC) of the vehicle",
+          "document_name_hi": "\u0935\u093e\u0939\u0928 \u0915\u093e \u092a\u0902\u091c\u0940\u0915\u0930\u0923 \u092a\u094d\u0930\u092e\u093e\u0923\u092a\u0924\u094d\u0930 (\u0906\u0930\u0938\u0940)",
+          "notes": null,
+          "evidence": null
+        }
+      ],
+      "evidence": [
+        {
+          "id": "rc-documents",
+          "excerpt": "Documents required Application in Form 33 Certificate of registration Proof of new address Valid insurance certificate Pollution under control certificate",
+          "locator": null,
+          "note": null,
+          "source_url": "https://parivahan.gov.in/en/content/address-change",
+          "source_title": "Change Of Address (Vehicle Registration) - Parivahan Sewa",
+          "source_authority": "Ministry of Road Transport and Highways (Parivahan Sewa)",
+          "verification_status": "verified",
+          "verified_at": "2026-11-14T00:00:00Z"
+        },
+        {
+          "id": "form33-rc-enclosed",
+          "excerpt": "The certificate of registration is enclosed. I/We request that the change of address may be recorded in the certificate of registration and Form 24.",
+          "locator": null,
+          "note": null,
+          "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+          "source_title": "CMVR Form 33: Intimation of change of address in the certificate of registration",
+          "source_authority": "Ministry of Road Transport and Highways (Parivahan Sewa)",
+          "verification_status": "verified",
+          "verified_at": "2026-11-14T00:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "vehicle-rc-address-change.proof-of-address",
+      "name": "Proof of new address",
+      "name_hi": "\u0928\u090f \u092a\u0924\u0947 \u0915\u093e \u092a\u094d\u0930\u092e\u093e\u0923",
+      "description": null,
+      "requirement_type": "mandatory",
+      "is_alternative_group": false,
+      "condition": null,
+      "notes": "Specific acceptable documents are not listed by Parivahan for this service.",
+      "verification_status": "verified",
+      "options": [
+        {
+          "document_id": "rto_accepted_address_proof",
+          "document_name": "Proof of new address accepted by the Registering Authority",
+          "document_name_hi": "\u092a\u0902\u091c\u0940\u0915\u0930\u0923 \u092a\u094d\u0930\u093e\u0927\u093f\u0915\u0930\u0923 \u0926\u094d\u0935\u093e\u0930\u093e \u092e\u093e\u0928\u094d\u092f \u0928\u090f \u092a\u0924\u0947 \u0915\u093e \u092a\u094d\u0930\u092e\u093e\u0923",
+          "notes": null,
+          "evidence": null
+        }
+      ],
+      "evidence": [
+        {
+          "id": "rc-documents",
+          "excerpt": "Documents required Application in Form 33 Certificate of registration Proof of new address Valid insurance certificate Pollution under control certificate",
+          "locator": null,
+          "note": null,
+          "source_url": "https://parivahan.gov.in/en/content/address-change",
+          "source_title": "Change Of Address (Vehicle Registration) - Parivahan Sewa",
+          "source_authority": "Ministry of Road Transport and Highways (Parivahan Sewa)",
+          "verification_status": "verified",
+          "verified_at": "2026-11-14T00:00:00Z"
+        },
+        {
+          "id": "form33-evidence-enclosed",
+          "excerpt": "The present address is given below (evidence to be enclosed).",
+          "locator": null,
+          "note": null,
+          "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+          "source_title": "CMVR Form 33: Intimation of change of address in the certificate of registration",
+          "source_authority": "Ministry of Road Transport and Highways (Parivahan Sewa)",
+          "verification_status": "verified",
+          "verified_at": "2026-11-14T00:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "vehicle-rc-address-change.insurance",
+      "name": "Valid insurance certificate",
+      "name_hi": "\u0935\u0948\u0927 \u092c\u0940\u092e\u093e \u092a\u094d\u0930\u092e\u093e\u0923\u092a\u0924\u094d\u0930",
+      "description": null,
+      "requirement_type": "mandatory",
+      "is_alternative_group": false,
+      "condition": null,
+      "notes": null,
+      "verification_status": "verified",
+      "options": [
+        {
+          "document_id": "vehicle_insurance_certificate",
+          "document_name": "Valid vehicle insurance certificate",
+          "document_name_hi": "\u0935\u0948\u0927 \u0935\u093e\u0939\u0928 \u092c\u0940\u092e\u093e \u092a\u094d\u0930\u092e\u093e\u0923\u092a\u0924\u094d\u0930",
+          "notes": null,
+          "evidence": null
+        }
+      ],
+      "evidence": [
+        {
+          "id": "rc-documents",
+          "excerpt": "Documents required Application in Form 33 Certificate of registration Proof of new address Valid insurance certificate Pollution under control certificate",
+          "locator": null,
+          "note": null,
+          "source_url": "https://parivahan.gov.in/en/content/address-change",
+          "source_title": "Change Of Address (Vehicle Registration) - Parivahan Sewa",
+          "source_authority": "Ministry of Road Transport and Highways (Parivahan Sewa)",
+          "verification_status": "verified",
+          "verified_at": "2026-11-14T00:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "vehicle-rc-address-change.puc",
+      "name": "Pollution under control certificate",
+      "name_hi": "\u092a\u094d\u0930\u0926\u0942\u0937\u0923 \u0928\u093f\u092f\u0902\u0924\u094d\u0930\u0923 (PUC) \u092a\u094d\u0930\u092e\u093e\u0923\u092a\u0924\u094d\u0930",
+      "description": null,
+      "requirement_type": "mandatory",
+      "is_alternative_group": false,
+      "condition": null,
+      "notes": null,
+      "verification_status": "verified",
+      "options": [
+        {
+          "document_id": "puc_certificate",
+          "document_name": "Pollution Under Control (PUC) certificate",
+          "document_name_hi": "\u092a\u094d\u0930\u0926\u0942\u0937\u0923 \u0928\u093f\u092f\u0902\u0924\u094d\u0930\u0923 (PUC) \u092a\u094d\u0930\u092e\u093e\u0923\u092a\u0924\u094d\u0930",
+          "notes": null,
+          "evidence": null
+        }
+      ],
+      "evidence": [
+        {
+          "id": "rc-documents",
+          "excerpt": "Documents required Application in Form 33 Certificate of registration Proof of new address Valid insurance certificate Pollution under control certificate",
+          "locator": null,
+          "note": null,
+          "source_url": "https://parivahan.gov.in/en/content/address-change",
+          "source_title": "Change Of Address (Vehicle Registration) - Parivahan Sewa",
+          "source_authority": "Ministry of Road Transport and Highways (Parivahan Sewa)",
+          "verification_status": "verified",
+          "verified_at": "2026-11-14T00:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "vehicle-rc-address-change.financier-noc",
+      "name": "No Objection Certificate from financier",
+      "name_hi": "\u092b\u093c\u093e\u0907\u0928\u0947\u0902\u0938\u0930 \u0938\u0947 \u0905\u0928\u093e\u092a\u0924\u094d\u0924\u093f \u092a\u094d\u0930\u092e\u093e\u0923\u092a\u0924\u094d\u0930 (NOC)",
+      "description": null,
+      "requirement_type": "conditional",
+      "is_alternative_group": false,
+      "condition": "Only if the vehicle is hypothecated / held under hire-purchase or lease.",
+      "notes": null,
+      "verification_status": "verified",
+      "options": [
+        {
+          "document_id": "financier_noc",
+          "document_name": "No Objection Certificate from financier",
+          "document_name_hi": "\u092b\u093c\u093e\u0907\u0928\u0947\u0902\u0938\u0930 \u0938\u0947 \u0905\u0928\u093e\u092a\u0924\u094d\u0924\u093f \u092a\u094d\u0930\u092e\u093e\u0923\u092a\u0924\u094d\u0930 (NOC)",
+          "notes": null,
+          "evidence": null
+        }
+      ],
+      "evidence": [
+        {
+          "id": "rc-noc",
+          "excerpt": "No Objection Certificate from financier (in case of hypothecation)",
+          "locator": null,
+          "note": null,
+          "source_url": "https://parivahan.gov.in/en/content/address-change",
+          "source_title": "Change Of Address (Vehicle Registration) - Parivahan Sewa",
+          "source_authority": "Ministry of Road Transport and Highways (Parivahan Sewa)",
+          "verification_status": "verified",
+          "verified_at": "2026-11-14T00:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "vehicle-rc-address-change.pan-or-form-60-61",
+      "name": "Attested copy of PAN card or Form 60 / Form 61",
+      "name_hi": "\u092a\u0948\u0928 \u0915\u093e\u0930\u094d\u0921 \u0915\u0940 \u0938\u0924\u094d\u092f\u093e\u092a\u093f\u0924 \u092a\u094d\u0930\u0924\u093f \u092f\u093e \u092b\u093c\u0949\u0930\u094d\u092e 60 / \u092b\u093c\u0949\u0930\u094d\u092e 61",
+      "description": null,
+      "requirement_type": "conditional",
+      "is_alternative_group": false,
+      "condition": "May be required in some states (as applicable).",
+      "notes": null,
+      "verification_status": "verified",
+      "options": [
+        {
+          "document_id": "pan_or_form_60_61",
+          "document_name": "PAN card copy or Form 60 / Form 61",
+          "document_name_hi": "\u092a\u0948\u0928 \u0915\u093e\u0930\u094d\u0921 \u0915\u0940 \u092a\u094d\u0930\u0924\u093f \u092f\u093e \u092b\u093c\u0949\u0930\u094d\u092e 60 / \u092b\u093c\u0949\u0930\u094d\u092e 61",
+          "notes": null,
+          "evidence": null
+        }
+      ],
+      "evidence": [
+        {
+          "id": "rc-pan",
+          "excerpt": "Attested copy of PAN card or Form 60 and Form 61 (as applicable)",
+          "locator": null,
+          "note": null,
+          "source_url": "https://parivahan.gov.in/en/content/address-change",
+          "source_title": "Change Of Address (Vehicle Registration) - Parivahan Sewa",
+          "source_authority": "Ministry of Road Transport and Highways (Parivahan Sewa)",
+          "verification_status": "verified",
+          "verified_at": "2026-11-14T00:00:00Z"
+        },
+        {
+          "id": "rc-some-states",
+          "excerpt": "Documents marked with asterisk (*) may be required in some states.",
+          "locator": null,
+          "note": null,
+          "source_url": "https://parivahan.gov.in/en/content/address-change",
+          "source_title": "Change Of Address (Vehicle Registration) - Parivahan Sewa",
+          "source_authority": "Ministry of Road Transport and Highways (Parivahan Sewa)",
+          "verification_status": "verified",
+          "verified_at": "2026-11-14T00:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "vehicle-rc-address-change.chassis-engine-pencil-print",
+      "name": "Pencil print of chassis and engine number",
+      "name_hi": "\u091a\u0947\u0938\u093f\u0938 \u0914\u0930 \u0907\u0902\u091c\u0928 \u0928\u0902\u092c\u0930 \u0915\u0940 \u092a\u0947\u0902\u0938\u093f\u0932 \u092a\u094d\u0930\u093f\u0902\u091f",
+      "description": null,
+      "requirement_type": "conditional",
+      "is_alternative_group": false,
+      "condition": "May be required in some states.",
+      "notes": null,
+      "verification_status": "verified",
+      "options": [
+        {
+          "document_id": "chassis_engine_pencil_print",
+          "document_name": "Pencil print of chassis and engine number",
+          "document_name_hi": "\u091a\u0947\u0938\u093f\u0938 \u0914\u0930 \u0907\u0902\u091c\u0928 \u0928\u0902\u092c\u0930 \u0915\u0940 \u092a\u0947\u0902\u0938\u093f\u0932 \u092a\u094d\u0930\u093f\u0902\u091f",
+          "notes": null,
+          "evidence": null
+        }
+      ],
+      "evidence": [
+        {
+          "id": "rc-pencil-print",
+          "excerpt": "Pencil Print of Chassis & Engine Number",
+          "locator": null,
+          "note": null,
+          "source_url": "https://parivahan.gov.in/en/content/address-change",
+          "source_title": "Change Of Address (Vehicle Registration) - Parivahan Sewa",
+          "source_authority": "Ministry of Road Transport and Highways (Parivahan Sewa)",
+          "verification_status": "verified",
+          "verified_at": "2026-11-14T00:00:00Z"
+        },
+        {
+          "id": "rc-some-states",
+          "excerpt": "Documents marked with asterisk (*) may be required in some states.",
+          "locator": null,
+          "note": null,
+          "source_url": "https://parivahan.gov.in/en/content/address-change",
+          "source_title": "Change Of Address (Vehicle Registration) - Parivahan Sewa",
+          "source_authority": "Ministry of Road Transport and Highways (Parivahan Sewa)",
+          "verification_status": "verified",
+          "verified_at": "2026-11-14T00:00:00Z"
+        }
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "document_id": "rc_current_address",
+      "document_name": "RC showing current address",
+      "document_name_hi": "\u0935\u0930\u094d\u0924\u092e\u093e\u0928 \u092a\u0924\u0947 \u0935\u093e\u0932\u0940 \u0906\u0930\u0938\u0940",
+      "evidence": {
+        "id": "rc-about",
+        "excerpt": "The Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate of registration of the motor vehicle.",
+        "locator": null,
+        "note": null,
+        "source_url": "https://parivahan.gov.in/en/content/address-change",
+        "source_title": "Change Of Address (Vehicle Registration) - Parivahan Sewa",
+        "source_authority": "Ministry of Road Transport and Highways (Parivahan Sewa)",
+        "verification_status": "verified",
+        "verified_at": "2026-11-14T00:00:00Z"
+      }
+    }
+  ],
+  "prerequisites": [],
+  "evidence": [
+    {
+      "id": "rc-about",
+      "excerpt": "The Motor Vehicle Act 1988 gives provision to apply for recording a change of residence address of registered owner in the certificate of registration of the motor vehicle.",
+      "locator": null,
+      "note": null,
+      "source_url": "https://parivahan.gov.in/en/content/address-change",
+      "source_title": "Change Of Address (Vehicle Registration) - Parivahan Sewa",
+      "source_authority": "Ministry of Road Transport and Highways (Parivahan Sewa)",
+      "verification_status": "verified",
+      "verified_at": "2026-11-14T00:00:00Z"
+    },
+    {
+      "id": "rc-within-14-days",
+      "excerpt": "Apply for recording the change in residence (within 14 days of address changed) in the certificate of registration of a motor vehicle of the registered owner of the vehicle in",
+      "locator": null,
+      "note": null,
+      "source_url": "https://parivahan.gov.in/en/content/address-change",
+      "source_title": "Change Of Address (Vehicle Registration) - Parivahan Sewa",
+      "source_authority": "Ministry of Road Transport and Highways (Parivahan Sewa)",
+      "verification_status": "verified",
+      "verified_at": "2026-11-14T00:00:00Z"
+    },
+    {
+      "id": "rc-fee",
+      "excerpt": "Pay appropriate fee as specified in rule 81 of the Central Motor Vehicle Rules 1989",
+      "locator": null,
+      "note": null,
+      "source_url": "https://parivahan.gov.in/en/content/address-change",
+      "source_title": "Change Of Address (Vehicle Registration) - Parivahan Sewa",
+      "source_authority": "Ministry of Road Transport and Highways (Parivahan Sewa)",
+      "verification_status": "verified",
+      "verified_at": "2026-11-14T00:00:00Z"
+    },
+    {
+      "id": "form33-title",
+      "excerpt": "INTIMATION OF CHANGE OF ADDRESS RECORDED IN THE CERTIFICATE OF REGISTRATION AND OFFICE RECORDS",
+      "locator": null,
+      "note": null,
+      "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-33.pdf",
+      "source_title": "CMVR Form 33: Intimation of change of address in the certificate of registration",
+      "source_authority": "Ministry of Road Transport and Highways (Parivahan Sewa)",
+      "verification_status": "verified",
+      "verified_at": "2026-11-14T00:00:00Z"
+    },
+    {
+      "id": "rc-online-change-of-address",
+      "excerpt": "Select \"Change Of Address\"",
+      "locator": null,
+      "note": null,
+      "source_url": "https://parivahan.gov.in/en/node/155",
+      "source_title": "How do I make changes to my details in Vehicle Registration Certificate? - Parivahan Sewa",
+      "source_authority": "Ministry of Road Transport and Highways (Parivahan Sewa)",
+      "verification_status": "verified",
+      "verified_at": "2026-11-14T00:00:00Z"
+    }
+  ]
+}

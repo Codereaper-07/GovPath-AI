@@ -1,1 +1,243 @@
-[{"id":"aadhaar-address-update","name":"Aadhaar address update","name_hi":"आधार में पता अपडेट","description":"Update the address recorded in Aadhaar, online on the myAadhaar portal (OTP to the registered mobile number) or at an Aadhaar Enrolment Centre, with a supporting proof of address.","description_hi":"आधार में दर्ज पता अपडेट करें — myAadhaar पोर्टल पर ऑनलाइन (पंजीकृत मोबाइल नंबर पर OTP के साथ) या आधार नामांकन केंद्र पर, पते के सहायक प्रमाण के साथ।","authority":"Unique Identification Authority of India (UIDAI)","jurisdiction":"national","state":null,"category":"identity","life_events":["relocation-identity"],"application_form":null,"official_info_url":"https://uidai.gov.in/en/updating-data-on-aadhaar","application_url":"https://myaadhaar.uidai.gov.in/","last_verified_at":"2026-11-14T00:00:00Z","requirement_count":3,"mandatory_requirement_count":2,"verified_requirement_count":3},{"id":"aadhaar-name-update","name":"Aadhaar name update (e.g. after marriage)","name_hi":"आधार में नाम अपडेट (जैसे विवाह के बाद)","description":"Update the name recorded in Aadhaar at an Aadhaar Enrolment Centre with a supporting Proof of Identity document in the new name.","description_hi":"आधार नामांकन केंद्र पर नए नाम वाले पहचान प्रमाण दस्तावेज़ के साथ आधार में दर्ज नाम अपडेट करें।","authority":"Unique Identification Authority of India (UIDAI)","jurisdiction":"national","state":null,"category":"identity","life_events":["marriage-family","relocation-identity"],"application_form":null,"official_info_url":"https://uidai.gov.in/en/updating-data-on-aadhaar","application_url":null,"last_verified_at":"2026-11-14T00:00:00Z","requirement_count":2,"mandatory_requirement_count":2,"verified_requirement_count":2},{"id":"child-aadhaar-enrolment","name":"Aadhaar enrolment for a child under 5","name_hi":"5 वर्ष से कम आयु के बच्चे का आधार नामांकन","description":"Enrol a resident child up to five years of age for Aadhaar through Head-of-Family based enrolment, using the child's birth certificate and a parent's or legal guardian's Aadhaar.","description_hi":"बच्चे के जन्म प्रमाणपत्र और माता-पिता या कानूनी अभिभावक के आधार के साथ परिवार-मुखिया आधारित नामांकन द्वारा पाँच वर्ष तक के निवासी बच्चे का आधार नामांकन कराएँ।","authority":"Unique Identification Authority of India (UIDAI)","jurisdiction":"national","state":null,"category":"identity","life_events":["birth-parenthood"],"application_form":null,"official_info_url":"https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf","application_url":null,"last_verified_at":"2026-11-14T00:00:00Z","requirement_count":3,"mandatory_requirement_count":3,"verified_requirement_count":3},{"id":"driving-licence-address-change","name":"Driving licence address change","name_hi":"ड्राइविंग लाइसेंस में पता परिवर्तन","description":"Apply to the Licensing Authority for change of address in the driving licence using CMVR Form 2, online through Sarathi (Services on Driving License > Change of Address) or at the RTO, with proof of the new address.","description_hi":"CMVR फ़ॉर्म 2 के माध्यम से लाइसेंसिंग प्राधिकरण को ड्राइविंग लाइसेंस में पता परिवर्तन के लिए आवेदन करें — सारथी पर ऑनलाइन (Services on Driving License > Change of Address) या RTO में, नए पते के प्रमाण के साथ।","authority":"State Transport Department / Licensing Authority (Parivahan Sewa, MoRTH)","jurisdiction":"state","state":null,"category":"transport","life_events":["relocation-identity"],"application_form":"Form 2 (CMVR)","official_info_url":"https://parivahan.gov.in/en/node/246","application_url":"https://sarathi.parivahan.gov.in/","last_verified_at":"2026-11-14T00:00:00Z","requirement_count":3,"mandatory_requirement_count":2,"verified_requirement_count":3},{"id":"instant-e-pan","name":"Instant e-PAN (free PAN through Aadhaar)","name_hi":"इंस्टेंट ई-पैन (आधार से निःशुल्क पैन)","description":"Individuals without a PAN can obtain a digitally signed e-PAN free of cost on the Income Tax e-Filing portal using Aadhaar e-KYC, the Aadhaar-linked mobile number and DigiLocker.","description_hi":"जिन व्यक्तियों के पास पैन नहीं है, वे आधार ई-केवाईसी, आधार से जुड़े मोबाइल नंबर और डिजिलॉकर की मदद से आयकर ई-फ़ाइलिंग पोर्टल पर निःशुल्क डिजिटल हस्ताक्षरित ई-पैन प्राप्त कर सकते हैं।","authority":"Income Tax Department, Ministry of Finance","jurisdiction":"national","state":null,"category":"tax","life_events":["employment-career"],"application_form":null,"official_info_url":"https://www.incometax.gov.in/iec/foportal/help/all-topics/e-filing-services/instant-e-pan/instant-UM","application_url":"https://www.incometax.gov.in/","last_verified_at":"2026-11-14T00:00:00Z","requirement_count":4,"mandatory_requirement_count":4,"verified_requirement_count":4},{"id":"marriage-registration-delhi","name":"Marriage registration (Delhi, Hindu Marriage Act)","name_hi":"विवाह पंजीकरण (दिल्ली, हिंदू विवाह अधिनियम)","description":"Register an already-solemnised marriage with the Revenue Department of the Government of NCT of Delhi and receive a Marriage Registration Certificate. Apply at the office of the Deputy Commissioner/ADM with jurisdiction.","description_hi":"पहले से संपन्न विवाह को दिल्ली सरकार के राजस्व विभाग में पंजीकृत कराएँ और विवाह पंजीकरण प्रमाणपत्र प्राप्त करें। अधिकार क्षेत्र वाले उपायुक्त/एडीएम कार्यालय में आवेदन करें।","authority":"Revenue Department, Government of NCT of Delhi","jurisdiction":"state","state":"Delhi","category":"family","life_events":["marriage-family"],"application_form":"Marriage registration application form","official_info_url":"https://revenue.delhi.gov.in/revenue/registration-marriage","application_url":null,"last_verified_at":"2026-11-14T00:00:00Z","requirement_count":9,"mandatory_requirement_count":5,"verified_requirement_count":9},{"id":"passport-reissue-change-of-address","name":"Passport reissue for change of address","name_hi":"पता परिवर्तन हेतु पासपोर्ट पुनः जारी करना","description":"Apply for re-issue of passport to change personal particulars (address), submitting the old passport and proof of the present address.","description_hi":"व्यक्तिगत विवरण (पता) बदलने के लिए पासपोर्ट पुनः जारी करने का आवेदन करें, जिसमें पुराना पासपोर्ट और वर्तमान पते का प्रमाण जमा करना होता है।","authority":"Ministry of External Affairs (Passport Seva)","jurisdiction":"national","state":null,"category":"travel","life_events":["relocation-identity"],"application_form":"Passport application form (re-issue)","official_info_url":"https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf","application_url":"https://www.passportindia.gov.in/","last_verified_at":"2026-11-14T00:00:00Z","requirement_count":2,"mandatory_requirement_count":2,"verified_requirement_count":2},{"id":"passport-reissue-name-change-marriage","name":"Passport reissue for change of name after marriage","name_hi":"विवाह के बाद नाम परिवर्तन हेतु पासपोर्ट पुनः जारी करना","description":"Apply for re-issue of an existing passport to change the name/surname due to marriage, submitting the old passport and either a marriage certificate or a joint photo declaration.","description_hi":"विवाह के कारण नाम/उपनाम बदलने के लिए मौजूदा पासपोर्ट पुनः जारी करने का आवेदन करें, पुराने पासपोर्ट के साथ विवाह प्रमाणपत्र या संयुक्त फ़ोटो घोषणा जमा करें।","authority":"Ministry of External Affairs (Passport Seva)","jurisdiction":"national","state":null,"category":"travel","life_events":["marriage-family"],"application_form":"Passport application form (re-issue)","official_info_url":"https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf","application_url":"https://www.passportindia.gov.in/","last_verified_at":"2026-11-14T00:00:00Z","requirement_count":2,"mandatory_requirement_count":2,"verified_requirement_count":2},{"id":"vehicle-rc-address-change","name":"Vehicle RC address change","name_hi":"वाहन आरसी में पता परिवर्तन","description":"Intimate the change of address to the Registering Authority in CMVR Form 33 within 14 days of moving, online via VAHAN (Basic Services > Change Of Address) or at the RTO, and pay the fee under rule 81 of CMVR 1989.","description_hi":"घर बदलने के 14 दिनों के भीतर CMVR फ़ॉर्म 33 में पंजीकरण प्राधिकरण को पता परिवर्तन की सूचना दें — VAHAN पर ऑनलाइन (Basic Services > Change Of Address) या RTO में — और CMVR 1989 के नियम 81 के अनुसार शुल्क जमा करें।","authority":"Registering Authority / RTO (Parivahan Sewa, MoRTH)","jurisdiction":"state","state":null,"category":"transport","life_events":["relocation-identity"],"application_form":"Form 33 (CMVR)","official_info_url":"https://parivahan.gov.in/en/content/address-change","application_url":"https://vahan.parivahan.gov.in/vahanservice/vahan/","last_verified_at":"2026-11-14T00:00:00Z","requirement_count":7,"mandatory_requirement_count":4,"verified_requirement_count":7},{"id":"voter-id-address-change-form-8","name":"Voter ID address change (Form 8 - shifting of residence)","name_hi":"मतदाता पहचान पत्र में पता परिवर्तन (फ़ॉर्म 8 – निवास स्थानांतरण)","description":"An enrolled elector who has shifted residence applies in Form 8 to the Electoral Registration Officer of the constituency where the new address is. A replacement EPIC is issued on approval.","description_hi":"निवास बदलने वाला पंजीकृत मतदाता फ़ॉर्म 8 में उस निर्वाचन क्षेत्र के निर्वाचक रजिस्ट्रीकरण अधिकारी को आवेदन करता है जहाँ नया पता स्थित है। स्वीकृति पर प्रतिस्थापन EPIC जारी किया जाता है।","authority":"Election Commission of India (ECI)","jurisdiction":"national","state":null,"category":"elections","life_events":["relocation-identity"],"application_form":"Form 8","official_info_url":"https://voters.eci.gov.in/guidelines/Form-8_en.pdf","application_url":"https://voters.eci.gov.in/","last_verified_at":"2026-11-14T00:00:00Z","requirement_count":3,"mandatory_requirement_count":2,"verified_requirement_count":3}]
+[
+  {
+    "id": "aadhaar-address-update",
+    "name": "Aadhaar address update",
+    "name_hi": "\u0906\u0927\u093e\u0930 \u092e\u0947\u0902 \u092a\u0924\u093e \u0905\u092a\u0921\u0947\u091f",
+    "description": "Update the address recorded in Aadhaar, online on the myAadhaar portal (OTP to the registered mobile number) or at an Aadhaar Enrolment Centre, with a supporting proof of address.",
+    "description_hi": "\u0906\u0927\u093e\u0930 \u092e\u0947\u0902 \u0926\u0930\u094d\u091c \u092a\u0924\u093e \u0905\u092a\u0921\u0947\u091f \u0915\u0930\u0947\u0902 \u2014 myAadhaar \u092a\u094b\u0930\u094d\u091f\u0932 \u092a\u0930 \u0911\u0928\u0932\u093e\u0907\u0928 (\u092a\u0902\u091c\u0940\u0915\u0943\u0924 \u092e\u094b\u092c\u093e\u0907\u0932 \u0928\u0902\u092c\u0930 \u092a\u0930 OTP \u0915\u0947 \u0938\u093e\u0925) \u092f\u093e \u0906\u0927\u093e\u0930 \u0928\u093e\u092e\u093e\u0902\u0915\u0928 \u0915\u0947\u0902\u0926\u094d\u0930 \u092a\u0930, \u092a\u0924\u0947 \u0915\u0947 \u0938\u0939\u093e\u092f\u0915 \u092a\u094d\u0930\u092e\u093e\u0923 \u0915\u0947 \u0938\u093e\u0925\u0964",
+    "authority": "Unique Identification Authority of India (UIDAI)",
+    "jurisdiction": "national",
+    "state": null,
+    "category": "identity",
+    "life_events": [
+      "relocation-identity"
+    ],
+    "goals": [
+      "update-address"
+    ],
+    "application_form": null,
+    "official_info_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+    "application_url": "https://myaadhaar.uidai.gov.in/",
+    "last_verified_at": "2026-11-14T00:00:00Z",
+    "requirement_count": 3,
+    "mandatory_requirement_count": 2,
+    "verified_requirement_count": 3
+  },
+  {
+    "id": "aadhaar-name-update",
+    "name": "Aadhaar name update (e.g. after marriage)",
+    "name_hi": "\u0906\u0927\u093e\u0930 \u092e\u0947\u0902 \u0928\u093e\u092e \u0905\u092a\u0921\u0947\u091f (\u091c\u0948\u0938\u0947 \u0935\u093f\u0935\u093e\u0939 \u0915\u0947 \u092c\u093e\u0926)",
+    "description": "Update the name recorded in Aadhaar at an Aadhaar Enrolment Centre with a supporting Proof of Identity document in the new name.",
+    "description_hi": "\u0906\u0927\u093e\u0930 \u0928\u093e\u092e\u093e\u0902\u0915\u0928 \u0915\u0947\u0902\u0926\u094d\u0930 \u092a\u0930 \u0928\u090f \u0928\u093e\u092e \u0935\u093e\u0932\u0947 \u092a\u0939\u091a\u093e\u0928 \u092a\u094d\u0930\u092e\u093e\u0923 \u0926\u0938\u094d\u0924\u093e\u0935\u0947\u091c\u093c \u0915\u0947 \u0938\u093e\u0925 \u0906\u0927\u093e\u0930 \u092e\u0947\u0902 \u0926\u0930\u094d\u091c \u0928\u093e\u092e \u0905\u092a\u0921\u0947\u091f \u0915\u0930\u0947\u0902\u0964",
+    "authority": "Unique Identification Authority of India (UIDAI)",
+    "jurisdiction": "national",
+    "state": null,
+    "category": "identity",
+    "life_events": [
+      "marriage-family",
+      "relocation-identity"
+    ],
+    "goals": [
+      "update-name-after-marriage"
+    ],
+    "application_form": null,
+    "official_info_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+    "application_url": null,
+    "last_verified_at": "2026-11-14T00:00:00Z",
+    "requirement_count": 2,
+    "mandatory_requirement_count": 2,
+    "verified_requirement_count": 2
+  },
+  {
+    "id": "child-aadhaar-enrolment",
+    "name": "Aadhaar enrolment for a child under 5",
+    "name_hi": "5 \u0935\u0930\u094d\u0937 \u0938\u0947 \u0915\u092e \u0906\u092f\u0941 \u0915\u0947 \u092c\u091a\u094d\u091a\u0947 \u0915\u093e \u0906\u0927\u093e\u0930 \u0928\u093e\u092e\u093e\u0902\u0915\u0928",
+    "description": "Enrol a resident child up to five years of age for Aadhaar through Head-of-Family based enrolment, using the child's birth certificate and a parent's or legal guardian's Aadhaar.",
+    "description_hi": "\u092c\u091a\u094d\u091a\u0947 \u0915\u0947 \u091c\u0928\u094d\u092e \u092a\u094d\u0930\u092e\u093e\u0923\u092a\u0924\u094d\u0930 \u0914\u0930 \u092e\u093e\u0924\u093e-\u092a\u093f\u0924\u093e \u092f\u093e \u0915\u093e\u0928\u0942\u0928\u0940 \u0905\u092d\u093f\u092d\u093e\u0935\u0915 \u0915\u0947 \u0906\u0927\u093e\u0930 \u0915\u0947 \u0938\u093e\u0925 \u092a\u0930\u093f\u0935\u093e\u0930-\u092e\u0941\u0916\u093f\u092f\u093e \u0906\u0927\u093e\u0930\u093f\u0924 \u0928\u093e\u092e\u093e\u0902\u0915\u0928 \u0926\u094d\u0935\u093e\u0930\u093e \u092a\u093e\u0901\u091a \u0935\u0930\u094d\u0937 \u0924\u0915 \u0915\u0947 \u0928\u093f\u0935\u093e\u0938\u0940 \u092c\u091a\u094d\u091a\u0947 \u0915\u093e \u0906\u0927\u093e\u0930 \u0928\u093e\u092e\u093e\u0902\u0915\u0928 \u0915\u0930\u093e\u090f\u0901\u0964",
+    "authority": "Unique Identification Authority of India (UIDAI)",
+    "jurisdiction": "national",
+    "state": null,
+    "category": "identity",
+    "life_events": [
+      "birth-parenthood"
+    ],
+    "goals": [
+      "enrol-child-aadhaar"
+    ],
+    "application_form": null,
+    "official_info_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+    "application_url": null,
+    "last_verified_at": "2026-11-14T00:00:00Z",
+    "requirement_count": 3,
+    "mandatory_requirement_count": 3,
+    "verified_requirement_count": 3
+  },
+  {
+    "id": "driving-licence-address-change",
+    "name": "Driving licence address change",
+    "name_hi": "\u0921\u094d\u0930\u093e\u0907\u0935\u093f\u0902\u0917 \u0932\u093e\u0907\u0938\u0947\u0902\u0938 \u092e\u0947\u0902 \u092a\u0924\u093e \u092a\u0930\u093f\u0935\u0930\u094d\u0924\u0928",
+    "description": "Apply to the Licensing Authority for change of address in the driving licence using CMVR Form 2, online through Sarathi (Services on Driving License > Change of Address) or at the RTO, with proof of the new address.",
+    "description_hi": "CMVR \u092b\u093c\u0949\u0930\u094d\u092e 2 \u0915\u0947 \u092e\u093e\u0927\u094d\u092f\u092e \u0938\u0947 \u0932\u093e\u0907\u0938\u0947\u0902\u0938\u093f\u0902\u0917 \u092a\u094d\u0930\u093e\u0927\u093f\u0915\u0930\u0923 \u0915\u094b \u0921\u094d\u0930\u093e\u0907\u0935\u093f\u0902\u0917 \u0932\u093e\u0907\u0938\u0947\u0902\u0938 \u092e\u0947\u0902 \u092a\u0924\u093e \u092a\u0930\u093f\u0935\u0930\u094d\u0924\u0928 \u0915\u0947 \u0932\u093f\u090f \u0906\u0935\u0947\u0926\u0928 \u0915\u0930\u0947\u0902 \u2014 \u0938\u093e\u0930\u0925\u0940 \u092a\u0930 \u0911\u0928\u0932\u093e\u0907\u0928 (Services on Driving License > Change of Address) \u092f\u093e RTO \u092e\u0947\u0902, \u0928\u090f \u092a\u0924\u0947 \u0915\u0947 \u092a\u094d\u0930\u092e\u093e\u0923 \u0915\u0947 \u0938\u093e\u0925\u0964",
+    "authority": "State Transport Department / Licensing Authority (Parivahan Sewa, MoRTH)",
+    "jurisdiction": "state",
+    "state": null,
+    "category": "transport",
+    "life_events": [
+      "relocation-identity"
+    ],
+    "goals": [
+      "update-address"
+    ],
+    "application_form": "Form 2 (CMVR)",
+    "official_info_url": "https://parivahan.gov.in/en/node/246",
+    "application_url": "https://sarathi.parivahan.gov.in/",
+    "last_verified_at": "2026-11-14T00:00:00Z",
+    "requirement_count": 3,
+    "mandatory_requirement_count": 2,
+    "verified_requirement_count": 3
+  },
+  {
+    "id": "instant-e-pan",
+    "name": "Instant e-PAN (free PAN through Aadhaar)",
+    "name_hi": "\u0907\u0902\u0938\u094d\u091f\u0947\u0902\u091f \u0908-\u092a\u0948\u0928 (\u0906\u0927\u093e\u0930 \u0938\u0947 \u0928\u093f\u0903\u0936\u0941\u0932\u094d\u0915 \u092a\u0948\u0928)",
+    "description": "Individuals without a PAN can obtain a digitally signed e-PAN free of cost on the Income Tax e-Filing portal using Aadhaar e-KYC, the Aadhaar-linked mobile number and DigiLocker.",
+    "description_hi": "\u091c\u093f\u0928 \u0935\u094d\u092f\u0915\u094d\u0924\u093f\u092f\u094b\u0902 \u0915\u0947 \u092a\u093e\u0938 \u092a\u0948\u0928 \u0928\u0939\u0940\u0902 \u0939\u0948, \u0935\u0947 \u0906\u0927\u093e\u0930 \u0908-\u0915\u0947\u0935\u093e\u0908\u0938\u0940, \u0906\u0927\u093e\u0930 \u0938\u0947 \u091c\u0941\u0921\u093c\u0947 \u092e\u094b\u092c\u093e\u0907\u0932 \u0928\u0902\u092c\u0930 \u0914\u0930 \u0921\u093f\u091c\u093f\u0932\u0949\u0915\u0930 \u0915\u0940 \u092e\u0926\u0926 \u0938\u0947 \u0906\u092f\u0915\u0930 \u0908-\u092b\u093c\u093e\u0907\u0932\u093f\u0902\u0917 \u092a\u094b\u0930\u094d\u091f\u0932 \u092a\u0930 \u0928\u093f\u0903\u0936\u0941\u0932\u094d\u0915 \u0921\u093f\u091c\u093f\u091f\u0932 \u0939\u0938\u094d\u0924\u093e\u0915\u094d\u0937\u0930\u093f\u0924 \u0908-\u092a\u0948\u0928 \u092a\u094d\u0930\u093e\u092a\u094d\u0924 \u0915\u0930 \u0938\u0915\u0924\u0947 \u0939\u0948\u0902\u0964",
+    "authority": "Income Tax Department, Ministry of Finance",
+    "jurisdiction": "national",
+    "state": null,
+    "category": "tax",
+    "life_events": [
+      "employment-career"
+    ],
+    "goals": [
+      "get-pan"
+    ],
+    "application_form": null,
+    "official_info_url": "https://www.incometax.gov.in/iec/foportal/help/all-topics/e-filing-services/instant-e-pan/instant-UM",
+    "application_url": "https://www.incometax.gov.in/",
+    "last_verified_at": "2026-11-14T00:00:00Z",
+    "requirement_count": 4,
+    "mandatory_requirement_count": 4,
+    "verified_requirement_count": 4
+  },
+  {
+    "id": "marriage-registration-delhi",
+    "name": "Marriage registration (Delhi, Hindu Marriage Act)",
+    "name_hi": "\u0935\u093f\u0935\u093e\u0939 \u092a\u0902\u091c\u0940\u0915\u0930\u0923 (\u0926\u093f\u0932\u094d\u0932\u0940, \u0939\u093f\u0902\u0926\u0942 \u0935\u093f\u0935\u093e\u0939 \u0905\u0927\u093f\u0928\u093f\u092f\u092e)",
+    "description": "Register an already-solemnised marriage with the Revenue Department of the Government of NCT of Delhi and receive a Marriage Registration Certificate. Apply at the office of the Deputy Commissioner/ADM with jurisdiction.",
+    "description_hi": "\u092a\u0939\u0932\u0947 \u0938\u0947 \u0938\u0902\u092a\u0928\u094d\u0928 \u0935\u093f\u0935\u093e\u0939 \u0915\u094b \u0926\u093f\u0932\u094d\u0932\u0940 \u0938\u0930\u0915\u093e\u0930 \u0915\u0947 \u0930\u093e\u091c\u0938\u094d\u0935 \u0935\u093f\u092d\u093e\u0917 \u092e\u0947\u0902 \u092a\u0902\u091c\u0940\u0915\u0943\u0924 \u0915\u0930\u093e\u090f\u0901 \u0914\u0930 \u0935\u093f\u0935\u093e\u0939 \u092a\u0902\u091c\u0940\u0915\u0930\u0923 \u092a\u094d\u0930\u092e\u093e\u0923\u092a\u0924\u094d\u0930 \u092a\u094d\u0930\u093e\u092a\u094d\u0924 \u0915\u0930\u0947\u0902\u0964 \u0905\u0927\u093f\u0915\u093e\u0930 \u0915\u094d\u0937\u0947\u0924\u094d\u0930 \u0935\u093e\u0932\u0947 \u0909\u092a\u093e\u092f\u0941\u0915\u094d\u0924/\u090f\u0921\u0940\u090f\u092e \u0915\u093e\u0930\u094d\u092f\u093e\u0932\u092f \u092e\u0947\u0902 \u0906\u0935\u0947\u0926\u0928 \u0915\u0930\u0947\u0902\u0964",
+    "authority": "Revenue Department, Government of NCT of Delhi",
+    "jurisdiction": "state",
+    "state": "Delhi",
+    "category": "family",
+    "life_events": [
+      "marriage-family"
+    ],
+    "goals": [
+      "register-marriage"
+    ],
+    "application_form": "Marriage registration application form",
+    "official_info_url": "https://revenue.delhi.gov.in/revenue/registration-marriage",
+    "application_url": null,
+    "last_verified_at": "2026-11-14T00:00:00Z",
+    "requirement_count": 9,
+    "mandatory_requirement_count": 5,
+    "verified_requirement_count": 9
+  },
+  {
+    "id": "passport-reissue-change-of-address",
+    "name": "Passport reissue for change of address",
+    "name_hi": "\u092a\u0924\u093e \u092a\u0930\u093f\u0935\u0930\u094d\u0924\u0928 \u0939\u0947\u0924\u0941 \u092a\u093e\u0938\u092a\u094b\u0930\u094d\u091f \u092a\u0941\u0928\u0903 \u091c\u093e\u0930\u0940 \u0915\u0930\u0928\u093e",
+    "description": "Apply for re-issue of passport to change personal particulars (address), submitting the old passport and proof of the present address.",
+    "description_hi": "\u0935\u094d\u092f\u0915\u094d\u0924\u093f\u0917\u0924 \u0935\u093f\u0935\u0930\u0923 (\u092a\u0924\u093e) \u092c\u0926\u0932\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f \u092a\u093e\u0938\u092a\u094b\u0930\u094d\u091f \u092a\u0941\u0928\u0903 \u091c\u093e\u0930\u0940 \u0915\u0930\u0928\u0947 \u0915\u093e \u0906\u0935\u0947\u0926\u0928 \u0915\u0930\u0947\u0902, \u091c\u093f\u0938\u092e\u0947\u0902 \u092a\u0941\u0930\u093e\u0928\u093e \u092a\u093e\u0938\u092a\u094b\u0930\u094d\u091f \u0914\u0930 \u0935\u0930\u094d\u0924\u092e\u093e\u0928 \u092a\u0924\u0947 \u0915\u093e \u092a\u094d\u0930\u092e\u093e\u0923 \u091c\u092e\u093e \u0915\u0930\u0928\u093e \u0939\u094b\u0924\u093e \u0939\u0948\u0964",
+    "authority": "Ministry of External Affairs (Passport Seva)",
+    "jurisdiction": "national",
+    "state": null,
+    "category": "travel",
+    "life_events": [
+      "relocation-identity"
+    ],
+    "goals": [
+      "update-address"
+    ],
+    "application_form": "Passport application form (re-issue)",
+    "official_info_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+    "application_url": "https://www.passportindia.gov.in/",
+    "last_verified_at": "2026-11-14T00:00:00Z",
+    "requirement_count": 2,
+    "mandatory_requirement_count": 2,
+    "verified_requirement_count": 2
+  },
+  {
+    "id": "passport-reissue-name-change-marriage",
+    "name": "Passport reissue for change of name after marriage",
+    "name_hi": "\u0935\u093f\u0935\u093e\u0939 \u0915\u0947 \u092c\u093e\u0926 \u0928\u093e\u092e \u092a\u0930\u093f\u0935\u0930\u094d\u0924\u0928 \u0939\u0947\u0924\u0941 \u092a\u093e\u0938\u092a\u094b\u0930\u094d\u091f \u092a\u0941\u0928\u0903 \u091c\u093e\u0930\u0940 \u0915\u0930\u0928\u093e",
+    "description": "Apply for re-issue of an existing passport to change the name/surname due to marriage, submitting the old passport and either a marriage certificate or a joint photo declaration.",
+    "description_hi": "\u0935\u093f\u0935\u093e\u0939 \u0915\u0947 \u0915\u093e\u0930\u0923 \u0928\u093e\u092e/\u0909\u092a\u0928\u093e\u092e \u092c\u0926\u0932\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f \u092e\u094c\u091c\u0942\u0926\u093e \u092a\u093e\u0938\u092a\u094b\u0930\u094d\u091f \u092a\u0941\u0928\u0903 \u091c\u093e\u0930\u0940 \u0915\u0930\u0928\u0947 \u0915\u093e \u0906\u0935\u0947\u0926\u0928 \u0915\u0930\u0947\u0902, \u092a\u0941\u0930\u093e\u0928\u0947 \u092a\u093e\u0938\u092a\u094b\u0930\u094d\u091f \u0915\u0947 \u0938\u093e\u0925 \u0935\u093f\u0935\u093e\u0939 \u092a\u094d\u0930\u092e\u093e\u0923\u092a\u0924\u094d\u0930 \u092f\u093e \u0938\u0902\u092f\u0941\u0915\u094d\u0924 \u092b\u093c\u094b\u091f\u094b \u0918\u094b\u0937\u0923\u093e \u091c\u092e\u093e \u0915\u0930\u0947\u0902\u0964",
+    "authority": "Ministry of External Affairs (Passport Seva)",
+    "jurisdiction": "national",
+    "state": null,
+    "category": "travel",
+    "life_events": [
+      "marriage-family"
+    ],
+    "goals": [
+      "update-name-after-marriage"
+    ],
+    "application_form": "Passport application form (re-issue)",
+    "official_info_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+    "application_url": "https://www.passportindia.gov.in/",
+    "last_verified_at": "2026-11-14T00:00:00Z",
+    "requirement_count": 2,
+    "mandatory_requirement_count": 2,
+    "verified_requirement_count": 2
+  },
+  {
+    "id": "vehicle-rc-address-change",
+    "name": "Vehicle RC address change",
+    "name_hi": "\u0935\u093e\u0939\u0928 \u0906\u0930\u0938\u0940 \u092e\u0947\u0902 \u092a\u0924\u093e \u092a\u0930\u093f\u0935\u0930\u094d\u0924\u0928",
+    "description": "Intimate the change of address to the Registering Authority in CMVR Form 33 within 14 days of moving, online via VAHAN (Basic Services > Change Of Address) or at the RTO, and pay the fee under rule 81 of CMVR 1989.",
+    "description_hi": "\u0918\u0930 \u092c\u0926\u0932\u0928\u0947 \u0915\u0947 14 \u0926\u093f\u0928\u094b\u0902 \u0915\u0947 \u092d\u0940\u0924\u0930 CMVR \u092b\u093c\u0949\u0930\u094d\u092e 33 \u092e\u0947\u0902 \u092a\u0902\u091c\u0940\u0915\u0930\u0923 \u092a\u094d\u0930\u093e\u0927\u093f\u0915\u0930\u0923 \u0915\u094b \u092a\u0924\u093e \u092a\u0930\u093f\u0935\u0930\u094d\u0924\u0928 \u0915\u0940 \u0938\u0942\u091a\u0928\u093e \u0926\u0947\u0902 \u2014 VAHAN \u092a\u0930 \u0911\u0928\u0932\u093e\u0907\u0928 (Basic Services > Change Of Address) \u092f\u093e RTO \u092e\u0947\u0902 \u2014 \u0914\u0930 CMVR 1989 \u0915\u0947 \u0928\u093f\u092f\u092e 81 \u0915\u0947 \u0905\u0928\u0941\u0938\u093e\u0930 \u0936\u0941\u0932\u094d\u0915 \u091c\u092e\u093e \u0915\u0930\u0947\u0902\u0964",
+    "authority": "Registering Authority / RTO (Parivahan Sewa, MoRTH)",
+    "jurisdiction": "state",
+    "state": null,
+    "category": "transport",
+    "life_events": [
+      "relocation-identity"
+    ],
+    "goals": [
+      "update-address"
+    ],
+    "application_form": "Form 33 (CMVR)",
+    "official_info_url": "https://parivahan.gov.in/en/content/address-change",
+    "application_url": "https://vahan.parivahan.gov.in/vahanservice/vahan/",
+    "last_verified_at": "2026-11-14T00:00:00Z",
+    "requirement_count": 7,
+    "mandatory_requirement_count": 4,
+    "verified_requirement_count": 7
+  },
+  {
+    "id": "voter-id-address-change-form-8",
+    "name": "Voter ID address change (Form 8 - shifting of residence)",
+    "name_hi": "\u092e\u0924\u0926\u093e\u0924\u093e \u092a\u0939\u091a\u093e\u0928 \u092a\u0924\u094d\u0930 \u092e\u0947\u0902 \u092a\u0924\u093e \u092a\u0930\u093f\u0935\u0930\u094d\u0924\u0928 (\u092b\u093c\u0949\u0930\u094d\u092e 8 \u2013 \u0928\u093f\u0935\u093e\u0938 \u0938\u094d\u0925\u093e\u0928\u093e\u0902\u0924\u0930\u0923)",
+    "description": "An enrolled elector who has shifted residence applies in Form 8 to the Electoral Registration Officer of the constituency where the new address is. A replacement EPIC is issued on approval.",
+    "description_hi": "\u0928\u093f\u0935\u093e\u0938 \u092c\u0926\u0932\u0928\u0947 \u0935\u093e\u0932\u093e \u092a\u0902\u091c\u0940\u0915\u0943\u0924 \u092e\u0924\u0926\u093e\u0924\u093e \u092b\u093c\u0949\u0930\u094d\u092e 8 \u092e\u0947\u0902 \u0909\u0938 \u0928\u093f\u0930\u094d\u0935\u093e\u091a\u0928 \u0915\u094d\u0937\u0947\u0924\u094d\u0930 \u0915\u0947 \u0928\u093f\u0930\u094d\u0935\u093e\u091a\u0915 \u0930\u091c\u093f\u0938\u094d\u091f\u094d\u0930\u0940\u0915\u0930\u0923 \u0905\u0927\u093f\u0915\u093e\u0930\u0940 \u0915\u094b \u0906\u0935\u0947\u0926\u0928 \u0915\u0930\u0924\u093e \u0939\u0948 \u091c\u0939\u093e\u0901 \u0928\u092f\u093e \u092a\u0924\u093e \u0938\u094d\u0925\u093f\u0924 \u0939\u0948\u0964 \u0938\u094d\u0935\u0940\u0915\u0943\u0924\u093f \u092a\u0930 \u092a\u094d\u0930\u0924\u093f\u0938\u094d\u0925\u093e\u092a\u0928 EPIC \u091c\u093e\u0930\u0940 \u0915\u093f\u092f\u093e \u091c\u093e\u0924\u093e \u0939\u0948\u0964",
+    "authority": "Election Commission of India (ECI)",
+    "jurisdiction": "national",
+    "state": null,
+    "category": "elections",
+    "life_events": [
+      "relocation-identity"
+    ],
+    "goals": [
+      "update-address"
+    ],
+    "application_form": "Form 8",
+    "official_info_url": "https://voters.eci.gov.in/guidelines/Form-8_en.pdf",
+    "application_url": "https://voters.eci.gov.in/",
+    "last_verified_at": "2026-11-14T00:00:00Z",
+    "requirement_count": 3,
+    "mandatory_requirement_count": 2,
+    "verified_requirement_count": 3
+  }
+]

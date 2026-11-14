@@ -9,6 +9,17 @@ class LifeEvent(StrEnum):
     STARTING_BUSINESS = "starting-business"
 
 
+class CitizenGoal(StrEnum):
+    """What a citizen wants to achieve. Curated classification for service discovery (not a
+    government fact): each service lists the goals it directly serves."""
+
+    UPDATE_ADDRESS = "update-address"
+    UPDATE_NAME_AFTER_MARRIAGE = "update-name-after-marriage"
+    REGISTER_MARRIAGE = "register-marriage"
+    ENROL_CHILD_AADHAAR = "enrol-child-aadhaar"
+    GET_PAN = "get-pan"
+
+
 class Jurisdiction(StrEnum):
     NATIONAL = "national"
     STATE = "state"

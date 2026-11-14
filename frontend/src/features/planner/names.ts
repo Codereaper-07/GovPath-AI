@@ -34,7 +34,7 @@ export type PlanNames = ReturnType<typeof usePlanNames>
 /** Localised sentence for the planner's structured next-action reason. */
 export function useReasonText() {
   const { t } = useTranslation()
-  return (action: NextAction, names: PlanNames): string => {
+  return (action: NextAction, names: PlanNames, plan?: PlanResponse): string => {
     const r = action.reason
     const service = action.service_id ? names.service(action.service_id) : ''
     let text: string
@@ -45,6 +45,13 @@ export function useReasonText() {
       case 'ready_independent':
         text = t('reason.readyIndependent', { service })
         break
+      case 'await_in_progress': {
+        const step = plan?.steps.find((s) => s.service_id === action.service_id)
+        const docs = (step?.completion_document_ids ?? []).map(names.document).join(t('common.listSeparator'))
+        text = t('reason.awaitInProgress', { service, documents: docs || '—' })
+        if (r.unblocks.length) text += ' ' + t('reason.awaitUnblocks', { services: names.services(r.unblocks) })
+        break
+      }
       case 'resolve_blocker':
         text = t('reason.resolveBlocker', { documents: names.options(r.document_options), service })
         if (r.unblocks.length) text += ' ' + t('reason.alsoBlocked', { services: names.services(r.unblocks) })

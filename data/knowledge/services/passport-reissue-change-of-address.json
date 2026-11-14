@@ -11,6 +11,9 @@
   "life_events": [
     "relocation-identity"
   ],
+  "goals": [
+    "update-address"
+  ],
   "application_form": "Passport application form (re-issue)",
   "official_info_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
   "application_url": "https://www.passportindia.gov.in/",

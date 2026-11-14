@@ -11,6 +11,9 @@
   "life_events": [
     "birth-parenthood"
   ],
+  "goals": [
+    "enrol-child-aadhaar"
+  ],
   "application_form": null,
   "official_info_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
   "application_url": null,

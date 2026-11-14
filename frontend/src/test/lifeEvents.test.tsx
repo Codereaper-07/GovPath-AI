@@ -51,7 +51,7 @@ describe('Dashboard life-event discovery', () => {
     mockFetch(api)
     renderApp('/')
     await screen.findByTestId('life-event-marriage-family')
-    await userEvent.selectOptions(screen.getByRole('combobox'), 'hi')
+    await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Language' }), 'hi')
     expect(await within(screen.getByTestId('life-event-marriage-family')).findByText('विवाह और परिवार')).toBeInTheDocument()
     expect(screen.getByTestId('life-event-starting-business')).toHaveTextContent('अभी कोई सत्यापित सेवा नहीं')
     await i18n.changeLanguage('en')

@@ -131,3 +131,60 @@ def test_endpoints_return_503_without_database(client):
     assert client.get("/api/services").status_code == 503
     res = client.post("/api/workflows/plan", json={"target_service_ids": [AADHAAR]})
     assert res.status_code == 503
+
+
+def test_plan_with_progress_document_states_and_state(api_client):
+    body = {
+        "target_service_ids": ["driving-licence-address-change"],
+        "owned_document_ids": ["driving_licence_existing", "aadhaar_number", "electricity_bill"],
+        "progress": {"aadhaar-address-update": "submitted"},
+        "document_states": {"electricity_bill": "available"},
+        "state": "Maharashtra",
+    }
+    r = api_client.post("/api/workflows/plan", json=body)
+    assert r.status_code == 200
+    data = r.json()
+    statuses = {s["service_id"]: s["status"] for s in data["steps"]}
+    assert statuses == {
+        "aadhaar-address-update": "in_progress",
+        "driving-licence-address-change": "waiting",
+    }
+    assert data["next_action"]["type"] == "follow_up"
+    assert data["progress"]["in_progress"] == 1 and data["progress"]["completed_verified"] == 0
+    assert data["citizen_state"] == "Maharashtra"
+    step = data["steps"][0]
+    assert step["authority"] and step["completion_document_ids"] == ["aadhaar_current_address"]
+    assert "aadhaar_current_address" in data["documents"]
+
+
+def test_plan_rejects_bad_progress_values(api_client):
+    body = {"target_service_ids": ["instant-e-pan"], "progress": {"instant-e-pan": "approved"}}
+    assert api_client.post("/api/workflows/plan", json=body).status_code == 422
+    body = {"target_service_ids": ["instant-e-pan"], "progress": {"nope": "started"}}
+    assert (
+        api_client.post("/api/workflows/plan", json=body).json()["detail"]["code"] == "unknown_ids"
+    )
+
+
+def test_discover_endpoint(api_client):
+    r = api_client.post(
+        "/api/workflows/discover",
+        json={"goals": ["update-name-after-marriage"], "state": "delhi",
+              "held_document_ids": ["aadhaar_number", "passport_existing"]},
+    )  # fmt: skip
+    assert r.status_code == 200
+    data = r.json()
+    assert data["generated_by"] == "deterministic-discovery" and data["state"] == "Delhi"
+    assert set(data["recommended_target_ids"]) == {
+        "aadhaar-name-update",
+        "passport-reissue-name-change-marriage",
+    }
+    assert data["services"]["aadhaar-name-update"]["name_hi"]
+    bad = api_client.post("/api/workflows/discover", json={"goals": ["win-lottery"]})
+    assert bad.status_code == 422
+
+
+def test_vocabulary_endpoint(client):
+    data = client.get("/api/workflows/vocabulary").json()
+    assert "update-address" in data["goals"] and "Delhi" in data["states"]
+    assert len(data["states"]) == 36

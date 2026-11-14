@@ -77,9 +77,14 @@ class AssistantAnswer:
 
 @dataclass(frozen=True)
 class WorkflowInput:
+    """The citizen's planner selection, forwarded so the assistant explains the same plan."""
+
     target_service_ids: list[str]
     owned_document_ids: list[str]
     completed_service_ids: list[str]
+    progress: dict[str, str] = field(default_factory=dict)
+    document_states: dict[str, str] = field(default_factory=dict)
+    state: str | None = None
 
 
 def normalize_question(q: str) -> str:
@@ -118,6 +123,9 @@ class Assistant:
                 workflow.target_service_ids,
                 workflow.owned_document_ids,
                 workflow.completed_service_ids,
+                progress=workflow.progress,
+                document_states=workflow.document_states,
+                state=workflow.state,
                 cache=knowledge_cache,
             )
 

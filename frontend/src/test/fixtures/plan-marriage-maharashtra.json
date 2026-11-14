@@ -1,0 +1,568 @@
+{
+  "generated_by": "deterministic-planner",
+  "selected_service_ids": [
+    "aadhaar-name-update",
+    "passport-reissue-name-change-marriage"
+  ],
+  "completed_service_ids": [],
+  "steps": [
+    {
+      "step_number": 1,
+      "stage": 1,
+      "service_id": "aadhaar-name-update",
+      "service_name": "Aadhaar name update (e.g. after marriage)",
+      "role": "target",
+      "status": "blocked",
+      "depends_on": [],
+      "unblocks": [],
+      "requirements": [
+        {
+          "requirement_id": "aadhaar-name-update.aadhaar-number",
+          "service_id": "aadhaar-name-update",
+          "name": "Existing Aadhaar number",
+          "kind": "mandatory",
+          "state": "satisfied",
+          "document_options": [
+            "aadhaar_number"
+          ],
+          "is_alternative_group": false,
+          "satisfied_by_document_id": "aadhaar_number",
+          "acquired_via_service_id": null,
+          "acquired_document_id": null,
+          "condition": null,
+          "notes": null,
+          "evidence_ids": [
+            "uidai-centre-mode"
+          ],
+          "unusable_document_ids": []
+        },
+        {
+          "requirement_id": "aadhaar-name-update.proof-of-identity-new-name",
+          "service_id": "aadhaar-name-update",
+          "name": "Proof of identity in the new name (any one)",
+          "kind": "mandatory",
+          "state": "missing",
+          "document_options": [
+            "marriage_certificate",
+            "gazette_notification_name_change"
+          ],
+          "is_alternative_group": true,
+          "satisfied_by_document_id": null,
+          "acquired_via_service_id": null,
+          "acquired_document_id": null,
+          "condition": null,
+          "notes": "Documents must be issued in the name of the person seeking the update.",
+          "evidence_ids": [
+            "uidai-list4-own-name",
+            "uidai-list4-heading",
+            "uidai-poi-marriage-certificate",
+            "uidai-poi-gazette"
+          ],
+          "unusable_document_ids": []
+        }
+      ],
+      "evidence_ids": [
+        "uidai-centre-mode",
+        "uidai-list4-heading",
+        "uidai-list4-own-name",
+        "uidai-poi-gazette",
+        "uidai-poi-marriage-certificate",
+        "uidai-update-fields"
+      ],
+      "process_state": "not_started",
+      "authority": "Unique Identification Authority of India (UIDAI)",
+      "region": null,
+      "completion_document_ids": [
+        "aadhaar_updated_name"
+      ],
+      "completion_evidence_ids": [
+        "uidai-update-fields"
+      ]
+    },
+    {
+      "step_number": 2,
+      "stage": 1,
+      "service_id": "passport-reissue-name-change-marriage",
+      "service_name": "Passport reissue for change of name after marriage",
+      "role": "target",
+      "status": "blocked",
+      "depends_on": [],
+      "unblocks": [],
+      "requirements": [
+        {
+          "requirement_id": "passport-reissue-name-change-marriage.old-passport",
+          "service_id": "passport-reissue-name-change-marriage",
+          "name": "Old passport in original (with self-attested copies)",
+          "kind": "mandatory",
+          "state": "satisfied",
+          "document_options": [
+            "passport_existing"
+          ],
+          "is_alternative_group": false,
+          "satisfied_by_document_id": "passport_existing",
+          "acquired_via_service_id": null,
+          "acquired_document_id": null,
+          "condition": null,
+          "notes": null,
+          "evidence_ids": [
+            "pp-reissue-old-passport",
+            "pp-name-change-marriage-row"
+          ],
+          "unusable_document_ids": []
+        },
+        {
+          "requirement_id": "passport-reissue-name-change-marriage.marriage-proof",
+          "service_id": "passport-reissue-name-change-marriage",
+          "name": "Marriage certificate or joint photo declaration (any one)",
+          "kind": "mandatory",
+          "state": "missing",
+          "document_options": [
+            "marriage_certificate",
+            "joint_photo_declaration"
+          ],
+          "is_alternative_group": true,
+          "satisfied_by_document_id": null,
+          "acquired_via_service_id": null,
+          "acquired_document_id": null,
+          "condition": null,
+          "notes": null,
+          "evidence_ids": [
+            "pp-name-change-marriage-row",
+            "pp-doc-14-marriage-certificate",
+            "pp-doc-56-joint-photo"
+          ],
+          "unusable_document_ids": []
+        }
+      ],
+      "evidence_ids": [
+        "pp-doc-14-marriage-certificate",
+        "pp-doc-56-joint-photo",
+        "pp-name-change-marriage-row",
+        "pp-reissue-old-passport"
+      ],
+      "process_state": "not_started",
+      "authority": "Ministry of External Affairs (Passport Seva)",
+      "region": null,
+      "completion_document_ids": [
+        "passport_updated_name"
+      ],
+      "completion_evidence_ids": [
+        "pp-name-change-marriage-row"
+      ]
+    }
+  ],
+  "parallel_groups": [
+    [
+      "aadhaar-name-update",
+      "passport-reissue-name-change-marriage"
+    ]
+  ],
+  "required_documents": [
+    {
+      "requirement_id": "aadhaar-name-update.aadhaar-number",
+      "service_id": "aadhaar-name-update",
+      "name": "Existing Aadhaar number",
+      "kind": "mandatory",
+      "state": "satisfied",
+      "document_options": [
+        "aadhaar_number"
+      ],
+      "is_alternative_group": false,
+      "satisfied_by_document_id": "aadhaar_number",
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": null,
+      "evidence_ids": [
+        "uidai-centre-mode"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "aadhaar-name-update.proof-of-identity-new-name",
+      "service_id": "aadhaar-name-update",
+      "name": "Proof of identity in the new name (any one)",
+      "kind": "mandatory",
+      "state": "missing",
+      "document_options": [
+        "marriage_certificate",
+        "gazette_notification_name_change"
+      ],
+      "is_alternative_group": true,
+      "satisfied_by_document_id": null,
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": "Documents must be issued in the name of the person seeking the update.",
+      "evidence_ids": [
+        "uidai-list4-own-name",
+        "uidai-list4-heading",
+        "uidai-poi-marriage-certificate",
+        "uidai-poi-gazette"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "passport-reissue-name-change-marriage.old-passport",
+      "service_id": "passport-reissue-name-change-marriage",
+      "name": "Old passport in original (with self-attested copies)",
+      "kind": "mandatory",
+      "state": "satisfied",
+      "document_options": [
+        "passport_existing"
+      ],
+      "is_alternative_group": false,
+      "satisfied_by_document_id": "passport_existing",
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": null,
+      "evidence_ids": [
+        "pp-reissue-old-passport",
+        "pp-name-change-marriage-row"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "passport-reissue-name-change-marriage.marriage-proof",
+      "service_id": "passport-reissue-name-change-marriage",
+      "name": "Marriage certificate or joint photo declaration (any one)",
+      "kind": "mandatory",
+      "state": "missing",
+      "document_options": [
+        "marriage_certificate",
+        "joint_photo_declaration"
+      ],
+      "is_alternative_group": true,
+      "satisfied_by_document_id": null,
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": null,
+      "evidence_ids": [
+        "pp-name-change-marriage-row",
+        "pp-doc-14-marriage-certificate",
+        "pp-doc-56-joint-photo"
+      ],
+      "unusable_document_ids": []
+    }
+  ],
+  "satisfied_requirements": [
+    {
+      "requirement_id": "aadhaar-name-update.aadhaar-number",
+      "service_id": "aadhaar-name-update",
+      "name": "Existing Aadhaar number",
+      "kind": "mandatory",
+      "state": "satisfied",
+      "document_options": [
+        "aadhaar_number"
+      ],
+      "is_alternative_group": false,
+      "satisfied_by_document_id": "aadhaar_number",
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": null,
+      "evidence_ids": [
+        "uidai-centre-mode"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "passport-reissue-name-change-marriage.old-passport",
+      "service_id": "passport-reissue-name-change-marriage",
+      "name": "Old passport in original (with self-attested copies)",
+      "kind": "mandatory",
+      "state": "satisfied",
+      "document_options": [
+        "passport_existing"
+      ],
+      "is_alternative_group": false,
+      "satisfied_by_document_id": "passport_existing",
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": null,
+      "evidence_ids": [
+        "pp-reissue-old-passport",
+        "pp-name-change-marriage-row"
+      ],
+      "unusable_document_ids": []
+    }
+  ],
+  "missing_documents": [
+    {
+      "requirement_id": "aadhaar-name-update.proof-of-identity-new-name",
+      "service_id": "aadhaar-name-update",
+      "document_options": [
+        "marriage_certificate",
+        "gazette_notification_name_change"
+      ],
+      "acquisition_service_id": null
+    },
+    {
+      "requirement_id": "passport-reissue-name-change-marriage.marriage-proof",
+      "service_id": "passport-reissue-name-change-marriage",
+      "document_options": [
+        "marriage_certificate",
+        "joint_photo_declaration"
+      ],
+      "acquisition_service_id": null
+    }
+  ],
+  "optional_documents": [],
+  "prerequisite_services": [],
+  "acquisition_routes": [],
+  "blockers": [
+    {
+      "code": "missing_document_route_outside_jurisdiction",
+      "service_id": "aadhaar-name-update",
+      "message": "'Aadhaar name update (e.g. after marriage)' needs one of: Marriage certificate (issued by government / Registrar of Marriage); Gazette notification of name change for 'Proof of identity in the new name (any one)'. 'Marriage registration (Delhi, Hindu Marriage Act)' issues one, but GovPath has verified it only for Delhi, not Maharashtra.",
+      "requirement_id": "aadhaar-name-update.proof-of-identity-new-name",
+      "document_options": [
+        "marriage_certificate",
+        "gazette_notification_name_change"
+      ],
+      "blocked_by_service_ids": [],
+      "route_service_ids": [
+        "marriage-registration-delhi"
+      ],
+      "evidence_ids": [
+        "uidai-list4-own-name",
+        "uidai-list4-heading",
+        "uidai-poi-marriage-certificate",
+        "uidai-poi-gazette",
+        "dl-mr-what"
+      ]
+    },
+    {
+      "code": "missing_document_route_outside_jurisdiction",
+      "service_id": "passport-reissue-name-change-marriage",
+      "message": "'Passport reissue for change of name after marriage' needs one of: Marriage certificate (issued by government / Registrar of Marriage); Joint photo declaration of husband and wife (Passport Annexure J) for 'Marriage certificate or joint photo declaration (any one)'. 'Marriage registration (Delhi, Hindu Marriage Act)' issues one, but GovPath has verified it only for Delhi, not Maharashtra.",
+      "requirement_id": "passport-reissue-name-change-marriage.marriage-proof",
+      "document_options": [
+        "marriage_certificate",
+        "joint_photo_declaration"
+      ],
+      "blocked_by_service_ids": [],
+      "route_service_ids": [
+        "marriage-registration-delhi"
+      ],
+      "evidence_ids": [
+        "pp-name-change-marriage-row",
+        "pp-doc-14-marriage-certificate",
+        "pp-doc-56-joint-photo",
+        "dl-mr-what"
+      ]
+    }
+  ],
+  "next_action": {
+    "type": "obtain_document",
+    "reason": {
+      "code": "resolve_blocker",
+      "message": "Obtain one of: Marriage certificate (issued by government / Registrar of Marriage); Gazette notification of name change first. 'Aadhaar name update (e.g. after marriage)' is blocked without it.",
+      "unblocks": [],
+      "parallel_with": [],
+      "documents_used": [],
+      "document_options": [
+        "marriage_certificate",
+        "gazette_notification_name_change"
+      ],
+      "evidence_ids": [
+        "uidai-list4-own-name",
+        "uidai-list4-heading",
+        "uidai-poi-marriage-certificate",
+        "uidai-poi-gazette",
+        "dl-mr-what"
+      ]
+    },
+    "service_id": "aadhaar-name-update",
+    "requirement_id": "aadhaar-name-update.proof-of-identity-new-name",
+    "document_options": [
+      "marriage_certificate",
+      "gazette_notification_name_change"
+    ]
+  },
+  "evidence": [
+    {
+      "id": "pp-doc-14-marriage-certificate",
+      "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+      "source_title": "Instructions for filling of passport application form (booklet V3.0) - Passport Seva",
+      "excerpt": "14. An attested copy of marriage certificate issued by Registrar of Marriage",
+      "locator": "Table 3, Document No. 14",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "pp-doc-56-joint-photo",
+      "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+      "source_title": "Instructions for filling of passport application form (booklet V3.0) - Passport Seva",
+      "excerpt": "56. Joint Photo Declaration signed by both husband and wife as per Annexure J",
+      "locator": "Table 3, Document No. 56",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "pp-name-change-marriage-row",
+      "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+      "source_title": "Instructions for filling of passport application form (booklet V3.0) - Passport Seva",
+      "excerpt": "A woman applying for change of name/ surname in existing Passport due to marriage 5, 14 or 56",
+      "locator": "Table 2 (II) E.1",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "pp-reissue-old-passport",
+      "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+      "source_title": "Instructions for filling of passport application form (booklet V3.0) - Passport Seva",
+      "excerpt": "For re-issue of passport, an applicant is required to submit old Passport in original with self-attested photocopy of its first two and last two pages",
+      "locator": "Section D",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-centre-mode",
+      "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+      "source_title": "Updating Data on Aadhaar - UIDAI",
+      "excerpt": "Aadhaar number holders place the demographic/biometric update request with the help of an operator at an Aadhaar Enrolment Centre",
+      "locator": null,
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-list4-heading",
+      "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+      "source_title": "List of Acceptable Documents for Enrolment and Update - UIDAI",
+      "excerpt": "List IV -Documents that may be presented to evidence Proof of Identity, Address, Relationship or Date of Birth for update of information in respect of Aadhaar Number Holder of any age",
+      "locator": "List IV, page 9",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-list4-own-name",
+      "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+      "source_title": "List of Acceptable Documents for Enrolment and Update - UIDAI",
+      "excerpt": "PoI, PoA, PoR and PDB documents submitted for update must be issued in the name of the individual seeking update",
+      "locator": "List IV, Note (b)(iii), page 13",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-poi-gazette",
+      "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+      "source_title": "List of Acceptable Documents for Enrolment and Update - UIDAI",
+      "excerpt": "18. For change in first name or change in full name: Gazette notification",
+      "locator": "List IV, Sl. No. 18, page 10",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-poi-marriage-certificate",
+      "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+      "source_title": "List of Acceptable Documents for Enrolment and Update - UIDAI",
+      "excerpt": "11. Marriage Certificate with or without photograph issued by Central Government/ State Government (supporting PoI document bearing old name with photograph is required if the Marriage Certificate is without photograph)",
+      "locator": "List IV, Sl. No. 11, page 9",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-update-fields",
+      "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+      "source_title": "Updating Data on Aadhaar - UIDAI",
+      "excerpt": "Aadhaar details that can be updated are: Demographic Information Name, Address, Date of Birth/Age, Gender, Mobile Number, Email Address, Relationship Status and Information Sharing Consent",
+      "locator": null,
+      "verified_at": "2026-11-14"
+    }
+  ],
+  "completed": [],
+  "progress": {
+    "total_services": 2,
+    "completed": 0,
+    "completed_user_reported": 0,
+    "completed_verified": 0,
+    "in_progress": 0,
+    "ready": 0,
+    "waiting": 0,
+    "blocked": 2
+  },
+  "document_summary": {
+    "mandatory_requirements": 4,
+    "satisfied": 2,
+    "will_be_produced": 0,
+    "missing": 2,
+    "unusable": []
+  },
+  "notices": [],
+  "clarifications": [],
+  "citizen_state": "Maharashtra",
+  "services": {
+    "aadhaar-name-update": {
+      "name": "Aadhaar name update (e.g. after marriage)",
+      "name_hi": "\u0906\u0927\u093e\u0930 \u092e\u0947\u0902 \u0928\u093e\u092e \u0905\u092a\u0921\u0947\u091f (\u091c\u0948\u0938\u0947 \u0935\u093f\u0935\u093e\u0939 \u0915\u0947 \u092c\u093e\u0926)"
+    },
+    "marriage-registration-delhi": {
+      "name": "Marriage registration (Delhi, Hindu Marriage Act)",
+      "name_hi": "\u0935\u093f\u0935\u093e\u0939 \u092a\u0902\u091c\u0940\u0915\u0930\u0923 (\u0926\u093f\u0932\u094d\u0932\u0940, \u0939\u093f\u0902\u0926\u0942 \u0935\u093f\u0935\u093e\u0939 \u0905\u0927\u093f\u0928\u093f\u092f\u092e)"
+    },
+    "passport-reissue-name-change-marriage": {
+      "name": "Passport reissue for change of name after marriage",
+      "name_hi": "\u0935\u093f\u0935\u093e\u0939 \u0915\u0947 \u092c\u093e\u0926 \u0928\u093e\u092e \u092a\u0930\u093f\u0935\u0930\u094d\u0924\u0928 \u0939\u0947\u0924\u0941 \u092a\u093e\u0938\u092a\u094b\u0930\u094d\u091f \u092a\u0941\u0928\u0903 \u091c\u093e\u0930\u0940 \u0915\u0930\u0928\u093e"
+    }
+  },
+  "requirements": {
+    "aadhaar-name-update.aadhaar-number": {
+      "name": "Existing Aadhaar number",
+      "name_hi": "\u092e\u094c\u091c\u0942\u0926\u093e \u0906\u0927\u093e\u0930 \u0928\u0902\u092c\u0930"
+    },
+    "aadhaar-name-update.proof-of-identity-new-name": {
+      "name": "Proof of identity in the new name (any one)",
+      "name_hi": "\u0928\u090f \u0928\u093e\u092e \u092e\u0947\u0902 \u092a\u0939\u091a\u093e\u0928 \u0915\u093e \u092a\u094d\u0930\u092e\u093e\u0923 (\u0915\u094b\u0908 \u090f\u0915)"
+    },
+    "passport-reissue-name-change-marriage.old-passport": {
+      "name": "Old passport in original (with self-attested copies)",
+      "name_hi": "\u092e\u0942\u0932 \u092a\u0941\u0930\u093e\u0928\u093e \u092a\u093e\u0938\u092a\u094b\u0930\u094d\u091f (\u0938\u094d\u0935-\u0938\u0924\u094d\u092f\u093e\u092a\u093f\u0924 \u092a\u094d\u0930\u0924\u093f\u092f\u094b\u0902 \u0938\u0939\u093f\u0924)"
+    },
+    "passport-reissue-name-change-marriage.marriage-proof": {
+      "name": "Marriage certificate or joint photo declaration (any one)",
+      "name_hi": "\u0935\u093f\u0935\u093e\u0939 \u092a\u094d\u0930\u092e\u093e\u0923\u092a\u0924\u094d\u0930 \u092f\u093e \u0938\u0902\u092f\u0941\u0915\u094d\u0924 \u092b\u093c\u094b\u091f\u094b \u0918\u094b\u0937\u0923\u093e (\u0915\u094b\u0908 \u090f\u0915)"
+    }
+  },
+  "documents": {
+    "aadhaar_number": {
+      "name": "Aadhaar number (existing Aadhaar)",
+      "name_hi": "\u0906\u0927\u093e\u0930 \u0928\u0902\u092c\u0930 (\u092e\u094c\u091c\u0942\u0926\u093e \u0906\u0927\u093e\u0930)",
+      "category": "existing_record"
+    },
+    "aadhaar_updated_name": {
+      "name": "Aadhaar showing updated name",
+      "name_hi": "\u0905\u0926\u094d\u092f\u0924\u0928 \u0928\u093e\u092e \u0935\u093e\u0932\u093e \u0906\u0927\u093e\u0930",
+      "category": "identity"
+    },
+    "gazette_notification_name_change": {
+      "name": "Gazette notification of name change",
+      "name_hi": "\u0928\u093e\u092e \u092a\u0930\u093f\u0935\u0930\u094d\u0924\u0928 \u0915\u0940 \u0930\u093e\u091c\u092a\u0924\u094d\u0930 (\u0917\u091c\u091f) \u0905\u0927\u093f\u0938\u0942\u091a\u0928\u093e",
+      "category": "identity"
+    },
+    "joint_photo_declaration": {
+      "name": "Joint photo declaration of husband and wife (Passport Annexure J)",
+      "name_hi": "\u092a\u0924\u093f-\u092a\u0924\u094d\u0928\u0940 \u0915\u0940 \u0938\u0902\u092f\u0941\u0915\u094d\u0924 \u092b\u093c\u094b\u091f\u094b \u0918\u094b\u0937\u0923\u093e (\u092a\u093e\u0938\u092a\u094b\u0930\u094d\u091f \u0905\u0928\u0941\u0932\u0917\u094d\u0928\u0915 J)",
+      "category": "identity"
+    },
+    "marriage_affidavits": {
+      "name": "Separate affidavits of husband and wife (prescribed format)",
+      "name_hi": "\u092a\u0924\u093f \u0914\u0930 \u092a\u0924\u094d\u0928\u0940 \u0915\u0947 \u0905\u0932\u0917-\u0905\u0932\u0917 \u0936\u092a\u0925\u092a\u0924\u094d\u0930 (\u0928\u093f\u0930\u094d\u0927\u093e\u0930\u093f\u0924 \u092a\u094d\u0930\u093e\u0930\u0942\u092a)",
+      "category": "other"
+    },
+    "marriage_certificate": {
+      "name": "Marriage certificate (issued by government / Registrar of Marriage)",
+      "name_hi": "\u0935\u093f\u0935\u093e\u0939 \u092a\u094d\u0930\u092e\u093e\u0923\u092a\u0924\u094d\u0930 (\u0938\u0930\u0915\u093e\u0930 / \u0935\u093f\u0935\u093e\u0939 \u0930\u091c\u093f\u0938\u094d\u091f\u094d\u0930\u093e\u0930 \u0926\u094d\u0935\u093e\u0930\u093e \u091c\u093e\u0930\u0940)",
+      "category": "existing_record"
+    },
+    "marriage_photographs_attested": {
+      "name": "Attested passport-size and ceremonial photographs of both parties",
+      "name_hi": "\u0926\u094b\u0928\u094b\u0902 \u092a\u0915\u094d\u0937\u094b\u0902 \u0915\u0947 \u0938\u0924\u094d\u092f\u093e\u092a\u093f\u0924 \u092a\u093e\u0938\u092a\u094b\u0930\u094d\u091f \u0906\u0915\u093e\u0930 \u0935 \u0938\u092e\u093e\u0930\u094b\u0939 \u0915\u0947 \u092b\u093c\u094b\u091f\u094b",
+      "category": "identity"
+    },
+    "passport_existing": {
+      "name": "Old passport (original)",
+      "name_hi": "\u092a\u0941\u0930\u093e\u0928\u093e \u092a\u093e\u0938\u092a\u094b\u0930\u094d\u091f (\u092e\u0942\u0932)",
+      "category": "existing_record"
+    },
+    "passport_updated_name": {
+      "name": "Passport showing updated name",
+      "name_hi": "\u0905\u0926\u094d\u092f\u0924\u0928 \u0928\u093e\u092e \u0935\u093e\u0932\u093e \u092a\u093e\u0938\u092a\u094b\u0930\u094d\u091f",
+      "category": "identity"
+    }
+  }
+}

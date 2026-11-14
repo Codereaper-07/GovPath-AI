@@ -165,6 +165,9 @@ describe('Assistant', () => {
       target_service_ids: ['aadhaar-address-update'],
       owned_document_ids: ['aadhaar_number'],
       completed_service_ids: [],
+      progress: {},
+      document_states: {},
+      state: null,
     })
   })
 
@@ -172,7 +175,7 @@ describe('Assistant', () => {
     const calls = backend(() => ({ ...answer, language: 'hi', answer: 'वर्तमान पते का कोई एक प्रमाण लगाएँ [S1]।' }))
     renderApp('/assistant')
     await screen.findByLabelText('Your question')
-    await userEvent.selectOptions(screen.getByRole('combobox'), 'hi')
+    await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Language' }), 'hi')
     await userEvent.type(await screen.findByLabelText('आपका प्रश्न'), 'पासपोर्ट के लिए पते का प्रमाण?')
     await userEvent.click(screen.getByRole('button', { name: 'पूछें' }))
     const card = await screen.findByTestId('assistant-answer')

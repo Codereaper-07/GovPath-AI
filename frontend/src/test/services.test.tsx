@@ -33,7 +33,7 @@ describe('Services catalogue', () => {
     mockFetch(api)
     renderApp('/services')
     await screen.findByText('Aadhaar address update')
-    await userEvent.selectOptions(screen.getByRole('combobox'), 'hi')
+    await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Language' }), 'hi')
     expect(await screen.findByRole('link', { name: 'आधार में पता अपडेट' })).toBeInTheDocument()
     expect(screen.getByRole('heading', { level: 1, name: 'सरकारी सेवाएँ' })).toBeInTheDocument()
     expect(screen.getAllByText('आधिकारिक वेबसाइट ↗').length).toBe(10)

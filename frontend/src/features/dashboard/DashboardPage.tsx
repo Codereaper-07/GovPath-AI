@@ -9,7 +9,7 @@ import { useFormatDate, useLocalized } from '../../lib/useLocalized'
 import type { LifeEventId, PlanRequest, PlanResponse, ServiceSummary } from '../../types/api'
 import { usePlan } from '../planner/api'
 import { usePlanNames } from '../planner/names'
-import { readSavedPlan } from '../planner/usePlannerState'
+import { planRequestOf, readSavedPlan } from '../planner/usePlannerState'
 import { useDocuments, useServices } from '../services/api'
 import { SystemStatus } from './SystemStatus'
 
@@ -239,14 +239,7 @@ function SavedPlanTicket() {
   const saved = readSavedPlan()
   const hasPlan = saved.targets.length > 0
   const request: PlanRequest | null = useMemo(
-    () =>
-      saved.generated && saved.targets.length
-        ? {
-            target_service_ids: [...saved.targets].sort(),
-            owned_document_ids: [...saved.owned].sort(),
-            completed_service_ids: [...saved.completed].sort(),
-          }
-        : null,
+    () => (saved.generated && saved.targets.length ? planRequestOf(saved) : null),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   )
@@ -255,8 +248,9 @@ function SavedPlanTicket() {
   const documents = useDocuments()
   const names = usePlanNames(plan.data, services.data ?? [], documents.data ?? [])
   const next = plan.data?.next_action
-  const total = plan.data ? plan.data.steps.length + plan.data.completed_service_ids.length : 0
-  const done = plan.data?.completed_service_ids.length ?? 0
+  // Process progress only (user-reported completions); documents never count as progress.
+  const done = plan.data ? (plan.data.progress?.completed ?? plan.data.completed_service_ids.length) : 0
+  const total = plan.data ? (plan.data.progress?.total_services ?? plan.data.steps.length + done) : 0
 
   if (!hasPlan) {
     return (
@@ -288,7 +282,9 @@ function SavedPlanTicket() {
             <p className="mt-1 font-display text-2xl leading-snug font-semibold text-ink sm:text-3xl">
               {next.type === 'start_service' && next.service_id
                 ? t('planner.startService', { service: names.service(next.service_id) })
-                : t('planner.obtainDocument')}
+                : next.type === 'follow_up' && next.service_id
+                  ? t('planner.followUp', { service: names.service(next.service_id) })
+                  : t('planner.obtainDocument')}
             </p>
           </>
         ) : (
@@ -309,11 +305,12 @@ function SavedPlanTicket() {
           <div>
             <div className="flex justify-between text-xs font-semibold text-muted">
               <span>{t('home.progress')}</span>
-              <span>{t('home.progressValue', { done, total })}</span>
+              <span>{t('planner.servicesDone', { done, total })}</span>
             </div>
             <div className="mt-2 h-2 overflow-hidden rounded-full bg-rule">
               <div className="h-full rounded-full bg-jade-600 transition-all duration-700" style={{ width: `${(done / total) * 100}%` }} />
             </div>
+            <p className="mt-1.5 text-[11px] text-muted">{t('planner.progressSource')}</p>
           </div>
         )}
         <dl className="grid grid-cols-3 gap-3">
@@ -341,7 +338,7 @@ function SavedPlanTicket() {
 /** The saved plan as a row of stops, in the backend's order (completed first). */
 function MiniRoute({ plan }: { plan: PlanResponse }) {
   const stops = [
-    ...plan.completed_service_ids.map((id) => ({ id, status: 'done' as const })),
+    ...(plan.completed ? plan.completed.map((c) => c.service_id) : plan.completed_service_ids).map((id) => ({ id, status: 'done' as const })),
     ...plan.steps.map((s) => ({ id: s.service_id, status: s.status })),
   ]
   const nextId = plan.next_action.service_id
@@ -359,7 +356,9 @@ function MiniRoute({ plan }: { plan: PlanResponse }) {
                     ? 'bg-crimson-500'
                     : s.status === 'ready'
                       ? 'bg-ink'
-                      : 'border-2 border-waiting bg-card'
+                      : s.status === 'in_progress'
+                        ? 'bg-jade-50 ring-2 ring-jade-500'
+                        : 'border-2 border-waiting bg-card'
             }`}
           />
           {i < stops.length - 1 && <span className={`h-0.5 flex-1 ${s.status === 'done' ? 'bg-jade-600' : 'bg-rule-strong'}`} />}

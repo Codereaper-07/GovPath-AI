@@ -32,6 +32,7 @@ from app.models import (
     SourceDocument,
 )
 from app.models.enums import (
+    CitizenGoal,
     DocumentCategory,
     Jurisdiction,
     LifeEvent,
@@ -121,6 +122,7 @@ class ServiceIn(_Strict):
     state: str | None = None
     category: str
     life_events: list[LifeEvent] = Field(min_length=1)
+    goals: list[CitizenGoal] = Field(min_length=1)
     application_form: str | None = None
     official_info_url: str = Field(pattern=r"^https://")
     application_url: str | None = Field(default=None, pattern=r"^https://")
@@ -359,6 +361,7 @@ async def apply_seed(session: AsyncSession, data: SeedData) -> SeedReport:
             setattr(svc, attr, getattr(s, attr))
         svc.last_verified_at = _as_datetime(s.last_verified_on)
         svc.life_events = [e.value for e in s.life_events]
+        svc.goals = [g.value for g in s.goals]
         svc.evidence = [evidence[k] for k in s.evidence]
         _sync_requirements(svc, s, docs, evidence, ev_status, report)
         _sync_outputs(svc, s, docs, evidence, report)

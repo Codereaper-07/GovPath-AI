@@ -11,6 +11,9 @@
   "life_events": [
     "relocation-identity"
   ],
+  "goals": [
+    "update-address"
+  ],
   "application_form": null,
   "official_info_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
   "application_url": "https://myaadhaar.uidai.gov.in/",

@@ -246,6 +246,9 @@ def summarize_plan(plan: PlanResult, names: dict[str, dict]) -> str:
     svc = lambda sid: names["services"].get(sid, (sid, None))[0]  # noqa: E731
     doc = lambda did: names["documents"].get(did, (did, None, None))[0]  # noqa: E731
     lines = []
+    # Lines below are added only when present, so prompts for plain selections are unchanged.
+    if plan.citizen_state:
+        lines.append(f"Citizen's state/UT: {plan.citizen_state}")
     a = plan.next_action
     target = f" {svc(a.service_id)}" if a.service_id else ""
     lines.append(f"Next action: {a.type.value}{target}. Planner reason: {a.reason.message}")
@@ -258,12 +261,21 @@ def summarize_plan(plan: PlanResult, names: dict[str, dict]) -> str:
             f"Step {s.step_number} (group {s.stage}): {svc(s.service_id)} — "
             f"status {s.status.value}, role {s.role.value}; waits for: {deps or 'nothing'}"
         )
+        if s.process_state.value in ("started", "submitted"):
+            lines.append(f"  progress reported by the citizen: {s.process_state.value}")
         for r in s.requirements:
             if r.kind.value == "mandatory" and r.state.value == "missing":
                 options = "; ".join(doc(d) for d in r.document_options)
                 lines.append(f"  missing: {r.name} — any one of: {options}")
     if plan.completed_service_ids:
         lines.append("Completed: " + ", ".join(svc(s) for s in plan.completed_service_ids))
+    if plan.document_summary and plan.document_summary.unusable:
+        marked = ", ".join(
+            f"{doc(u.document_id)} ({u.state.value})" for u in plan.document_summary.unusable
+        )
+        lines.append(f"Documents the citizen marked not usable (they satisfy nothing): {marked}")
+    for n in plan.notices:
+        lines.append(f"Notice: {n.message}")
     for b in plan.blockers:
         lines.append(f"Blocker: {b.message}")
     return "\n".join(lines)

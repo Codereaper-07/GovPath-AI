@@ -11,6 +11,9 @@
   "life_events": [
     "marriage-family"
   ],
+  "goals": [
+    "register-marriage"
+  ],
   "application_form": "Marriage registration application form",
   "official_info_url": "https://revenue.delhi.gov.in/revenue/registration-marriage",
   "application_url": null,

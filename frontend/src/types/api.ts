@@ -112,14 +112,24 @@ export interface DocumentType {
 
 // ---- workflow planning
 
+export type ProcessState = 'not_started' | 'started' | 'submitted' | 'completed'
+export type DocumentState = 'available' | 'expired' | 'invalid' | 'unsure'
+
 export interface PlanRequest {
   target_service_ids: string[]
   owned_document_ids: string[]
+  /** User-reported completions. */
   completed_service_ids: string[]
+  /** Started/submitted processes, reported by the citizen. */
+  progress?: Record<string, ProcessState>
+  /** Held documents the citizen marked unusable (only "available" satisfies). */
+  document_states?: Record<string, DocumentState>
+  /** State/UT the citizen lives in, if known. */
+  state?: string | null
 }
 
 export type StepRole = 'target' | 'prerequisite' | 'acquisition'
-export type StepStatus = 'ready' | 'waiting' | 'blocked'
+export type StepStatus = 'ready' | 'waiting' | 'blocked' | 'in_progress'
 export type RequirementState = 'satisfied' | 'pending_acquisition' | 'missing' | 'not_provided'
 
 export interface Dependency {
@@ -128,6 +138,7 @@ export interface Dependency {
   document_id: string | null
   requirement_id: string | null
   evidence_ids: string[]
+  acceptance_evidence_ids?: string[]
 }
 
 export interface RequirementStatus {
@@ -144,6 +155,7 @@ export interface RequirementStatus {
   condition: string | null
   notes: string | null
   evidence_ids: string[]
+  unusable_document_ids?: string[]
 }
 
 export interface PlanStep {
@@ -157,28 +169,37 @@ export interface PlanStep {
   unblocks: string[]
   requirements: RequirementStatus[]
   evidence_ids: string[]
+  process_state?: ProcessState
+  authority?: string
+  region?: string | null
+  /** Completion condition: verified documents the service issues when done. */
+  completion_document_ids?: string[]
+  completion_evidence_ids?: string[]
 }
 
 export interface Blocker {
-  code: 'missing_document_no_route' | 'dependency_blocked'
+  code: 'missing_document_no_route' | 'missing_document_route_outside_jurisdiction' | 'dependency_blocked'
   service_id: string
   message: string
   requirement_id: string | null
   document_options: string[]
   blocked_by_service_ids: string[]
+  route_service_ids?: string[]
+  evidence_ids?: string[]
 }
 
 export interface ReasonOut {
-  code: 'unblocks_downstream' | 'ready_independent' | 'resolve_blocker' | 'all_complete'
+  code: 'unblocks_downstream' | 'ready_independent' | 'resolve_blocker' | 'await_in_progress' | 'all_complete'
   message: string
   unblocks: string[]
   parallel_with: string[]
   documents_used: string[]
   document_options: string[]
+  evidence_ids?: string[]
 }
 
 export interface NextAction {
-  type: 'start_service' | 'obtain_document' | 'none'
+  type: 'start_service' | 'obtain_document' | 'follow_up' | 'none'
   reason: ReasonOut
   service_id: string | null
   requirement_id: string | null
@@ -225,6 +246,12 @@ export interface PlanResponse {
   blockers: Blocker[]
   next_action: NextAction
   evidence: EvidenceRef[]
+  completed?: { service_id: string; source: 'user_reported' | 'official'; output_document_ids: string[] }[]
+  progress?: ProgressSummary | null
+  document_summary?: DocumentSummary | null
+  notices?: { code: string; service_id: string; message: string; related_service_ids: string[] }[]
+  clarifications?: { code: 'state_required'; service_id: string; region: string | null }[]
+  citizen_state?: string | null
   services: Record<string, DisplayName>
   requirements: Record<string, DisplayName>
   documents: Record<string, DisplayName & { category: DocumentCategory }>
@@ -279,4 +306,74 @@ export interface AssistantAnswer {
     next_action: NextAction
     steps: { service_id: string; status: StepStatus; stage: number; role: StepRole }[]
   } | null
+}
+
+export interface ProgressSummary {
+  total_services: number
+  completed: number
+  completed_user_reported: number
+  completed_verified: number
+  in_progress: number
+  ready: number
+  waiting: number
+  blocked: number
+}
+
+export interface DocumentSummary {
+  mandatory_requirements: number
+  satisfied: number
+  will_be_produced: number
+  missing: number
+  unusable: { document_id: string; state: DocumentState }[]
+}
+
+export type CitizenGoal = 'update-address' | 'update-name-after-marriage' | 'register-marriage' | 'enrol-child-aadhaar' | 'get-pan'
+
+export interface CitizenContext {
+  goals: string[]
+  life_events: string[]
+  state: string | null
+  held_document_ids: string[]
+  lacking_document_ids: string[]
+  completed_service_ids: string[]
+}
+
+export interface DiscoveryCandidate {
+  service_id: string
+  status: 'included' | 'needs_clarification' | 'excluded' | 'completed'
+  matched_goals: string[]
+  matched_life_events: string[]
+  region: string | null
+  exclusion: 'outside_verified_jurisdiction' | 'lacks_required_record' | null
+  record_document_ids: string[]
+}
+
+export interface DiscoverResponse {
+  generated_by: string
+  state: string | null
+  candidates: DiscoveryCandidate[]
+  clarifications: { code: 'goal_required' | 'state_required' | 'record_held'; service_ids: string[]; document_ids: string[] }[]
+  recommended_target_ids: string[]
+  services: Record<string, DisplayName>
+  documents: Record<string, DisplayName & { category: DocumentCategory }>
+}
+
+export interface Vocabulary {
+  goals: CitizenGoal[]
+  life_events: LifeEventId[]
+  states: string[]
+}
+
+export interface SituationInterpretation {
+  generated_by: 'ai'
+  label: string
+  model: string
+  goals: string[]
+  life_events: string[]
+  state: string | null
+  held_document_ids: string[]
+  lacking_document_ids: string[]
+  completed_service_ids: string[]
+  unknowns: string[]
+  dropped: string[]
 }

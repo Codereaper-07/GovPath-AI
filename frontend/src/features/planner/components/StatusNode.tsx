@@ -1,12 +1,13 @@
 import { Icon } from '../../../components/ui/Icon'
 
-export type NodeKind = 'ready' | 'waiting' | 'blocked' | 'done' | 'next'
+export type NodeKind = 'ready' | 'waiting' | 'blocked' | 'done' | 'next' | 'in_progress'
 
 const NODE: Record<NodeKind, { cls: string; icon: 'arrow' | 'clock' | 'alert' | 'check' }> = {
   ready: { cls: 'bg-ink text-paper', icon: 'arrow' },
   waiting: { cls: 'bg-card text-faint ring-2 ring-inset ring-waiting', icon: 'clock' },
   blocked: { cls: 'bg-crimson-500 text-paper', icon: 'alert' },
   done: { cls: 'bg-jade-600 text-paper', icon: 'check' },
+  in_progress: { cls: 'bg-jade-50 text-jade-700 ring-2 ring-inset ring-jade-500', icon: 'clock' },
   next: { cls: 'animate-beacon bg-zest-400 text-ink ring-2 ring-ink', icon: 'arrow' },
 }
 

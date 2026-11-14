@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Icon } from '../../../components/ui/Icon'
 import { useLocalized } from '../../../lib/useLocalized'
-import type { DocumentCategory, DocumentType } from '../../../types/api'
+import type { DocumentCategory, DocumentState, DocumentType } from '../../../types/api'
 
 const CATEGORY_ORDER: DocumentCategory[] = ['existing_record', 'address_proof', 'vehicle', 'financial', 'identity', 'other']
 
@@ -17,12 +17,16 @@ export function DocumentChecklist({
   owned,
   highlight,
   onChange,
+  docStates = {},
+  onDocState,
 }: {
   documents: DocumentType[]
   relevantServiceIds: string[]
   owned: string[]
   highlight: Set<string>
   onChange: (id: string, on: boolean) => void
+  docStates?: Record<string, DocumentState>
+  onDocState?: (id: string, state: DocumentState) => void
 }) {
   const { t } = useTranslation()
   const pick = useLocalized()
@@ -52,8 +56,9 @@ export function DocumentChecklist({
                   {docs.map((d) => {
                     const on = owned.includes(d.id)
                     const helps = !on && highlight.has(d.id)
+                    const condition = docStates[d.id] ?? 'available'
                     return (
-                      <li key={d.id}>
+                      <li key={d.id} className={on && condition !== 'available' ? 'bg-honey-50' : ''}>
                         <label className={`flex cursor-pointer items-start gap-3 px-3.5 py-2.5 text-sm transition hover:bg-paper ${helps ? 'bg-zest-100' : ''}`}>
                           <input type="checkbox" className="peer sr-only" checked={on} onChange={(e) => onChange(d.id, e.target.checked)} />
                           <span
@@ -69,6 +74,23 @@ export function DocumentChecklist({
                             {helps && <span className="ml-1.5 text-xs font-bold text-zest-800">· {t('planner.wouldHelp')}</span>}
                           </span>
                         </label>
+                        {on && onDocState && (
+                          <div className="flex items-center gap-2 px-3.5 pb-2.5 pl-11 text-xs text-muted">
+                            <select
+                              aria-label={t('planner.docCondition', { document: pick(d.name, d.name_hi) })}
+                              value={condition}
+                              onChange={(e) => onDocState(d.id, e.target.value as DocumentState)}
+                              className={`rounded-full border px-2.5 py-0.5 text-xs font-semibold ${condition === 'available' ? 'border-rule bg-card text-muted' : 'border-honey-500 bg-honey-50 text-honey-700'}`}
+                            >
+                              {(['available', 'expired', 'invalid', 'unsure'] as const).map((c) => (
+                                <option key={c} value={c}>
+                                  {t(`documentState.${c}`)}
+                                </option>
+                              ))}
+                            </select>
+                            {condition !== 'available' && <span>{t('planner.docNotCounted')}</span>}
+                          </div>
+                        )}
                       </li>
                     )
                   })}

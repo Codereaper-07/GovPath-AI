@@ -1,0 +1,1391 @@
+{
+  "generated_by": "deterministic-planner",
+  "selected_service_ids": [
+    "aadhaar-address-update",
+    "driving-licence-address-change",
+    "passport-reissue-change-of-address"
+  ],
+  "completed_service_ids": [],
+  "steps": [
+    {
+      "step_number": 1,
+      "stage": 1,
+      "service_id": "aadhaar-address-update",
+      "service_name": "Aadhaar address update",
+      "role": "target",
+      "status": "in_progress",
+      "depends_on": [],
+      "unblocks": [
+        "driving-licence-address-change"
+      ],
+      "requirements": [
+        {
+          "requirement_id": "aadhaar-address-update.aadhaar-number",
+          "service_id": "aadhaar-address-update",
+          "name": "Existing Aadhaar number",
+          "kind": "mandatory",
+          "state": "satisfied",
+          "document_options": [
+            "aadhaar_number"
+          ],
+          "is_alternative_group": false,
+          "satisfied_by_document_id": "aadhaar_number",
+          "acquired_via_service_id": null,
+          "acquired_document_id": null,
+          "condition": null,
+          "notes": null,
+          "evidence_ids": [
+            "uidai-online-mode"
+          ],
+          "unusable_document_ids": []
+        },
+        {
+          "requirement_id": "aadhaar-address-update.proof-of-address",
+          "service_id": "aadhaar-address-update",
+          "name": "Proof of new address (any one)",
+          "kind": "mandatory",
+          "state": "satisfied",
+          "document_options": [
+            "passport_current_address",
+            "ration_card",
+            "voter_id_current_address",
+            "bank_or_post_office_passbook",
+            "bank_statement",
+            "electricity_bill",
+            "water_bill",
+            "telephone_bill",
+            "gas_bill",
+            "property_tax_receipt",
+            "rent_or_lease_agreement",
+            "registered_sale_deed",
+            "life_insurance_policy",
+            "uidai_address_certificate"
+          ],
+          "is_alternative_group": true,
+          "satisfied_by_document_id": "electricity_bill",
+          "acquired_via_service_id": null,
+          "acquired_document_id": null,
+          "condition": null,
+          "notes": "Documents must be currently valid and issued in the name of the person seeking the update.",
+          "evidence_ids": [
+            "uidai-online-poa-upload",
+            "uidai-list4-heading",
+            "uidai-list4-own-name",
+            "uidai-poa-passport",
+            "uidai-poa-ration",
+            "uidai-poa-voter",
+            "uidai-poa-passbook",
+            "uidai-poa-statement",
+            "uidai-poa-electricity",
+            "uidai-poa-water",
+            "uidai-poa-telephone",
+            "uidai-poa-gas",
+            "uidai-poa-property-tax",
+            "uidai-poa-sale-rent",
+            "uidai-poa-insurance",
+            "uidai-poa-certificate"
+          ],
+          "unusable_document_ids": []
+        },
+        {
+          "requirement_id": "aadhaar-address-update.registered-mobile",
+          "service_id": "aadhaar-address-update",
+          "name": "Mobile number registered with Aadhaar",
+          "kind": "conditional",
+          "state": "not_provided",
+          "document_options": [
+            "mobile_linked_to_aadhaar"
+          ],
+          "is_alternative_group": false,
+          "satisfied_by_document_id": null,
+          "acquired_via_service_id": null,
+          "acquired_document_id": null,
+          "condition": "Only for the online (myAadhaar) route; not needed at an Aadhaar Enrolment Centre.",
+          "notes": null,
+          "evidence_ids": [
+            "uidai-online-mode",
+            "uidai-centre-mode"
+          ],
+          "unusable_document_ids": []
+        }
+      ],
+      "evidence_ids": [
+        "uidai-centre-mode",
+        "uidai-list4-heading",
+        "uidai-list4-own-name",
+        "uidai-online-mode",
+        "uidai-online-poa-upload",
+        "uidai-poa-certificate",
+        "uidai-poa-driving-licence-not-allowed",
+        "uidai-poa-electricity",
+        "uidai-poa-gas",
+        "uidai-poa-insurance",
+        "uidai-poa-passbook",
+        "uidai-poa-passport",
+        "uidai-poa-property-tax",
+        "uidai-poa-ration",
+        "uidai-poa-sale-rent",
+        "uidai-poa-statement",
+        "uidai-poa-telephone",
+        "uidai-poa-voter",
+        "uidai-poa-water",
+        "uidai-update-fields"
+      ],
+      "process_state": "submitted",
+      "authority": "Unique Identification Authority of India (UIDAI)",
+      "region": null,
+      "completion_document_ids": [
+        "aadhaar_current_address"
+      ],
+      "completion_evidence_ids": [
+        "uidai-update-fields"
+      ]
+    },
+    {
+      "step_number": 2,
+      "stage": 1,
+      "service_id": "passport-reissue-change-of-address",
+      "service_name": "Passport reissue for change of address",
+      "role": "target",
+      "status": "ready",
+      "depends_on": [],
+      "unblocks": [],
+      "requirements": [
+        {
+          "requirement_id": "passport-reissue-change-of-address.old-passport",
+          "service_id": "passport-reissue-change-of-address",
+          "name": "Old passport in original (with self-attested copies)",
+          "kind": "mandatory",
+          "state": "satisfied",
+          "document_options": [
+            "passport_existing"
+          ],
+          "is_alternative_group": false,
+          "satisfied_by_document_id": "passport_existing",
+          "acquired_via_service_id": null,
+          "acquired_document_id": null,
+          "condition": null,
+          "notes": null,
+          "evidence_ids": [
+            "pp-reissue-old-passport"
+          ],
+          "unusable_document_ids": []
+        },
+        {
+          "requirement_id": "passport-reissue-change-of-address.proof-of-present-address",
+          "service_id": "passport-reissue-change-of-address",
+          "name": "Proof of present address (any one)",
+          "kind": "mandatory",
+          "state": "satisfied",
+          "document_options": [
+            "water_bill",
+            "telephone_bill",
+            "electricity_bill",
+            "income_tax_assessment_order",
+            "voter_id_current_address",
+            "gas_bill",
+            "employer_certificate",
+            "spouse_passport",
+            "aadhaar_current_address",
+            "rent_or_lease_agreement",
+            "bank_or_post_office_passbook"
+          ],
+          "is_alternative_group": true,
+          "satisfied_by_document_id": "electricity_bill",
+          "acquired_via_service_id": null,
+          "acquired_document_id": null,
+          "condition": null,
+          "notes": "Proof of the present address only is needed, irrespective of how long you have lived there.",
+          "evidence_ids": [
+            "pp-poa-if-different",
+            "pp-poa-list",
+            "pp-present-address-only",
+            "pp-poa-water",
+            "pp-poa-telephone",
+            "pp-poa-electricity",
+            "pp-poa-it-order",
+            "pp-poa-epic",
+            "pp-poa-gas",
+            "pp-poa-employer",
+            "pp-poa-spouse-passport",
+            "pp-poa-aadhaar",
+            "pp-poa-rent",
+            "pp-poa-passbook"
+          ],
+          "unusable_document_ids": []
+        }
+      ],
+      "evidence_ids": [
+        "pp-aadhaar-expedites",
+        "pp-poa-aadhaar",
+        "pp-poa-electricity",
+        "pp-poa-employer",
+        "pp-poa-epic",
+        "pp-poa-gas",
+        "pp-poa-if-different",
+        "pp-poa-it-order",
+        "pp-poa-list",
+        "pp-poa-passbook",
+        "pp-poa-rent",
+        "pp-poa-spouse-passport",
+        "pp-poa-telephone",
+        "pp-poa-water",
+        "pp-present-address-only",
+        "pp-reissue-change-particulars",
+        "pp-reissue-old-passport"
+      ],
+      "process_state": "not_started",
+      "authority": "Ministry of External Affairs (Passport Seva)",
+      "region": null,
+      "completion_document_ids": [
+        "passport_current_address"
+      ],
+      "completion_evidence_ids": [
+        "pp-reissue-change-particulars"
+      ]
+    },
+    {
+      "step_number": 3,
+      "stage": 2,
+      "service_id": "driving-licence-address-change",
+      "service_name": "Driving licence address change",
+      "role": "target",
+      "status": "waiting",
+      "depends_on": [
+        {
+          "service_id": "aadhaar-address-update",
+          "reason": "acquisition",
+          "document_id": "aadhaar_current_address",
+          "requirement_id": "driving-licence-address-change.proof-of-address",
+          "evidence_ids": [
+            "uidai-update-fields"
+          ],
+          "acceptance_evidence_ids": [
+            "form2-address-proof-required",
+            "form2-annexure-address-age",
+            "form2-state-specified",
+            "form2-aadhaar"
+          ]
+        }
+      ],
+      "unblocks": [],
+      "requirements": [
+        {
+          "requirement_id": "driving-licence-address-change.existing-licence",
+          "service_id": "driving-licence-address-change",
+          "name": "Existing driving licence",
+          "kind": "mandatory",
+          "state": "satisfied",
+          "document_options": [
+            "driving_licence_existing"
+          ],
+          "is_alternative_group": false,
+          "satisfied_by_document_id": "driving_licence_existing",
+          "acquired_via_service_id": null,
+          "acquired_document_id": null,
+          "condition": null,
+          "notes": null,
+          "evidence_ids": [
+            "form2-existing-licence",
+            "parivahan-dl-steps"
+          ],
+          "unusable_document_ids": []
+        },
+        {
+          "requirement_id": "driving-licence-address-change.proof-of-address",
+          "service_id": "driving-licence-address-change",
+          "name": "Proof of new address (any one)",
+          "kind": "mandatory",
+          "state": "pending_acquisition",
+          "document_options": [
+            "aadhaar_current_address",
+            "electoral_roll_entry_current_address",
+            "life_insurance_policy",
+            "passport_current_address"
+          ],
+          "is_alternative_group": true,
+          "satisfied_by_document_id": null,
+          "acquired_via_service_id": "aadhaar-address-update",
+          "acquired_document_id": "aadhaar_current_address",
+          "condition": null,
+          "notes": "Source lists these under 'Proof of Address and Age'. Your State Government may accept other documents.",
+          "evidence_ids": [
+            "form2-address-proof-required",
+            "form2-annexure-address-age",
+            "form2-state-specified",
+            "form2-aadhaar"
+          ],
+          "unusable_document_ids": []
+        },
+        {
+          "requirement_id": "driving-licence-address-change.photograph",
+          "service_id": "driving-licence-address-change",
+          "name": "Passport-size photograph",
+          "kind": "conditional",
+          "state": "not_provided",
+          "document_options": [
+            "photograph"
+          ],
+          "is_alternative_group": false,
+          "satisfied_by_document_id": null,
+          "acquired_via_service_id": null,
+          "acquired_document_id": null,
+          "condition": "Listed under 'Other documents to be enclosed or uploaded if applicable'.",
+          "notes": null,
+          "evidence_ids": [
+            "form2-if-applicable"
+          ],
+          "unusable_document_ids": []
+        }
+      ],
+      "evidence_ids": [
+        "form2-aadhaar",
+        "form2-address-printed",
+        "form2-address-proof-required",
+        "form2-annexure-address-age",
+        "form2-change-of-address-service",
+        "form2-existing-licence",
+        "form2-if-applicable",
+        "form2-state-specified",
+        "parivahan-dl-online",
+        "parivahan-dl-steps",
+        "uidai-update-fields"
+      ],
+      "process_state": "not_started",
+      "authority": "State Transport Department / Licensing Authority (Parivahan Sewa, MoRTH)",
+      "region": null,
+      "completion_document_ids": [
+        "driving_licence_current_address"
+      ],
+      "completion_evidence_ids": [
+        "form2-address-printed"
+      ]
+    }
+  ],
+  "parallel_groups": [
+    [
+      "aadhaar-address-update",
+      "passport-reissue-change-of-address"
+    ],
+    [
+      "driving-licence-address-change"
+    ]
+  ],
+  "required_documents": [
+    {
+      "requirement_id": "aadhaar-address-update.aadhaar-number",
+      "service_id": "aadhaar-address-update",
+      "name": "Existing Aadhaar number",
+      "kind": "mandatory",
+      "state": "satisfied",
+      "document_options": [
+        "aadhaar_number"
+      ],
+      "is_alternative_group": false,
+      "satisfied_by_document_id": "aadhaar_number",
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": null,
+      "evidence_ids": [
+        "uidai-online-mode"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "aadhaar-address-update.proof-of-address",
+      "service_id": "aadhaar-address-update",
+      "name": "Proof of new address (any one)",
+      "kind": "mandatory",
+      "state": "satisfied",
+      "document_options": [
+        "passport_current_address",
+        "ration_card",
+        "voter_id_current_address",
+        "bank_or_post_office_passbook",
+        "bank_statement",
+        "electricity_bill",
+        "water_bill",
+        "telephone_bill",
+        "gas_bill",
+        "property_tax_receipt",
+        "rent_or_lease_agreement",
+        "registered_sale_deed",
+        "life_insurance_policy",
+        "uidai_address_certificate"
+      ],
+      "is_alternative_group": true,
+      "satisfied_by_document_id": "electricity_bill",
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": "Documents must be currently valid and issued in the name of the person seeking the update.",
+      "evidence_ids": [
+        "uidai-online-poa-upload",
+        "uidai-list4-heading",
+        "uidai-list4-own-name",
+        "uidai-poa-passport",
+        "uidai-poa-ration",
+        "uidai-poa-voter",
+        "uidai-poa-passbook",
+        "uidai-poa-statement",
+        "uidai-poa-electricity",
+        "uidai-poa-water",
+        "uidai-poa-telephone",
+        "uidai-poa-gas",
+        "uidai-poa-property-tax",
+        "uidai-poa-sale-rent",
+        "uidai-poa-insurance",
+        "uidai-poa-certificate"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "passport-reissue-change-of-address.old-passport",
+      "service_id": "passport-reissue-change-of-address",
+      "name": "Old passport in original (with self-attested copies)",
+      "kind": "mandatory",
+      "state": "satisfied",
+      "document_options": [
+        "passport_existing"
+      ],
+      "is_alternative_group": false,
+      "satisfied_by_document_id": "passport_existing",
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": null,
+      "evidence_ids": [
+        "pp-reissue-old-passport"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "passport-reissue-change-of-address.proof-of-present-address",
+      "service_id": "passport-reissue-change-of-address",
+      "name": "Proof of present address (any one)",
+      "kind": "mandatory",
+      "state": "satisfied",
+      "document_options": [
+        "water_bill",
+        "telephone_bill",
+        "electricity_bill",
+        "income_tax_assessment_order",
+        "voter_id_current_address",
+        "gas_bill",
+        "employer_certificate",
+        "spouse_passport",
+        "aadhaar_current_address",
+        "rent_or_lease_agreement",
+        "bank_or_post_office_passbook"
+      ],
+      "is_alternative_group": true,
+      "satisfied_by_document_id": "electricity_bill",
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": "Proof of the present address only is needed, irrespective of how long you have lived there.",
+      "evidence_ids": [
+        "pp-poa-if-different",
+        "pp-poa-list",
+        "pp-present-address-only",
+        "pp-poa-water",
+        "pp-poa-telephone",
+        "pp-poa-electricity",
+        "pp-poa-it-order",
+        "pp-poa-epic",
+        "pp-poa-gas",
+        "pp-poa-employer",
+        "pp-poa-spouse-passport",
+        "pp-poa-aadhaar",
+        "pp-poa-rent",
+        "pp-poa-passbook"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "driving-licence-address-change.existing-licence",
+      "service_id": "driving-licence-address-change",
+      "name": "Existing driving licence",
+      "kind": "mandatory",
+      "state": "satisfied",
+      "document_options": [
+        "driving_licence_existing"
+      ],
+      "is_alternative_group": false,
+      "satisfied_by_document_id": "driving_licence_existing",
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": null,
+      "evidence_ids": [
+        "form2-existing-licence",
+        "parivahan-dl-steps"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "driving-licence-address-change.proof-of-address",
+      "service_id": "driving-licence-address-change",
+      "name": "Proof of new address (any one)",
+      "kind": "mandatory",
+      "state": "pending_acquisition",
+      "document_options": [
+        "aadhaar_current_address",
+        "electoral_roll_entry_current_address",
+        "life_insurance_policy",
+        "passport_current_address"
+      ],
+      "is_alternative_group": true,
+      "satisfied_by_document_id": null,
+      "acquired_via_service_id": "aadhaar-address-update",
+      "acquired_document_id": "aadhaar_current_address",
+      "condition": null,
+      "notes": "Source lists these under 'Proof of Address and Age'. Your State Government may accept other documents.",
+      "evidence_ids": [
+        "form2-address-proof-required",
+        "form2-annexure-address-age",
+        "form2-state-specified",
+        "form2-aadhaar"
+      ],
+      "unusable_document_ids": []
+    }
+  ],
+  "satisfied_requirements": [
+    {
+      "requirement_id": "aadhaar-address-update.aadhaar-number",
+      "service_id": "aadhaar-address-update",
+      "name": "Existing Aadhaar number",
+      "kind": "mandatory",
+      "state": "satisfied",
+      "document_options": [
+        "aadhaar_number"
+      ],
+      "is_alternative_group": false,
+      "satisfied_by_document_id": "aadhaar_number",
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": null,
+      "evidence_ids": [
+        "uidai-online-mode"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "aadhaar-address-update.proof-of-address",
+      "service_id": "aadhaar-address-update",
+      "name": "Proof of new address (any one)",
+      "kind": "mandatory",
+      "state": "satisfied",
+      "document_options": [
+        "passport_current_address",
+        "ration_card",
+        "voter_id_current_address",
+        "bank_or_post_office_passbook",
+        "bank_statement",
+        "electricity_bill",
+        "water_bill",
+        "telephone_bill",
+        "gas_bill",
+        "property_tax_receipt",
+        "rent_or_lease_agreement",
+        "registered_sale_deed",
+        "life_insurance_policy",
+        "uidai_address_certificate"
+      ],
+      "is_alternative_group": true,
+      "satisfied_by_document_id": "electricity_bill",
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": "Documents must be currently valid and issued in the name of the person seeking the update.",
+      "evidence_ids": [
+        "uidai-online-poa-upload",
+        "uidai-list4-heading",
+        "uidai-list4-own-name",
+        "uidai-poa-passport",
+        "uidai-poa-ration",
+        "uidai-poa-voter",
+        "uidai-poa-passbook",
+        "uidai-poa-statement",
+        "uidai-poa-electricity",
+        "uidai-poa-water",
+        "uidai-poa-telephone",
+        "uidai-poa-gas",
+        "uidai-poa-property-tax",
+        "uidai-poa-sale-rent",
+        "uidai-poa-insurance",
+        "uidai-poa-certificate"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "passport-reissue-change-of-address.old-passport",
+      "service_id": "passport-reissue-change-of-address",
+      "name": "Old passport in original (with self-attested copies)",
+      "kind": "mandatory",
+      "state": "satisfied",
+      "document_options": [
+        "passport_existing"
+      ],
+      "is_alternative_group": false,
+      "satisfied_by_document_id": "passport_existing",
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": null,
+      "evidence_ids": [
+        "pp-reissue-old-passport"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "passport-reissue-change-of-address.proof-of-present-address",
+      "service_id": "passport-reissue-change-of-address",
+      "name": "Proof of present address (any one)",
+      "kind": "mandatory",
+      "state": "satisfied",
+      "document_options": [
+        "water_bill",
+        "telephone_bill",
+        "electricity_bill",
+        "income_tax_assessment_order",
+        "voter_id_current_address",
+        "gas_bill",
+        "employer_certificate",
+        "spouse_passport",
+        "aadhaar_current_address",
+        "rent_or_lease_agreement",
+        "bank_or_post_office_passbook"
+      ],
+      "is_alternative_group": true,
+      "satisfied_by_document_id": "electricity_bill",
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": "Proof of the present address only is needed, irrespective of how long you have lived there.",
+      "evidence_ids": [
+        "pp-poa-if-different",
+        "pp-poa-list",
+        "pp-present-address-only",
+        "pp-poa-water",
+        "pp-poa-telephone",
+        "pp-poa-electricity",
+        "pp-poa-it-order",
+        "pp-poa-epic",
+        "pp-poa-gas",
+        "pp-poa-employer",
+        "pp-poa-spouse-passport",
+        "pp-poa-aadhaar",
+        "pp-poa-rent",
+        "pp-poa-passbook"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "driving-licence-address-change.existing-licence",
+      "service_id": "driving-licence-address-change",
+      "name": "Existing driving licence",
+      "kind": "mandatory",
+      "state": "satisfied",
+      "document_options": [
+        "driving_licence_existing"
+      ],
+      "is_alternative_group": false,
+      "satisfied_by_document_id": "driving_licence_existing",
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": null,
+      "notes": null,
+      "evidence_ids": [
+        "form2-existing-licence",
+        "parivahan-dl-steps"
+      ],
+      "unusable_document_ids": []
+    }
+  ],
+  "missing_documents": [
+    {
+      "requirement_id": "driving-licence-address-change.proof-of-address",
+      "service_id": "driving-licence-address-change",
+      "document_options": [
+        "aadhaar_current_address",
+        "electoral_roll_entry_current_address",
+        "life_insurance_policy",
+        "passport_current_address"
+      ],
+      "acquisition_service_id": "aadhaar-address-update"
+    }
+  ],
+  "optional_documents": [
+    {
+      "requirement_id": "aadhaar-address-update.registered-mobile",
+      "service_id": "aadhaar-address-update",
+      "name": "Mobile number registered with Aadhaar",
+      "kind": "conditional",
+      "state": "not_provided",
+      "document_options": [
+        "mobile_linked_to_aadhaar"
+      ],
+      "is_alternative_group": false,
+      "satisfied_by_document_id": null,
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": "Only for the online (myAadhaar) route; not needed at an Aadhaar Enrolment Centre.",
+      "notes": null,
+      "evidence_ids": [
+        "uidai-online-mode",
+        "uidai-centre-mode"
+      ],
+      "unusable_document_ids": []
+    },
+    {
+      "requirement_id": "driving-licence-address-change.photograph",
+      "service_id": "driving-licence-address-change",
+      "name": "Passport-size photograph",
+      "kind": "conditional",
+      "state": "not_provided",
+      "document_options": [
+        "photograph"
+      ],
+      "is_alternative_group": false,
+      "satisfied_by_document_id": null,
+      "acquired_via_service_id": null,
+      "acquired_document_id": null,
+      "condition": "Listed under 'Other documents to be enclosed or uploaded if applicable'.",
+      "notes": null,
+      "evidence_ids": [
+        "form2-if-applicable"
+      ],
+      "unusable_document_ids": []
+    }
+  ],
+  "prerequisite_services": [],
+  "acquisition_routes": [
+    {
+      "service_id": "aadhaar-address-update",
+      "document_id": "aadhaar_current_address",
+      "for_service_id": "driving-licence-address-change",
+      "for_requirement_id": "driving-licence-address-change.proof-of-address",
+      "evidence_ids": [
+        "uidai-update-fields"
+      ],
+      "acceptance_evidence_ids": [
+        "form2-address-proof-required",
+        "form2-annexure-address-age",
+        "form2-state-specified",
+        "form2-aadhaar"
+      ]
+    }
+  ],
+  "blockers": [],
+  "next_action": {
+    "type": "start_service",
+    "reason": {
+      "code": "ready_independent",
+      "message": "Start 'Passport reissue for change of address' now: every mandatory requirement is met and it does not depend on any other step.",
+      "unblocks": [],
+      "parallel_with": [],
+      "documents_used": [
+        "passport_existing",
+        "electricity_bill"
+      ],
+      "document_options": [],
+      "evidence_ids": [
+        "pp-reissue-old-passport",
+        "pp-poa-if-different",
+        "pp-poa-list",
+        "pp-present-address-only",
+        "pp-poa-water",
+        "pp-poa-telephone",
+        "pp-poa-electricity",
+        "pp-poa-it-order",
+        "pp-poa-epic",
+        "pp-poa-gas",
+        "pp-poa-employer",
+        "pp-poa-spouse-passport",
+        "pp-poa-aadhaar",
+        "pp-poa-rent",
+        "pp-poa-passbook"
+      ]
+    },
+    "service_id": "passport-reissue-change-of-address",
+    "requirement_id": null,
+    "document_options": []
+  },
+  "evidence": [
+    {
+      "id": "form2-aadhaar",
+      "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+      "source_title": "CMVR Form 2: Application for licence, renewal, change of address or name",
+      "excerpt": "1. Aadhaar Card 2. Electoral Roll 3. Life Insurance Policy 4. Passport",
+      "locator": "Form 2, Annexure, items 1-4",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "form2-address-printed",
+      "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+      "source_title": "CMVR Form 2: Application for licence, renewal, change of address or name",
+      "excerpt": "Present Address (shall be printed on Licence)",
+      "locator": "Form 2, item 4",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "form2-address-proof-required",
+      "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+      "source_title": "CMVR Form 2: Application for licence, renewal, change of address or name",
+      "excerpt": "Address (proof to be enclosed, in case of New Learner's Licence or New Driving Licence or Change of Address)",
+      "locator": "Form 2, item 4",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "form2-annexure-address-age",
+      "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+      "source_title": "CMVR Form 2: Application for licence, renewal, change of address or name",
+      "excerpt": "Proof of Address and Age. (Select only one if the proof is common for Address and Age)",
+      "locator": "Form 2, Annexure",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "form2-change-of-address-service",
+      "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+      "source_title": "CMVR Form 2: Application for licence, renewal, change of address or name",
+      "excerpt": "Change/Correction of Address in Driving Licence",
+      "locator": "Form 2, services applying for",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "form2-existing-licence",
+      "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+      "source_title": "CMVR Form 2: Application for licence, renewal, change of address or name",
+      "excerpt": "Particulars of existing Licence (Learner's or Permanent)",
+      "locator": "Form 2, item 6",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "form2-if-applicable",
+      "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+      "source_title": "CMVR Form 2: Application for licence, renewal, change of address or name",
+      "excerpt": "Other documents to be enclosed or uploaded if applicable",
+      "locator": "Form 2, Annexure",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "form2-state-specified",
+      "source_url": "https://parivahan.gov.in/sites/default/files/DownloadForm/cmvr/FORM-2.pdf",
+      "source_title": "CMVR Form 2: Application for licence, renewal, change of address or name",
+      "excerpt": "Any other document or documents as may be specified by State Government",
+      "locator": "Form 2, Annexure, item 10",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "parivahan-dl-online",
+      "source_url": "https://parivahan.gov.in/en/node/246",
+      "source_title": "How to get the address changed in the Driving License? - Parivahan Sewa",
+      "excerpt": "Applicants can apply ONLINE for change of address in Driving License.",
+      "locator": null,
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "parivahan-dl-steps",
+      "source_url": "https://parivahan.gov.in/en/node/246",
+      "source_title": "How to get the address changed in the Driving License? - Parivahan Sewa",
+      "excerpt": "Enter the Driving License Number and Date of Birth and click on Get Drivers License Details button. Then select Change of Address from the list of services provided.",
+      "locator": null,
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "pp-aadhaar-expedites",
+      "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+      "source_title": "Instructions for filling of passport application form (booklet V3.0) - Passport Seva",
+      "excerpt": "Furnishing of Aadhaar card will expedite processing of passport applications.",
+      "locator": "Table 3, Document No. 1, Note (iii)",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "pp-poa-aadhaar",
+      "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+      "source_title": "Instructions for filling of passport application form (booklet V3.0) - Passport Seva",
+      "excerpt": "j. Aadhaar Letter/ Card",
+      "locator": "Table 3, Document No. 1(j)",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "pp-poa-electricity",
+      "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+      "source_title": "Instructions for filling of passport application form (booklet V3.0) - Passport Seva",
+      "excerpt": "c. Electricity bill",
+      "locator": "Table 3, Document No. 1(c)",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "pp-poa-employer",
+      "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+      "source_title": "Instructions for filling of passport application form (booklet V3.0) - Passport Seva",
+      "excerpt": "g. Certificate from Employer of reputed and widely known companies on letter head",
+      "locator": "Table 3, Document No. 1(g)",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "pp-poa-epic",
+      "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+      "source_title": "Instructions for filling of passport application form (booklet V3.0) - Passport Seva",
+      "excerpt": "e. Election Commission Photo ID card",
+      "locator": "Table 3, Document No. 1(e)",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "pp-poa-gas",
+      "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+      "source_title": "Instructions for filling of passport application form (booklet V3.0) - Passport Seva",
+      "excerpt": "f. Gas connection bill",
+      "locator": "Table 3, Document No. 1(f)",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "pp-poa-if-different",
+      "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+      "source_title": "Instructions for filling of passport application form (booklet V3.0) - Passport Seva",
+      "excerpt": "Proof of address has to be submitted only if it is different from the old passport.",
+      "locator": "Section D",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "pp-poa-it-order",
+      "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+      "source_title": "Instructions for filling of passport application form (booklet V3.0) - Passport Seva",
+      "excerpt": "d. Income Tax Assessment Order",
+      "locator": "Table 3, Document No. 1(d)",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "pp-poa-list",
+      "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+      "source_title": "Instructions for filling of passport application form (booklet V3.0) - Passport Seva",
+      "excerpt": "Proof of Present Address. For Proof of Address attach one of the following documents:",
+      "locator": "Table 3, Document No. 1",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "pp-poa-passbook",
+      "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+      "source_title": "Instructions for filling of passport application form (booklet V3.0) - Passport Seva",
+      "excerpt": "l. Photo passbook of running Bank Account",
+      "locator": "Table 3, Document No. 1(l)",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "pp-poa-rent",
+      "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+      "source_title": "Instructions for filling of passport application form (booklet V3.0) - Passport Seva",
+      "excerpt": "k. Rent Agreement",
+      "locator": "Table 3, Document No. 1(k)",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "pp-poa-spouse-passport",
+      "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+      "source_title": "Instructions for filling of passport application form (booklet V3.0) - Passport Seva",
+      "excerpt": "provided the applicant's present address matches the address mentioned in the spouse's passport",
+      "locator": "Table 3, Document No. 1(h)",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "pp-poa-telephone",
+      "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+      "source_title": "Instructions for filling of passport application form (booklet V3.0) - Passport Seva",
+      "excerpt": "b. Telephone (landline or postpaid mobile bill)",
+      "locator": "Table 3, Document No. 1(b)",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "pp-poa-water",
+      "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+      "source_title": "Instructions for filling of passport application form (booklet V3.0) - Passport Seva",
+      "excerpt": "a. Water Bill",
+      "locator": "Table 3, Document No. 1(a)",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "pp-present-address-only",
+      "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+      "source_title": "Instructions for filling of passport application form (booklet V3.0) - Passport Seva",
+      "excerpt": "Applicants are required to submit the proof of address of the present address only",
+      "locator": "Table 3, Document No. 1, Note (i)",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "pp-reissue-change-particulars",
+      "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+      "source_title": "Instructions for filling of passport application form (booklet V3.0) - Passport Seva",
+      "excerpt": "You want to change the personal particulars or other details specified in your current passport and get a booklet with changed details.",
+      "locator": "Section C, Column 1.2",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "pp-reissue-old-passport",
+      "source_url": "https://www.passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+      "source_title": "Instructions for filling of passport application form (booklet V3.0) - Passport Seva",
+      "excerpt": "For re-issue of passport, an applicant is required to submit old Passport in original with self-attested photocopy of its first two and last two pages",
+      "locator": "Section D",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-centre-mode",
+      "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+      "source_title": "Updating Data on Aadhaar - UIDAI",
+      "excerpt": "Aadhaar number holders place the demographic/biometric update request with the help of an operator at an Aadhaar Enrolment Centre",
+      "locator": null,
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-list4-heading",
+      "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+      "source_title": "List of Acceptable Documents for Enrolment and Update - UIDAI",
+      "excerpt": "List IV -Documents that may be presented to evidence Proof of Identity, Address, Relationship or Date of Birth for update of information in respect of Aadhaar Number Holder of any age",
+      "locator": "List IV, page 9",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-list4-own-name",
+      "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+      "source_title": "List of Acceptable Documents for Enrolment and Update - UIDAI",
+      "excerpt": "PoI, PoA, PoR and PDB documents submitted for update must be issued in the name of the individual seeking update",
+      "locator": "List IV, Note (b)(iii), page 13",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-online-mode",
+      "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+      "source_title": "Updating Data on Aadhaar - UIDAI",
+      "excerpt": "The online mode offers address update to the Aadhaar number holders where the Aadhaar number holder can directly place the address update request on the myAadhaar portal. The Aadhaar number holder needs to have mobile number registered with Aadhaar for using this service. The Aadhaar number is required to login to the",
+      "locator": null,
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-online-poa-upload",
+      "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+      "source_title": "Updating Data on Aadhaar - UIDAI",
+      "excerpt": "To complete the update process, Aadhaar number holder needs to upload the supporting POA documents",
+      "locator": null,
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-poa-certificate",
+      "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+      "source_title": "List of Acceptable Documents for Enrolment and Update - UIDAI",
+      "excerpt": "19. Certificate issued on UIDAI Standard Certificate format by:",
+      "locator": "List IV, Sl. No. 19, pages 10-11",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-poa-driving-licence-not-allowed",
+      "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+      "source_title": "List of Acceptable Documents for Enrolment and Update - UIDAI",
+      "excerpt": "4. Driving licence",
+      "locator": "List IV, Sl. No. 4, page 9",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-poa-electricity",
+      "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+      "source_title": "List of Acceptable Documents for Enrolment and Update - UIDAI",
+      "excerpt": "20. Electricity bill (pre-paid/post-paid bill, not older than 3 months)",
+      "locator": "List IV, Sl. No. 20, page 11",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-poa-gas",
+      "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+      "source_title": "List of Acceptable Documents for Enrolment and Update - UIDAI",
+      "excerpt": "25. Gas bill (not older than 3 months)",
+      "locator": "List IV, Sl. No. 25, page 11",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-poa-insurance",
+      "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+      "source_title": "List of Acceptable Documents for Enrolment and Update - UIDAI",
+      "excerpt": "27. Life or medical insurance Policy (valid up to 1 year from the date of issue of the Policy)",
+      "locator": "List IV, Sl. No. 27, page 11",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-poa-passbook",
+      "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+      "source_title": "List of Acceptable Documents for Enrolment and Update - UIDAI",
+      "excerpt": "15. Passbook issued by a scheduled commercial bank or a State cooperative bank having Name and Photograph (cross stamped with Bank seal) and signed by bank official/ Post Office Savings Account Passbook (with stamp and signature of issuing official of post office)",
+      "locator": "List IV, Sl. No. 15, page 10",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-poa-passport",
+      "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+      "source_title": "List of Acceptable Documents for Enrolment and Update - UIDAI",
+      "excerpt": "1. Valid Indian Passport",
+      "locator": "List IV, Sl. No. 1, page 9",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-poa-property-tax",
+      "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+      "source_title": "List of Acceptable Documents for Enrolment and Update - UIDAI",
+      "excerpt": "23. Property Tax Receipt (not older than 1 year)",
+      "locator": "List IV, Sl. No. 23, page 11",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-poa-ration",
+      "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+      "source_title": "List of Acceptable Documents for Enrolment and Update - UIDAI",
+      "excerpt": "2. Ration / PDS Photograph Card / e-Ration Card",
+      "locator": "List IV, Sl. No. 2, page 9",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-poa-sale-rent",
+      "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+      "source_title": "List of Acceptable Documents for Enrolment and Update - UIDAI",
+      "excerpt": "24. Valid sale agreement/ gift deed registered with the Registrar Office, or registered or unregistered rent, lease agreement or leave and licence agreement",
+      "locator": "List IV, Sl. No. 24, page 11",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-poa-statement",
+      "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+      "source_title": "List of Acceptable Documents for Enrolment and Update - UIDAI",
+      "excerpt": "16. Bank Account Statement/ Credit Card Statement (with Bank stamp & signature of issuing bank official)/ Post Office Savings Account Statement (with stamp and signature of issuing official of post office) (not older than 3 months)",
+      "locator": "List IV, Sl. No. 16, page 10",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-poa-telephone",
+      "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+      "source_title": "List of Acceptable Documents for Enrolment and Update - UIDAI",
+      "excerpt": "22. Telephone landline bill/ post-paid mobile bill/ broadband bill (not older than 3 months)",
+      "locator": "List IV, Sl. No. 22, page 11",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-poa-voter",
+      "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+      "source_title": "List of Acceptable Documents for Enrolment and Update - UIDAI",
+      "excerpt": "3. Voter Identity Card /e-Voter Identity Card, whose details are displayed online on the website of the Election Commission of India or the Chief Electoral Officer concerned",
+      "locator": "List IV, Sl. No. 3, page 9",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-poa-water",
+      "source_url": "https://backend.uidai.gov.in/get/files/media/document/2026-05/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf",
+      "source_title": "List of Acceptable Documents for Enrolment and Update - UIDAI",
+      "excerpt": "21. Water bill (not older than 3 months)",
+      "locator": "List IV, Sl. No. 21, page 11",
+      "verified_at": "2026-11-14"
+    },
+    {
+      "id": "uidai-update-fields",
+      "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+      "source_title": "Updating Data on Aadhaar - UIDAI",
+      "excerpt": "Aadhaar details that can be updated are: Demographic Information Name, Address, Date of Birth/Age, Gender, Mobile Number, Email Address, Relationship Status and Information Sharing Consent",
+      "locator": null,
+      "verified_at": "2026-11-14"
+    }
+  ],
+  "completed": [],
+  "progress": {
+    "total_services": 3,
+    "completed": 0,
+    "completed_user_reported": 0,
+    "completed_verified": 0,
+    "in_progress": 1,
+    "ready": 1,
+    "waiting": 1,
+    "blocked": 0
+  },
+  "document_summary": {
+    "mandatory_requirements": 6,
+    "satisfied": 5,
+    "will_be_produced": 1,
+    "missing": 0,
+    "unusable": []
+  },
+  "notices": [],
+  "clarifications": [],
+  "citizen_state": null,
+  "services": {
+    "aadhaar-address-update": {
+      "name": "Aadhaar address update",
+      "name_hi": "\u0906\u0927\u093e\u0930 \u092e\u0947\u0902 \u092a\u0924\u093e \u0905\u092a\u0921\u0947\u091f"
+    },
+    "driving-licence-address-change": {
+      "name": "Driving licence address change",
+      "name_hi": "\u0921\u094d\u0930\u093e\u0907\u0935\u093f\u0902\u0917 \u0932\u093e\u0907\u0938\u0947\u0902\u0938 \u092e\u0947\u0902 \u092a\u0924\u093e \u092a\u0930\u093f\u0935\u0930\u094d\u0924\u0928"
+    },
+    "passport-reissue-change-of-address": {
+      "name": "Passport reissue for change of address",
+      "name_hi": "\u092a\u0924\u093e \u092a\u0930\u093f\u0935\u0930\u094d\u0924\u0928 \u0939\u0947\u0924\u0941 \u092a\u093e\u0938\u092a\u094b\u0930\u094d\u091f \u092a\u0941\u0928\u0903 \u091c\u093e\u0930\u0940 \u0915\u0930\u0928\u093e"
+    }
+  },
+  "requirements": {
+    "aadhaar-address-update.aadhaar-number": {
+      "name": "Existing Aadhaar number",
+      "name_hi": "\u092e\u094c\u091c\u0942\u0926\u093e \u0906\u0927\u093e\u0930 \u0928\u0902\u092c\u0930"
+    },
+    "aadhaar-address-update.proof-of-address": {
+      "name": "Proof of new address (any one)",
+      "name_hi": "\u0928\u090f \u092a\u0924\u0947 \u0915\u093e \u092a\u094d\u0930\u092e\u093e\u0923 (\u0915\u094b\u0908 \u090f\u0915)"
+    },
+    "aadhaar-address-update.registered-mobile": {
+      "name": "Mobile number registered with Aadhaar",
+      "name_hi": "\u0906\u0927\u093e\u0930 \u0938\u0947 \u092a\u0902\u091c\u0940\u0915\u0943\u0924 \u092e\u094b\u092c\u093e\u0907\u0932 \u0928\u0902\u092c\u0930"
+    },
+    "passport-reissue-change-of-address.old-passport": {
+      "name": "Old passport in original (with self-attested copies)",
+      "name_hi": "\u092e\u0942\u0932 \u092a\u0941\u0930\u093e\u0928\u093e \u092a\u093e\u0938\u092a\u094b\u0930\u094d\u091f (\u0938\u094d\u0935-\u0938\u0924\u094d\u092f\u093e\u092a\u093f\u0924 \u092a\u094d\u0930\u0924\u093f\u092f\u094b\u0902 \u0938\u0939\u093f\u0924)"
+    },
+    "passport-reissue-change-of-address.proof-of-present-address": {
+      "name": "Proof of present address (any one)",
+      "name_hi": "\u0935\u0930\u094d\u0924\u092e\u093e\u0928 \u092a\u0924\u0947 \u0915\u093e \u092a\u094d\u0930\u092e\u093e\u0923 (\u0915\u094b\u0908 \u090f\u0915)"
+    },
+    "driving-licence-address-change.existing-licence": {
+      "name": "Existing driving licence",
+      "name_hi": "\u092e\u094c\u091c\u0942\u0926\u093e \u0921\u094d\u0930\u093e\u0907\u0935\u093f\u0902\u0917 \u0932\u093e\u0907\u0938\u0947\u0902\u0938"
+    },
+    "driving-licence-address-change.proof-of-address": {
+      "name": "Proof of new address (any one)",
+      "name_hi": "\u0928\u090f \u092a\u0924\u0947 \u0915\u093e \u092a\u094d\u0930\u092e\u093e\u0923 (\u0915\u094b\u0908 \u090f\u0915)"
+    },
+    "driving-licence-address-change.photograph": {
+      "name": "Passport-size photograph",
+      "name_hi": "\u092a\u093e\u0938\u092a\u094b\u0930\u094d\u091f \u0906\u0915\u093e\u0930 \u0915\u093e \u092b\u093c\u094b\u091f\u094b"
+    }
+  },
+  "documents": {
+    "aadhaar_current_address": {
+      "name": "Aadhaar card/letter showing current address",
+      "name_hi": "\u0935\u0930\u094d\u0924\u092e\u093e\u0928 \u092a\u0924\u0947 \u0935\u093e\u0932\u093e \u0906\u0927\u093e\u0930 \u0915\u093e\u0930\u094d\u0921/\u092a\u0924\u094d\u0930",
+      "category": "address_proof"
+    },
+    "aadhaar_number": {
+      "name": "Aadhaar number (existing Aadhaar)",
+      "name_hi": "\u0906\u0927\u093e\u0930 \u0928\u0902\u092c\u0930 (\u092e\u094c\u091c\u0942\u0926\u093e \u0906\u0927\u093e\u0930)",
+      "category": "existing_record"
+    },
+    "bank_or_post_office_passbook": {
+      "name": "Bank or Post Office passbook (current address)",
+      "name_hi": "\u092c\u0948\u0902\u0915 \u092f\u093e \u0921\u093e\u0915\u0918\u0930 \u092a\u093e\u0938\u092c\u0941\u0915 (\u0935\u0930\u094d\u0924\u092e\u093e\u0928 \u092a\u0924\u093e)",
+      "category": "address_proof"
+    },
+    "bank_statement": {
+      "name": "Bank / credit card / Post Office account statement",
+      "name_hi": "\u092c\u0948\u0902\u0915 / \u0915\u094d\u0930\u0947\u0921\u093f\u091f \u0915\u093e\u0930\u094d\u0921 / \u0921\u093e\u0915\u0918\u0930 \u0916\u093e\u0924\u093e \u0935\u093f\u0935\u0930\u0923",
+      "category": "address_proof"
+    },
+    "driving_licence_current_address": {
+      "name": "Driving licence showing current address",
+      "name_hi": "\u0935\u0930\u094d\u0924\u092e\u093e\u0928 \u092a\u0924\u0947 \u0935\u093e\u0932\u093e \u0921\u094d\u0930\u093e\u0907\u0935\u093f\u0902\u0917 \u0932\u093e\u0907\u0938\u0947\u0902\u0938",
+      "category": "address_proof"
+    },
+    "driving_licence_existing": {
+      "name": "Existing driving licence",
+      "name_hi": "\u092e\u094c\u091c\u0942\u0926\u093e \u0921\u094d\u0930\u093e\u0907\u0935\u093f\u0902\u0917 \u0932\u093e\u0907\u0938\u0947\u0902\u0938",
+      "category": "existing_record"
+    },
+    "electoral_roll_entry_current_address": {
+      "name": "Electoral roll entry at current address",
+      "name_hi": "\u0935\u0930\u094d\u0924\u092e\u093e\u0928 \u092a\u0924\u0947 \u092a\u0930 \u092e\u0924\u0926\u093e\u0924\u093e \u0938\u0942\u091a\u0940 \u092e\u0947\u0902 \u092a\u094d\u0930\u0935\u093f\u0937\u094d\u091f\u093f",
+      "category": "address_proof"
+    },
+    "electricity_bill": {
+      "name": "Electricity bill for current address",
+      "name_hi": "\u0935\u0930\u094d\u0924\u092e\u093e\u0928 \u092a\u0924\u0947 \u0915\u093e \u092c\u093f\u091c\u0932\u0940 \u092c\u093f\u0932",
+      "category": "address_proof"
+    },
+    "employer_certificate": {
+      "name": "Certificate from employer on letterhead",
+      "name_hi": "\u0928\u093f\u092f\u094b\u0915\u094d\u0924\u093e \u0926\u094d\u0935\u093e\u0930\u093e \u0932\u0947\u091f\u0930\u0939\u0947\u0921 \u092a\u0930 \u091c\u093e\u0930\u0940 \u092a\u094d\u0930\u092e\u093e\u0923\u092a\u0924\u094d\u0930",
+      "category": "address_proof"
+    },
+    "gas_bill": {
+      "name": "Gas connection bill for current address",
+      "name_hi": "\u0935\u0930\u094d\u0924\u092e\u093e\u0928 \u092a\u0924\u0947 \u0915\u093e \u0917\u0948\u0938 \u0915\u0928\u0947\u0915\u094d\u0936\u0928 \u092c\u093f\u0932",
+      "category": "address_proof"
+    },
+    "income_tax_assessment_order": {
+      "name": "Income Tax assessment order",
+      "name_hi": "\u0906\u092f\u0915\u0930 \u0928\u093f\u0930\u094d\u0927\u093e\u0930\u0923 \u0906\u0926\u0947\u0936",
+      "category": "address_proof"
+    },
+    "life_insurance_policy": {
+      "name": "Life insurance policy",
+      "name_hi": "\u091c\u0940\u0935\u0928 \u092c\u0940\u092e\u093e \u092a\u0949\u0932\u093f\u0938\u0940",
+      "category": "address_proof"
+    },
+    "mobile_linked_to_aadhaar": {
+      "name": "Mobile number registered with Aadhaar",
+      "name_hi": "\u0906\u0927\u093e\u0930 \u0938\u0947 \u092a\u0902\u091c\u0940\u0915\u0943\u0924 \u092e\u094b\u092c\u093e\u0907\u0932 \u0928\u0902\u092c\u0930",
+      "category": "other"
+    },
+    "passport_current_address": {
+      "name": "Indian passport showing current address",
+      "name_hi": "\u0935\u0930\u094d\u0924\u092e\u093e\u0928 \u092a\u0924\u0947 \u0935\u093e\u0932\u093e \u092d\u093e\u0930\u0924\u0940\u092f \u092a\u093e\u0938\u092a\u094b\u0930\u094d\u091f",
+      "category": "address_proof"
+    },
+    "passport_existing": {
+      "name": "Old passport (original)",
+      "name_hi": "\u092a\u0941\u0930\u093e\u0928\u093e \u092a\u093e\u0938\u092a\u094b\u0930\u094d\u091f (\u092e\u0942\u0932)",
+      "category": "existing_record"
+    },
+    "photograph": {
+      "name": "Passport-size photograph",
+      "name_hi": "\u092a\u093e\u0938\u092a\u094b\u0930\u094d\u091f \u0906\u0915\u093e\u0930 \u0915\u093e \u092b\u093c\u094b\u091f\u094b",
+      "category": "identity"
+    },
+    "property_tax_receipt": {
+      "name": "Property tax receipt",
+      "name_hi": "\u0938\u0902\u092a\u0924\u094d\u0924\u093f \u0915\u0930 \u0930\u0938\u0940\u0926",
+      "category": "address_proof"
+    },
+    "ration_card": {
+      "name": "Ration / PDS photo card / e-Ration card",
+      "name_hi": "\u0930\u093e\u0936\u0928 / \u092a\u0940\u0921\u0940\u090f\u0938 \u092b\u093c\u094b\u091f\u094b \u0915\u093e\u0930\u094d\u0921 / \u0908-\u0930\u093e\u0936\u0928 \u0915\u093e\u0930\u094d\u0921",
+      "category": "address_proof"
+    },
+    "registered_sale_deed": {
+      "name": "Registered sale deed / sale agreement",
+      "name_hi": "\u092a\u0902\u091c\u0940\u0915\u0943\u0924 \u0935\u093f\u0915\u094d\u0930\u092f \u0935\u093f\u0932\u0947\u0916 / \u0935\u093f\u0915\u094d\u0930\u092f \u0905\u0928\u0941\u092c\u0902\u0927",
+      "category": "address_proof"
+    },
+    "rent_or_lease_agreement": {
+      "name": "Rent / lease agreement",
+      "name_hi": "\u0915\u093f\u0930\u093e\u092f\u093e / \u0932\u0940\u091c\u093c \u0905\u0928\u0941\u092c\u0902\u0927",
+      "category": "address_proof"
+    },
+    "spouse_passport": {
+      "name": "Spouse's passport (copy)",
+      "name_hi": "\u092a\u0924\u093f/\u092a\u0924\u094d\u0928\u0940 \u0915\u0947 \u092a\u093e\u0938\u092a\u094b\u0930\u094d\u091f \u0915\u0940 \u092a\u094d\u0930\u0924\u093f",
+      "category": "address_proof"
+    },
+    "telephone_bill": {
+      "name": "Telephone landline / postpaid mobile / broadband bill",
+      "name_hi": "\u091f\u0947\u0932\u0940\u092b\u093c\u094b\u0928 \u0932\u0948\u0902\u0921\u0932\u093e\u0907\u0928 / \u092a\u094b\u0938\u094d\u091f\u092a\u0947\u0921 \u092e\u094b\u092c\u093e\u0907\u0932 / \u092c\u094d\u0930\u0949\u0921\u092c\u0948\u0902\u0921 \u092c\u093f\u0932",
+      "category": "address_proof"
+    },
+    "uidai_address_certificate": {
+      "name": "Certificate of address on UIDAI standard format",
+      "name_hi": "UIDAI \u092e\u093e\u0928\u0915 \u092a\u094d\u0930\u093e\u0930\u0942\u092a \u092e\u0947\u0902 \u092a\u0924\u0947 \u0915\u093e \u092a\u094d\u0930\u092e\u093e\u0923\u092a\u0924\u094d\u0930",
+      "category": "address_proof"
+    },
+    "voter_id_current_address": {
+      "name": "Voter ID (EPIC) showing current address",
+      "name_hi": "\u0935\u0930\u094d\u0924\u092e\u093e\u0928 \u092a\u0924\u0947 \u0935\u093e\u0932\u093e \u092e\u0924\u0926\u093e\u0924\u093e \u092a\u0939\u091a\u093e\u0928 \u092a\u0924\u094d\u0930 (EPIC)",
+      "category": "address_proof"
+    },
+    "water_bill": {
+      "name": "Water bill for current address",
+      "name_hi": "\u0935\u0930\u094d\u0924\u092e\u093e\u0928 \u092a\u0924\u0947 \u0915\u093e \u092a\u093e\u0928\u0940 \u0915\u093e \u092c\u093f\u0932",
+      "category": "address_proof"
+    }
+  }
+}
