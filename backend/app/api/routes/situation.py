@@ -12,7 +12,12 @@ from app.llm.client import (
     LLMRateLimitedError,
     LLMUnavailableError,
 )
-from app.llm.situation import SituationContext, SituationInterpreter, SituationVocabulary
+from app.llm.situation import (
+    SituationContext,
+    SituationInterpreter,
+    SituationVocabulary,
+    topic_services,
+)
 from app.models.enums import CitizenGoal, LifeEvent
 from app.schemas.situation import SituationIn, SituationOut
 from app.workflow.service import load_planning_data
@@ -74,7 +79,10 @@ async def run_interpreter(
         raise _error(503, "model_unavailable", "The AI service is unavailable.") from exc
     except LLMError as exc:
         raise _error(502, "model_error", "The AI service returned an error.") from exc
-    return SituationOut(model=interpreter.model, **result.__dict__)
+    out = SituationOut(model=interpreter.model, **result.__dict__)
+    if not out.goals and not out.requested_service_ids:
+        out.topic, out.topic_service_ids = topic_services(body.text, vocab.services)
+    return out
 
 
 @router.post("/interpret", response_model=SituationOut)

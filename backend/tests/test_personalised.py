@@ -670,3 +670,103 @@ def test_guest_proposal_supports_requested_services(api_client) -> None:
         "/api/workflows/propose", json={"context": {}, "requested_service_ids": ["nope"]}
     )
     assert bad.status_code == 422
+
+
+# ---------------------------------------------------------------- Scenario B findings
+
+
+def _interpret(application, client, raw: SituationExtraction, text: str):
+    application.dependency_overrides[get_interpreter] = lambda: FakeInterpreter(raw)
+    r = client.post("/api/me/situation/interpret", headers=HA, json={"text": text})
+    assert r.status_code == 200, r.text
+    return r.json()
+
+
+def test_profile_state_echoed_by_the_model_is_not_reported_as_from_the_description(
+    app_and_client,
+) -> None:
+    application, client = app_and_client
+    client.patch("/api/me/profile", headers=HA, json={"state": "Delhi"})
+    # No location in the text: the model's echo of the profile is not a description fact.
+    out = _interpret(
+        application, client, SituationExtraction(state="Delhi"), "I need to renew my passport."
+    )
+    assert out["state"] is None and out["account_state"] == "Delhi"
+    assert "state" not in out["unknowns"]  # the profile still answers it
+    # The description names another state: that is the description's.
+    out = _interpret(
+        application,
+        client,
+        SituationExtraction(state="Maharashtra"),
+        "I need to renew my passport in Maharashtra.",
+    )
+    assert out["state"] == "Maharashtra" and out["account_state"] == "Delhi"
+    # The description itself names the profile's state: kept as the description's.
+    out = _interpret(
+        application, client, SituationExtraction(state="Delhi"), "I live in Delhi, new passport"
+    )
+    assert out["state"] == "Delhi"
+
+
+def test_without_a_profile_state_the_state_stays_unknown(app_and_client) -> None:
+    application, client = app_and_client
+    out = _interpret(application, client, SituationExtraction(), "I need to renew my passport.")
+    assert out["state"] is None and out["account_state"] is None and "state" in out["unknowns"]
+
+
+def test_proposal_reports_where_the_state_came_from(client) -> None:
+    assert propose(client, goals=["get-pan"])["account_context"]["state_source"] == "none"
+    client.patch("/api/me/profile", headers=HA, json={"state": "Delhi"})
+    ctx = lambda **b: propose(client, goals=["get-pan"], **b)["account_context"]  # noqa: E731
+    assert ctx()["state_source"] == "profile" and ctx()["state"] == "Delhi"
+    assert ctx(state="Maharashtra")["state_source"] == "description"
+    manual = ctx(state="Maharashtra", state_source="manual")
+    assert manual["state_source"] == "manual" and manual["state"] == "Maharashtra"
+
+
+def test_passport_topic_offers_only_curated_passport_services(app_and_client) -> None:
+    application, client = app_and_client
+    client.patch("/api/me/profile", headers=HA, json={"state": "Delhi"})
+    out = _interpret(application, client, SituationExtraction(), "I need to renew my passport.")
+    assert out["topic"] == "passport"
+    assert out["topic_service_ids"] == [PASSPORT_ADDR, PASSPORT_NAME]  # nothing invented
+    assert out["requested_service_ids"] == [] and out["goals"] == []  # nothing auto-selected
+    # Hindi text is recognised too.
+    hi = _interpret(application, client, SituationExtraction(), "मुझे पासपोर्ट नवीनीकरण करना है")
+    assert hi["topic_service_ids"] == [PASSPORT_ADDR, PASSPORT_NAME]
+    # When the model did understand the request, no topic question is asked.
+    a = _interpret(
+        application,
+        client,
+        SituationExtraction(
+            goals=["update-name-after-marriage"], requested_service_ids=[PASSPORT_NAME]
+        ),
+        "I got married and want to update my name on my passport.",
+    )
+    assert a["topic"] is None and a["topic_service_ids"] == []
+
+
+def test_passport_cases_use_the_existing_planner_and_save_nothing(client) -> None:
+    client.patch("/api/me/profile", headers=HA, json={"state": "Delhi"})
+    # Reason not given / an unsupported reason: no services, no plan, nothing invented.
+    unclear = propose(client)["proposal"]
+    assert unclear["status"] == "needs_clarification" and unclear["plan"] is None
+    assert unclear["target_service_ids"] == [] and unclear["supporting"] == []
+    # Name change after marriage: the curated service, planned deterministically.
+    name = propose(client, requested_service_ids=[PASSPORT_NAME])["proposal"]
+    assert name["target_service_ids"] == [PASSPORT_NAME]
+    assert [s["service_id"] for s in name["plan"]["steps"]][-1] == PASSPORT_NAME
+    assert all(
+        "passport" not in s["service_id"] or s["service_id"] == PASSPORT_NAME
+        for s in name["plan"]["steps"]
+    )
+    # Address change: the curated address service only.
+    addr = propose(client, requested_service_ids=[PASSPORT_ADDR])["proposal"]
+    assert addr["target_service_ids"] == [PASSPORT_ADDR]
+    # An invented "passport renewal" id is refused, not planned.
+    r = client.post(
+        "/api/me/proposal", headers=HA, json={"requested_service_ids": ["passport-renewal"]}
+    )
+    assert r.status_code == 422 or r.json()["proposal"]["target_service_ids"] == []
+    # Proposals never save anything.
+    assert client.get("/api/me/plans?status=all", headers=HA).json()["plans"] == []

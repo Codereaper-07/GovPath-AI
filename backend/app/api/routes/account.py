@@ -15,7 +15,7 @@ from app.api.routes.situation import get_interpreter, run_interpreter, situation
 from app.auth import CurrentUser
 from app.db import get_session
 from app.knowledge.cache import TTLCache, get_knowledge_cache
-from app.llm.situation import SituationInterpreter
+from app.llm.situation import SituationInterpreter, state_mentioned
 from app.models import UserPlan, VaultDocument
 from app.models.enums import PlanStatus
 from app.schemas.account import (
@@ -146,6 +146,7 @@ def _summary_fields(p: UserPlan) -> dict:
         "status": p.status.value,
         "target_service_ids": p.target_service_ids,
         "citizen_state": p.citizen_state,
+        "goals": p.goals,
         "service_names": snap.get("services", {}),
         "total_services": prog.get("total_services", len(snap.get("steps", []))),
         "completed": prog.get("completed", 0),
@@ -175,7 +176,6 @@ async def _plan_detail(
     docs = await svc.list_documents(session, user_id)
     return PlanDetailOut(
         **_summary_fields(p),
-        goals=p.goals,
         evaluated_at=p.evaluated_at,
         plan=p.snapshot,
         document_refs=[DocumentRefOut(**r) for r in svc.document_refs(p, docs)],
@@ -415,6 +415,14 @@ async def interpret_situation(
     out = await run_interpreter(
         interpreter, body, await situation_vocabulary(session, cache), context
     )
+    # The model may echo the profile's state although the text never names it: that is not a
+    # fact from the description, so leave it to the profile (the UI then labels it correctly).
+    if (
+        out.state is not None
+        and out.state == context.state
+        and not state_mentioned(body.text, out.state)
+    ):
+        out.state = None
     out.account_state = context.state
     out.account_document_ids = sorted(context.documents)
     return out

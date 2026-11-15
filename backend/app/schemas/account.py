@@ -193,6 +193,7 @@ class PlanSummaryOut(BaseModel):
     status: str
     target_service_ids: list[str]
     citizen_state: str | None = None
+    goals: list[str] = []  # the citizen's goals (situation plans), for display names
     service_names: dict[str, Any]
     total_services: int
     completed: int
@@ -214,7 +215,6 @@ class DocumentRefOut(BaseModel):
 
 
 class PlanDetailOut(PlanSummaryOut):
-    goals: list[str]
     evaluated_at: datetime | None
     # The deterministic planner's last output (same shape as POST /api/workflows/plan).
     plan: dict[str, Any] | None
@@ -268,11 +268,14 @@ class AccountProposeIn(BaseModel):
     reported_completed_service_ids: list[str] = Field(default_factory=list, max_length=20)
     requested_service_ids: list[str] = Field(default_factory=list, max_length=20)
     target_service_ids: list[str] | None = Field(default=None, max_length=20)
+    # Where `state` came from: the citizen's description (default) or their manual choice.
+    # A state taken from the profile is sent as `state: null`.
+    state_source: Literal["description", "manual"] | None = None
 
 
 class AccountContextOut(BaseModel):
     state: str | None
-    state_source: Literal["description", "profile", "none"]
+    state_source: Literal["description", "manual", "profile", "none"]
     profile_state: str | None
     city: str | None
     vault: dict[str, str]  # document type -> effective status (the planner's view)

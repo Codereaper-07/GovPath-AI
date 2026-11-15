@@ -7,6 +7,7 @@
 """
 
 import asyncio
+import logging
 import random
 import re
 import time
@@ -21,6 +22,8 @@ from google.genai import errors, types
 from pydantic import BaseModel
 
 from app.config import Settings
+
+logger = logging.getLogger(__name__)
 
 # ------------------------------------------------------------------ errors (safe to show)
 
@@ -105,10 +108,20 @@ def classify(exc: BaseException) -> tuple[str, float | None]:
     return "fatal", None
 
 
+def _failure_fields(exc: BaseException) -> str:
+    """Safe diagnostics only: HTTP status + provider status, or the exception class.
+    Never the message, request, prompt or headers (they may carry user text or secrets)."""
+    if isinstance(exc, errors.APIError):
+        return f"http_status={exc.code} provider_status={exc.status} error={type(exc).__name__}"
+    return f"error={type(exc).__name__}"
+
+
 async def with_retries[T](
     call: Callable[[], Awaitable[T]],
     policy: RetryPolicy,
     sleep: Callable[[float], Awaitable[None]] = asyncio.sleep,
+    *,
+    label: str = "gemini",
 ) -> T:
     attempt = 0
     while True:
@@ -118,6 +131,15 @@ async def with_retries[T](
             raise
         except Exception as exc:  # classified below; never leaks raw details
             kind, hint = classify(exc)
+            # One line per failed provider attempt (LLMError above is ours and not re-logged).
+            logger.warning(
+                "Gemini request failed: %s kind=%s %s attempt=%d/%d",
+                label,
+                kind,
+                _failure_fields(exc),
+                attempt + 1,
+                policy.max_retries + 1,
+            )
             if kind == "quota":
                 raise LLMQuotaExhaustedError("Gemini API quota exhausted") from exc
             if kind == "fatal":
@@ -207,14 +229,17 @@ class GeminiClient:
             )
         return self._client
 
-    async def _call(self, purpose: str, fn: Callable[[], Awaitable[Any]]) -> Any:
+    async def _call(
+        self, purpose: str, fn: Callable[[], Awaitable[Any]], *, operation: str, model: str
+    ) -> Any:
         sdk_timeout = self.settings.gemini_timeout_seconds + 5
 
         async def attempt():
             await self.guard.acquire(purpose)  # every attempt counts toward the caps
             return await asyncio.wait_for(fn(), timeout=sdk_timeout)
 
-        return await with_retries(attempt, self.policy, self._sleep)
+        label = f"operation={operation} purpose={purpose} model={model}"
+        return await with_retries(attempt, self.policy, self._sleep, label=label)
 
     async def generate_json[M: BaseModel](
         self, *, system: str, prompt: str, schema: type[M], purpose: str = "generation"
@@ -234,6 +259,8 @@ class GeminiClient:
             lambda: sdk.aio.models.generate_content(
                 model=s.gemini_model, contents=prompt, config=config
             ),
+            operation="generation",
+            model=s.gemini_model,
         )
         parsed = getattr(response, "parsed", None)
         if isinstance(parsed, schema):
@@ -259,6 +286,8 @@ class GeminiClient:
                 contents=contents,
                 config=types.EmbedContentConfig(output_dimensionality=s.embedding_dim),
             ),
+            operation="embedding",
+            model=s.gemini_embedding_model,
         )
         vectors = [list(e.values or []) for e in response.embeddings or []]
         if len(vectors) != len(texts) or any(len(v) != s.embedding_dim for v in vectors):

@@ -2,12 +2,14 @@ import { useTranslation } from 'react-i18next'
 import { useLocalized } from '../../lib/useLocalized'
 import type { PlanChange } from '../../types/api'
 import { useServices } from '../services/api'
+import { usePlanName } from './planName'
 
 /** Explains how a vault/progress change re-evaluated the citizen's saved plans (deterministic). */
 export function PlanChangesNotice({ changes }: { changes: PlanChange[] }) {
   const { t } = useTranslation()
   const pick = useLocalized()
   const services = useServices()
+  const { name: planName } = usePlanName()
   const name = (id: string) => {
     const s = services.data?.find((x) => x.id === id)
     return s ? pick(s.name, s.name_hi) : id
@@ -21,7 +23,7 @@ export function PlanChangesNotice({ changes }: { changes: PlanChange[] }) {
       <ul className="space-y-2">
         {changes.map((c) => (
           <li key={c.plan_id} className="rounded-2xl bg-card px-4 py-3 text-sm ring-1 ring-rule">
-            <p className="font-semibold text-ink">{c.title || t('account.untitledPlan')}</p>
+            <p className="font-semibold text-ink">{planName({ title: c.title })}</p>
             <ul className="mt-1 space-y-0.5 text-muted">
               {c.steps.map((s) => (
                 <li key={s.service_id}>

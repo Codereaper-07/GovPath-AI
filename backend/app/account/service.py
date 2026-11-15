@@ -964,7 +964,11 @@ async def account_proposal(
     kb, profile, vault, vault_states, progress, plans = await account_facts(session, user_id, cache)
     profile_state = profile.state if profile else None
     state = body.state or profile_state
-    state_source = "description" if body.state else ("profile" if profile_state else "none")
+    state_source = (
+        (body.state_source or "description")
+        if body.state
+        else ("profile" if profile_state else "none")
+    )
     extra_held = [d for d in dict.fromkeys(body.held_document_ids) if d not in vault]
     states = {**{d: s for d, s in body.document_states.items() if d in extra_held}, **vault_states}
     account_completed = sorted(s for s, p in progress.items() if p == "completed")

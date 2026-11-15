@@ -117,7 +117,9 @@ const proposal = (over: Partial<ProposalResponse> = {}): ProposalResponse =>
     ...over,
   }) as ProposalResponse
 
-function backend(opts: { recommendation?: AccountProposal['recommendation']; interpretation?: SituationInterpretation } = {}) {
+function backend(
+  opts: { recommendation?: AccountProposal['recommendation']; interpretation?: SituationInterpretation; profileState?: string | null; proposalOver?: Partial<ProposalResponse> } = {},
+) {
   const calls: Call[] = []
   mockFetch((url, init) => {
     const path = url.replace(/^https?:\/\/[^/]+/, '')
@@ -132,7 +134,7 @@ function backend(opts: { recommendation?: AccountProposal['recommendation']; int
     if (path === '/api/workflows/plan') return planMarriage
     if (!path.startsWith('/api/me/')) return json(404, {})
     if (path === '/api/me/dashboard') return DASHBOARD
-    if (path === '/api/me/profile') return { user_id: 'user-a', email: 'a@x', full_name: 'Asha', state: 'Delhi', city: null, preferred_language: 'en', created_at: '', updated_at: '' }
+    if (path === '/api/me/profile') return { user_id: 'user-a', email: 'a@x', full_name: 'Asha', state: opts.profileState === undefined ? 'Delhi' : opts.profileState, city: null, preferred_language: 'en', created_at: '', updated_at: '' }
     if (path === '/api/me/documents') return { documents: [doc('passport_existing', '2030-01-01', 'valid')] }
     if (path === '/api/me/progress' && method === 'GET') return { progress: {} }
     if (path.startsWith('/api/me/progress/')) return { progress: { [AADHAAR_NAME]: 'completed' }, plan_changes: [] }
@@ -142,10 +144,10 @@ function backend(opts: { recommendation?: AccountProposal['recommendation']; int
       const targets: string[] = body.target_service_ids ?? body.requested_service_ids
       const rec = opts.recommendation ?? 'extend'
       return {
-        proposal: proposal({ target_service_ids: targets.length ? targets : [PASSPORT_NAME] }),
+        proposal: proposal({ target_service_ids: targets.length ? targets : [PASSPORT_NAME], ...opts.proposalOver }),
         account_context: {
-          state: body.state ?? 'Delhi',
-          state_source: body.state ? 'description' : 'profile',
+          state: body.state ?? (opts.profileState === undefined ? 'Delhi' : opts.profileState),
+          state_source: body.state ? (body.state_source ?? 'description') : opts.profileState === null ? 'none' : 'profile',
           profile_state: 'Delhi',
           city: null,
           vault: { passport_existing: 'valid' },
@@ -180,16 +182,16 @@ describe('citizen dashboard', () => {
     const dash = await screen.findByTestId('citizen-dashboard')
     expect(within(dash).getByRole('heading', { name: 'Namaste, Asha' })).toBeInTheDocument()
     expect(within(dash).getByText('Planning for Dwarka, Delhi')).toBeInTheDocument()
-    expect(within(dash).getByRole('link', { name: /Describe your situation/ })).toHaveAttribute('href', '/assistant')
+    expect(within(dash).getByRole('link', { name: /Describe your situation/ })).toHaveAttribute('href', '/planner?create=situation')
     const next = within(dash).getByTestId('dash-next-action')
     await waitFor(() => expect(next).toHaveTextContent(`Start: ${svcName('marriage-registration-delhi')}`))
     expect(next).toHaveAttribute('href', '/planner?plan=plan-1')
-    expect(within(dash).getByTestId('dash-blocker')).toHaveTextContent(`Needs one of: ${docName('rto_accepted_address_proof')}`)
-    expect(within(dash).getByTestId('dash-doc-expired')).toHaveTextContent('Expired on 2026-11-10')
-    expect(within(dash).getByTestId('dash-doc-soon')).toHaveTextContent('Expires in 20 days (2026-12-06)')
+    expect(within(dash).getByTestId('dash-blocker')).toHaveTextContent(`Needs: ${docName('rto_accepted_address_proof')}.`)
+    expect(within(dash).getByTestId('dash-doc-expired')).toHaveTextContent('Expired on 10 Nov 2026')
+    expect(within(dash).getByTestId('dash-doc-soon')).toHaveTextContent('Expires in 20 days (6 Dec 2026)')
     expect(within(dash).getByText('1 of 3 services completed')).toBeInTheDocument()
     expect(within(dash).getByText('Completed (reported by you)')).toBeInTheDocument()
-    expect(within(dash).getByText(/expired \(2026-11-10\)/)).toBeInTheDocument()
+    expect(within(dash).getByText(/expired \(10 Nov 2026\)/)).toBeInTheDocument()
     expect(calls.find((c) => c.path === '/api/me/dashboard')!.auth).toMatch(/^Bearer /)
   })
 
@@ -231,7 +233,7 @@ describe('situation journey (signed in)', () => {
       requested_service_ids: [PASSPORT_NAME],
       reported_completed_service_ids: [AADHAAR_NAME],
       held_document_ids: [], // the vault's passport is added on the server, not sent
-      state: 'Delhi',
+      state: null, // the profile's state is resolved (and labelled) on the server
     })
     expect(within(p).getByTestId('journey-account')).toHaveTextContent(`Documents from your vault: ${docName('passport_existing')}`)
     expect(within(p).getByTestId('journey-grounding')).toHaveTextContent('Every requirement (9) and dependency (2) cites an official source')
@@ -304,5 +306,128 @@ describe('situation journey (guest)', () => {
     expect(body.requested_service_ids).toEqual([PASSPORT_NAME])
     expect(body.context.completed_service_ids).toEqual([AADHAAR_NAME])
     expect(calls.some((c) => c.path.startsWith('/api/me/'))).toBe(false)
+  })
+})
+
+describe('location provenance and coverage-aware passport question (Scenario B findings)', () => {
+  const PASSPORT_ADDR = 'passport-reissue-change-of-address'
+  // What the server returns for "I need to renew my passport." (no goal, no service understood).
+  const RENEW: SituationInterpretation = {
+    ...INTERPRETATION,
+    goals: [],
+    life_events: [],
+    completed_service_ids: [],
+    requested_service_ids: [],
+    state: null,
+    unknowns: ['goal'],
+    account_document_ids: [],
+    topic: 'passport',
+    topic_service_ids: [PASSPORT_ADDR, PASSPORT_NAME],
+  }
+  const lastProposal = (calls: ReturnType<typeof backend>) => calls.filter((c) => c.path === '/api/me/proposal').at(-1)!.body as Record<string, unknown>
+  const saves = (calls: ReturnType<typeof backend>) => calls.filter((c) => c.method !== 'GET' && /\/api\/me\/(plans|documents|progress)/.test(c.path))
+
+  it('profile Delhi, no location in the text: shown and sent as the profile’s, not the description’s', async () => {
+    const calls = backend({ interpretation: RENEW })
+    const user = userEvent.setup()
+    renderApp('/assistant', signedIn())
+    const review = await describeSituation(user, 'I need to renew my passport.')
+    expect(within(review).getByTestId('journey-state-source')).toHaveTextContent('From your saved profile.')
+    await user.click(within(review).getByRole('checkbox', { name: svcName(PASSPORT_NAME) }))
+    await user.click(screen.getByRole('button', { name: 'Find services and build my plan' }))
+    const p = await screen.findByTestId('journey-proposal')
+    expect(lastProposal(calls)).toMatchObject({ state: null })
+    expect(lastProposal(calls)).not.toHaveProperty('state_source')
+    expect(within(p).getByTestId('journey-account')).toHaveTextContent('Services are checked for Delhi (from your profile).')
+  })
+
+  it('a state named in the text is the description’s; changing it by hand is the citizen’s choice', async () => {
+    const calls = backend({ interpretation: { ...RENEW, state: 'Maharashtra' } })
+    const user = userEvent.setup()
+    renderApp('/assistant', signedIn())
+    const review = await describeSituation(user, 'I need to renew my passport in Maharashtra.')
+    expect(within(review).getByTestId('journey-state-source')).toHaveTextContent('From your description.')
+    await user.click(within(review).getByRole('checkbox', { name: svcName(PASSPORT_ADDR) }))
+    await user.click(screen.getByRole('button', { name: 'Find services and build my plan' }))
+    let p = await screen.findByTestId('journey-proposal')
+    expect(lastProposal(calls)).toMatchObject({ state: 'Maharashtra' })
+    expect(within(p).getByTestId('journey-account')).toHaveTextContent('Services are checked for Maharashtra (from your description). Your profile says Delhi.')
+    // Back to the details: choose another state by hand.
+    await user.click(within(p).getAllByRole('button', { name: 'Edit details' })[0])
+    const again = await screen.findByTestId('journey-review')
+    await user.selectOptions(within(again).getByDisplayValue('Maharashtra'), 'Karnataka')
+    expect(within(again).getByTestId('journey-state-source')).toHaveTextContent('Chosen by you.')
+    await user.click(screen.getByRole('button', { name: 'Find services and build my plan' }))
+    p = await screen.findByTestId('journey-proposal')
+    await waitFor(() => expect(lastProposal(calls)).toMatchObject({ state: 'Karnataka', state_source: 'manual' }))
+    expect(within(p).getByTestId('journey-account')).toHaveTextContent('Services are checked for Karnataka (chosen by you).')
+  })
+
+  it('no profile state and none in the text: the state stays unknown (nothing invented)', async () => {
+    const calls = backend({ interpretation: { ...RENEW, account_state: null, unknowns: ['goal', 'state'] }, profileState: null })
+    const user = userEvent.setup()
+    renderApp('/assistant', signedIn())
+    const review = await describeSituation(user, 'I need to renew my passport.')
+    expect(within(review).queryByTestId('journey-state-source')).not.toBeInTheDocument()
+    expect(within(review).getByText(/Choose your state so we can check/)).toBeInTheDocument()
+    await user.click(within(review).getByRole('checkbox', { name: svcName(PASSPORT_NAME) }))
+    await user.click(screen.getByRole('button', { name: 'Find services and build my plan' }))
+    await screen.findByTestId('journey-proposal')
+    expect(lastProposal(calls)).toMatchObject({ state: null })
+  })
+
+  it('passport renewal with no reason: asks which curated case applies, selecting nothing for the citizen', async () => {
+    const calls = backend({ interpretation: RENEW })
+    const user = userEvent.setup()
+    renderApp('/assistant', signedIn())
+    const review = await describeSituation(user, 'I need to renew my passport.')
+    const q = within(review).getByTestId('journey-topic')
+    expect(q).toHaveTextContent('You mentioned a passport. Which case is yours?')
+    expect(q).toHaveTextContent('GovPath covers a passport only in these verified cases.')
+    const options = within(q).getAllByRole('checkbox').map((c) => c.closest('label')!.textContent)
+    expect(options).toEqual([svcName(PASSPORT_ADDR), svcName(PASSPORT_NAME), 'Something else (another reason)'])
+    expect(within(q).getAllByRole('checkbox').every((c) => !(c as HTMLInputElement).checked)).toBe(true)
+    expect(within(review).queryByTestId('journey-requested')).not.toBeInTheDocument()
+    // Name change after marriage -> the curated service goes to the existing pipeline.
+    await user.click(within(q).getByRole('checkbox', { name: svcName(PASSPORT_NAME) }))
+    expect(within(review).getByTestId('journey-requested')).toHaveTextContent(svcName(PASSPORT_NAME))
+    await user.click(screen.getByRole('button', { name: 'Find services and build my plan' }))
+    await screen.findByTestId('journey-proposal')
+    expect(lastProposal(calls)).toMatchObject({ requested_service_ids: [PASSPORT_NAME], goals: [] })
+    expect(saves(calls)).toEqual([])
+  })
+
+  it('another passport reason: explains the coverage limit, plans nothing and saves nothing', async () => {
+    const calls = backend({
+      interpretation: RENEW,
+      proposalOver: { status: 'needs_clarification', target_service_ids: [], supporting: [], plan: null, requested: [], suggested_service_ids: [], grounding: null },
+    })
+    const user = userEvent.setup()
+    renderApp('/assistant', signedIn())
+    const review = await describeSituation(user, 'I need to renew my passport.')
+    await user.click(within(review).getByRole('checkbox', { name: 'Something else (another reason)' }))
+    expect(within(review).getByTestId('journey-topic')).toHaveTextContent('GovPath does not cover other passport cases yet')
+    await user.click(screen.getByRole('button', { name: 'Find services and build my plan' }))
+    const p = await screen.findByTestId('journey-proposal')
+    expect(lastProposal(calls)).toMatchObject({ requested_service_ids: [], goals: [] })
+    expect(String(lastProposal(calls).requested_service_ids)).not.toMatch(/renew/)
+    expect(within(p).getByTestId('journey-topic-not-covered')).toHaveTextContent('GovPath does not cover other passport cases yet')
+    expect(within(p).getByRole('button', { name: 'Save as a new plan' })).toBeDisabled()
+    expect(saves(calls)).toEqual([])
+  })
+
+  it('the passport question and location source are in Hindi', async () => {
+    backend({ interpretation: RENEW })
+    await i18n.changeLanguage('hi')
+    const user = userEvent.setup()
+    renderApp('/assistant', signedIn())
+    await user.type(await screen.findByLabelText('अपनी स्थिति अपने शब्दों में बताएँ'), 'मुझे पासपोर्ट नवीनीकरण करना है')
+    await user.click(screen.getByRole('button', { name: 'मेरी स्थिति समझें' }))
+    const review = await screen.findByTestId('journey-review')
+    const q = within(review).getByTestId('journey-topic')
+    expect(q).toHaveTextContent('आपने पासपोर्ट का ज़िक्र किया। आपका मामला कौन-सा है?')
+    expect(q).toHaveTextContent('विवाह के बाद नाम परिवर्तन हेतु पासपोर्ट पुनः जारी करना')
+    expect(q).toHaveTextContent('कुछ और (कोई दूसरा कारण)')
+    expect(within(review).getByTestId('journey-state-source')).toHaveTextContent('आपकी सहेजी गई प्रोफ़ाइल से।')
   })
 })

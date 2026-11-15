@@ -1,3 +1,4 @@
+import { useStateName } from '../../lib/useStateName'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useSearchParams } from 'react-router-dom'
@@ -17,6 +18,8 @@ import { useDocuments, useServices } from '../services/api'
 import { useProfile } from '../auth/api'
 import { useAddDocument, useCreatePlan, usePlanAction, useSavedPlan, useSavedPlans, useSetProgress, useUpdatePlan, useVault } from './api'
 import { AccountBadge } from './AccountBadge'
+import { usePlanName } from './planName'
+import { CreatePlanPanel } from './CreatePlanPanel'
 import { PlanChangesNotice } from './PlanChangesNotice'
 
 /** Saved plans for the signed-in citizen. Every change goes to the backend, which re-runs the
@@ -56,17 +59,15 @@ export function SavedPlansView() {
       </div>
       <AddServiceFromLink plans={active.data} onSaved={select} />
       {params.get('saved') && (
-        <Notice tone="success">{t(params.get('saved') === 'repeat_request' ? 'myPlans.savedRepeat' : params.get('saved') === 'updated' ? 'myPlans.updated' : 'myPlans.saved')}</Notice>
+        <Notice tone="success">{params.get('saved') === 'separate' ? t('myPlans.savedSeparate', { count: Number(params.get('count') ?? 0) }) : t(params.get('saved') === 'repeat_request' ? 'myPlans.savedRepeat' : params.get('saved') === 'updated' ? 'myPlans.updated' : 'myPlans.saved')}</Notice>
       )}
+      {/* Creating a plan is always possible, whatever plans exist (none, active, archived). */}
+      <CreatePlanPanel compact={active.data.length + archived.data.length > 0} />
       {active.data.length === 0 && !requested ? (
-        <div className="space-y-5">
-          <section className="ink-panel relative overflow-hidden rounded-[2rem] p-7 sm:p-9">
-            <p className="font-display text-2xl font-semibold text-paper">{t('account.noPlansTitle')}</p>
-            <p className="mt-2 max-w-xl text-paper/70">{t('account.noPlans')}</p>
-            <Link to="/assistant" className={buttonClass('zest', 'md', 'mt-5')}>
-              <Icon name="spark" className="h-4 w-4" /> {t('account.startFromSituation')}
-            </Link>
-          </section>
+        <div className="space-y-5" data-testid="no-active-plans">
+          <p className="rounded-2xl bg-paper-deep/60 px-5 py-4 text-sm text-muted ring-1 ring-rule">
+            {t(archived.data.length ? 'myPlans.noActiveOnlyArchived' : 'myPlans.noPlansYet')}
+          </p>
           {archived.data.length > 0 && <ArchivedList plans={archived.data} selectedId={selectedId} onSelect={select} />}
         </div>
       ) : (
@@ -88,9 +89,7 @@ export function SavedPlansView() {
   )
 }
 
-function planTitle(p: SavedPlanSummary, name: (id: string) => string, untitled: string) {
-  return p.title || p.target_service_ids.map(name).join(', ') || untitled
-}
+
 
 function useServiceName() {
   const pick = useLocalized()
@@ -103,7 +102,6 @@ function useServiceName() {
 
 function PlanList({ plans, selectedId, onSelect }: { plans: SavedPlanSummary[]; selectedId: string | null; onSelect: (id: string) => void }) {
   const { t } = useTranslation()
-  const name = useServiceName()
   return (
     <nav aria-label={t('account.yourPlans')} className="rounded-[2rem] bg-paper-deep/60 p-4 ring-1 ring-rule">
       <p className="px-2 pb-2 text-xs font-bold tracking-[0.14em] text-muted uppercase">{t('account.yourPlans')}</p>
@@ -116,11 +114,7 @@ function PlanList({ plans, selectedId, onSelect }: { plans: SavedPlanSummary[]; 
               aria-current={p.id === selectedId ? 'true' : undefined}
               className={`w-full rounded-2xl px-4 py-3 text-left transition ${p.id === selectedId ? 'bg-ink text-paper shadow-soft' : 'bg-card text-ink ring-1 ring-rule hover:ring-ink'}`}
             >
-              <span className="block text-sm leading-snug font-semibold">{planTitle(p, name, t('account.untitledPlan'))}</span>
-              <span className={`mt-1 block text-xs ${p.id === selectedId ? 'text-paper/70' : 'text-muted'}`}>
-                {t('planner.servicesDone', { done: p.completed, total: p.total_services })}
-                {p.blocked > 0 && ` · ${t('planner.countBlocked', { count: p.blocked })}`}
-              </span>
+              <PlanCardBody plan={p} selected={p.id === selectedId} />
             </button>
           </li>
         ))}
@@ -129,9 +123,42 @@ function PlanList({ plans, selectedId, onSelect }: { plans: SavedPlanSummary[]; 
   )
 }
 
-function ArchivedList({ plans, selectedId, onSelect }: { plans: SavedPlanSummary[]; selectedId: string | null; onSelect: (id: string) => void }) {
+/** Name, kind (combined / single service), services, progress and the next step or blocker. */
+function PlanCardBody({ plan: p, selected }: { plan: SavedPlanSummary; selected: boolean }) {
   const { t } = useTranslation()
   const name = useServiceName()
+  const { name: planName } = usePlanName()
+  const muted = selected ? 'text-paper/70' : 'text-muted'
+  const combined = p.target_service_ids.length > 1
+  const next = p.next_action
+  return (
+    <>
+      <span className="block text-sm leading-snug font-semibold">{planName(p)}</span>
+      <span className={`mt-1 flex flex-wrap gap-1.5 text-[11px] font-bold tracking-wide uppercase ${muted}`}>
+        <span>{combined ? t('myPlans.kindCombined', { count: p.target_service_ids.length }) : t('myPlans.kindSingle')}</span>
+        {p.status === 'archived' && <span>· {t('myPlans.archived')}</span>}
+      </span>
+      {combined && <span className={`mt-1 block text-xs ${muted}`}>{p.target_service_ids.map(name).join(', ')}</span>}
+      <span className={`mt-1 block text-xs ${muted}`} data-testid="plan-card-progress">
+        {t('myPlans.stepsDone', { done: p.completed, total: p.total_services })}
+        {p.blocked > 0 && <span className={selected ? '' : 'text-crimson-600'}> · {t('planner.countBlocked', { count: p.blocked })}</span>}
+      </span>
+      {next && next.type !== 'none' && p.status === 'active' && (
+        <span className={`mt-1 block text-xs font-semibold ${selected ? 'text-zest-300' : 'text-jade-700'}`} data-testid="plan-card-next">
+          {next.type === 'obtain_document'
+            ? t('myPlans.nextGetDocument')
+            : next.type === 'follow_up'
+              ? t('myPlans.nextFollowUp', { service: name(next.service_id ?? '') })
+              : t('myPlans.nextStart', { service: name(next.service_id ?? '') })}
+        </span>
+      )}
+      {next?.type === 'none' && <span className={`mt-1 block text-xs font-semibold ${muted}`}>{t('myPlans.allDone')}</span>}
+    </>
+  )
+}
+
+function ArchivedList({ plans, selectedId, onSelect }: { plans: SavedPlanSummary[]; selectedId: string | null; onSelect: (id: string) => void }) {
+  const { t } = useTranslation()
   return (
     <details className="rounded-[2rem] bg-card p-4 ring-1 ring-rule" open={plans.some((p) => p.id === selectedId)} data-testid="archived-plans">
       <summary className="cursor-pointer px-2 text-sm font-semibold text-ink">{t('account.archivedPlans', { count: plans.length })}</summary>
@@ -144,7 +171,7 @@ function ArchivedList({ plans, selectedId, onSelect }: { plans: SavedPlanSummary
               aria-current={p.id === selectedId ? 'true' : undefined}
               className={`w-full rounded-2xl px-3 py-2 text-left text-sm ring-1 ring-rule hover:text-ink ${p.id === selectedId ? 'bg-paper-deep text-ink' : 'text-muted'}`}
             >
-              {planTitle(p, name, t('account.untitledPlan'))}
+              <PlanCardBody plan={p} selected={false} />
             </button>
           </li>
         ))}
@@ -157,12 +184,16 @@ function PlanSettings({ plan, onGone }: { plan: SavedPlan; onGone: () => void })
   const { t } = useTranslation()
   const services = useServices()
   const vocabulary = useVocabulary()
+  const stateName = useStateName()
   const update = useUpdatePlan()
   const action = usePlanAction()
   const [confirmDelete, setConfirmDelete] = useState(false)
-  const [title, setTitle] = useState(plan.title ?? '')
+  const { name: planName, isGenerated } = usePlanName()
+  // Only a name the citizen typed is editable text; a generated one is shown as the placeholder.
+  const userTitle = isGenerated(plan.title) ? '' : (plan.title ?? '')
+  const [title, setTitle] = useState(userTitle)
   const archivedPlan = plan.status === 'archived'
-  const titleChanged = title.trim() !== (plan.title ?? '')
+  const titleChanged = title.trim() !== userTitle
 
   return (
     <div className="space-y-5 rounded-[2rem] bg-paper-deep/60 p-5 ring-1 ring-rule">
@@ -175,7 +206,7 @@ function PlanSettings({ plan, onGone }: { plan: SavedPlan; onGone: () => void })
       >
         <label className="block min-w-0 flex-1">
           <span className="mb-1.5 block text-xs font-bold tracking-[0.14em] text-muted uppercase">{t('myPlans.name')}</span>
-          <input className={INPUT_CLASS} name="plan-title" maxLength={120} value={title} placeholder={t('myPlans.namePlaceholder')} onChange={(e) => setTitle(e.target.value)} />
+          <input className={INPUT_CLASS} name="plan-title" maxLength={120} value={title} placeholder={planName({ ...plan, title: null })} onChange={(e) => setTitle(e.target.value)} />
         </label>
         <button type="submit" disabled={!titleChanged || update.isPending} className={buttonClass('secondary', 'sm')}>
           {t('myPlans.rename')}
@@ -196,13 +227,15 @@ function PlanSettings({ plan, onGone }: { plan: SavedPlan; onGone: () => void })
               <option value="">{t('situation.stateUnknown')}</option>
               {(vocabulary.data?.states ?? []).map((s) => (
                 <option key={s} value={s}>
-                  {s}
+                  {stateName(s)}
                 </option>
               ))}
             </select>
           </label>
           {services.data && (
             <ServicePicker
+              title={t('myPlans.planServices')}
+              hint={t('myPlans.planServicesHint')}
               services={services.data}
               selected={plan.target_service_ids}
               onChange={(id, on) => {
@@ -330,6 +363,7 @@ function AddServiceFromLink({ plans, onSaved }: { plans: SavedPlanSummary[]; onS
   const [params, setParams] = useSearchParams()
   const serviceId = params.get('service')
   const name = useServiceName()
+  const { name: planName } = usePlanName()
   const update = useUpdatePlan()
   const create = useCreatePlan()
   const profile = useProfile()
@@ -352,7 +386,7 @@ function AddServiceFromLink({ plans, onSaved }: { plans: SavedPlanSummary[]; onS
             <select className={`${INPUT_CLASS} max-w-xs font-semibold`} value={chosen} onChange={(e) => setTarget(e.target.value)} aria-label={t('account.yourPlans')}>
               {plans.map((p) => (
                 <option key={p.id} value={p.id}>
-                  {planTitle(p, name, t('account.untitledPlan'))}
+                  {planName(p)}
                 </option>
               ))}
             </select>

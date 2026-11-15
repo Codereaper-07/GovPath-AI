@@ -32,3 +32,7 @@ class SituationOut(BaseModel):
     # Signed-in only: facts taken from the account (so the UI can say where they came from).
     account_state: str | None = None
     account_document_ids: list[str] = []
+    # Deterministic (not AI): when no goal or service was understood but the text names a topic
+    # (e.g. "passport"), the curated services for it, so the UI can ask which case applies.
+    topic: str | None = None
+    topic_service_ids: list[str] = []

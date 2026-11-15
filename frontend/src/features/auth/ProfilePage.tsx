@@ -1,3 +1,4 @@
+import { useStateName } from '../../lib/useStateName'
 import { type FormEvent, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router-dom'
@@ -58,6 +59,7 @@ export function ProfilePage() {
 function ProfileForm({ profile }: { profile: Profile }) {
   const { t, i18n } = useTranslation()
   const vocabulary = useVocabulary()
+  const stateName = useStateName()
   const update = useUpdateProfile()
   const [fullName, setFullName] = useState(profile.full_name ?? '')
   const [state, setState] = useState(profile.state ?? '')
@@ -117,7 +119,7 @@ function ProfileForm({ profile }: { profile: Profile }) {
             <option value="">{t('profile.notSet')}</option>
             {stateOptions.map((s) => (
               <option key={s} value={s}>
-                {s}
+                {stateName(s)}
               </option>
             ))}
           </select>

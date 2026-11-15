@@ -1,3 +1,4 @@
+import { useStateName } from '../../../lib/useStateName'
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
@@ -92,7 +93,7 @@ export function Timeline({
                 <span className="ml-2 font-semibold tracking-normal text-muted normal-case">· {t('planner.parallelHint', { count: steps.length })}</span>
               )}
             </p>
-            <div className={`mt-4 grid gap-4 ${steps.length > 1 ? '2xl:grid-cols-2' : ''}`}>
+            <div className={`mt-4 grid grid-cols-1 gap-4 ${steps.length > 1 ? '2xl:grid-cols-2' : ''}`}>
               {steps.map((s) => (
                 <StepCard
                   key={s.service_id}
@@ -134,6 +135,7 @@ function StepCard({
   preview: boolean
 }) {
   const { t } = useTranslation()
+  const stateName = useStateName()
   const style = STATUS[step.status]
   const routes = plan.acquisition_routes.filter((r) => r.service_id === step.service_id)
   const evidence = plan.evidence.filter((e) => step.evidence_ids.includes(e.id))
@@ -162,7 +164,7 @@ function StepCard({
       {step.authority && (
         <p className="mt-1 text-xs font-semibold tracking-wide text-muted uppercase">
           <span lang="en">{step.authority}</span>
-          {step.region && <span className="ml-1.5 normal-case">· {t('planner.regionOnly', { region: step.region })}</span>}
+          {step.region && <span className="ml-1.5 normal-case">· {t('planner.regionOnly', { region: stateName(step.region) })}</span>}
         </p>
       )}
 

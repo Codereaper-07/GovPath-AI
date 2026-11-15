@@ -387,6 +387,10 @@ export interface SituationInterpretation {
   /** Signed in: facts the account already had (shown, not asked again). */
   account_state?: string | null
   account_document_ids?: string[]
+  /** Deterministic (not AI): a topic the text names when no goal/service was understood, and the
+   * curated services for it (e.g. "passport" -> the two passport reissue services). */
+  topic?: string | null
+  topic_service_ids?: string[]
 }
 
 export interface ProposeRequest {
@@ -442,13 +446,15 @@ export interface AccountProposeRequest {
   reported_completed_service_ids: string[]
   requested_service_ids: string[]
   target_service_ids: string[] | null
+  /** Where `state` came from (a profile state is sent as `state: null`). */
+  state_source?: 'description' | 'manual'
 }
 
 export interface AccountProposal {
   proposal: ProposalResponse
   account_context: {
     state: string | null
-    state_source: 'description' | 'profile' | 'none'
+    state_source: 'description' | 'manual' | 'profile' | 'none'
     profile_state: string | null
     city: string | null
     vault: Record<string, 'valid' | 'expired' | 'invalid' | 'unsure'>
@@ -528,6 +534,8 @@ export interface SavedPlanSummary {
   status: 'active' | 'archived'
   target_service_ids: string[]
   citizen_state: string | null
+  /** The citizen's goals (set for situation-based plans); used for display names. */
+  goals?: string[]
   service_names: Record<string, { name: string; name_hi: string | null }>
   total_services: number
   completed: number
@@ -541,7 +549,6 @@ export interface SavedPlanSummary {
 }
 
 export interface SavedPlan extends SavedPlanSummary {
-  goals: string[]
   evaluated_at: string | null
   /** The deterministic planner's last output (same shape as POST /api/workflows/plan). */
   plan: PlanResponse | null

@@ -10,10 +10,14 @@ export function ServicePicker({
   services,
   selected,
   onChange,
+  title,
+  hint,
 }: {
   services: ServiceSummary[]
   selected: string[]
   onChange: (id: string, on: boolean) => void
+  title?: string
+  hint?: string
 }) {
   const { t } = useTranslation()
   const pick = useLocalized()
@@ -22,8 +26,8 @@ export function ServicePicker({
   )
   return (
     <fieldset>
-      <legend className="font-display text-xl font-semibold text-ink">{t('planner.step1')}</legend>
-      <p className="mt-1 mb-4 text-sm text-muted">{t('planner.step1Hint')}</p>
+      <legend className="font-display text-xl font-semibold text-ink">{title ?? t('planner.step1')}</legend>
+      <p className="mt-1 mb-4 text-sm text-muted">{hint ?? t('planner.step1Hint')}</p>
       <div className="space-y-5">
         {groups.map(({ e, items }) => (
           <div key={e}>

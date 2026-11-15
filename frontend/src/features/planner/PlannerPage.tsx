@@ -1,21 +1,40 @@
 import { useTranslation } from 'react-i18next'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useSearchParams } from 'react-router-dom'
 import { buttonClass } from '../../components/ui/Button'
 import { Icon } from '../../components/ui/Icon'
 import { PageHeader } from '../../components/ui/PageHeader'
 import { LoadingState } from '../../components/ui/States'
+import { CreateFromServices } from '../account/CreateFromServices'
+import { CreatePlanPanel } from '../account/CreatePlanPanel'
 import { SavedPlansView } from '../account/SavedPlansView'
 import { useAuth } from '../auth/useAuth'
+import { SituationJourney } from '../journey/SituationJourney'
 
 /**
- * My Plans: the only place plans are managed. Plans belong to the signed-in citizen's account
- * (PostgreSQL); there is no separate browser/device plan. Guests can still explore their
- * situation and see a proposed workflow on the assistant page, and sign in to save it.
+ * My Plans: the hub for every saved plan (signed-in account only; no device plans) and the
+ * starting point for both ways of creating one:
+ *  - ?create=situation  describe a situation -> discovered services -> one reviewed workflow;
+ *  - ?create=services   pick services -> one plan, one combined plan, or one plan per service.
+ * Both save through the same API and the same deterministic planner. Guests can use both flows
+ * and sign in to save (the proposal/selection is kept across sign-in).
  */
 export function PlannerPage() {
   const { t } = useTranslation()
   const { status } = useAuth()
+  const [params] = useSearchParams()
+  const create = params.get('create')
   if (status === 'loading') return <LoadingState />
+  if (create === 'services' || create === 'situation') {
+    return (
+      <>
+        <Link to="/planner" className="mb-4 inline-flex items-center gap-1.5 text-sm font-semibold text-jade-700 underline-offset-4 hover:underline">
+          <Icon name="arrow" className="h-4 w-4 rotate-180" /> {t('myPlans.back')}
+        </Link>
+        <PageHeader eyebrow={t('myPlans.title')} title={t(create === 'services' ? 'myPlans.createServices' : 'myPlans.createSituation')} />
+        {create === 'services' ? <CreateFromServices /> : <SituationJourney />}
+      </>
+    )
+  }
   return (
     <>
       <PageHeader eyebrow={t('planner.eyebrow')} title={t('myPlans.title')}>
@@ -30,20 +49,17 @@ function SignInToManage({ unconfigured }: { unconfigured: boolean }) {
   const { t } = useTranslation()
   const location = useLocation()
   return (
-    <section className="ink-panel relative overflow-hidden rounded-[2rem] p-7 sm:p-10" data-testid="plans-sign-in">
-      <span aria-hidden className="absolute -right-24 -bottom-24 h-80 w-80 rounded-full border-[36px] border-zest-400/10" />
-      <h2 className="relative max-w-xl font-display text-3xl leading-tight font-semibold text-paper">{t('myPlans.signInTitle')}</h2>
-      <p className="relative mt-3 max-w-xl text-paper/70">{t(unconfigured ? 'myPlans.unconfigured' : 'myPlans.signInBody')}</p>
-      <div className="relative mt-6 flex flex-wrap gap-3">
+    <div className="space-y-6">
+      <section className="rounded-[2rem] bg-card p-6 ring-1 ring-rule sm:p-8" data-testid="plans-sign-in">
+        <h2 className="font-display text-2xl font-semibold text-ink">{t('myPlans.signInTitle')}</h2>
+        <p className="mt-2 max-w-xl text-muted">{t(unconfigured ? 'myPlans.unconfigured' : 'myPlans.signInBody')}</p>
         {!unconfigured && (
-          <Link to="/login" state={{ from: location.pathname + location.search }} className={buttonClass('zest', 'md')}>
+          <Link to="/login" state={{ from: location.pathname + location.search }} className={buttonClass('primary', 'md', 'mt-5')}>
             {t('auth.signIn')}
           </Link>
         )}
-        <Link to="/assistant" className={buttonClass('inverse', 'md')}>
-          <Icon name="spark" className="h-4 w-4" /> {t('myPlans.explore')}
-        </Link>
-      </div>
-    </section>
+      </section>
+      <CreatePlanPanel />
+    </div>
   )
 }

@@ -150,6 +150,7 @@ describe('Situation → workflow journey (assistant entry point)', () => {
     expect(screen.getByText(/Your proposal is kept/)).toBeInTheDocument()
     const pending = JSON.parse(sessionStorage.getItem('govpath.pendingProposal')!)
     expect(pending.draft).toMatchObject({ goals: ['update-name-after-marriage'], state: 'Delhi' })
+    expect(screen.queryByRole('radio')).not.toBeInTheDocument() // a situation is saved as one plan
     expect(localStorage.getItem(KEY)).toBeNull()
   })
 })

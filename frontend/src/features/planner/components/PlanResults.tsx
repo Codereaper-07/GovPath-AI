@@ -1,3 +1,4 @@
+import { useStateName } from '../../../lib/useStateName'
 import { useTranslation } from 'react-i18next'
 import { buttonClass } from '../../../components/ui/Button'
 import { Icon } from '../../../components/ui/Icon'
@@ -27,6 +28,7 @@ export function PlanResults(props: {
   onProcess: (id: string, state: ProcessState) => void
 }) {
   const { t } = useTranslation()
+  const stateName = useStateName()
   const { plan, names } = props
 
   if (!props.hasTargets || !props.generated) {
@@ -156,7 +158,7 @@ export function PlanResults(props: {
         <p className="rounded-2xl bg-zest-100 px-5 py-4 text-sm font-semibold text-ink ring-1 ring-zest-300">
           {t('planner.stateNeeded', {
             services: names.services(plan.clarifications!.map((c) => c.service_id)),
-            regions: [...new Set(plan.clarifications!.map((c) => c.region ?? ''))].join(t('common.listSeparator')),
+            regions: [...new Set(plan.clarifications!.map((c) => stateName(c.region)))].join(t('common.listSeparator')),
           })}
         </p>
       )}
@@ -176,7 +178,7 @@ export function PlanResults(props: {
           <p key={`${n.code}-${n.service_id}`} className="rounded-2xl bg-honey-50 px-5 py-4 text-sm text-honey-700 ring-1 ring-honey-100">
             {n.code === 'started_before_dependencies'
               ? t('planner.noticeEarlyStart', { service: names.service(n.service_id), services: names.services(n.related_service_ids) })
-              : t('planner.noticeOutside', { service: names.service(n.service_id), state: plan.citizen_state ?? '' })}
+              : t('planner.noticeOutside', { service: names.service(n.service_id), state: stateName(plan.citizen_state) })}
           </p>
         ),
       )}

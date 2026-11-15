@@ -5,7 +5,7 @@ import { buttonClass } from '../../components/ui/Button'
 import { Icon } from '../../components/ui/Icon'
 import { PageHeader } from '../../components/ui/PageHeader'
 import { ErrorState, LoadingState } from '../../components/ui/States'
-import { useLocalized } from '../../lib/useLocalized'
+import { useFormatDate, useLocalized } from '../../lib/useLocalized'
 import type { DocumentType, PlanChange, VaultDocument, VaultDocumentInput, VaultStatus } from '../../types/api'
 import { Notice } from '../auth/AuthLayout'
 import { INPUT_CLASS } from '../auth/authUtils'
@@ -208,6 +208,7 @@ function AddDocumentForm({
 
 function DocumentCard({ doc, onChanged }: { doc: VaultDocument; onChanged: (c: PlanChange[]) => void }) {
   const { t } = useTranslation()
+  const formatDate = useFormatDate()
   const pick = useLocalized()
   const update = useUpdateDocument()
   const remove = useDeleteDocument()
@@ -249,13 +250,13 @@ function DocumentCard({ doc, onChanged }: { doc: VaultDocument; onChanged: (c: P
         {doc.expiry_date && (
           <div className="flex gap-2">
             <dt>{t('vault.expiryDate')}:</dt>
-            <dd className="font-semibold text-ink">{doc.expiry_date}</dd>
+            <dd className="font-semibold text-ink">{formatDate(doc.expiry_date)}</dd>
           </div>
         )}
         {doc.issue_date && (
           <div className="flex gap-2">
             <dt>{t('vault.issueDate')}:</dt>
-            <dd>{doc.issue_date}</dd>
+            <dd>{formatDate(doc.issue_date)}</dd>
           </div>
         )}
         {doc.note && <p className="italic">“{doc.note}”</p>}

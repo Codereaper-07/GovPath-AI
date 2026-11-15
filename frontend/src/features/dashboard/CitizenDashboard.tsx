@@ -1,9 +1,11 @@
+import { usePlanName } from '../account/planName'
+import { useStateName } from '../../lib/useStateName'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { buttonClass } from '../../components/ui/Button'
 import { Icon } from '../../components/ui/Icon'
 import { ErrorState, LoadingState } from '../../components/ui/States'
-import { useLocalized } from '../../lib/useLocalized'
+import { useFormatDate, useLocalized } from '../../lib/useLocalized'
 import type { Dashboard, VaultDocument } from '../../types/api'
 import { EventItem } from '../account/ActivityPage'
 import { AccountBadge } from '../account/AccountBadge'
@@ -69,7 +71,8 @@ function Card({ title, id, children, action }: { title: string; id: string; chil
 
 function Greeting({ d }: { d: Dashboard }) {
   const { t } = useTranslation()
-  const place = [d.city, d.state].filter(Boolean).join(', ')
+  const stateName = useStateName()
+  const place = [d.city, stateName(d.state)].filter(Boolean).join(t('common.listSeparator'))
   return (
     <header className="flex animate-rise flex-wrap items-end justify-between gap-4">
       <div>
@@ -104,7 +107,7 @@ function NewSituation({ hasPlans }: { hasPlans: boolean }) {
         {t(hasPlans ? 'dashboard.newSituation' : 'dashboard.firstSituation')}
       </h2>
       <p className="relative mt-2 max-w-xl text-paper/70">{t('dashboard.newSituationHint')}</p>
-      <Link to="/assistant" className={buttonClass('zest', 'lg', 'relative mt-5')}>
+      <Link to="/planner?create=situation" className={buttonClass('zest', 'lg', 'relative mt-5')}>
         <Icon name="spark" className="h-5 w-5" /> {t('dashboard.describe')}
       </Link>
     </section>
@@ -113,6 +116,7 @@ function NewSituation({ hasPlans }: { hasPlans: boolean }) {
 
 function NextActions({ d }: { d: Dashboard }) {
   const { t } = useTranslation()
+  const { name: planName } = usePlanName()
   const names = useNames()
   return (
     <Card title={t('dashboard.nextTitle')} id="dash-next">
@@ -134,7 +138,7 @@ function NextActions({ d }: { d: Dashboard }) {
                     {a.type === 'follow_up' && t('planner.followUp', { service: names.service(a.service_id) })}
                     {a.type === 'obtain_document' && t('dashboard.getDocument', { documents: a.document_options.map(names.document).join(t('situation.or')) })}
                   </span>
-                  <span className="block text-xs text-muted">{a.plan_title || t('account.untitledPlan')}</span>
+                  <span className="block text-xs text-muted">{planName(d.plans.find((p) => p.id === a.plan_id) ?? { title: a.plan_title })}</span>
                 </span>
                 <Icon name="arrow" className="mt-1 h-4 w-4 text-muted" />
               </Link>
@@ -148,6 +152,7 @@ function NextActions({ d }: { d: Dashboard }) {
 
 function Blockers({ d }: { d: Dashboard }) {
   const { t } = useTranslation()
+  const { name: planName } = usePlanName()
   const names = useNames()
   if (d.blockers.length === 0) return null
   return (
@@ -159,12 +164,14 @@ function Blockers({ d }: { d: Dashboard }) {
             <p className="text-crimson-700/90">
               {b.code === 'dependency_blocked'
                 ? t('dashboard.blockedBy', { services: b.blocked_by_service_ids.map(names.service).join(t('common.listSeparator')) })
-                : b.document_options.length
+                : b.document_options.length === 1
+                  ? t('dashboard.blockedDoc', { document: names.document(b.document_options[0]) })
+                  : b.document_options.length
                   ? t('dashboard.blockedDocs', { documents: b.document_options.map(names.document).join(t('situation.or')) })
                   : t('dashboard.blockedOther')}
             </p>
             <Link to={`/planner?plan=${b.plan_id}`} className="text-xs font-semibold text-crimson-700 underline">
-              {b.plan_title || t('account.untitledPlan')}
+              {planName(d.plans.find((p) => p.id === b.plan_id) ?? { title: b.plan_title })}
             </Link>
           </li>
         ))}
@@ -175,7 +182,7 @@ function Blockers({ d }: { d: Dashboard }) {
 
 function Plans({ d }: { d: Dashboard }) {
   const { t } = useTranslation()
-  const names = useNames()
+  const { name: planName } = usePlanName()
   return (
     <Card
       title={t('dashboard.plansTitle')}
@@ -195,7 +202,7 @@ function Plans({ d }: { d: Dashboard }) {
             return (
               <li key={p.id}>
                 <Link to={`/planner?plan=${p.id}`} className="block rounded-2xl bg-paper p-4 ring-1 ring-rule transition hover:ring-ink">
-                  <p className="font-semibold leading-snug text-ink">{p.title || p.target_service_ids.map(names.service).join(', ')}</p>
+                  <p className="font-semibold leading-snug text-ink">{planName(p)}</p>
                   <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-rule" aria-hidden>
                     <div className="h-full rounded-full bg-jade-600" style={{ width: `${pct}%` }} />
                   </div>
@@ -217,6 +224,7 @@ const daysBetween = (from: string, to: string) => Math.round((Date.parse(to) - D
 
 function DocLine({ doc, today, tone }: { doc: VaultDocument; today: string; tone: 'soon' | 'expired' }) {
   const { t } = useTranslation()
+  const formatDate = useFormatDate()
   const pick = useLocalized()
   const name = doc.name ? pick(doc.name, doc.name_hi) : doc.document_type
   const days = doc.expiry_date ? daysBetween(today, doc.expiry_date) : 0
@@ -229,11 +237,11 @@ function DocLine({ doc, today, tone }: { doc: VaultDocument; today: string; tone
       <p className={`text-xs ${tone === 'expired' ? 'text-crimson-700' : 'text-honey-700'}`}>
         {tone === 'expired'
           ? doc.expiry_date
-            ? t('dashboard.expiredOn', { date: doc.expiry_date })
+            ? t('dashboard.expiredOn', { date: formatDate(doc.expiry_date) })
             : t('dashboard.markedExpired')
           : days === 0
             ? t('dashboard.expiresToday')
-            : t('dashboard.expiresIn', { count: days, date: doc.expiry_date })}
+            : t('dashboard.expiresIn', { count: days, date: formatDate(doc.expiry_date) })}
       </p>
     </li>
   )

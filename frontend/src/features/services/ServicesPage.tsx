@@ -60,7 +60,7 @@ export function ServicesPage() {
         {t('services.intro')}
       </PageHeader>
 
-      <div className="grid gap-8 lg:grid-cols-[16rem_minmax(0,1fr)] lg:gap-12">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[16rem_minmax(0,1fr)] lg:gap-12">
         <aside className="space-y-5 lg:sticky lg:top-24 lg:self-start">
           <label className="relative block">
             <span className="sr-only">{t('services.searchLabel')}</span>

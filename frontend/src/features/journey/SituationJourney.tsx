@@ -1,3 +1,5 @@
+import { usePlanName } from '../account/planName'
+import { useStateName } from '../../lib/useStateName'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
@@ -44,7 +46,8 @@ import { useDocuments, useServices } from '../services/api'
  * Describe → understand → discover → plan → review → accept.
  * AI only extracts facts (reviewed and editable here). Services come from deterministic discovery
  * over the curated knowledge base, and the workflow from the existing planner (`/propose`).
- * Nothing is saved until the citizen accepts. Guests: acceptance merges into, or replaces, the
+ * Nothing is saved until the citizen accepts; the accepted workflow is saved as ONE plan (choosing
+ * one-plan-per-service is the "Choose services" flow in My Plans). Guests: acceptance merges into, or replaces, the
  * plan in this browser. Signed in: the vault and account progress are the starting facts, and
  * acceptance saves a new account plan (or adds to one); reviewed documents missing from the vault
  * are added to it.
@@ -68,9 +71,25 @@ interface Draft {
   reportedDone: string[]
   /** When moving: the state they are leaving (explanation only). */
   origin: string | null
+  /** Where `state` came from: the citizen's description, their saved profile, or their own choice. */
+  stateSource: StateSource
+  /** A topic the description named without a supported goal (e.g. "passport") and the curated
+   * services for it; the citizen picks one or says it is something else (not covered). */
+  topic: string | null
+  topicServices: string[]
+  otherTopic: boolean
 }
+type StateSource = 'description' | 'profile' | 'manual' | null
 
-const NO_EXTRAS = { requested: [] as string[], reportedDone: [] as string[], origin: null as string | null }
+const NO_EXTRAS = {
+  requested: [] as string[],
+  reportedDone: [] as string[],
+  origin: null as string | null,
+  stateSource: null as StateSource,
+  topic: null as string | null,
+  topicServices: [] as string[],
+  otherTopic: false,
+}
 
 const uniq = (xs: string[]) => [...new Set(xs)]
 const sorted = (xs: string[]) => [...xs].sort()
@@ -97,7 +116,9 @@ function peekPending(): PendingProposal | null {
   try {
     const raw = sessionStorage.getItem(PENDING_KEY)
     const v = raw ? (JSON.parse(raw) as PendingProposal) : null
-    return v && v.draft && Array.isArray(v.draft.goals) ? { draft: { ...emptyDraft(), ...v.draft }, targets: v.targets ?? null } : null
+    return v && v.draft && Array.isArray(v.draft.goals)
+      ? { draft: { ...emptyDraft(), ...v.draft }, targets: v.targets ?? null }
+      : null
   } catch {
     return null
   }
@@ -113,7 +134,7 @@ function draftFromAccount(vault: VaultDocument[], state: string | null, goals: s
     if (statuses.has('valid')) continue
     docStates[type] = statuses.has('unsure') ? 'unsure' : statuses.has('expired') ? 'expired' : 'invalid'
   }
-  return { goals, lifeEvents: [], state, held: [...byType.keys()], lacking: [], docStates, fromAI: false, unknowns: [], dropped: 0, ...NO_EXTRAS }
+  return { goals, lifeEvents: [], state, held: [...byType.keys()], lacking: [], docStates, fromAI: false, unknowns: [], dropped: 0, ...NO_EXTRAS, stateSource: state ? 'profile' : null }
 }
 
 /** Progress facts for a proposal: the account's when signed in (guests have none saved). */
@@ -144,6 +165,7 @@ function withInterpretation(d: Draft, r: SituationInterpretation): Draft {
     requested: uniq([...d.requested, ...(r.requested_service_ids ?? [])]),
     reportedDone: uniq([...d.reportedDone, ...r.completed_service_ids]),
     origin: r.origin_state ?? d.origin,
+    ...fromResult(d, r),
   }
 }
 
@@ -165,6 +187,18 @@ function withCorrection(d: Draft, r: SituationInterpretation, keepHeld: string[]
     requested: r.requested_service_ids ?? [],
     reportedDone: r.completed_service_ids,
     origin: r.origin_state ?? null,
+    ...fromResult(d, r),
+  }
+}
+
+/** A state in the result was named in the citizen's text (the server drops a mere echo of the
+ * profile); otherwise the draft keeps its state and where it came from. */
+function fromResult(d: Draft, r: SituationInterpretation) {
+  return {
+    stateSource: r.state ? ('description' as const) : d.stateSource,
+    topic: r.topic ?? null,
+    topicServices: r.topic_service_ids ?? [],
+    otherTopic: false,
   }
 }
 
@@ -243,7 +277,9 @@ export function SituationJourney({ onExplain }: { onExplain?: (workflow: PlanReq
       ? {
           goals: sorted(draft.goals),
           life_events: sorted(draft.lifeEvents),
-          state: draft.state,
+          // A profile state is resolved on the server (so it is labelled "from your profile").
+          state: draft.stateSource === 'profile' ? null : draft.state,
+          ...(draft.state && draft.stateSource === 'manual' ? { state_source: 'manual' as const } : {}),
           // The vault is added on the server; send only documents it does not hold.
           held_document_ids: sorted(draft.held.filter((d) => docOk(d) && !vaultTypes.has(d))),
           document_states: sortObj(keep(draft.docStates, (d) => docOk(d) && !vaultTypes.has(d))) as AccountProposeRequest['document_states'],
@@ -478,6 +514,7 @@ function ReviewDraft({
 }) {
   const { t } = useTranslation()
   const vocabulary = useVocabulary()
+  const stateName = useStateName()
   const documents = useDocuments()
   const services = useServices()
   const vault = useVault()
@@ -529,6 +566,7 @@ function ReviewDraft({
             </label>
           ))}
         </div>
+        {draft.topic && <TopicQuestion draft={draft} setDraft={setDraft} name={names.service} />}
         <div className="mt-3 space-y-3">
           {chips(draft.requested, t('journey.requestedLabel'), 'requested', 'journey-requested')}
           {chips(draft.reportedDone, t('journey.reportedDoneLabel'), 'reportedDone', 'journey-reported-done')}
@@ -559,19 +597,24 @@ function ReviewDraft({
         <span className="mb-1.5 block text-xs font-bold tracking-[0.14em] text-muted uppercase">{t('situation.stateLabel')}</span>
         <select
           value={draft.state ?? ''}
-          onChange={(e) => setDraft((d) => ({ ...d, state: e.target.value || null }))}
+          onChange={(e) => setDraft((d) => ({ ...d, state: e.target.value || null, stateSource: e.target.value ? 'manual' : null }))}
           className="w-full rounded-2xl border border-rule-strong bg-paper px-3.5 py-2.5 text-sm font-semibold text-ink focus:border-ink"
         >
           <option value="">{t('situation.stateUnknown')}</option>
           {(vocabulary.data?.states ?? []).map((s) => (
             <option key={s} value={s}>
-              {s}
+              {stateName(s)}
             </option>
           ))}
         </select>
         {!draft.state && <span className="mt-1 block text-xs text-honey-700">{t('journey.stateHint')}</span>}
+        {draft.state && draft.stateSource && (
+          <span className="mt-1 block text-xs text-muted" data-testid="journey-state-source">
+            {t(`journey.stateSource.${draft.stateSource}`)}
+          </span>
+        )}
         {draft.origin && draft.state && draft.origin !== draft.state && (
-          <span className="mt-1 block text-xs text-muted">{t('journey.moving', { from: draft.origin, to: draft.state })}</span>
+          <span className="mt-1 block text-xs text-muted">{t('journey.moving', { from: stateName(draft.origin), to: stateName(draft.state) })}</span>
         )}
       </label>
 
@@ -703,12 +746,14 @@ function Proposal({
   const { status } = useAuth()
   const signedIn = status === 'signedIn'
   const accountPlans = useSavedPlans('active')
+  const { name: displayName } = usePlanName()
   const createPlan = useCreatePlan()
   const updatePlan = useUpdatePlan()
   const facts = useProgressFacts()
   const services = useServices()
   const documents = useDocuments()
   const vocabulary = useVocabulary()
+  const stateName = useStateName()
   const data = query.data
   const names = usePlanNames(data?.plan ?? undefined, services.data ?? [], documents.data ?? [])
   const [planName, setPlanName] = useState('')
@@ -738,7 +783,8 @@ function Proposal({
   /** Guests must sign in to save: keep this proposal for after sign-in (nothing is saved). */
   const signInToSave = () => {
     keepPending({ draft, targets })
-    navigate('/login', { state: { from: location.pathname, reason: 'save_plan' } })
+    // Return to where the journey runs (My Plans ?create=situation, or the assistant).
+    navigate('/login', { state: { from: location.pathname + location.search, reason: 'save_plan' } })
   }
   const held: HeldDocument[] = draft.held.map((d) => ({ document_type: d, status: (draft.docStates[d] ?? 'valid') as VaultStatus }))
   // Services the citizen said they already completed, not yet recorded in the account.
@@ -753,7 +799,8 @@ function Proposal({
     const done = {
       onSuccess: (p: { id: string; deduplicated?: string | null }) =>
         navigate(`/planner?plan=${p.id}&saved=${mode === 'new' ? (p.deduplicated ?? 'new') : 'updated'}`),
-      onSettled: () => {
+      // Only a failure re-enables saving; after success the page navigates away.
+      onError: () => {
         submitting.current = false
       },
     }
@@ -766,7 +813,7 @@ function Proposal({
       createPlan.mutate(
         {
           source: 'proposal',
-          title: planName.trim() || suggestedName || null,
+          title: planName.trim() || null, // no name -> shown from the goals/services, localized
           target_service_ids: outcomes,
           goals: draft.goals,
           state: planState,
@@ -778,6 +825,7 @@ function Proposal({
     }
   }
   const saving = createPlan.isPending || updatePlan.isPending || setProgress.isPending
+
   // A suggested name for the new plan: the citizen's goals, else the services.
   const suggestedName = (draft.goals.length ? draft.goals.map((g) => t(`goals.${g}`)) : outcomes.map(name)).join(', ').slice(0, 120)
   const workflow = (): PlanRequest => ({
@@ -795,6 +843,11 @@ function Proposal({
       {account && <AccountContextCard account={account} names={names} />}
 
       <StatusBanner data={data} />
+      {draft.topic && draft.otherTopic && data.target_service_ids.length === 0 && (
+        <p className="rounded-2xl bg-honey-50 p-4 text-sm text-honey-800 ring-1 ring-honey-100" data-testid="journey-topic-not-covered">
+          {t('journey.topicNotCovered', { topic: t(`journey.topics.${draft.topic}`) })}
+        </p>
+      )}
       <RequestedNotes data={data} names={names} />
 
       {/* Questions: answering one regenerates the proposal. */}
@@ -840,7 +893,7 @@ function Proposal({
             <option value="">{t('situation.stateUnknown')}</option>
             {(vocabulary.data?.states ?? []).map((s) => (
               <option key={s} value={s}>
-                {s}
+                {stateName(s)}
               </option>
             ))}
           </select>
@@ -926,7 +979,7 @@ function Proposal({
                   {' — '}
                   {c.status === 'completed' && t('situation.statusCompleted')}
                   {c.status === 'needs_clarification' && t('situation.statusClarify')}
-                  {c.exclusion === 'outside_verified_jurisdiction' && t('situation.excludedRegion', { region: c.region ?? '' })}
+                  {c.exclusion === 'outside_verified_jurisdiction' && t('situation.excludedRegion', { region: stateName(c.region) })}
                   {c.exclusion === 'lacks_required_record' && t('situation.excludedRecord', { documents: c.record_document_ids.map(names.document).join(t('common.listSeparator')) })}
                 </li>
               ))}
@@ -997,15 +1050,15 @@ function Proposal({
                   >
                     {activePlans.map((p) => (
                       <option key={p.id} value={p.id} className="text-ink">
-                        {p.title || p.target_service_ids.map(name).join(', ')}
+                        {displayName(p)}
                       </option>
                     ))}
                   </select>
                 </label>
               )}
               {confirmReplace && latestPlan ? (
-                <div className="space-y-2 rounded-xl bg-paper/10 p-3" role="group" aria-label={t('journey.replaceConfirm', { plan: latestPlan.title || latestPlan.target_service_ids.map(name).join(', ') })}>
-                  <p className="text-sm font-semibold">{t('journey.replaceConfirm', { plan: latestPlan.title || latestPlan.target_service_ids.map(name).join(', ') })}</p>
+                <div className="space-y-2 rounded-xl bg-paper/10 p-3" role="group" aria-label={t('journey.replaceConfirm', { plan: displayName(latestPlan) })}>
+                  <p className="text-sm font-semibold">{t('journey.replaceConfirm', { plan: displayName(latestPlan) })}</p>
                   <div className="flex flex-wrap gap-2">
                     <button type="button" disabled={saving} onClick={() => void acceptToAccount('replace')} className={buttonClass('zest', 'sm')}>
                       {t('journey.replaceYes')}
@@ -1023,7 +1076,7 @@ function Proposal({
                   {latestPlan && (
                     <>
                       <button type="button" disabled={!data.plan || stale || saving} onClick={() => void acceptToAccount('add')} className={buttonClass('inverse', 'md')}>
-                        {t('journey.acceptAddTo', { plan: latestPlan.title || latestPlan.target_service_ids.map(name).join(', ') })}
+                        {t('journey.acceptAddTo', { plan: displayName(latestPlan) })}
                       </button>
                       <button type="button" disabled={!data.plan || stale || saving} onClick={() => setConfirmReplace(true)} className={buttonClass('inverse', 'md')}>
                         {t('journey.acceptReplaceIn')}
@@ -1055,6 +1108,7 @@ function Proposal({
 
 function AccountContextCard({ account, names }: { account: AccountProposal; names: PlanNames }) {
   const { t } = useTranslation()
+  const stateName = useStateName()
   const c = account.account_context
   const vaultDocs = Object.entries(c.vault)
   return (
@@ -1065,12 +1119,14 @@ function AccountContextCard({ account, names }: { account: AccountProposal; name
       <ul className="mt-2 space-y-1 text-ink">
         <li>
           {c.state_source === 'description'
-            ? t('journey.stateFromDescription', { state: c.state ?? '' })
-            : c.state_source === 'profile'
-              ? t('journey.stateFromProfile', { state: c.state ?? '' })
+            ? t('journey.stateFromDescription', { state: stateName(c.state) })
+            : c.state_source === 'manual'
+              ? t('journey.stateFromManual', { state: stateName(c.state) })
+              : c.state_source === 'profile'
+              ? t('journey.stateFromProfile', { state: stateName(c.state) })
               : t('journey.stateNone')}
-          {c.state_source === 'description' && c.profile_state && c.profile_state !== c.state && (
-            <span className="text-muted"> {t('journey.profileSays', { state: c.profile_state })}</span>
+          {(c.state_source === 'description' || c.state_source === 'manual') && c.profile_state && c.profile_state !== c.state && (
+            <span className="text-muted"> {t('journey.profileSays', { state: stateName(c.profile_state) })}</span>
           )}
         </li>
         <li>
@@ -1121,7 +1177,7 @@ function GroundingBadge({ g }: { g: NonNullable<ProposalResponse['grounding']> }
 function OverlapCard({ account, names }: { account: AccountProposal; names: PlanNames }) {
   const { t } = useTranslation()
   const top = account.existing_plans[0]
-  const title = top.title || top.target_service_ids.map(names.service).join(', ')
+  const title = usePlanName().name({ title: top.title, target_service_ids: top.target_service_ids })
   return (
     <section className="rounded-2xl bg-zest-100 p-4 text-sm ring-1 ring-zest-300" data-testid="journey-overlap" data-recommendation={account.recommendation}>
       <p className="font-semibold text-ink">
@@ -1136,9 +1192,10 @@ function OverlapCard({ account, names }: { account: AccountProposal; names: Plan
 
 function Understood({ draft, names, onEdit }: { draft: Draft; names: PlanNames; onEdit: () => void }) {
   const { t } = useTranslation()
+  const stateName = useStateName()
   const rows: [string, string][] = [
     [t('situation.foundGoals'), draft.goals.map((g) => t(`goals.${g}`)).join(t('common.listSeparator')) || '—'],
-    [t('situation.foundState'), (draft.state ?? t('situation.notStated')) + (draft.origin && draft.origin !== draft.state ? ` (${t('journey.movingFrom', { from: draft.origin })})` : '')],
+    [t('situation.foundState'), (draft.state ? stateName(draft.state) : t('situation.notStated')) + (draft.origin && draft.origin !== draft.state ? ` (${t('journey.movingFrom', { from: stateName(draft.origin) })})` : '')],
     ...(draft.requested.length ? [[t('journey.requestedLabel'), draft.requested.map(names.service).join(t('common.listSeparator'))] as [string, string]] : []),
     ...(draft.reportedDone.length ? [[t('journey.reportedDoneLabel'), draft.reportedDone.map(names.service).join(t('common.listSeparator'))] as [string, string]] : []),
     [t('situation.foundHeld'), draft.held.map((d) => names.document(d) + (draft.docStates[d] ? ` (${t(`documentState.${draft.docStates[d]}`)})` : '')).join(t('common.listSeparator')) || '—'],
@@ -1181,6 +1238,55 @@ function StatusBanner({ data }: { data: ProposalResponse }) {
           {t('journey.uncoveredEvents', { events: data.uncovered_life_events.map((e) => t(`lifeEvents.${e}.name`)).join(t('common.listSeparator')) })}
         </p>
       )}
+    </div>
+  )
+}
+
+/** Coverage-aware question when the text named a topic (e.g. a passport) but no supported goal or
+ * service: the options are the curated services for it (from the server), plus "something else".
+ * Nothing is selected for the citizen; choosing a service adds it to the services they asked for. */
+function TopicQuestion({ draft, setDraft, name }: { draft: Draft; setDraft: (f: (d: Draft) => Draft) => void; name: (id: string) => string }) {
+  const { t } = useTranslation()
+  const topic = t(`journey.topics.${draft.topic}`)
+  return (
+    <div className="mt-3 rounded-2xl bg-zest-50 p-4 ring-1 ring-zest-200" data-testid="journey-topic">
+      <p className="text-sm font-semibold text-ink">{t('journey.topicQuestion', { topic })}</p>
+      <p className="mt-1 text-xs text-muted">{t(draft.topicServices.length ? 'journey.topicCovered' : 'journey.topicNone', { topic })}</p>
+      <div className="mt-2 grid gap-1.5">
+        {draft.topicServices.map((id) => (
+          <label key={id} className="flex cursor-pointer items-center gap-2.5 rounded-xl bg-paper px-3 py-2 text-sm ring-1 ring-rule">
+            <input
+              type="checkbox"
+              className="h-4 w-4"
+              checked={draft.requested.includes(id)}
+              onChange={(e) =>
+                setDraft((d) => ({
+                  ...d,
+                  requested: e.target.checked ? uniq([...d.requested, id]) : d.requested.filter((x) => x !== id),
+                  otherTopic: e.target.checked ? false : d.otherTopic,
+                }))
+              }
+            />
+            <span className="font-semibold text-ink">{name(id)}</span>
+          </label>
+        ))}
+        <label className="flex cursor-pointer items-center gap-2.5 rounded-xl bg-paper px-3 py-2 text-sm ring-1 ring-rule">
+          <input
+            type="checkbox"
+            className="h-4 w-4"
+            checked={draft.otherTopic}
+            onChange={(e) =>
+              setDraft((d) => ({
+                ...d,
+                otherTopic: e.target.checked,
+                requested: e.target.checked ? d.requested.filter((x) => !d.topicServices.includes(x)) : d.requested,
+              }))
+            }
+          />
+          <span className="font-semibold text-ink">{t('journey.topicOther', { topic })}</span>
+        </label>
+      </div>
+      {draft.otherTopic && <p className="mt-2 text-xs font-semibold text-honey-700">{t('journey.topicNotCovered', { topic })}</p>}
     </div>
   )
 }

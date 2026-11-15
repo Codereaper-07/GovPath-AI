@@ -48,6 +48,26 @@ class SituationVocabulary:
     services: dict[str, str]
 
 
+# Topics a citizen may name without matching a supported goal (e.g. "renew my passport"). This
+# table holds only the words to look for (English + Hindi); which services exist comes from the
+# curated catalogue (service names), never from here. Used to ask a coverage-aware question.
+TOPIC_ALIASES: dict[str, tuple[str, ...]] = {"passport": ("passport", "पासपोर्ट")}
+
+
+def topic_services(text: str, services: dict[str, str]) -> tuple[str | None, list[str]]:
+    """(topic, curated service ids whose name contains it) for the first topic the text names."""
+    low = text.lower()
+    for topic, aliases in TOPIC_ALIASES.items():
+        if any(a in low for a in aliases):
+            return topic, sorted(sid for sid, name in services.items() if topic in name.lower())
+    return None, []
+
+
+def state_mentioned(text: str, state: str) -> bool:
+    """Whether the citizen's own text names the state (deterministic, English names only)."""
+    return state.lower() in text.lower()
+
+
 @dataclass(frozen=True)
 class SituationContext:
     """Facts already known about a signed-in citizen (from their account, not from the model).

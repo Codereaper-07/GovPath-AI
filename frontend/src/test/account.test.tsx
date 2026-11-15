@@ -301,8 +301,9 @@ describe('saved plans in the planner', () => {
     const user = userEvent.setup()
     renderApp('/planner', signedIn())
     await user.click(await screen.findByRole('button', { name: 'Archive plan' }))
-    expect(await screen.findByText('No saved plans yet')).toBeInTheDocument()
+    expect(await screen.findByText('You have no active plans. Restore an archived plan or create a new one.')).toBeInTheDocument()
     expect(screen.getByText('1 archived plan')).toBeInTheDocument()
+    expect(screen.getByTestId('create-plan')).toBeInTheDocument() // creating stays possible
     expect(api.plans[0].status).toBe('archived')
   })
 
@@ -347,6 +348,8 @@ describe('situation journey when signed in', () => {
     expect(within(review).getAllByText(/Aadhaar/).length).toBeGreaterThan(0)
     await user.click(within(review).getByRole('checkbox', { name: 'Change my name after marriage' }))
     await user.click(screen.getByRole('button', { name: 'Find services and build my plan' }))
+    // A situation's reviewed workflow is saved as ONE plan (no combined/separate choice here).
+    expect(screen.queryByRole('radio')).not.toBeInTheDocument()
     await user.click(await screen.findByRole('button', { name: 'Save as a new plan' }))
     await waitFor(() => expect(api.plans).toHaveLength(1))
     const post = api.calls.find((c) => c.method === 'POST' && c.url.endsWith('/api/me/plans'))!
@@ -354,6 +357,65 @@ describe('situation journey when signed in', () => {
     expect((post.body as { held_documents: unknown[] }).held_documents).toContainEqual({ document_type: 'aadhaar_number', status: 'unsure' })
     expect(localStorage.getItem(PLAN_KEY)).toBeNull()
     expect(await screen.findByRole('heading', { name: 'My Plans', level: 1 })).toBeInTheDocument()
+  })
+})
+
+describe('create from selected services', () => {
+  const PAN = 'instant-e-pan'
+  const DL = 'driving-licence-address-change'
+  const svc = (id: string) => services.find((x) => x.id === id)!.name
+  const posts = (api: ReturnType<typeof accountBackend>) =>
+    api.calls.filter((c) => c.method === 'POST' && c.url.endsWith('/api/me/plans')).map((c) => c.body as { target_service_ids: string[]; client_request_id: string })
+
+  it('one service: saved directly, no combined/separate choice', async () => {
+    const api = accountBackend()
+    const user = userEvent.setup()
+    renderApp('/planner?create=services', signedIn())
+    await user.click((await screen.findAllByRole('checkbox', { name: svc(PAN) }))[0])
+    expect(screen.queryByTestId('services-grouping')).not.toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Save plan' }))
+    await waitFor(() => expect(posts(api)).toHaveLength(1))
+    expect(posts(api)[0].target_service_ids).toEqual([PAN])
+  })
+
+  it('several services: the choice is required; "separate" saves one plan per service (double-click safe)', async () => {
+    const api = accountBackend()
+    const user = userEvent.setup()
+    renderApp('/planner?create=services', signedIn())
+    await user.click((await screen.findAllByRole('checkbox', { name: svc(PAN) }))[0])
+    await user.click(screen.getAllByRole('checkbox', { name: svc(DL) })[0])
+    expect(screen.getByRole('button', { name: 'Save plan' })).toBeDisabled()
+    await user.click(screen.getByRole('radio', { name: /Create 2 separate plans/ }))
+    await user.dblClick(screen.getByRole('button', { name: 'Save 2 separate plans' }))
+    await waitFor(() => expect(api.plans).toHaveLength(2))
+    expect(posts(api)).toHaveLength(2) // not 4
+    expect(posts(api).map((b) => b.target_service_ids)).toEqual([[PAN], [DL]])
+    expect(new Set(posts(api).map((b) => b.client_request_id)).size).toBe(2)
+    expect(await screen.findByText('2 separate plans saved to My Plans.')).toBeInTheDocument()
+  })
+
+  it('"combine" saves exactly one plan with every selected service', async () => {
+    const api = accountBackend()
+    const user = userEvent.setup()
+    renderApp('/planner?create=services', signedIn())
+    await user.click((await screen.findAllByRole('checkbox', { name: svc(PAN) }))[0])
+    await user.click(screen.getAllByRole('checkbox', { name: svc(DL) })[0])
+    await user.click(screen.getByRole('radio', { name: /Combine into one plan/ }))
+    await user.click(screen.getByRole('button', { name: 'Save plan' }))
+    await waitFor(() => expect(posts(api)).toHaveLength(1))
+    expect(posts(api)[0].target_service_ids).toEqual([PAN, DL])
+  })
+
+  it('guests keep their selection and choice for after sign-in', async () => {
+    accountBackend()
+    const user = userEvent.setup()
+    renderApp('/planner?create=services', fakeAuth().client)
+    await user.click((await screen.findAllByRole('checkbox', { name: svc(PAN) }))[0])
+    await user.click(screen.getAllByRole('checkbox', { name: svc(DL) })[0])
+    await user.click(screen.getByRole('radio', { name: /Create 2 separate plans/ }))
+    await user.click(screen.getByRole('button', { name: 'Sign in to save this plan' }))
+    expect(await screen.findByRole('heading', { name: 'Sign in' })).toBeInTheDocument()
+    expect(JSON.parse(sessionStorage.getItem('govpath.pendingSelection')!)).toMatchObject({ selected: [PAN, DL], grouping: 'separate' })
   })
 })
 

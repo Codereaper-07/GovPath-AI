@@ -152,3 +152,30 @@ def test_missing_api_key_is_reported_without_network():
     assert not client.configured
     with pytest.raises(LLMNotConfiguredError):
         client._sdk()
+
+
+async def test_provider_failures_are_logged_safely_once_per_attempt(caplog):
+    client, models = fake_gemini(
+        Settings(_env_file=None, database_url=None, gemini_api_key=None, gemini_max_retries=0)
+    )
+    models.generate_errors = [api_error(503, "UNAVAILABLE")]
+    with caplog.at_level("WARNING", logger="app.llm.client"), pytest.raises(LLMUnavailableError):
+        await client.generate_json(
+            system="s", prompt="I got married; secret-prompt-text", schema=Out
+        )
+    [line] = [r.getMessage() for r in caplog.records]
+    assert "http_status=503 provider_status=UNAVAILABLE" in line
+    assert "operation=generation" in line and "model=gemini-3.6-flash" in line
+    assert "attempt=1/1" in line
+    assert "secret-prompt-text" not in line and "married" not in line  # no prompt / message
+
+    caplog.clear()
+
+    async def timeout():
+        raise httpx.ConnectTimeout("details with user text")
+
+    with caplog.at_level("WARNING", logger="app.llm.client"), pytest.raises(LLMUnavailableError):
+        await with_retries(timeout, RetryPolicy(0, 0, 0), label="operation=embedding")
+    [line] = [r.getMessage() for r in caplog.records]
+    assert "error=ConnectTimeout" in line and "kind=transient" in line
+    assert "details with user text" not in line

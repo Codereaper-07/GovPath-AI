@@ -4,10 +4,11 @@ import { buttonClass } from '../../components/ui/Button'
 import { Icon } from '../../components/ui/Icon'
 import { PageHeader } from '../../components/ui/PageHeader'
 import { ErrorState, LoadingState } from '../../components/ui/States'
-import { useLocalized } from '../../lib/useLocalized'
+import { useFormatDate, useLocalized } from '../../lib/useLocalized'
 import type { ActivityEvent } from '../../types/api'
 import { useDocuments, useServices } from '../services/api'
 import { useActivity } from './api'
+import { usePlanName } from './planName'
 import { AccountBadge } from './AccountBadge'
 
 /** Append-only history of the citizen's account changes (read-only: nothing here edits it). */
@@ -63,6 +64,8 @@ function useEventText() {
   const pick = useLocalized()
   const services = useServices()
   const documents = useDocuments()
+  const { name: planName } = usePlanName()
+  const formatDate = useFormatDate()
   const svc = (id: unknown) => {
     const s = services.data?.find((x) => x.id === id)
     return s ? pick(s.name, s.name_hi) : String(id ?? '')
@@ -78,7 +81,7 @@ function useEventText() {
 
   return (e: ActivityEvent): { title: string; lines: string[] } => {
     const d = e.details as Record<string, unknown>
-    const plan = typeof d.title === 'string' && d.title ? d.title : t('account.untitledPlan')
+    const plan = planName({ title: typeof d.title === 'string' ? d.title : null, target_service_ids: Array.isArray(d.target_service_ids) ? (d.target_service_ids as string[]) : [] })
     switch (e.event_type) {
       case 'document_added':
         return { title: t('activity.e.document_added', { document: doc(d.document_type), status: status(d.status) }), lines: [] }
@@ -86,12 +89,12 @@ function useEventText() {
         const c = (d.changes ?? {}) as Record<string, unknown>
         const lines: string[] = []
         if (Array.isArray(c.status)) lines.push(t('activity.statusChange', { from: status(c.status[0]), to: status(c.status[1]) }))
-        if (Array.isArray(c.expiry_date)) lines.push(t('activity.expiryChange', { to: c.expiry_date[1] ?? t('activity.none') }))
+        if (Array.isArray(c.expiry_date)) lines.push(t('activity.expiryChange', { to: c.expiry_date[1] ? formatDate(String(c.expiry_date[1])) : t('activity.none') }))
         if (c.note || c.label || c.issue_date) lines.push(t('activity.detailsChanged'))
         return { title: t('activity.e.document_updated', { document: doc(d.document_type) }), lines }
       }
       case 'document_expired':
-        return { title: t('activity.e.document_expired', { document: doc(d.document_type), date: String(d.expiry_date ?? '') }), lines: [t('activity.expiredNote')] }
+        return { title: t('activity.e.document_expired', { document: doc(d.document_type), date: formatDate(typeof d.expiry_date === 'string' ? d.expiry_date : null) }), lines: [t('activity.expiredNote')] }
       case 'document_removed':
         return { title: t('activity.e.document_removed', { document: doc(d.document_type) }), lines: [] }
       case 'plan_created':
