@@ -9,6 +9,7 @@ from app.api.routes import (
     assistant,
     documents,
     health,
+    internal,
     profile,
     services,
     situation,
@@ -62,6 +63,7 @@ def create_app() -> FastAPI:
         assistant.router,
         profile.router,
         account.router,
+        internal.router,
     )
     for router in routers:
         app.include_router(router, prefix="/api")

@@ -29,16 +29,6 @@ describe('Dashboard life-event discovery', () => {
     expect(screen.getByTestId('life-event-marriage-family')).toHaveAttribute('href', '/services?event=marriage-family')
   })
 
-  it('summarises a saved plan from the planner', async () => {
-    localStorage.setItem('govpath.planner.v1', JSON.stringify({ targets: ['instant-e-pan'], owned: ['aadhaar_number', 'digilocker_access'], completed: [], generated: true }))
-    mockFetch(api)
-    renderApp('/')
-    const saved = (await screen.findByRole('heading', { name: 'Your saved plan' })).closest('section')!
-    expect(within(saved).getByText('Services selected').nextSibling).toHaveTextContent('1')
-    expect(within(saved).getByText('Documents ticked').nextSibling).toHaveTextContent('2')
-    expect(within(saved).getByRole('link', { name: /Continue planning/ })).toHaveAttribute('href', '/planner')
-  })
-
   it('hands a described situation to the assistant', async () => {
     mockFetch(api)
     renderApp('/')
@@ -96,15 +86,3 @@ describe('Services catalogue filtering', () => {
   })
 })
 
-describe('Planner service picker', () => {
-  it('groups services by life event, sharing one selection across groups', async () => {
-    mockFetch(api)
-    renderApp('/planner')
-    expect(await screen.findByRole('heading', { name: /Marriage & Family/ })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: /Birth & Parenthood/ })).toBeInTheDocument()
-    const boxes = screen.getAllByRole('checkbox', { name: 'Aadhaar name update (e.g. after marriage)' })
-    expect(boxes).toHaveLength(2) // listed under Marriage & Family and Relocation & Identity
-    await userEvent.click(boxes[0])
-    expect(screen.getAllByRole('checkbox', { name: 'Aadhaar name update (e.g. after marriage)' }).every((b) => (b as HTMLInputElement).checked)).toBe(true)
-  })
-})

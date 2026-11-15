@@ -90,6 +90,8 @@ function useEventText() {
         if (c.note || c.label || c.issue_date) lines.push(t('activity.detailsChanged'))
         return { title: t('activity.e.document_updated', { document: doc(d.document_type) }), lines }
       }
+      case 'document_expired':
+        return { title: t('activity.e.document_expired', { document: doc(d.document_type), date: String(d.expiry_date ?? '') }), lines: [t('activity.expiredNote')] }
       case 'document_removed':
         return { title: t('activity.e.document_removed', { document: doc(d.document_type) }), lines: [] }
       case 'plan_created':
@@ -112,7 +114,11 @@ function useEventText() {
         const why =
           cause.type === 'progress_changed'
             ? t('activity.cause.progress', { service: svc(cause.service_id) })
-            : cause.document_type
+            : cause.type === 'document_expired'
+              ? t('activity.cause.expired', {
+                  documents: (Array.isArray(cause.document_types) ? cause.document_types : [cause.document_type]).map(doc).join(t('common.listSeparator')),
+                })
+              : cause.document_type
               ? t('activity.cause.document', { document: doc(cause.document_type) })
               : t('activity.cause.other')
         const steps = Array.isArray(d.steps) ? (d.steps as { service_id: string; before: string | null; after: string | null }[]) : []
@@ -133,7 +139,7 @@ function useEventText() {
   }
 }
 
-function EventItem({ event }: { event: ActivityEvent }) {
+export function EventItem({ event }: { event: ActivityEvent }) {
   const { i18n } = useTranslation()
   const text = useEventText()(event)
   const when = new Date(event.created_at).toLocaleString(i18n.resolvedLanguage === 'hi' ? 'hi-IN' : 'en-IN', { dateStyle: 'medium', timeStyle: 'short' })

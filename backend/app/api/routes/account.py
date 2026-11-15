@@ -11,14 +11,21 @@ from fastapi import APIRouter, Depends, HTTPException, Query, Response, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.account import service as svc
+from app.api.routes.situation import get_interpreter, run_interpreter, situation_vocabulary
 from app.auth import CurrentUser
 from app.db import get_session
 from app.knowledge.cache import TTLCache, get_knowledge_cache
+from app.llm.situation import SituationInterpreter
 from app.models import UserPlan, VaultDocument
 from app.models.enums import PlanStatus
 from app.schemas.account import (
+    AccountProposalOut,
+    AccountProposeIn,
     ActivityEventOut,
     ActivityListOut,
+    DashboardActionOut,
+    DashboardBlockerOut,
+    DashboardOut,
     DocumentListOut,
     DocumentRefOut,
     DocumentWriteOut,
@@ -35,7 +42,8 @@ from app.schemas.account import (
     VaultDocumentOut,
     VaultDocumentUpdate,
 )
-from app.workflow.errors import UnknownIdsError
+from app.schemas.situation import SituationIn, SituationOut
+from app.workflow.errors import DependencyCycleError, UnknownIdsError
 from app.workflow.service import get_planning_data
 
 router = APIRouter(prefix="/me", tags=["account"])
@@ -62,7 +70,7 @@ def _error(exc: Exception) -> HTTPException:
             },
         )
     if isinstance(exc, svc.ConflictError):
-        return HTTPException(409, {"code": exc.code, "message": str(exc)})
+        return HTTPException(409, {"code": exc.code, "message": str(exc), **exc.extra})
     if isinstance(exc, svc.InvalidInputError):
         return HTTPException(422, {"code": exc.code, "message": str(exc), **exc.extra})
     raise exc
@@ -118,6 +126,17 @@ async def _document_out(
     return out
 
 
+def _event_out(e) -> ActivityEventOut:
+    return ActivityEventOut(
+        id=e.id,
+        event_type=e.event_type.value,
+        entity_type=e.entity_type,
+        entity_id=e.entity_id,
+        details=e.details,
+        created_at=e.created_at,
+    )
+
+
 def _summary_fields(p: UserPlan) -> dict:
     snap = p.snapshot or {}
     prog = snap.get("progress") or {}
@@ -126,6 +145,7 @@ def _summary_fields(p: UserPlan) -> dict:
         "title": p.title,
         "status": p.status.value,
         "target_service_ids": p.target_service_ids,
+        "citizen_state": p.citizen_state,
         "service_names": snap.get("services", {}),
         "total_services": prog.get("total_services", len(snap.get("steps", []))),
         "completed": prog.get("completed", 0),
@@ -156,7 +176,6 @@ async def _plan_detail(
     return PlanDetailOut(
         **_summary_fields(p),
         goals=p.goals,
-        citizen_state=p.citizen_state,
         evaluated_at=p.evaluated_at,
         plan=p.snapshot,
         document_refs=[DocumentRefOut(**r) for r in svc.document_refs(p, docs)],
@@ -170,6 +189,7 @@ async def _plan_detail(
 
 @router.get("/documents", response_model=DocumentListOut)
 async def list_documents(user: CurrentUser, session: Session, cache: Cache) -> DocumentListOut:
+    await svc.catch_up(session, user.id, cache)
     docs = await svc.list_documents(session, user.id)
     return DocumentListOut(documents=await _document_out(session, user.id, docs, cache))
 
@@ -255,10 +275,12 @@ async def put_progress(
 async def list_plans(
     user: CurrentUser,
     session: Session,
+    cache: Cache,
     plan_status: Annotated[
         str, Query(alias="status", pattern="^(active|archived|all)$")
     ] = "active",
 ) -> PlanListOut:
+    await svc.catch_up(session, user.id, cache)
     wanted = None if plan_status == "all" else PlanStatus(plan_status)
     plans = await svc.list_plans(session, user.id, wanted)
     return PlanListOut(plans=[PlanSummaryOut(**_summary_fields(p)) for p in plans])
@@ -270,15 +292,20 @@ async def create_plan(
 ) -> PlanDetailOut:
     """Save an accepted plan (explicit citizen action: proposal acceptance or device import)."""
     try:
-        plan_row, created, changes = await svc.create_plan(session, user.id, body, cache)
+        plan_row, created, changes, dedup = await svc.create_plan(session, user.id, body, cache)
     except HANDLED as exc:
         raise _error(exc) from exc
     await session.commit()
-    return await _plan_detail(session, user.id, plan_row, created=created, changes=changes)
+    out = await _plan_detail(session, user.id, plan_row, created=created, changes=changes)
+    out.deduplicated = dedup
+    return out
 
 
 @router.get("/plans/{plan_id}", response_model=PlanDetailOut)
-async def get_plan(plan_id: uuid.UUID, user: CurrentUser, session: Session) -> PlanDetailOut:
+async def get_plan(
+    plan_id: uuid.UUID, user: CurrentUser, session: Session, cache: Cache
+) -> PlanDetailOut:
+    await svc.catch_up(session, user.id, cache)
     try:
         plan_row = await svc.get_plan(session, user.id, plan_id)
     except svc.NotFoundError as exc:
@@ -345,6 +372,69 @@ async def delete_plan(plan_id: uuid.UUID, user: CurrentUser, session: Session) -
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
+# ---------------------------------------------------------------- dashboard & situation
+
+
+@router.get("/dashboard", response_model=DashboardOut)
+async def get_dashboard(user: CurrentUser, session: Session, cache: Cache) -> DashboardOut:
+    """What the citizen should do next, from their own saved data (expiries processed first)."""
+    await svc.catch_up(session, user.id, cache)
+    d = await svc.dashboard(session, user.id)
+    profile = d["profile"]
+    expiring = await _document_out(session, user.id, d["expiring_soon"], cache)
+    expired = await _document_out(session, user.id, d["expired"], cache)
+    return DashboardOut(
+        today=d["today"],
+        full_name=profile.full_name if profile else user.full_name,
+        state=profile.state if profile else None,
+        city=profile.city if profile else None,
+        preferred_language=profile.preferred_language.value if profile else "en",
+        plans=[PlanSummaryOut(**_summary_fields(p)) for p in d["plans"]],
+        next_actions=[DashboardActionOut(**a) for a in d["next_actions"]],
+        blockers=[DashboardBlockerOut(**b) for b in d["blockers"]],
+        progress=d["progress"],
+        vault_counts=d["vault_counts"],
+        vault_total=d["vault_total"],
+        expiring_soon=expiring,
+        expired=expired,
+        recent_activity=[_event_out(e) for e in d["recent_activity"]],
+    )
+
+
+@router.post("/situation/interpret", response_model=SituationOut)
+async def interpret_situation(
+    body: SituationIn,
+    user: CurrentUser,
+    session: Session,
+    cache: Cache,
+    interpreter: Annotated[SituationInterpreter, Depends(get_interpreter)],
+) -> SituationOut:
+    """AI reads the description WITH the account's known facts (so it does not ask for them)."""
+    await svc.catch_up(session, user.id, cache)
+    context = await svc.situation_context(session, user.id, cache)
+    out = await run_interpreter(
+        interpreter, body, await situation_vocabulary(session, cache), context
+    )
+    out.account_state = context.state
+    out.account_document_ids = sorted(context.documents)
+    return out
+
+
+@router.post("/proposal", response_model=AccountProposalOut)
+async def propose_for_account(
+    body: AccountProposeIn, user: CurrentUser, session: Session, cache: Cache
+) -> AccountProposalOut:
+    """Reviewed situation + vault + progress + profile -> proposal (never saved)."""
+    await svc.catch_up(session, user.id, cache)
+    try:
+        out = await svc.account_proposal(session, user.id, body, cache)
+    except HANDLED as exc:
+        raise _error(exc) from exc
+    except DependencyCycleError as exc:
+        raise HTTPException(409, {"code": "dependency_cycle", "message": str(exc)}) from exc
+    return AccountProposalOut(**out)
+
+
 # ---------------------------------------------------------------- activity (read-only)
 
 
@@ -362,16 +452,6 @@ async def list_activity(
     more = len(events) > limit
     events = events[:limit]
     return ActivityListOut(
-        events=[
-            ActivityEventOut(
-                id=e.id,
-                event_type=e.event_type.value,
-                entity_type=e.entity_type,
-                entity_id=e.entity_id,
-                details=e.details,
-                created_at=e.created_at,
-            )
-            for e in events
-        ],
+        events=[_event_out(e) for e in events],
         next_before_id=events[-1].id if more and events else None,
     )

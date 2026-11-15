@@ -1,4 +1,4 @@
-import { screen, waitFor, within } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
 import i18n from '../i18n/config'
@@ -246,13 +246,4 @@ describe('profile', () => {
     expect(screen.queryByDisplayValue('Asha Verma')).not.toBeInTheDocument()
   })
 
-  it('reports the plan saved on this device without modifying it', async () => {
-    localStorage.setItem(PLAN_KEY, LOCAL_PLAN)
-    backend()
-    const { client } = fakeAuth({ stored: sessionFor('user-a') })
-    renderApp('/profile', client)
-    const note = (await screen.findByText('Your plan on this device')).closest('aside')!
-    expect(within(note).getByText(/Your device plan \(2 services\) is saved in this browser only/)).toBeInTheDocument()
-    expect(localStorage.getItem(PLAN_KEY)).toBe(LOCAL_PLAN)
-  })
 })

@@ -365,8 +365,26 @@ clean. `alembic check`: no drift.
 - Checks: backend 317, frontend 115; ruff, alembic check, typecheck, lint, build clean. Browser E2E 27/27 with
   real backend code on local SQLite and a local Supabase-Auth fake (live Auth not used: would create real users).
 
+## Identity milestone 3 — dashboard, automatic expiry, account-aware planning (2026-11-15)
+- Signed-in home is a dashboard (next actions, blockers, plans, expiring/expired documents, progress, activity).
+- Automatic expiry (IST dates, idempotent claim, `document_expired` events, active-plan recalculation; progress never
+  touched). Migration `0009_document_expiry` applied (additive). Triggers: read catch-up + CLI + cron endpoint.
+- Situation: interpreter extracts requested services, origin state, corrections, using account context; account
+  proposals use vault/progress/profile, detect overlap with saved plans (new/extend/covered), check evidence
+  grounding; accept as new / add to / replace (confirmed). Planner core unchanged.
+- Checks: backend 351, frontend 123; ruff, alembic, typecheck, lint, build clean. Browser E2E 22/22 (real backend
+  code on SQLite, fake Supabase Auth, offline keyword reader instead of Gemini). Live: migration, RLS 34/34,
+  expiry job dry-run + run (0 due).
+
+## My Plans consolidation (2026-11-15)
+- One plan system: My Plans (account). Removed the device planner, device-plan import, browser-plan ticket and
+  device messaging; guests explore and sign in to save (proposal kept through sign-in). No migration.
+- Multiple active plans: removed the services+state "same plan" rule (it returned/blocked genuinely separate plans);
+  repeated submissions are de-duplicated by `client_request_id`. Plans can be named and renamed.
+
 ## Remaining work
-- [ ] Validate the AI situation reader (`/api/situation/interpret`) against live Gemini when quota allows.
+- [ ] Validate the AI situation reader (incl. account context, requested services, corrections) against live Gemini.
+- [ ] Schedule `scripts.expire_documents` (or the cron endpoint) daily after 00:00 IST in the deployment.
 - [ ] Verified service prerequisites: none found in official sources yet (engine supports them).
 - [ ] Departmental status integration (read-only).
 - [ ] Live Supabase Auth test (sign-up/confirm/sign-in/refresh/sign-out) once the publishable key is configured.

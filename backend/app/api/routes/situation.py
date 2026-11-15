@@ -12,7 +12,7 @@ from app.llm.client import (
     LLMRateLimitedError,
     LLMUnavailableError,
 )
-from app.llm.situation import SituationInterpreter, SituationVocabulary
+from app.llm.situation import SituationContext, SituationInterpreter, SituationVocabulary
 from app.models.enums import CitizenGoal, LifeEvent
 from app.schemas.situation import SituationIn, SituationOut
 from app.workflow.service import load_planning_data
@@ -44,23 +44,25 @@ def _error(code: int, key: str, message: str, headers: dict | None = None) -> HT
     return HTTPException(code, {"code": key, "message": message}, headers=headers)
 
 
-@router.post("/interpret", response_model=SituationOut)
-async def interpret(
-    body: SituationIn,
-    session: Annotated[AsyncSession, Depends(get_session)],
-    interpreter: Annotated[SituationInterpreter, Depends(get_interpreter)],
-    cache: Annotated[TTLCache, Depends(get_knowledge_cache)],
-) -> SituationOut:
-    """AI extraction of structured facts from free text. Never decides services or order."""
+async def situation_vocabulary(session: AsyncSession, cache: TTLCache) -> SituationVocabulary:
     snapshot, _ = await cache.get_or_load("planning", lambda: load_planning_data(session))
-    vocab = SituationVocabulary(
+    return SituationVocabulary(
         goals={g.value: t for g, t in GOAL_TEXT.items()},
         life_events={e.value: t for e, t in EVENT_TEXT.items()},
         documents={d.id: d.name for d in snapshot.documents.values()},
         services={s.id: s.name for s in snapshot.services.values()},
     )
+
+
+async def run_interpreter(
+    interpreter: SituationInterpreter,
+    body: SituationIn,
+    vocab: SituationVocabulary,
+    context: SituationContext | None = None,
+) -> SituationOut:
+    """Call the model (explicit user action only) and map provider errors to HTTP errors."""
     try:
-        result = await interpreter.interpret(body.text, vocab)
+        result = await interpreter.interpret(body.text, vocab, context, body.previous)
     except LLMNotConfiguredError as exc:
         raise _error(503, "assistant_not_configured", "The AI service is not configured.") from exc
     except LLMQuotaExhaustedError as exc:
@@ -73,3 +75,14 @@ async def interpret(
     except LLMError as exc:
         raise _error(502, "model_error", "The AI service returned an error.") from exc
     return SituationOut(model=interpreter.model, **result.__dict__)
+
+
+@router.post("/interpret", response_model=SituationOut)
+async def interpret(
+    body: SituationIn,
+    session: Annotated[AsyncSession, Depends(get_session)],
+    interpreter: Annotated[SituationInterpreter, Depends(get_interpreter)],
+    cache: Annotated[TTLCache, Depends(get_knowledge_cache)],
+) -> SituationOut:
+    """AI extraction of structured facts from free text. Never decides services or order."""
+    return await run_interpreter(interpreter, body, await situation_vocabulary(session, cache))

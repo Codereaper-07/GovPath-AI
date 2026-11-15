@@ -8,6 +8,8 @@ class SituationIn(BaseModel):
 
     text: str = Field(min_length=3, max_length=2000)
     language: Literal["en", "hi"] = "en"
+    # The facts reviewed so far, when `text` corrects or adds to them (JSON-ish summary).
+    previous: str | None = Field(default=None, max_length=4000)
 
 
 class SituationOut(BaseModel):
@@ -23,5 +25,10 @@ class SituationOut(BaseModel):
     lacking_document_ids: list[str]
     document_states: dict[str, str] = {}  # held document -> expired | invalid | unsure
     completed_service_ids: list[str]
+    requested_service_ids: list[str] = []
+    origin_state: str | None = None
     unknowns: list[str]
     dropped: list[str]
+    # Signed-in only: facts taken from the account (so the UI can say where they came from).
+    account_state: str | None = None
+    account_document_ids: list[str] = []

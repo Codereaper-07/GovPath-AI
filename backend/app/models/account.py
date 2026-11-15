@@ -31,6 +31,9 @@ class VaultDocument(TimestampMixin, Base):
     issue_date: Mapped[date | None] = mapped_column(sa.Date)
     expiry_date: Mapped[date | None] = mapped_column(sa.Date)
     note: Mapped[str | None] = mapped_column(sa.String(280))
+    # The expiry date whose passing was already processed (event logged, plans recalculated).
+    # Makes the expiry job idempotent; a new expiry date makes the document processable again.
+    expiry_processed_for: Mapped[date | None] = mapped_column(sa.Date)
 
 
 class ServiceProgress(Base):

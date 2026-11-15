@@ -12,8 +12,9 @@ from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
 from datetime import UTC, date, datetime
 from typing import Any
+from zoneinfo import ZoneInfo
 
-from sqlalchemy import select
+from sqlalchemy import or_, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.knowledge.cache import TTLCache
@@ -36,9 +37,10 @@ class NotFoundError(Exception):
 
 
 class ConflictError(Exception):
-    def __init__(self, code: str, message: str) -> None:
+    def __init__(self, code: str, message: str, **extra: Any) -> None:
         super().__init__(message)
         self.code = code
+        self.extra = extra
 
 
 class InvalidInputError(Exception):
@@ -64,8 +66,13 @@ _PLANNER_STATE = {
 }
 
 
-def today() -> date:
-    return datetime.now(UTC).date()
+# Expiry uses the Indian calendar date: a document is valid through its expiry date and
+# expired from 00:00 IST on the next day, wherever the server runs.
+INDIA = ZoneInfo("Asia/Kolkata")
+
+
+def today(now: datetime | None = None) -> date:
+    return (now or datetime.now(UTC)).astimezone(INDIA).date()
 
 
 def expiry_passed(doc: VaultDocument, on: date | None = None) -> bool:
@@ -235,6 +242,8 @@ async def evaluate(
     docs: Sequence[VaultDocument],
     progress: dict[str, str],
     cache: TTLCache | None,
+    *,
+    on: date | None = None,
 ) -> bool:
     """Re-run the deterministic planner for a saved plan and store the result as its snapshot.
 
@@ -245,7 +254,7 @@ async def evaluate(
     if any(s not in kb.services for s in plan_row.target_service_ids):
         plan_row.evaluation_error = "catalogue_changed"
         return False
-    owned, states = planner_documents(docs, kb.documents)
+    owned, states = planner_documents(docs, kb.documents, on)
     known_progress = {s: p for s, p in progress.items() if s in kb.services}
     completed = sorted(s for s, p in known_progress.items() if p == "completed")
     try:
@@ -281,6 +290,7 @@ async def recalculate_active_plans(
     cache: TTLCache | None,
     *,
     skip: uuid.UUID | None = None,
+    on: date | None = None,
 ) -> list[PlanChange]:
     """Re-evaluate every active plan after a vault/progress change; log each plan that changed.
     Archived plans are frozen (re-evaluated when restored)."""
@@ -291,7 +301,7 @@ async def recalculate_active_plans(
         if plan_row.id == skip:
             continue
         before = plan_row.snapshot
-        if not await evaluate(session, plan_row, docs, progress, cache):
+        if not await evaluate(session, plan_row, docs, progress, cache, on=on):
             continue
         change = diff_plans(plan_row, before, plan_row.snapshot)
         if change:
@@ -345,6 +355,121 @@ def plans_using(plans: Sequence[UserPlan]) -> dict[str, list[uuid.UUID]]:
     return out
 
 
+# ---------------------------------------------------------------- automatic expiry
+
+
+def _mark_expiry_seen(doc: VaultDocument) -> None:
+    """A write by the citizen that already leaves a "valid" document past its expiry date is
+    logged as that write; the expiry job must not log it again."""
+    if doc.status == VaultDocumentStatus.VALID and expiry_passed(doc):
+        doc.expiry_processed_for = doc.expiry_date
+
+
+@dataclass(frozen=True)
+class ExpiryRun:
+    users: int
+    documents: int
+    plans_changed: int
+
+
+def _due(on: date):
+    return (
+        select(VaultDocument)
+        .where(VaultDocument.status == VaultDocumentStatus.VALID)
+        .where(VaultDocument.expiry_date.is_not(None), VaultDocument.expiry_date < on)
+        .where(
+            or_(
+                VaultDocument.expiry_processed_for.is_(None),
+                VaultDocument.expiry_processed_for != VaultDocument.expiry_date,
+            )
+        )
+    )
+
+
+async def expire_for_user(
+    session: AsyncSession, user_id: uuid.UUID, cache: TTLCache | None, on: date | None = None
+) -> tuple[int, list[PlanChange]]:
+    """Process this user's documents whose expiry date has passed (idempotent).
+
+    Each document is claimed with a conditional UPDATE, so concurrent runs (scheduler + a page
+    load) cannot log it twice. Logs `document_expired` per document, then re-evaluates every
+    active plan once and logs the resulting changes. Reported status and progress are untouched.
+    """
+    on = on or today()
+    docs = (await session.execute(_due(on).where(VaultDocument.user_id == user_id))).scalars().all()
+    claimed: list[VaultDocument] = []
+    for d in docs:
+        result = await session.execute(
+            update(VaultDocument)
+            .where(VaultDocument.id == d.id, VaultDocument.status == VaultDocumentStatus.VALID)
+            .where(
+                or_(
+                    VaultDocument.expiry_processed_for.is_(None),
+                    VaultDocument.expiry_processed_for != VaultDocument.expiry_date,
+                )
+            )
+            .values(expiry_processed_for=VaultDocument.expiry_date)
+            .execution_options(synchronize_session=False)
+        )
+        if result.rowcount == 1:
+            claimed.append(d)
+            record(
+                session,
+                user_id,
+                ActivityType.DOCUMENT_EXPIRED,
+                "document",
+                d.id,
+                {
+                    "document_type": d.document_type,
+                    "expiry_date": d.expiry_date.isoformat() if d.expiry_date else None,
+                    "reported_status": d.status.value,
+                    "effective_status": "expired",
+                },
+            )
+    if not claimed:
+        return 0, []
+    cause = {
+        "type": "document_expired",
+        "document_ids": [str(d.id) for d in claimed],
+        "document_type": claimed[0].document_type if len(claimed) == 1 else None,
+        "document_types": sorted({d.document_type for d in claimed}),
+    }
+    changes = await recalculate_active_plans(session, user_id, cause, cache, on=on)
+    return len(claimed), changes
+
+
+async def expire_all(
+    session: AsyncSession, cache: TTLCache | None, on: date | None = None
+) -> ExpiryRun:
+    """Scheduled job: process every user with due documents; commits per user."""
+    on = on or today()
+    users = (
+        (
+            await session.execute(
+                select(VaultDocument.user_id)
+                .where(VaultDocument.id.in_(_due(on).with_only_columns(VaultDocument.id)))
+                .distinct()
+            )
+        )
+        .scalars()
+        .all()
+    )
+    total_docs = total_plans = 0
+    for uid in users:
+        n, changes = await expire_for_user(session, uid, cache, on)
+        await session.commit()
+        total_docs += n
+        total_plans += len(changes)
+    return ExpiryRun(users=len(users), documents=total_docs, plans_changed=total_plans)
+
+
+async def catch_up(session: AsyncSession, user_id: uuid.UUID, cache: TTLCache | None) -> None:
+    """Run the user's due expiries before serving account data (works without any scheduler)."""
+    n, _ = await expire_for_user(session, user_id, cache)
+    if n:
+        await session.commit()
+
+
 # ---------------------------------------------------------------- writes
 
 
@@ -378,6 +503,7 @@ async def create_document(
             "You already saved this document. Give a second copy a label to tell them apart.",
         )
     doc = VaultDocument(user_id=user_id, **fields)
+    _mark_expiry_seen(doc)
     session.add(doc)
     await session.flush()
     record(
@@ -448,6 +574,7 @@ async def update_document(
             changed[field] = "changed"
     if not changed:
         return doc, []
+    _mark_expiry_seen(doc)
     await session.flush()
     record(
         session,
@@ -585,9 +712,36 @@ def _unique(xs: Iterable[str]) -> list[str]:
     return list(dict.fromkeys(xs))
 
 
+async def find_by_request(
+    session: AsyncSession, user_id: uuid.UUID, client_request_id: str
+) -> UserPlan | None:
+    """The plan an earlier submission with this request id created (double-click / retry
+    protection). Two different submissions are always two plans, even with the same services."""
+    events = await session.execute(
+        select(ActivityEvent)
+        .where(ActivityEvent.user_id == user_id)
+        .where(ActivityEvent.event_type == ActivityType.PLAN_CREATED)
+        .order_by(ActivityEvent.id.desc())
+        .limit(200)
+    )
+    for e in events.scalars():
+        if (e.details or {}).get("client_request_id") == client_request_id and e.entity_id:
+            p = await session.get(UserPlan, uuid.UUID(e.entity_id))
+            if p is not None and p.user_id == user_id:
+                return p
+    return None
+
+
 async def create_plan(
     session: AsyncSession, user_id: uuid.UUID, body: Any, cache: TTLCache | None
-) -> tuple[UserPlan, list[uuid.UUID], list[PlanChange]]:
+) -> tuple[UserPlan, list[uuid.UUID], list[PlanChange], str | None]:
+    """Save an accepted plan as a NEW, independent plan (never merged into, replacing or
+    archiving another). A repeated submission with the same `client_request_id` returns the
+    plan it already created. Returns (plan, documents added, other plans changed, repeat flag)."""
+    if body.client_request_id:
+        earlier = await find_by_request(session, user_id, body.client_request_id)
+        if earlier is not None:
+            return earlier, [], [], "repeat_request"
     targets = _unique(body.target_service_ids)
     goals = _unique(body.goals or [])
     held = [(h.document_type, h.status) for h in body.held_documents]
@@ -638,6 +792,7 @@ async def create_plan(
             "target_service_ids": targets,
             "documents_added": len(created_docs),
             "progress_imported": imported,
+            **({"client_request_id": body.client_request_id} if body.client_request_id else {}),
         },
     )
     other_changes: list[PlanChange] = []
@@ -646,7 +801,7 @@ async def create_plan(
         other_changes = await recalculate_active_plans(
             session, user_id, cause, cache, skip=plan_row.id
         )
-    return plan_row, created_docs, other_changes
+    return plan_row, created_docs, other_changes, None
 
 
 async def update_plan(
@@ -756,3 +911,191 @@ async def recalculate_plan(
             {"cause": {"type": "manual"}, **change.details()},
         )
     return plan_row, change
+
+
+# ---------------------------------------------------------------- situation (signed in)
+
+
+async def account_facts(session: AsyncSession, user_id: uuid.UUID, cache: TTLCache | None):
+    """Everything the account already knows that matters for a new situation."""
+    from app.models import CitizenProfile
+
+    kb, _ = await get_planning_data(session, cache)
+    docs = await list_documents(session, user_id)
+    owned, states = planner_documents(docs, kb.documents)
+    vault = {d: states.get(d, "valid") for d in owned}
+    progress = {s: p for s, p in (await progress_map(session, user_id)).items() if s in kb.services}
+    profile = await session.get(CitizenProfile, user_id)
+    plans = await list_plans(session, user_id, PlanStatus.ACTIVE)
+    return kb, profile, vault, states, progress, plans
+
+
+def plan_services(p: UserPlan) -> set[str]:
+    snap = p.snapshot or {}
+    steps = {s["service_id"] for s in snap.get("steps", [])}
+    return set(p.target_service_ids) | steps | set(snap.get("completed_service_ids", []))
+
+
+async def situation_context(session: AsyncSession, user_id: uuid.UUID, cache: TTLCache | None):
+    from app.llm.situation import SituationContext
+
+    _, profile, vault, _, progress, plans = await account_facts(session, user_id, cache)
+    return SituationContext(
+        state=profile.state if profile else None,
+        city=profile.city if profile else None,
+        documents=vault,
+        completed_service_ids=tuple(sorted(s for s, p in progress.items() if p == "completed")),
+        in_progress_service_ids=tuple(sorted(s for s, p in progress.items() if p != "completed")),
+        planned_service_ids=tuple(sorted({s for p in plans for s in p.target_service_ids})),
+    )
+
+
+async def account_proposal(
+    session: AsyncSession, user_id: uuid.UUID, body: Any, cache: TTLCache | None
+) -> dict[str, Any]:
+    """Reviewed situation + account facts -> discovery + deterministic plan (never saved).
+
+    The vault is the source of truth for documents it holds (effective statuses, so expired
+    copies never count); documents only mentioned in the description are added for this
+    proposal. Account progress is used as-is (completed services are not proposed again)."""
+    from app.workflow.discovery import CitizenContext
+    from app.workflow.service import propose_workflow
+
+    kb, profile, vault, vault_states, progress, plans = await account_facts(session, user_id, cache)
+    profile_state = profile.state if profile else None
+    state = body.state or profile_state
+    state_source = "description" if body.state else ("profile" if profile_state else "none")
+    extra_held = [d for d in dict.fromkeys(body.held_document_ids) if d not in vault]
+    states = {**{d: s for d, s in body.document_states.items() if d in extra_held}, **vault_states}
+    account_completed = sorted(s for s, p in progress.items() if p == "completed")
+    reported = [
+        s for s in dict.fromkeys(body.reported_completed_service_ids) if s not in account_completed
+    ]
+    ctx = CitizenContext(
+        goals=tuple(body.goals),
+        life_events=tuple(body.life_events),
+        state=state,
+        held_document_ids=tuple([*vault, *extra_held]),
+        lacking_document_ids=tuple(d for d in body.lacking_document_ids if d not in vault),
+        completed_service_ids=tuple([*account_completed, *reported]),
+    )
+    result, names = await propose_workflow(
+        session,
+        ctx,
+        document_states=states,
+        progress={s: p for s, p in progress.items() if p != "completed"},
+        target_ids=body.target_service_ids,
+        requested_ids=body.requested_service_ids,
+        cache=cache,
+    )
+    from app.schemas.workflow import build_proposal_response
+
+    proposal = build_proposal_response(result, names, normalise_state(state))
+    done = set(ctx.completed_service_ids)
+    pending = set(result.target_ids) - done  # completed targets are shown as done, not planned
+    proposed = pending | {s.service_id for s in result.supporting}
+    overlaps = []
+    for p in plans:
+        common = sorted(proposed & plan_services(p))
+        if common:
+            overlaps.append(
+                {
+                    "plan_id": p.id,
+                    "title": p.title,
+                    "target_service_ids": p.target_service_ids,
+                    "overlapping_service_ids": common,
+                    "covers_all": bool(pending) and pending <= set(p.target_service_ids),
+                }
+            )
+    overlaps.sort(key=lambda o: (not o["covers_all"], -len(o["overlapping_service_ids"])))
+    if not pending:
+        recommendation, rec_plan = "none", None
+    elif overlaps and overlaps[0]["covers_all"]:
+        recommendation, rec_plan = "covered", overlaps[0]["plan_id"]
+    elif overlaps:
+        recommendation, rec_plan = "extend", overlaps[0]["plan_id"]
+    else:
+        recommendation, rec_plan = "new", None
+    return {
+        "proposal": proposal,
+        "account_context": {
+            "state": normalise_state(state),
+            "state_source": state_source,
+            "profile_state": profile_state,
+            "city": profile.city if profile else None,
+            "vault": vault,
+            "documents_from_description": extra_held,
+            "completed_service_ids": account_completed,
+            "reported_completed_service_ids": reported,
+            "in_progress": {s: p for s, p in progress.items() if p != "completed"},
+        },
+        "existing_plans": overlaps,
+        "recommendation": recommendation,
+        "recommended_plan_id": rec_plan,
+    }
+
+
+# ---------------------------------------------------------------- dashboard
+
+EXPIRY_WARNING_DAYS = 30
+
+
+async def dashboard(session: AsyncSession, user_id: uuid.UUID) -> dict[str, Any]:
+    from app.models import CitizenProfile
+
+    profile = await session.get(CitizenProfile, user_id)
+    plans = await list_plans(session, user_id, PlanStatus.ACTIVE)
+    docs = await list_documents(session, user_id)
+    on = today()
+    actions, blockers = [], []
+    for p in plans:
+        snap = p.snapshot or {}
+        nxt = snap.get("next_action")
+        if nxt and nxt.get("type") != "none":
+            actions.append(
+                {
+                    "plan_id": p.id,
+                    "plan_title": p.title,
+                    "type": nxt["type"],
+                    "service_id": nxt.get("service_id"),
+                    "reason_code": (nxt.get("reason") or {}).get("code", ""),
+                    "document_options": nxt.get("document_options", []),
+                }
+            )
+        for b in snap.get("blockers", []):
+            blockers.append(
+                {
+                    "plan_id": p.id,
+                    "plan_title": p.title,
+                    "code": b["code"],
+                    "service_id": b["service_id"],
+                    "requirement_id": b.get("requirement_id"),
+                    "document_options": b.get("document_options", []),
+                    "blocked_by_service_ids": b.get("blocked_by_service_ids", []),
+                }
+            )
+    counts = {s.value: 0 for s in VaultDocumentStatus}
+    for d in docs:
+        counts[effective_status(d, on).value] += 1
+    soon = [
+        d
+        for d in docs
+        if effective_status(d, on) == VaultDocumentStatus.VALID
+        and d.expiry_date is not None
+        and (d.expiry_date - on).days <= EXPIRY_WARNING_DAYS
+    ]
+    expired = [d for d in docs if effective_status(d, on) == VaultDocumentStatus.EXPIRED]
+    soon.sort(key=lambda d: d.expiry_date or on)
+    return {
+        "today": on,
+        "profile": profile,
+        "plans": plans,
+        "next_actions": actions,
+        "blockers": blockers,
+        "progress": await progress_map(session, user_id),
+        "vault_counts": counts,
+        "vault_total": len(docs),
+        "expiring_soon": soon,
+        "expired": expired,
+        "recent_activity": await list_activity(session, user_id, limit=6),
+    }

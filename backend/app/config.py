@@ -27,6 +27,8 @@ class Settings(BaseSettings):
     supabase_url: str | None = None
     supabase_jwt_audience: str = "authenticated"
     supabase_jwks_cache_seconds: int = 600
+    # Shared secret for POST /api/internal/expire-documents (external scheduler). Unset = disabled.
+    cron_secret: str | None = None
 
     # Gemini
     gemini_api_key: str | None = None
@@ -69,7 +71,7 @@ class Settings(BaseSettings):
             return [o.strip() for o in v.split(",") if o.strip()]
         return v
 
-    @field_validator("database_url", "gemini_api_key", "supabase_url", mode="before")
+    @field_validator("database_url", "gemini_api_key", "supabase_url", "cron_secret", mode="before")
     @classmethod
     def _empty_to_none(cls, v: object) -> object:
         return None if isinstance(v, str) and not v.strip() else v

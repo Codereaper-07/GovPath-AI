@@ -44,7 +44,7 @@ export function useVocabulary() {
 /** AI extraction of facts from free text (explicit user action only; result is reviewed). */
 export function useInterpretSituation() {
   return useMutation({
-    mutationFn: (body: { text: string; language: 'en' | 'hi' }) =>
+    mutationFn: (body: { text: string; language: 'en' | 'hi'; previous?: string }) =>
       apiPost<SituationInterpretation>('/api/situation/interpret', body),
   })
 }

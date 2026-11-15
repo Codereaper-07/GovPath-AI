@@ -92,6 +92,7 @@ describe('Situation → workflow journey (assistant entry point)', () => {
       document_states: {},
       progress: {},
       target_service_ids: null,
+      requested_service_ids: [], // the AI found no explicitly named services in this story
     })
     expect(within(proposal).getByTestId(`outcome-${AADHAAR_NAME}`)).toHaveTextContent('Matches your goal')
     expect(within(proposal).getByTestId(`outcome-${PASSPORT_NAME}`)).toBeInTheDocument()
@@ -139,77 +140,22 @@ describe('Situation → workflow journey (assistant entry point)', () => {
     await waitFor(() => expect(screen.getByTestId('outcome-instant-e-pan')).toHaveTextContent('Added by you'))
   })
 
-  it('accepting with no saved plan makes it the active plan and opens the planner', async () => {
-    const calls = backend()
-    await describeAndUnderstand()
-    await buildPlan()
-    await userEvent.click(screen.getByRole('button', { name: 'Use this plan' }))
-    const saved = JSON.parse(localStorage.getItem(KEY)!)
-    expect(saved).toMatchObject({
-      targets: [AADHAAR_NAME, PASSPORT_NAME],
-      owned: ['aadhaar_number', 'passport_existing'],
-      lacking: ['marriage_certificate'],
-      goals: ['update-name-after-marriage'],
-      state: 'Delhi',
-      generated: true,
-    })
-    await waitFor(() => expect(bodies(calls, '/api/workflows/plan').length).toBeGreaterThan(0))
-    expect((bodies(calls, '/api/workflows/plan').at(-1) as unknown as { target_service_ids: string[] }).target_service_ids).toEqual([AADHAAR_NAME, PASSPORT_NAME])
-  })
-
-  it('merging keeps the existing plan, its documents and reported progress', async () => {
-    const existing = {
-      targets: ['aadhaar-address-update'],
-      owned: ['aadhaar_number', 'electricity_bill'],
-      completed: [],
-      generated: true,
-      progress: { 'aadhaar-address-update': 'submitted' },
-      docStates: { electricity_bill: 'unsure' },
-      futureField: 'kept',
-    }
-    localStorage.setItem(KEY, JSON.stringify(existing))
-    const calls = backend()
-    await describeAndUnderstand()
-    await buildPlan()
-    // The proposal respects the saved context: held documents and progress are sent.
-    expect(bodies(calls, '/api/workflows/propose')[0]).toMatchObject({ progress: { 'aadhaar-address-update': 'submitted' }, document_states: { electricity_bill: 'unsure' } })
-    expect(JSON.parse(localStorage.getItem(KEY)!)).toEqual(existing) // still untouched
-    await userEvent.click(screen.getByRole('button', { name: 'Add to my current plan' }))
-    expect(JSON.parse(localStorage.getItem(KEY)!)).toMatchObject({
-      targets: ['aadhaar-address-update', AADHAAR_NAME, PASSPORT_NAME],
-      progress: { 'aadhaar-address-update': 'submitted' },
-      docStates: { electricity_bill: 'unsure' },
-      futureField: 'kept',
-    })
-  })
-
-  it('replacing swaps the services but keeps reported progress', async () => {
-    localStorage.setItem(KEY, JSON.stringify({ targets: ['instant-e-pan'], owned: ['pan_card'], completed: ['instant-e-pan'], generated: true, progress: {} }))
+  it('guests must sign in to save: the proposal is kept for after sign-in, nothing is saved on the device', async () => {
     backend()
     await describeAndUnderstand()
     await buildPlan()
-    await userEvent.click(screen.getByRole('button', { name: 'Replace my current plan' }))
-    const saved = JSON.parse(localStorage.getItem(KEY)!)
-    expect(saved.targets).toEqual([AADHAAR_NAME, PASSPORT_NAME])
-    expect(saved.completed).toEqual(['instant-e-pan'])
+    expect(screen.queryByRole('button', { name: 'Use this plan' })).not.toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Sign in to save this plan' }))
+    expect(await screen.findByRole('heading', { name: 'Sign in' })).toBeInTheDocument()
+    expect(screen.getByText(/Your proposal is kept/)).toBeInTheDocument()
+    const pending = JSON.parse(sessionStorage.getItem('govpath.pendingProposal')!)
+    expect(pending.draft).toMatchObject({ goals: ['update-name-after-marriage'], state: 'Delhi' })
+    expect(localStorage.getItem(KEY)).toBeNull()
   })
 })
 
 describe('Review edits are what gets saved (independent review findings)', () => {
-  it('merge applies corrections made in review: a removed document is no longer held', async () => {
-    localStorage.setItem(KEY, JSON.stringify({ targets: ['instant-e-pan'], owned: ['pan_card', 'aadhaar_number'], completed: [], generated: true, docStates: { pan_card: 'expired' } }))
-    backend()
-    const review = await describeAndUnderstand()
-    await userEvent.click(within(review).getByRole('button', { name: 'Remove PAN card / e-PAN' }))
-    await buildPlan()
-    await userEvent.click(screen.getByRole('button', { name: 'Add to my current plan' }))
-    const saved = JSON.parse(localStorage.getItem(KEY)!)
-    expect(saved.owned).not.toContain('pan_card')
-    expect(saved.docStates).toEqual({})
-    expect(saved.targets).toEqual(['instant-e-pan', AADHAAR_NAME, PASSPORT_NAME])
-  })
-
-  it('drops saved ids the knowledge base no longer has instead of failing the whole proposal', async () => {
+  it('ignores old device-plan data left in this browser (only account data is used)', async () => {
     localStorage.setItem(
       KEY,
       JSON.stringify({ targets: ['retired-service'], owned: ['retired_doc'], completed: ['retired-service'], generated: true, progress: { 'retired-service': 'started' }, docStates: { retired_doc: 'expired' } }),
@@ -250,7 +196,7 @@ describe('Missing information, unsupported situations and failures', () => {
     const proposal = await buildPlan()
     expect(proposal).toHaveAttribute('data-status', 'needs_clarification')
     expect(within(proposal).getByText('Do you have Aadhaar number (existing Aadhaar)?')).toBeInTheDocument()
-    expect(within(proposal).getByRole('button', { name: 'Use this plan' })).toBeDisabled()
+    expect(within(proposal).getByRole('button', { name: 'Sign in to save this plan' })).toBeDisabled()
     await userEvent.click(within(proposal).getAllByRole('button', { name: 'Yes, I have it' })[0])
     await waitFor(() => expect(bodies(calls, '/api/workflows/propose').at(-1)!.context!.held_document_ids).toContain('aadhaar_number'))
     expect(bodies(calls, '/api/situation/interpret')).toHaveLength(1) // only the explicit click
@@ -272,7 +218,7 @@ describe('Missing information, unsupported situations and failures', () => {
     expect(within(proposal).getByText(/no verified service for this situation yet/)).toBeInTheDocument()
     expect(within(proposal).getByText(/No verified services yet for: Starting a Business/i)).toBeInTheDocument()
     expect(within(proposal).queryAllByTestId(/^outcome-/)).toHaveLength(0)
-    expect(within(proposal).getByRole('button', { name: 'Use this plan' })).toBeDisabled()
+    expect(within(proposal).getByRole('button', { name: 'Sign in to save this plan' })).toBeDisabled()
   })
 
   it('fails safely when the proposal API errors: nothing is saved', async () => {
@@ -294,7 +240,7 @@ describe('Missing information, unsupported situations and failures', () => {
     await waitFor(() => expect(bodies(calls, '/api/assistant/query')).toHaveLength(1))
     expect(bodies(calls, '/api/assistant/query')[0].workflow).toMatchObject({
       target_service_ids: [AADHAAR_NAME, PASSPORT_NAME],
-      owned_document_ids: ['aadhaar_number', 'pan_card', 'passport_existing'],
+      owned_document_ids: ['aadhaar_number', 'passport_existing'], // old device data is not used
       state: 'Delhi',
     })
     expect(await screen.findByTestId('journey-proposal')).toBeInTheDocument()
@@ -311,7 +257,7 @@ describe('Missing information, unsupported situations and failures', () => {
     await userEvent.click(await screen.findByRole('button', { name: 'सेवाएँ ढूँढें और मेरी योजना बनाएँ' }))
     const proposal = await screen.findByTestId('journey-proposal')
     expect(within(proposal).getByText('पहले ज़रूरी')).toBeInTheDocument()
-    expect(within(proposal).getByRole('button', { name: 'यह योजना अपनाएँ' })).toBeInTheDocument()
+    expect(within(proposal).getByRole('button', { name: 'यह योजना सहेजने के लिए साइन इन करें' })).toBeInTheDocument()
     await i18n.changeLanguage('en')
   })
 })

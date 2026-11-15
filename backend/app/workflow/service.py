@@ -149,6 +149,7 @@ async def propose_workflow(
     document_states: Mapping[str, str] | None = None,
     progress: Mapping[str, str] | None = None,
     target_ids: list[str] | None = None,
+    requested_ids: list[str] | None = None,
     cache: TTLCache | None = None,
 ) -> tuple[ProposalResult, dict]:
     """Situation -> discovery -> planner, with display names for every id in the result."""
@@ -156,7 +157,9 @@ async def propose_workflow(
     ctx = _validated(snapshot, context)
     unknown_docs = [d for d in (document_states or {}) if d not in snapshot.documents]
     unknown_services = [
-        s for s in [*(target_ids or []), *(progress or {})] if s not in snapshot.services
+        s
+        for s in [*(target_ids or []), *(progress or {}), *(requested_ids or [])]
+        if s not in snapshot.services
     ]
     if unknown_docs or unknown_services:
         raise UnknownIdsError(unknown_services, unknown_docs)
@@ -166,6 +169,7 @@ async def propose_workflow(
         document_states={k: DocumentState(v) for k, v in (document_states or {}).items()},
         progress={k: ProcessState(v) for k, v in (progress or {}).items()},
         target_ids=None if target_ids is None else tuple(target_ids),
+        requested_ids=tuple(requested_ids or ()),
     )
     out = (
         _plan_names(names, result.plan, ctx.held_document_ids, document_states)
@@ -174,7 +178,8 @@ async def propose_workflow(
     )
     extra = _names(
         names,
-        [c.service_id for c in result.discovery.candidates],
+        [c.service_id for c in result.discovery.candidates]
+        + [r.service_id for r in result.requested],
         {d for c in result.discovery.candidates for d in c.record_document_ids}
         | {d for q in result.discovery.clarifications for d in q.document_ids}
         | set(ctx.lacking_document_ids),

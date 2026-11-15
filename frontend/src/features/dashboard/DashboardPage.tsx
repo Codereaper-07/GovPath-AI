@@ -1,4 +1,4 @@
-import { type FormEvent, useMemo, useState } from 'react'
+import { type FormEvent, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router-dom'
 import { buttonClass } from '../../components/ui/Button'
@@ -6,21 +6,27 @@ import { Icon } from '../../components/ui/Icon'
 import { Seal } from '../../components/ui/Seal'
 import { countByLifeEvent, EVENT_TONE, LIFE_EVENTS } from '../../lib/lifeEvents'
 import { useFormatDate, useLocalized } from '../../lib/useLocalized'
-import type { LifeEventId, PlanRequest, PlanResponse, ServiceSummary } from '../../types/api'
-import { usePlan } from '../planner/api'
-import { usePlanNames } from '../planner/names'
-import { planRequestOf, readSavedPlan } from '../planner/usePlannerState'
+import type { LifeEventId, ServiceSummary } from '../../types/api'
 import { useDocuments, useServices } from '../services/api'
+import { LoadingState } from '../../components/ui/States'
+import { useAuth } from '../auth/useAuth'
+import { CitizenDashboard } from './CitizenDashboard'
 import { SystemStatus } from './SystemStatus'
 
+/** Signed in: the personal dashboard. Otherwise (or without accounts): the public home. */
 export function DashboardPage() {
+  const { status } = useAuth()
+  if (status === 'loading') return <LoadingState />
+  return status === 'signedIn' ? <CitizenDashboard /> : <PublicHome />
+}
+
+function PublicHome() {
   const { t } = useTranslation()
   const services = useServices()
 
   return (
     <div className="space-y-20 sm:space-y-24">
       <Hero />
-      <SavedPlanTicket />
 
       <section aria-labelledby="life-events" className="animate-rise">
         <div className="flex flex-wrap items-end justify-between gap-4">
@@ -233,142 +239,6 @@ function LifeEventTile({ event: e, count: n, services, featured }: { event: Life
 }
 
 /* ------------------------------------------------------------------ saved plan */
-
-function SavedPlanTicket() {
-  const { t } = useTranslation()
-  const saved = readSavedPlan()
-  const hasPlan = saved.targets.length > 0
-  const request: PlanRequest | null = useMemo(
-    () => (saved.generated && saved.targets.length ? planRequestOf(saved) : null),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  )
-  const plan = usePlan(request)
-  const services = useServices()
-  const documents = useDocuments()
-  const names = usePlanNames(plan.data, services.data ?? [], documents.data ?? [])
-  const next = plan.data?.next_action
-  // Process progress only (user-reported completions); documents never count as progress.
-  const done = plan.data ? (plan.data.progress?.completed ?? plan.data.completed_service_ids.length) : 0
-  const total = plan.data ? (plan.data.progress?.total_services ?? plan.data.steps.length + done) : 0
-
-  if (!hasPlan) {
-    return (
-      <section className="flex animate-rise flex-wrap items-center gap-5 rounded-3xl border-2 border-dashed border-rule-strong px-6 py-6 sm:px-8">
-        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-zest-200 text-ink">
-          <Icon name="plan" />
-        </span>
-        <div className="min-w-0 flex-1">
-          <h2 className="font-display text-xl font-semibold text-ink">{t('home.savedTitle')}</h2>
-          <p className="mt-0.5 text-sm text-muted">{t('home.savedEmpty')}</p>
-        </div>
-        <Link to="/planner" className={buttonClass('primary', 'md')}>
-          {t('home.ctaPlan')} <Icon name="arrow" className="h-4 w-4" />
-        </Link>
-      </section>
-    )
-  }
-
-  return (
-    <section className="grid animate-rise overflow-hidden rounded-3xl bg-card shadow-lift ring-1 ring-rule md:grid-cols-[minmax(0,1.5fr)_auto_minmax(0,1fr)]">
-      <div className="p-6 sm:p-8">
-        <div className="flex items-center gap-2 text-xs font-bold tracking-[0.18em] text-jade-700 uppercase">
-          <span className="h-2 w-2 animate-beacon rounded-full bg-zest-400" aria-hidden />
-          <h2 className="text-xs">{t('home.savedTitle')}</h2>
-        </div>
-        {next && next.type !== 'none' ? (
-          <>
-            <p className="mt-4 text-xs font-semibold text-muted">{t('planner.nextAction')}</p>
-            <p className="mt-1 font-display text-2xl leading-snug font-semibold text-ink sm:text-3xl">
-              {next.type === 'start_service' && next.service_id
-                ? t('planner.startService', { service: names.service(next.service_id) })
-                : next.type === 'follow_up' && next.service_id
-                  ? t('planner.followUp', { service: names.service(next.service_id) })
-                  : t('planner.obtainDocument')}
-            </p>
-          </>
-        ) : (
-          <p className="mt-4 text-sm text-muted">{plan.isPending && request ? t('common.loading') : next?.type === 'none' ? t('planner.allDone') : t('home.savedNotGenerated')}</p>
-        )}
-        {plan.data && total > 0 && <MiniRoute plan={plan.data} />}
-      </div>
-
-      {/* ticket perforation */}
-      <div aria-hidden className="relative hidden w-px md:block">
-        <span className="absolute inset-y-6 left-0 border-l-2 border-dashed border-rule" />
-        <span className="absolute -top-3 -left-3 h-6 w-6 rounded-full bg-paper" />
-        <span className="absolute -bottom-3 -left-3 h-6 w-6 rounded-full bg-paper" />
-      </div>
-
-      <div className="flex flex-col justify-between gap-6 border-t-2 border-dashed border-rule bg-paper-deep/40 p-6 sm:p-8 md:border-t-0">
-        {plan.data && total > 0 && (
-          <div>
-            <div className="flex justify-between text-xs font-semibold text-muted">
-              <span>{t('home.progress')}</span>
-              <span>{t('planner.servicesDone', { done, total })}</span>
-            </div>
-            <div className="mt-2 h-2 overflow-hidden rounded-full bg-rule">
-              <div className="h-full rounded-full bg-jade-600 transition-all duration-700" style={{ width: `${(done / total) * 100}%` }} />
-            </div>
-            <p className="mt-1.5 text-[11px] text-muted">{t('planner.progressSource')}</p>
-          </div>
-        )}
-        <dl className="grid grid-cols-3 gap-3">
-          {(
-            [
-              ['savedServices', saved.targets.length],
-              ['savedDocuments', saved.owned.length],
-              ['savedDone', saved.completed.length],
-            ] as const
-          ).map(([k, v]) => (
-            <div key={k} className="flex flex-col-reverse">
-              <dt className="text-xs leading-tight text-muted">{t(`home.${k}`)}</dt>
-              <dd className="font-display text-3xl font-semibold text-ink">{v}</dd>
-            </div>
-          ))}
-        </dl>
-        <Link to="/planner" className={buttonClass('primary', 'lg', 'w-full')}>
-          {t('home.savedContinue')} <Icon name="arrow" className="h-4 w-4" />
-        </Link>
-      </div>
-    </section>
-  )
-}
-
-/** The saved plan as a row of stops, in the backend's order (completed first). */
-function MiniRoute({ plan }: { plan: PlanResponse }) {
-  const stops = [
-    ...(plan.completed ? plan.completed.map((c) => c.service_id) : plan.completed_service_ids).map((id) => ({ id, status: 'done' as const })),
-    ...plan.steps.map((s) => ({ id: s.service_id, status: s.status })),
-  ]
-  const nextId = plan.next_action.service_id
-  return (
-    <div className="mt-6 flex items-center" aria-hidden>
-      {stops.map((s, i) => (
-        <span key={s.id} className="flex flex-1 items-center last:flex-none">
-          <span
-            className={`h-3.5 w-3.5 shrink-0 rounded-full ${
-              s.id === nextId
-                ? 'animate-beacon bg-zest-400 ring-2 ring-ink'
-                : s.status === 'done'
-                  ? 'bg-jade-600'
-                  : s.status === 'blocked'
-                    ? 'bg-crimson-500'
-                    : s.status === 'ready'
-                      ? 'bg-ink'
-                      : s.status === 'in_progress'
-                        ? 'bg-jade-50 ring-2 ring-jade-500'
-                        : 'border-2 border-waiting bg-card'
-            }`}
-          />
-          {i < stops.length - 1 && <span className={`h-0.5 flex-1 ${s.status === 'done' ? 'bg-jade-600' : 'bg-rule-strong'}`} />}
-        </span>
-      ))}
-    </div>
-  )
-}
-
-/* ------------------------------------------------------------------ trust */
 
 function Trust() {
   const { t } = useTranslation()

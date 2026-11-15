@@ -1,7 +1,11 @@
 import { keepPreviousData, useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { apiAuthed } from '../../lib/apiClient'
 import type {
+  AccountProposal,
+  AccountProposeRequest,
   ActivityEvent,
+  Dashboard,
+  SituationInterpretation,
   DocumentWriteResult,
   PlanChange,
   ProcessState,
@@ -119,9 +123,65 @@ export function useUpdatePlan() {
 }
 
 export function usePlanAction() {
-  return useAccountMutation(({ id, action }: { id: string; action: 'archive' | 'restore' | 'recalculate' | 'delete' }) =>
-    action === 'delete'
-      ? apiAuthed<null>(`/api/me/plans/${id}`, { method: 'DELETE' })
-      : apiAuthed<SavedPlan>(`/api/me/plans/${id}/${action}`, { method: 'POST' }),
-  )
+  const qc = useQueryClient()
+  const { key } = useAccountKey()
+  return useMutation({
+    mutationFn: ({ id, action }: { id: string; action: 'archive' | 'restore' | 'recalculate' | 'delete' }) =>
+      action === 'delete'
+        ? apiAuthed<null>(`/api/me/plans/${id}`, { method: 'DELETE' })
+        : apiAuthed<SavedPlan>(`/api/me/plans/${id}/${action}`, { method: 'POST' }),
+    onSuccess: (_r, { id, action }) => {
+      if (action === 'delete') qc.removeQueries({ queryKey: [...key, 'plan', id] }) // gone: do not refetch it
+      return qc.invalidateQueries({ queryKey: key })
+    },
+  })
+}
+
+export function useDashboard() {
+  const { enabled, key } = useAccountKey()
+  return useQuery({ queryKey: [...key, 'dashboard'], queryFn: () => apiAuthed<Dashboard>('/api/me/dashboard'), enabled, retry: false })
+}
+
+/** AI reading of the situation WITH the account's known facts (explicit user action only). */
+export function useAccountInterpret() {
+  return useMutation({
+    mutationFn: (body: { text: string; language: 'en' | 'hi'; previous?: string }) =>
+      apiAuthed<SituationInterpretation>('/api/me/situation/interpret', { method: 'POST', ...json(body) }),
+  })
+}
+
+/** Reviewed situation + vault + progress + profile -> proposal. Never saved by itself. */
+export function useAccountProposal(request: AccountProposeRequest | null) {
+  const { enabled, key } = useAccountKey()
+  return useQuery({
+    queryKey: [...key, 'proposal', request],
+    queryFn: () => apiAuthed<AccountProposal>('/api/me/proposal', { method: 'POST', ...json(request) }),
+    enabled: enabled && request !== null,
+    placeholderData: keepPreviousData,
+    retry: false,
+  })
+}
+
+/** The deterministic-planner request for a saved plan (vault + account progress + plan state),
+ * e.g. so the assistant explains the citizen's own plan. Null until everything has loaded. */
+export function useSavedPlanRequest(plan: SavedPlanSummary | null) {
+  const vault = useVault()
+  const progress = useAccountProgress()
+  if (!plan || !vault.data || !progress.data) return null
+  const owned = [...new Set(vault.data.map((d) => d.document_type))].sort()
+  const states: Record<string, 'expired' | 'invalid' | 'unsure'> = {}
+  for (const type of owned) {
+    const statuses = vault.data.filter((d) => d.document_type === type).map((d) => d.effective_status)
+    if (statuses.includes('valid')) continue
+    states[type] = statuses.includes('unsure') ? 'unsure' : statuses.includes('expired') ? 'expired' : 'invalid'
+  }
+  const entries = Object.entries(progress.data)
+  return {
+    target_service_ids: [...plan.target_service_ids].sort(),
+    owned_document_ids: owned,
+    completed_service_ids: entries.filter(([, p]) => p === 'completed').map(([s]) => s).sort(),
+    progress: Object.fromEntries(entries.filter(([, p]) => p !== 'completed')),
+    document_states: states,
+    state: plan.citizen_state,
+  }
 }

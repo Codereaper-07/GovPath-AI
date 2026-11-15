@@ -1,6 +1,6 @@
 """Workflow planning request/response schemas (mirror app.workflow.domain results)."""
 
-from typing import Literal
+from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
@@ -302,11 +302,18 @@ class ProposeIn(BaseModel):
     document_states: dict[str, DocumentStateIn] = Field(default_factory=dict, max_length=200)
     progress: dict[str, ProcessStateIn] = Field(default_factory=dict, max_length=40)
     target_service_ids: list[str] | None = Field(default=None, max_length=20)
+    # Services the citizen explicitly asked for (validated against the knowledge base).
+    requested_service_ids: list[str] = Field(default_factory=list, max_length=20)
 
     @field_validator("target_service_ids")
     @classmethod
     def _strip(cls, v: list[str] | None) -> list[str] | None:
         return None if v is None else _clean_ids(v)
+
+    @field_validator("requested_service_ids")
+    @classmethod
+    def _strip_requested(cls, v: list[str]) -> list[str]:
+        return _clean_ids(v)
 
     @field_validator("progress", "document_states")
     @classmethod
@@ -322,6 +329,21 @@ class SupportingServiceOut(_Out):
     document_ids: list[str]
 
 
+class RequestedServiceOut(BaseModel):
+    service_id: str
+    outcome: str  # target | completed | outside_jurisdiction | unknown
+
+
+class GroundingOut(BaseModel):
+    """Every requirement and dependency in the plan cites official evidence (checked here)."""
+
+    requirements: int
+    requirements_grounded: int
+    dependencies: int
+    dependencies_grounded: int
+    ungrounded: list[str]
+
+
 class ProposalResponse(BaseModel):
     """A proposal only: the citizen reviews it and accepts it in the UI before it is saved."""
 
@@ -333,6 +355,50 @@ class ProposalResponse(BaseModel):
     plan: PlanResponse | None
     uncovered_goals: list[str]
     uncovered_life_events: list[str]
+    requested: list[RequestedServiceOut] = []
+    suggested_service_ids: list[str] = []
+    grounding: GroundingOut | None = None
+
+
+def build_proposal_response(result: Any, names: dict, state: str | None) -> "ProposalResponse":
+    """Response for a `ProposalResult` plus display names (shared by guest and account routes)."""
+    from app.workflow.proposal import grounding
+
+    found = result.discovery
+    discovery = DiscoverResponse.model_validate(
+        {
+            "state": state,
+            "candidates": [c.__dict__ for c in found.candidates],
+            "clarifications": [q.__dict__ for q in found.clarifications],
+            "recommended_target_ids": list(found.recommended_target_ids),
+        }
+    )
+    discovery.services = service_names_out(names["services"])
+    discovery.documents = document_names_out(names["documents"])
+    g = grounding(result.plan) if result.plan else None
+    return ProposalResponse(
+        status=result.status.value,
+        discovery=discovery,
+        target_service_ids=list(result.target_ids),
+        supporting=[SupportingServiceOut.model_validate(s) for s in result.supporting],
+        plan=build_plan_response(result.plan, names) if result.plan else None,
+        uncovered_goals=list(result.uncovered_goals),
+        uncovered_life_events=list(result.uncovered_life_events),
+        requested=[
+            RequestedServiceOut(service_id=r.service_id, outcome=r.outcome.value)
+            for r in result.requested
+        ],
+        suggested_service_ids=list(result.suggested_ids),
+        grounding=GroundingOut(
+            requirements=g.requirements,
+            requirements_grounded=g.requirements_grounded,
+            dependencies=g.dependencies,
+            dependencies_grounded=g.dependencies_grounded,
+            ungrounded=list(g.ungrounded),
+        )
+        if g
+        else None,
+    )
 
 
 class VocabularyOut(BaseModel):

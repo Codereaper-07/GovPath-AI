@@ -1,14 +1,12 @@
-import { type FormEvent, useMemo, useState } from 'react'
+import { type FormEvent, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router-dom'
 import { buttonClass } from '../../components/ui/Button'
-import { Icon } from '../../components/ui/Icon'
 import { PageHeader } from '../../components/ui/PageHeader'
 import { ErrorState, LoadingState } from '../../components/ui/States'
 import { SUPPORTED_LANGUAGES } from '../../i18n/config'
 import type { Profile } from '../../types/api'
 import { useVocabulary } from '../planner/api'
-import { readSavedPlan } from '../planner/usePlannerState'
 import { Notice } from './AuthLayout'
 import { INPUT_CLASS } from './authUtils'
 import { useAuth } from './useAuth'
@@ -50,7 +48,7 @@ export function ProfilePage() {
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
           {/* A different account gets a fresh form; saving keeps it (and its "saved" notice). */}
           <ProfileForm key={profile.data.user_id} profile={profile.data} />
-          <DevicePlanNote />
+          <AccountLinks />
         </div>
       )}
     </div>
@@ -147,12 +145,11 @@ function ProfileForm({ profile }: { profile: Profile }) {
   )
 }
 
-/** The planner's plan stays in this browser for now (read-only check; never modified here). */
-function DevicePlanNote() {
+/** Links to the citizen's account data. */
+function AccountLinks() {
   const { t } = useTranslation()
-  const services = useMemo(() => readSavedPlan().targets.length, [])
   return (
-    <aside className="h-fit space-y-5 rounded-[2rem] border border-rule bg-paper-deep/40 p-6">
+    <aside className="h-fit rounded-[2rem] border border-rule bg-paper-deep/40 p-6">
       <nav aria-label={t('profile.accountData')} className="flex flex-wrap gap-2">
         <Link to="/planner" className={buttonClass('secondary', 'sm')}>
           {t('account.savedTab')}
@@ -164,14 +161,6 @@ function DevicePlanNote() {
           {t('activity.title')}
         </Link>
       </nav>
-      <div>
-      <p className="flex items-center gap-2 text-sm font-bold text-ink">
-        <Icon name="plan" className="h-4 w-4 text-jade-700" /> {t('profile.deviceTitle')}
-      </p>
-      <p className="mt-2 text-sm leading-relaxed text-muted">
-        {services > 0 ? t('profile.devicePlan', { count: services }) : t('profile.deviceNoPlan')}
-      </p>
-      </div>
     </aside>
   )
 }

@@ -1,15 +1,18 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { AIBadge } from '../../components/ui/Badge'
 import { buttonClass } from '../../components/ui/Button'
 import { Icon } from '../../components/ui/Icon'
 import { ErrorState, LoadingState } from '../../components/ui/States'
 import { ApiError } from '../../lib/apiClient'
 import type {
+  AccountProposal,
+  AccountProposeRequest,
   ApiErrorDetail,
   HeldDocument,
   PlanRequest,
+  ProblemState,
   ProcessState,
   ProposalResponse,
   ProposeRequest,
@@ -17,7 +20,16 @@ import type {
   VaultDocument,
   VaultStatus,
 } from '../../types/api'
-import { useAccountProgress, useCreatePlan, useSavedPlans, useUpdatePlan, useVault } from '../account/api'
+import {
+  useAccountInterpret,
+  useAccountProgress,
+  useAccountProposal,
+  useCreatePlan,
+  useSavedPlans,
+  useSetProgress,
+  useUpdatePlan,
+  useVault,
+} from '../account/api'
 import { useProfile } from '../auth/api'
 import { useAuth } from '../auth/useAuth'
 import { useInterpretSituation, useProposal, useVocabulary } from '../planner/api'
@@ -26,7 +38,6 @@ import { NextActionCard } from '../planner/components/NextActionCard'
 import { GOAL_ORDER } from '../planner/goals'
 import { Timeline } from '../planner/components/Timeline'
 import { type PlanNames, usePlanNames } from '../planner/names'
-import { type ProblemState, readSavedPlan, usePlannerState } from '../planner/usePlannerState'
 import { useDocuments, useServices } from '../services/api'
 
 /**
@@ -51,16 +62,45 @@ interface Draft {
   fromAI: boolean
   unknowns: string[]
   dropped: number
+  /** Services the citizen explicitly asked for (they drive the proposal). */
+  requested: string[]
+  /** Services the citizen says (in this description) they already completed. */
+  reportedDone: string[]
+  /** When moving: the state they are leaving (explanation only). */
+  origin: string | null
 }
+
+const NO_EXTRAS = { requested: [] as string[], reportedDone: [] as string[], origin: null as string | null }
 
 const uniq = (xs: string[]) => [...new Set(xs)]
 const sorted = (xs: string[]) => [...xs].sort()
 const sortObj = <V,>(r: Record<string, V>) => Object.fromEntries(Object.entries(r).sort(([a], [b]) => a.localeCompare(b)))
 
-/** Start from what the citizen already told the planner (existing context is respected). */
-function draftFromSaved(): Draft {
-  const s = readSavedPlan()
-  return { goals: s.goals, lifeEvents: [], state: s.state, held: s.owned, lacking: s.lacking, docStates: s.docStates, fromAI: false, unknowns: [], dropped: 0 }
+function emptyDraft(): Draft {
+  return { goals: [], lifeEvents: [], state: null, held: [], lacking: [], docStates: {}, fromAI: false, unknowns: [], dropped: 0, ...NO_EXTRAS }
+}
+
+/** A guest's proposal kept across sign-in (sessionStorage: this tab only, never a saved plan). */
+const PENDING_KEY = 'govpath.pendingProposal'
+interface PendingProposal {
+  draft: Draft
+  targets: string[] | null
+}
+function keepPending(p: PendingProposal) {
+  try {
+    sessionStorage.setItem(PENDING_KEY, JSON.stringify(p))
+  } catch {
+    /* storage unavailable: the guest re-describes after signing in */
+  }
+}
+function peekPending(): PendingProposal | null {
+  try {
+    const raw = sessionStorage.getItem(PENDING_KEY)
+    const v = raw ? (JSON.parse(raw) as PendingProposal) : null
+    return v && v.draft && Array.isArray(v.draft.goals) ? { draft: { ...emptyDraft(), ...v.draft }, targets: v.targets ?? null } : null
+  } catch {
+    return null
+  }
 }
 
 /** Signed in: the vault is the source of truth for documents (same rule as the backend: a type
@@ -73,15 +113,14 @@ function draftFromAccount(vault: VaultDocument[], state: string | null, goals: s
     if (statuses.has('valid')) continue
     docStates[type] = statuses.has('unsure') ? 'unsure' : statuses.has('expired') ? 'expired' : 'invalid'
   }
-  return { goals, lifeEvents: [], state, held: [...byType.keys()], lacking: [], docStates, fromAI: false, unknowns: [], dropped: 0 }
+  return { goals, lifeEvents: [], state, held: [...byType.keys()], lacking: [], docStates, fromAI: false, unknowns: [], dropped: 0, ...NO_EXTRAS }
 }
 
-/** Progress facts for a proposal: the account's when signed in, else this browser's. */
+/** Progress facts for a proposal: the account's when signed in (guests have none saved). */
 function useProgressFacts() {
   const { status } = useAuth()
   const account = useAccountProgress()
-  const saved = readSavedPlan()
-  if (status !== 'signedIn') return { completed: saved.completed, progress: saved.progress as Record<string, ProcessState> }
+  if (status !== 'signedIn') return { completed: [] as string[], progress: {} as Record<string, ProcessState> }
   const entries = Object.entries(account.data ?? {})
   return {
     completed: entries.filter(([, p]) => p === 'completed').map(([s]) => s),
@@ -102,26 +141,90 @@ function withInterpretation(d: Draft, r: SituationInterpretation): Draft {
     fromAI: true,
     unknowns: r.unknowns,
     dropped: r.dropped.length,
+    requested: uniq([...d.requested, ...(r.requested_service_ids ?? [])]),
+    reportedDone: uniq([...d.reportedDone, ...r.completed_service_ids]),
+    origin: r.origin_state ?? d.origin,
   }
+}
+
+/** A correction: the model returns the complete corrected facts, which replace the draft's
+ * (documents the account already holds stay held: the vault is the source of truth). */
+function withCorrection(d: Draft, r: SituationInterpretation, keepHeld: string[]): Draft {
+  const held = uniq([...keepHeld, ...r.held_document_ids]).filter((x) => keepHeld.includes(x) || !r.lacking_document_ids.includes(x))
+  const states = { ...d.docStates, ...(r.document_states ?? {}) }
+  return {
+    goals: r.goals,
+    lifeEvents: r.life_events,
+    state: r.state ?? d.state,
+    held,
+    lacking: r.lacking_document_ids.filter((x) => !held.includes(x)),
+    docStates: Object.fromEntries(Object.entries(states).filter(([k]) => held.includes(k))),
+    fromAI: true,
+    unknowns: r.unknowns,
+    dropped: r.dropped.length,
+    requested: r.requested_service_ids ?? [],
+    reportedDone: r.completed_service_ids,
+    origin: r.origin_state ?? null,
+  }
+}
+
+/** The facts so far, as context for the model when the citizen corrects them. */
+function summarise(d: Draft): string {
+  return JSON.stringify({
+    goals: d.goals,
+    life_events: d.lifeEvents,
+    state: d.state,
+    origin_state: d.origin,
+    held_document_ids: d.held,
+    lacking_document_ids: d.lacking,
+    requested_service_ids: d.requested,
+    completed_service_ids: d.reportedDone,
+  })
+}
+
+/** Guest: the public reader. Signed in: the reader that also sees the account's known facts. */
+function useReader() {
+  const { status } = useAuth()
+  const guest = useInterpretSituation()
+  const account = useAccountInterpret()
+  return status === 'signedIn' ? account : guest
 }
 
 export function SituationJourney({ onExplain }: { onExplain?: (workflow: PlanRequest) => void }) {
   const { t } = useTranslation()
+  const { status } = useAuth()
   const [phase, setPhase] = useState<Phase>('describe')
-  const [draft, setDraft] = useState<Draft>(draftFromSaved)
+  const [draft, setDraft] = useState<Draft>(emptyDraft)
   const [targets, setTargets] = useState<string[] | null>(null) // null = discovery's recommendation
+  // Back from signing in to save a guest proposal: continue where the guest left off. Checked
+  // (during render, once) when the session is first known to be signed in: the page can open a
+  // moment before the new session is registered.
+  const [resumeChecked, setResumeChecked] = useState(false)
+  const [resumed, setResumed] = useState(false)
+  if (status === 'signedIn' && !resumeChecked) {
+    setResumeChecked(true)
+    const pending = peekPending()
+    if (pending) {
+      setResumed(true)
+      setDraft(pending.draft)
+      setTargets(pending.targets)
+      setPhase('proposal')
+    }
+  }
+  useEffect(() => {
+    if (resumed) sessionStorage.removeItem(PENDING_KEY) // used once
+  }, [resumed])
 
   // Signed in: start from the vault (once, before the citizen has changed anything).
-  const { status } = useAuth()
   const vault = useVault()
   const profile = useProfile()
   const seeded = useRef(false)
   const profileSettled = !profile.isPending || profile.fetchStatus === 'idle'
   useEffect(() => {
-    if (status !== 'signedIn' || seeded.current || !vault.data || !profileSettled || phase !== 'describe') return
+    if (status !== 'signedIn' || seeded.current || resumed || !vault.data || !profileSettled || phase !== 'describe') return
     seeded.current = true
     setDraft(draftFromAccount(vault.data, profile.data?.state ?? null, []))
-  }, [status, vault.data, profile.data, profileSettled, phase])
+  }, [status, vault.data, profile.data, profileSettled, phase, resumed])
 
   const saved = useProgressFacts()
   // Saved ids the knowledge base no longer has would make the whole request fail (422): drop
@@ -133,8 +236,25 @@ export function SituationJourney({ onExplain }: { onExplain?: (workflow: PlanReq
   const svcOk = (id: string) => !knownSvc || knownSvc.has(id)
   const docOk = (id: string) => !knownDoc || knownDoc.has(id)
   const keep = <V,>(r: Record<string, V>, ok: (id: string) => boolean) => Object.fromEntries(Object.entries(r).filter(([k]) => ok(k)))
+  const signedIn = status === 'signedIn'
+  const vaultTypes = new Set((vault.data ?? []).map((d) => d.document_type))
+  const accountRequest: AccountProposeRequest | null =
+    phase === 'proposal' && signedIn
+      ? {
+          goals: sorted(draft.goals),
+          life_events: sorted(draft.lifeEvents),
+          state: draft.state,
+          // The vault is added on the server; send only documents it does not hold.
+          held_document_ids: sorted(draft.held.filter((d) => docOk(d) && !vaultTypes.has(d))),
+          document_states: sortObj(keep(draft.docStates, (d) => docOk(d) && !vaultTypes.has(d))) as AccountProposeRequest['document_states'],
+          lacking_document_ids: sorted(draft.lacking.filter((d) => docOk(d) && !vaultTypes.has(d))),
+          reported_completed_service_ids: sorted(draft.reportedDone.filter(svcOk)),
+          requested_service_ids: draft.requested.filter(svcOk),
+          target_service_ids: targets && targets.filter(svcOk),
+        }
+      : null
   const request: ProposeRequest | null =
-    phase === 'proposal'
+    phase === 'proposal' && !signedIn
       ? {
           context: {
             goals: sorted(draft.goals),
@@ -142,15 +262,16 @@ export function SituationJourney({ onExplain }: { onExplain?: (workflow: PlanReq
             state: draft.state,
             held_document_ids: sorted(draft.held.filter(docOk)),
             lacking_document_ids: sorted(draft.lacking.filter(docOk)),
-            completed_service_ids: sorted(saved.completed.filter(svcOk)),
+            completed_service_ids: sorted(uniq([...saved.completed, ...draft.reportedDone]).filter(svcOk)),
           },
           document_states: sortObj(keep(draft.docStates, docOk)),
           progress: sortObj(keep(saved.progress, svcOk)),
           target_service_ids: targets && targets.filter(svcOk),
+          requested_service_ids: draft.requested.filter(svcOk),
         }
       : null
 
-  const query = useProposalBridge(request)
+  const query = useProposalBridge(request, accountRequest)
   const hold = (doc: string) =>
     setDraft((d) => ({ ...d, held: uniq([...d.held, doc]), lacking: d.lacking.filter((x) => x !== doc) }))
   const lack = (doc: string) =>
@@ -179,6 +300,7 @@ export function SituationJourney({ onExplain }: { onExplain?: (workflow: PlanReq
       {phase === 'describe' && (
         <Describe
           onUnderstood={(r) => {
+            setTargets(null)
             setDraft((d) => withInterpretation(d, r))
             setPhase('review')
           }}
@@ -189,6 +311,7 @@ export function SituationJourney({ onExplain }: { onExplain?: (workflow: PlanReq
         <ReviewDraft
           draft={draft}
           setDraft={setDraft}
+          onCorrected={(r) => setDraft((d) => withCorrection(d, r, signedIn ? [...vaultTypes] : []))}
           onBack={() => setPhase('describe')}
           onContinue={() => {
             setTargets(null)
@@ -206,22 +329,47 @@ export function SituationJourney({ onExplain }: { onExplain?: (workflow: PlanReq
           setTargets={setTargets}
           onEdit={() => setPhase('review')}
           onExplain={onExplain}
+          targets={targets}
+          onCorrected={(r) => {
+            setTargets(null)
+            setDraft((d) => withCorrection(d, r, signedIn ? [...vaultTypes] : []))
+          }}
         />
       )}
     </section>
   )
 }
 
-// The request is null outside the proposal phase, so no call is made then.
-function useProposalBridge(request: ProposeRequest | null) {
-  return { request, ...useProposal(request) }
+// Requests are null outside the proposal phase, so no call is made then. Guests use the public
+// proposal; signed-in citizens the account proposal (same proposal shape, plus account context).
+function useProposalBridge(request: ProposeRequest | null, accountRequest: AccountProposeRequest | null) {
+  const guest = useProposal(request)
+  const account = useAccountProposal(accountRequest)
+  if (accountRequest) {
+    return {
+      data: account.data?.proposal,
+      account: account.data as AccountProposal | undefined,
+      isError: account.isError,
+      isPlaceholderData: account.isPlaceholderData,
+      isFetching: account.isFetching,
+      refetch: account.refetch,
+    }
+  }
+  return {
+    data: guest.data,
+    account: undefined as AccountProposal | undefined,
+    isError: guest.isError,
+    isPlaceholderData: guest.isPlaceholderData,
+    isFetching: guest.isFetching,
+    refetch: guest.refetch,
+  }
 }
 
 /* ------------------------------------------------------------------ describe */
 
 function Describe({ onUnderstood, onManual }: { onUnderstood: (r: SituationInterpretation) => void; onManual: () => void }) {
   const { t, i18n } = useTranslation()
-  const interpret = useInterpretSituation()
+  const interpret = useReader()
   const [text, setText] = useState('')
   const code = interpret.error instanceof ApiError ? (interpret.error.detail as ApiErrorDetail | undefined)?.code : undefined
 
@@ -265,6 +413,54 @@ function Describe({ onUnderstood, onManual }: { onUnderstood: (r: SituationInter
   )
 }
 
+/** "Add or correct details": the AI re-reads the situation with the facts reviewed so far. */
+function CorrectionBox({ draft, onCorrected }: { draft: Draft; onCorrected: (r: SituationInterpretation) => void }) {
+  const { t, i18n } = useTranslation()
+  const interpret = useReader()
+  const [text, setText] = useState('')
+  const code = interpret.error instanceof ApiError ? (interpret.error.detail as ApiErrorDetail | undefined)?.code : undefined
+  return (
+    <div className="rounded-2xl bg-lilac-50/60 p-4 ring-1 ring-lilac-100" data-testid="journey-correct">
+      <label htmlFor="journey-correction" className="flex items-center gap-2 text-sm font-semibold text-ink">
+        <Icon name="spark" className="h-4 w-4 text-lilac-500" />
+        {t('journey.correctLabel')}
+      </label>
+      <textarea
+        id="journey-correction"
+        rows={2}
+        maxLength={2000}
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder={t('journey.correctPlaceholder')}
+        className="mt-2 w-full resize-none rounded-2xl border border-rule bg-card p-3 text-sm text-ink placeholder:text-faint focus:border-ink focus:outline-none"
+      />
+      <button
+        type="button"
+        disabled={text.trim().length < 3 || interpret.isPending}
+        onClick={() =>
+          interpret.mutate(
+            { text: text.trim(), language: i18n.resolvedLanguage === 'hi' ? 'hi' : 'en', previous: summarise(draft) },
+            {
+              onSuccess: (r) => {
+                setText('')
+                onCorrected(r)
+              },
+            },
+          )
+        }
+        className={buttonClass('secondary', 'sm', 'mt-2')}
+      >
+        {interpret.isPending ? t('situation.reading') : t('journey.correctButton')}
+      </button>
+      {interpret.isError && (
+        <p role="alert" className="mt-2 text-xs font-semibold text-honey-700">
+          {t(code === 'quota_exhausted' || code === 'rate_limited' ? 'journey.aiBusy' : 'journey.aiUnavailable')}
+        </p>
+      )}
+    </div>
+  )
+}
+
 /* ------------------------------------------------------------------ review */
 
 function ReviewDraft({
@@ -272,16 +468,43 @@ function ReviewDraft({
   setDraft,
   onBack,
   onContinue,
+  onCorrected,
 }: {
   draft: Draft
   setDraft: (f: (d: Draft) => Draft) => void
   onBack: () => void
   onContinue: () => void
+  onCorrected: (r: SituationInterpretation) => void
 }) {
   const { t } = useTranslation()
   const vocabulary = useVocabulary()
   const documents = useDocuments()
-  const names = usePlanNames(undefined, [], documents.data ?? [])
+  const services = useServices()
+  const vault = useVault()
+  const { status } = useAuth()
+  const names = usePlanNames(undefined, services.data ?? [], documents.data ?? [])
+  const vaultTypes = new Set((vault.data ?? []).map((d) => d.document_type))
+  const chips = (ids: string[], label: string, field: 'requested' | 'reportedDone', testid: string) =>
+    ids.length > 0 && (
+      <div data-testid={testid}>
+        <p className="text-xs font-semibold text-muted">{label}</p>
+        <ul className="mt-1.5 flex flex-wrap gap-1.5">
+          {ids.map((id) => (
+            <li key={id} className="flex items-center gap-1.5 rounded-full bg-paper py-1 pr-1.5 pl-3 text-xs font-semibold text-ink ring-1 ring-rule">
+              {names.service(id)}
+              <button
+                type="button"
+                aria-label={t('journey.remove', { service: names.service(id) })}
+                onClick={() => setDraft((d) => ({ ...d, [field]: d[field].filter((x) => x !== id) }))}
+                className="text-muted hover:text-ink"
+              >
+                <Icon name="close" className="h-3.5 w-3.5" />
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
   const toggle = (list: string[], id: string, on: boolean) => (on ? uniq([...list, id]) : list.filter((x) => x !== id))
   const addable = (documents.data ?? []).filter((d) => !draft.held.includes(d.id))
 
@@ -305,6 +528,10 @@ function ReviewDraft({
               <span className="font-semibold text-ink">{t(`goals.${g}`)}</span>
             </label>
           ))}
+        </div>
+        <div className="mt-3 space-y-3">
+          {chips(draft.requested, t('journey.requestedLabel'), 'requested', 'journey-requested')}
+          {chips(draft.reportedDone, t('journey.reportedDoneLabel'), 'reportedDone', 'journey-reported-done')}
         </div>
         {draft.lifeEvents.length > 0 && (
           <div className="mt-3">
@@ -343,6 +570,9 @@ function ReviewDraft({
           ))}
         </select>
         {!draft.state && <span className="mt-1 block text-xs text-honey-700">{t('journey.stateHint')}</span>}
+        {draft.origin && draft.state && draft.origin !== draft.state && (
+          <span className="mt-1 block text-xs text-muted">{t('journey.moving', { from: draft.origin, to: draft.state })}</span>
+        )}
       </label>
 
       <div className="grid gap-4 md:grid-cols-2">
@@ -351,7 +581,15 @@ function ReviewDraft({
           <ul className="space-y-1.5">
             {draft.held.map((d) => (
               <li key={d} className="flex flex-wrap items-center gap-2 rounded-xl bg-paper px-3 py-2 text-sm ring-1 ring-rule">
-                <span className="min-w-0 flex-1 font-semibold text-ink">{names.document(d)}</span>
+                <span className="min-w-0 flex-1 font-semibold text-ink">
+                  {names.document(d)}
+                  {status === 'signedIn' && vaultTypes.has(d) && <span className="ml-1.5 text-[11px] font-semibold text-jade-700">{t('journey.fromVault')}</span>}
+                </span>
+                {status === 'signedIn' && vaultTypes.has(d) ? (
+                  <Link to="/vault" className="text-xs font-semibold text-jade-700 underline-offset-2 hover:underline">
+                    {t(`documentState.${draft.docStates[d] ?? 'available'}`)}
+                  </Link>
+                ) : (
                 <select
                   aria-label={t('planner.docCondition', { document: names.document(d) })}
                   value={draft.docStates[d] ?? 'available'}
@@ -371,9 +609,12 @@ function ReviewDraft({
                     </option>
                   ))}
                 </select>
-                <button type="button" aria-label={t('journey.removeDoc', { document: names.document(d) })} onClick={() => setDraft((x) => ({ ...x, held: x.held.filter((y) => y !== d) }))} className="text-muted hover:text-ink">
-                  <Icon name="close" className="h-4 w-4" />
-                </button>
+                )}
+                {!(status === 'signedIn' && vaultTypes.has(d)) && (
+                  <button type="button" aria-label={t('journey.removeDoc', { document: names.document(d) })} onClick={() => setDraft((x) => ({ ...x, held: x.held.filter((y) => y !== d) }))} className="text-muted hover:text-ink">
+                    <Icon name="close" className="h-4 w-4" />
+                  </button>
+                )}
               </li>
             ))}
           </ul>
@@ -407,6 +648,8 @@ function ReviewDraft({
         </div>
       </div>
 
+      <CorrectionBox draft={draft} onCorrected={onCorrected} />
+
       <div className="flex flex-wrap gap-2 border-t border-rule pt-4">
         <button type="button" onClick={onContinue} className={buttonClass('primary', 'md')}>
           <Icon name="plan" className="h-4 w-4" />
@@ -431,6 +674,8 @@ function Proposal({
   setTargets,
   onEdit,
   onExplain,
+  onCorrected,
+  targets,
 }: {
   query: ReturnType<typeof useProposalBridge>
   draft: Draft
@@ -440,10 +685,21 @@ function Proposal({
   setTargets: (targets: string[] | null) => void
   onEdit: () => void
   onExplain?: (workflow: PlanRequest) => void
+  onCorrected: (r: SituationInterpretation) => void
+  targets: string[] | null
 }) {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const planner = usePlannerState()
+  const setProgress = useSetProgress()
+  const [chosenPlan, setChosenPlan] = useState<string | null>(null)
+  const [confirmReplace, setConfirmReplace] = useState(false)
+  const [recordDone, setRecordDone] = useState(true)
+  const submitting = useRef(false)
+  // One request id per proposal: repeated clicks/retries of the same proposal reuse it (the
+  // backend returns the plan already created); a changed proposal gets a new id.
+  const proposalKey = JSON.stringify([query.data?.target_service_ids ?? [], draft.goals, draft.state])
+  const requestId = useMemo(() => `${proposalKey.length}-${crypto.randomUUID()}`, [proposalKey])
+  const location = useLocation()
   const { status } = useAuth()
   const signedIn = status === 'signedIn'
   const accountPlans = useSavedPlans('active')
@@ -455,7 +711,7 @@ function Proposal({
   const vocabulary = useVocabulary()
   const data = query.data
   const names = usePlanNames(data?.plan ?? undefined, services.data ?? [], documents.data ?? [])
-  const [accepted, setAccepted] = useState(false)
+  const [planName, setPlanName] = useState('')
 
   if (query.isError) {
     return (
@@ -467,9 +723,11 @@ function Proposal({
   if (!data) return <LoadingState label={t('journey.building')} />
 
   const stale = query.isPlaceholderData || query.isFetching
-  const saved = readSavedPlan()
-  const latestPlan = accountPlans.data?.[0] ?? null
-  const hasPlan = signedIn ? latestPlan !== null : saved.targets.length > 0
+  const account = query.account
+  const activePlans = accountPlans.data ?? []
+  const targetPlanId = chosenPlan ?? account?.recommended_plan_id ?? activePlans[0]?.id ?? null
+  const latestPlan = activePlans.find((p) => p.id === targetPlanId) ?? null
+  const hasPlan = signedIn && latestPlan !== null
   const name = names.service
   const candidate = (id: string) => data.discovery.candidates.find((c) => c.service_id === id)
   const supportIds = new Set(data.supporting.map((s) => s.service_id))
@@ -477,28 +735,51 @@ function Proposal({
   const addable = (services.data ?? []).filter((s) => !outcomes.includes(s.id) && !supportIds.has(s.id))
   const askState = !draft.state && (data.discovery.clarifications.some((q) => q.code === 'state_required') || (data.plan?.clarifications?.length ?? 0) > 0)
 
-  const accept = (mode: 'merge' | 'replace') => {
-    planner.acceptProposal(
-      { targets: outcomes, held: draft.held, lacking: draft.lacking, docStates: draft.docStates, goals: draft.goals, state: draft.state },
-      mode,
-    )
-    setAccepted(true)
-    navigate('/planner')
+  /** Guests must sign in to save: keep this proposal for after sign-in (nothing is saved). */
+  const signInToSave = () => {
+    keepPending({ draft, targets })
+    navigate('/login', { state: { from: location.pathname, reason: 'save_plan' } })
   }
   const held: HeldDocument[] = draft.held.map((d) => ({ document_type: d, status: (draft.docStates[d] ?? 'valid') as VaultStatus }))
+  // Services the citizen said they already completed, not yet recorded in the account.
+  const toRecord = draft.reportedDone.filter((s) => !(account?.account_context.completed_service_ids ?? []).includes(s))
   /** Signed in: save to the account (explicit action). The browser's plan is not touched. */
-  const acceptToAccount = (mode: 'new' | 'add') => {
-    const done = { onSuccess: (p: { id: string }) => navigate(`/planner?plan=${p.id}`) }
-    if (mode === 'add' && latestPlan) {
-      updatePlan.mutate(
-        { id: latestPlan.id, target_service_ids: [...new Set([...latestPlan.target_service_ids, ...outcomes])], held_documents: held },
+  const acceptToAccount = async (mode: 'new' | 'add' | 'replace') => {
+    if (submitting.current) return // one save per click, even on a double-click
+    submitting.current = true
+    if (recordDone) {
+      for (const serviceId of toRecord) await setProgress.mutateAsync({ serviceId, state: 'completed' })
+    }
+    const done = {
+      onSuccess: (p: { id: string; deduplicated?: string | null }) =>
+        navigate(`/planner?plan=${p.id}&saved=${mode === 'new' ? (p.deduplicated ?? 'new') : 'updated'}`),
+      onSettled: () => {
+        submitting.current = false
+      },
+    }
+    // The state the proposal actually used (the description's, else the profile's).
+    const planState = account?.account_context.state ?? draft.state
+    if ((mode === 'add' || mode === 'replace') && latestPlan) {
+      const target_service_ids = mode === 'add' ? [...new Set([...latestPlan.target_service_ids, ...outcomes])] : outcomes
+      updatePlan.mutate({ id: latestPlan.id, target_service_ids, held_documents: held, ...(mode === 'replace' ? { goals: draft.goals } : {}) }, done)
+    } else {
+      createPlan.mutate(
+        {
+          source: 'proposal',
+          title: planName.trim() || suggestedName || null,
+          target_service_ids: outcomes,
+          goals: draft.goals,
+          state: planState,
+          held_documents: held,
+          client_request_id: requestId,
+        },
         done,
       )
-    } else {
-      createPlan.mutate({ source: 'proposal', target_service_ids: outcomes, goals: draft.goals, state: draft.state, held_documents: held }, done)
     }
   }
-  const saving = createPlan.isPending || updatePlan.isPending
+  const saving = createPlan.isPending || updatePlan.isPending || setProgress.isPending
+  // A suggested name for the new plan: the citizen's goals, else the services.
+  const suggestedName = (draft.goals.length ? draft.goals.map((g) => t(`goals.${g}`)) : outcomes.map(name)).join(', ').slice(0, 120)
   const workflow = (): PlanRequest => ({
     target_service_ids: sorted(outcomes),
     owned_document_ids: sorted(draft.held),
@@ -511,13 +792,19 @@ function Proposal({
   return (
     <div className={`mt-5 space-y-6 transition-opacity ${stale ? 'opacity-60' : ''}`} data-testid="journey-proposal" data-status={data.status}>
       <Understood draft={draft} names={names} onEdit={onEdit} />
+      {account && <AccountContextCard account={account} names={names} />}
 
       <StatusBanner data={data} />
+      <RequestedNotes data={data} names={names} />
 
       {/* Questions: answering one regenerates the proposal. */}
       {data.discovery.clarifications
         // Same rule as the backend status: a question about a service already in the plan is moot.
         .filter((q) => q.service_ids.length === 0 || q.service_ids.some((id) => !outcomes.includes(id)))
+        // Questions only about suggestions (services the citizen did not ask for) are not asked.
+        .filter((q) => !(q.service_ids.length > 0 && q.service_ids.every((id) => (data.suggested_service_ids ?? []).includes(id))))
+        // Naming the services answers "what do you want to do?".
+        .filter((q) => !(q.code === 'goal_required' && outcomes.length > 0))
         .map((q) =>
         q.code === 'record_held' ? (
           <div key={q.document_ids.join()} className="rounded-2xl bg-zest-100 p-4 text-sm ring-1 ring-zest-300">
@@ -562,9 +849,12 @@ function Proposal({
 
       {/* Services: outcomes (editable), supporting services added by the planner, the rest. */}
       <section aria-labelledby="journey-services" className="space-y-3">
-        <h3 id="journey-services" className="font-display text-xl font-semibold text-ink">
-          {t('journey.services')}
-        </h3>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h3 id="journey-services" className="font-display text-xl font-semibold text-ink">
+            {t('journey.services')}
+          </h3>
+          {data.grounding && <GroundingBadge g={data.grounding} />}
+        </div>
         <ul className="divide-y divide-rule overflow-hidden rounded-2xl bg-paper ring-1 ring-rule">
           {outcomes.map((id) => {
             const c = candidate(id)
@@ -609,10 +899,27 @@ function Proposal({
           ))}
           {outcomes.length === 0 && <li className="px-4 py-3 text-sm text-muted">{t('journey.noOutcomes')}</li>}
         </ul>
-        {data.discovery.candidates.filter((c) => !outcomes.includes(c.service_id) && c.status !== 'included').length > 0 && (
+        {(data.suggested_service_ids ?? []).filter((id) => !outcomes.includes(id)).length > 0 && (
+          <div className="rounded-2xl bg-paper p-4 ring-1 ring-rule" data-testid="journey-suggested">
+            <p className="text-sm font-semibold text-ink">{t('journey.suggestedTitle')}</p>
+            <p className="text-xs text-muted">{t('journey.suggestedHint')}</p>
+            <ul className="mt-2 flex flex-wrap gap-2">
+              {(data.suggested_service_ids ?? [])
+                .filter((id) => !outcomes.includes(id))
+                .map((id) => (
+                  <li key={id}>
+                    <button type="button" onClick={() => setTargets([...outcomes, id])} className={buttonClass('secondary', 'sm')}>
+                      <Icon name="plus" className="h-3.5 w-3.5" /> {name(id)}
+                    </button>
+                  </li>
+                ))}
+            </ul>
+          </div>
+        )}
+        {data.discovery.candidates.filter((c) => !outcomes.includes(c.service_id) && c.status !== 'included' && !(data.suggested_service_ids ?? []).includes(c.service_id)).length > 0 && (
           <ul className="space-y-1 text-xs text-muted">
             {data.discovery.candidates
-              .filter((c) => !outcomes.includes(c.service_id) && c.status !== 'included')
+              .filter((c) => !outcomes.includes(c.service_id) && c.status !== 'included' && !(data.suggested_service_ids ?? []).includes(c.service_id))
               .map((c) => (
                 <li key={c.service_id}>
                   <span className="font-semibold text-ink/70">{name(c.service_id)}</span>
@@ -651,35 +958,88 @@ function Proposal({
         </div>
       )}
 
+      <CorrectionBox draft={draft} onCorrected={onCorrected} />
+      {account && account.existing_plans.length > 0 && <OverlapCard account={account} names={names} />}
+
       <div className="sticky bottom-0 -mx-2 space-y-2 rounded-2xl bg-ink p-4 text-paper shadow-lift">
         <p className="text-sm font-semibold">{t(hasPlan ? 'journey.acceptExisting' : 'journey.acceptNew')}</p>
-        <p className="text-xs text-paper/70">{t(signedIn ? 'journey.acceptAccountNote' : 'journey.acceptNote')}</p>
+        <p className="text-xs text-paper/70">{t(signedIn ? 'journey.acceptAccountNote' : 'myPlans.guestNote')}</p>
         {(createPlan.isError || updatePlan.isError) && <p className="text-xs font-semibold text-zest-300">{t('account.saveError')}</p>}
         <div className="flex flex-wrap gap-2">
           {signedIn ? (
-            <>
-              <button type="button" disabled={!data.plan || stale || saving} onClick={() => acceptToAccount('new')} className={buttonClass('zest', 'md')}>
-                {t('journey.acceptSaveNew')}
-              </button>
-              {latestPlan && (
-                <button type="button" disabled={!data.plan || stale || saving} onClick={() => acceptToAccount('add')} className={buttonClass('inverse', 'md')}>
-                  {t('journey.acceptAddTo', { plan: latestPlan.title || latestPlan.target_service_ids.map(name).join(', ') })}
-                </button>
+            <div className="w-full space-y-3">
+              <label className="block max-w-md text-xs text-paper/80">
+                {t('myPlans.name')}
+                <input
+                  value={planName}
+                  maxLength={120}
+                  placeholder={suggestedName}
+                  onChange={(e) => setPlanName(e.target.value)}
+                  className="mt-1 block w-full rounded-xl bg-paper/10 px-3 py-2 text-sm font-semibold text-paper ring-1 ring-paper/25 placeholder:text-paper/50"
+                />
+              </label>
+              {toRecord.length > 0 && (
+                <label className="flex items-start gap-2 text-xs text-paper/80">
+                  <input type="checkbox" className="mt-0.5 h-4 w-4" checked={recordDone} onChange={(e) => setRecordDone(e.target.checked)} />
+                  {t('journey.recordDone', { services: toRecord.map(name).join(t('common.listSeparator')) })}
+                </label>
               )}
-            </>
-          ) : hasPlan ? (
-            <>
-              <button type="button" disabled={!data.plan || stale || accepted} onClick={() => accept('merge')} className={buttonClass('zest', 'md')}>
-                {t('journey.acceptMerge')}
-              </button>
-              <button type="button" disabled={!data.plan || stale || accepted} onClick={() => accept('replace')} className={buttonClass('inverse', 'md')}>
-                {t('journey.acceptReplace')}
-              </button>
-            </>
+              {activePlans.length > 1 && (
+                <label className="flex flex-wrap items-center gap-2 text-xs text-paper/80">
+                  {t('journey.existingPlanLabel')}
+                  <select
+                    value={targetPlanId ?? ''}
+                    onChange={(e) => {
+                      setChosenPlan(e.target.value)
+                      setConfirmReplace(false)
+                    }}
+                    className="rounded-full bg-paper/10 px-3 py-1 text-xs font-semibold text-paper ring-1 ring-paper/25"
+                  >
+                    {activePlans.map((p) => (
+                      <option key={p.id} value={p.id} className="text-ink">
+                        {p.title || p.target_service_ids.map(name).join(', ')}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              )}
+              {confirmReplace && latestPlan ? (
+                <div className="space-y-2 rounded-xl bg-paper/10 p-3" role="group" aria-label={t('journey.replaceConfirm', { plan: latestPlan.title || latestPlan.target_service_ids.map(name).join(', ') })}>
+                  <p className="text-sm font-semibold">{t('journey.replaceConfirm', { plan: latestPlan.title || latestPlan.target_service_ids.map(name).join(', ') })}</p>
+                  <div className="flex flex-wrap gap-2">
+                    <button type="button" disabled={saving} onClick={() => void acceptToAccount('replace')} className={buttonClass('zest', 'sm')}>
+                      {t('journey.replaceYes')}
+                    </button>
+                    <button type="button" onClick={() => setConfirmReplace(false)} className={buttonClass('inverse', 'sm')}>
+                      {t('vault.cancel')}
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex flex-wrap gap-2">
+                  <button type="button" disabled={!data.plan || stale || saving} onClick={() => void acceptToAccount('new')} className={buttonClass('zest', 'md')}>
+                    {t('journey.acceptSaveNew')}
+                  </button>
+                  {latestPlan && (
+                    <>
+                      <button type="button" disabled={!data.plan || stale || saving} onClick={() => void acceptToAccount('add')} className={buttonClass('inverse', 'md')}>
+                        {t('journey.acceptAddTo', { plan: latestPlan.title || latestPlan.target_service_ids.map(name).join(', ') })}
+                      </button>
+                      <button type="button" disabled={!data.plan || stale || saving} onClick={() => setConfirmReplace(true)} className={buttonClass('inverse', 'md')}>
+                        {t('journey.acceptReplaceIn')}
+                      </button>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
           ) : (
-            <button type="button" disabled={!data.plan || stale || accepted} onClick={() => accept('replace')} className={buttonClass('zest', 'md')}>
-              {t('journey.acceptUse')}
-            </button>
+            <div className="w-full space-y-2" data-testid="journey-sign-in-to-save">
+              <p className="text-xs text-paper/80">{t('myPlans.guestSaveNote')}</p>
+              <button type="button" disabled={!data.plan || stale} onClick={signInToSave} className={buttonClass('zest', 'md')}>
+                {t('myPlans.signInToSave')}
+              </button>
+            </div>
           )}
           {onExplain && data.plan && (
             <button type="button" disabled={stale} onClick={() => onExplain(workflow())} className={buttonClass('inverse', 'md')}>
@@ -693,11 +1053,94 @@ function Proposal({
   )
 }
 
+function AccountContextCard({ account, names }: { account: AccountProposal; names: PlanNames }) {
+  const { t } = useTranslation()
+  const c = account.account_context
+  const vaultDocs = Object.entries(c.vault)
+  return (
+    <section aria-labelledby="journey-account" className="rounded-2xl bg-jade-50/60 p-4 text-sm ring-1 ring-jade-100" data-testid="journey-account">
+      <h3 id="journey-account" className="text-xs font-bold tracking-[0.14em] text-jade-800 uppercase">
+        {t('journey.accountTitle')}
+      </h3>
+      <ul className="mt-2 space-y-1 text-ink">
+        <li>
+          {c.state_source === 'description'
+            ? t('journey.stateFromDescription', { state: c.state ?? '' })
+            : c.state_source === 'profile'
+              ? t('journey.stateFromProfile', { state: c.state ?? '' })
+              : t('journey.stateNone')}
+          {c.state_source === 'description' && c.profile_state && c.profile_state !== c.state && (
+            <span className="text-muted"> {t('journey.profileSays', { state: c.profile_state })}</span>
+          )}
+        </li>
+        <li>
+          {vaultDocs.length > 0
+            ? t('journey.vaultUsed', {
+                documents: vaultDocs.map(([d, st]) => (st === 'valid' ? names.document(d) : `${names.document(d)} (${t(`vault.statusOption.${st}`)})`)).join(t('common.listSeparator')),
+              })
+            : t('journey.vaultEmpty')}
+        </li>
+        {c.completed_service_ids.length > 0 && <li>{t('journey.alreadyDone', { services: c.completed_service_ids.map(names.service).join(t('common.listSeparator')) })}</li>}
+        {Object.keys(c.in_progress).length > 0 && (
+          <li>{t('journey.inProgress', { services: Object.keys(c.in_progress).map(names.service).join(t('common.listSeparator')) })}</li>
+        )}
+      </ul>
+    </section>
+  )
+}
+
+function RequestedNotes({ data, names }: { data: ProposalResponse; names: PlanNames }) {
+  const { t } = useTranslation()
+  const notes = (data.requested ?? []).filter((r) => r.outcome !== 'target')
+  if (notes.length === 0) return null
+  return (
+    <ul className="space-y-1 rounded-2xl bg-honey-50 px-4 py-3 text-sm text-honey-700 ring-1 ring-honey-100" data-testid="journey-requested-notes">
+      {notes.map((r) => (
+        <li key={r.service_id}>{t(`journey.requestedOutcome.${r.outcome}`, { service: names.service(r.service_id) })}</li>
+      ))}
+    </ul>
+  )
+}
+
+function GroundingBadge({ g }: { g: NonNullable<ProposalResponse['grounding']> }) {
+  const { t } = useTranslation()
+  const complete = g.ungrounded.length === 0
+  return (
+    <span
+      data-testid="journey-grounding"
+      className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold ring-1 ${complete ? 'bg-jade-50 text-jade-800 ring-jade-100' : 'bg-honey-50 text-honey-700 ring-honey-100'}`}
+    >
+      <Icon name="shield" className="h-3.5 w-3.5" />
+      {complete
+        ? t('journey.grounded', { requirements: g.requirements, dependencies: g.dependencies })
+        : t('journey.partlyGrounded', { count: g.ungrounded.length })}
+    </span>
+  )
+}
+
+function OverlapCard({ account, names }: { account: AccountProposal; names: PlanNames }) {
+  const { t } = useTranslation()
+  const top = account.existing_plans[0]
+  const title = top.title || top.target_service_ids.map(names.service).join(', ')
+  return (
+    <section className="rounded-2xl bg-zest-100 p-4 text-sm ring-1 ring-zest-300" data-testid="journey-overlap" data-recommendation={account.recommendation}>
+      <p className="font-semibold text-ink">
+        {account.recommendation === 'covered' ? t('journey.overlapCovered', { plan: title }) : t('journey.overlapExtend', { plan: title })}
+      </p>
+      <p className="mt-0.5 text-xs text-muted">
+        {t('journey.overlapServices', { services: top.overlapping_service_ids.map(names.service).join(t('common.listSeparator')) })}
+      </p>
+    </section>
+  )
+}
+
 function Understood({ draft, names, onEdit }: { draft: Draft; names: PlanNames; onEdit: () => void }) {
   const { t } = useTranslation()
   const rows: [string, string][] = [
     [t('situation.foundGoals'), draft.goals.map((g) => t(`goals.${g}`)).join(t('common.listSeparator')) || '—'],
-    [t('situation.foundState'), draft.state ?? t('situation.notStated')],
+    [t('situation.foundState'), (draft.state ?? t('situation.notStated')) + (draft.origin && draft.origin !== draft.state ? ` (${t('journey.movingFrom', { from: draft.origin })})` : '')],
+    ...(draft.requested.length ? [[t('journey.requestedLabel'), draft.requested.map(names.service).join(t('common.listSeparator'))] as [string, string]] : []),
+    ...(draft.reportedDone.length ? [[t('journey.reportedDoneLabel'), draft.reportedDone.map(names.service).join(t('common.listSeparator'))] as [string, string]] : []),
     [t('situation.foundHeld'), draft.held.map((d) => names.document(d) + (draft.docStates[d] ? ` (${t(`documentState.${draft.docStates[d]}`)})` : '')).join(t('common.listSeparator')) || '—'],
     [t('situation.foundLacking'), draft.lacking.map(names.document).join(t('common.listSeparator')) || '—'],
   ]

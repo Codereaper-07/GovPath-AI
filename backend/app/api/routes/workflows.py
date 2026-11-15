@@ -14,9 +14,9 @@ from app.schemas.workflow import (
     PlanResponse,
     ProposalResponse,
     ProposeIn,
-    SupportingServiceOut,
     VocabularyOut,
     build_plan_response,
+    build_proposal_response,
     document_names_out,
     service_names_out,
 )
@@ -105,6 +105,7 @@ async def propose(
             document_states=body.document_states,
             progress=body.progress,
             target_ids=body.target_service_ids,
+            requested_ids=body.requested_service_ids,
             cache=cache,
         )
     except UnknownIdsError as exc:
@@ -114,26 +115,7 @@ async def propose(
             status.HTTP_409_CONFLICT,
             {"code": "dependency_cycle", "message": str(exc), "cycle": exc.cycle},
         ) from exc
-    found = result.discovery
-    discovery = DiscoverResponse.model_validate(
-        {
-            "state": normalise_state(body.context.state),
-            "candidates": [c.__dict__ for c in found.candidates],
-            "clarifications": [q.__dict__ for q in found.clarifications],
-            "recommended_target_ids": list(found.recommended_target_ids),
-        }
-    )
-    discovery.services = _service_names(names["services"])
-    discovery.documents = _document_names(names["documents"])
-    return ProposalResponse(
-        status=result.status.value,
-        discovery=discovery,
-        target_service_ids=list(result.target_ids),
-        supporting=[SupportingServiceOut.model_validate(s) for s in result.supporting],
-        plan=_plan_response(result.plan, names) if result.plan else None,
-        uncovered_goals=list(result.uncovered_goals),
-        uncovered_life_events=list(result.uncovered_life_events),
-    )
+    return build_proposal_response(result, names, normalise_state(body.context.state))
 
 
 @router.post("/plan", response_model=PlanResponse)

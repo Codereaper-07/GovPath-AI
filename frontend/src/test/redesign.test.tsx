@@ -1,4 +1,4 @@
-import { cleanup, screen, within } from '@testing-library/react'
+import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
 import documents from './fixtures/documents.json'
@@ -16,47 +16,8 @@ function api(url: string, init?: RequestInit) {
   return json(404, {})
 }
 
-const PLAN = { targets: ['aadhaar-address-update', 'driving-licence-address-change', 'passport-reissue-change-of-address'], owned: ['aadhaar_number', 'driving_licence_existing', 'electricity_bill', 'passport_existing'], completed: [], generated: true }
-
-describe('Planner journey visualisation', () => {
-  it('explains how the plan is built before generating', async () => {
-    mockFetch(api)
-    renderApp('/planner')
-    expect(await screen.findByText('Select at least one service to begin')).toBeInTheDocument()
-    expect(screen.getByText('How your plan is built')).toBeInTheDocument()
-    expect(screen.getByText('Step status')).toBeInTheDocument()
-  })
-
-  it('shows which later steps a step unlocks, from the backend plan', async () => {
-    localStorage.setItem('govpath.planner.v1', JSON.stringify(PLAN))
-    mockFetch(api)
-    renderApp('/planner')
-    const aadhaar = await screen.findByTestId('step-aadhaar-address-update')
-    expect(within(aadhaar).getByText('Completing this unlocks: Driving licence address change')).toBeInTheDocument()
-    expect(within(screen.getByTestId('step-passport-reissue-change-of-address')).queryByText(/Completing this unlocks/)).toBeNull()
-  })
-
-  it('keeps selections after a reload', async () => {
-    mockFetch(api)
-    renderApp('/planner')
-    await userEvent.click(await screen.findByRole('checkbox', { name: 'Instant e-PAN (free PAN through Aadhaar)' }))
-    cleanup()
-    renderApp('/planner')
-    expect(await screen.findByRole('checkbox', { name: 'Instant e-PAN (free PAN through Aadhaar)' })).toBeChecked()
-  })
-})
 
 describe('Route-map details', () => {
-  it('marks only the backend next action as "You are here" in the journey and overview', async () => {
-    localStorage.setItem('govpath.planner.v1', JSON.stringify(PLAN))
-    mockFetch(api)
-    renderApp('/planner')
-    const aadhaar = await screen.findByTestId('step-aadhaar-address-update')
-    expect(within(aadhaar).getByText('You are here')).toBeInTheDocument()
-    expect(screen.getAllByText('You are here')).toHaveLength(1)
-    expect(screen.getByLabelText('Route overview')).toHaveTextContent('0 of 3 services completed')
-  })
-
   it('groups the full catalogue by primary life event, listing every service once', async () => {
     mockFetch(api)
     renderApp('/services')
@@ -83,29 +44,5 @@ describe('Documents relationships', () => {
   })
 })
 
-describe('Assistant plan-aware suggestions', () => {
-  it('offers plan suggestions only with a saved plan and sends the workflow context', async () => {
-    const calls = mockFetch(api)
-    renderApp('/assistant')
-    await screen.findByText('How answers work')
-    expect(screen.queryByText('About your saved plan')).toBeNull()
-    cleanup()
-    localStorage.setItem('govpath.planner.v1', JSON.stringify(PLAN))
-    renderApp('/assistant')
-    await userEvent.click(await screen.findByRole('button', { name: 'What is my next step and why?' }))
-    await screen.findByTestId('assistant-answer')
-    const sent = calls.filter((c) => c.url.endsWith('/api/assistant/query')).at(-1)!.body as { question: string; workflow: { target_service_ids: string[] } }
-    expect(sent.question).toBe('What is my next step and why?')
-    expect(sent.workflow.target_service_ids).toEqual(PLAN.targets)
-  })
-})
 
-describe('Dashboard plan states', () => {
-  it('prompts to build a plan when none is saved', async () => {
-    mockFetch(api)
-    renderApp('/')
-    const strip = (await screen.findByRole('heading', { name: 'Your saved plan' })).closest('section')!
-    expect(within(strip).getByRole('link', { name: /Plan my steps/ })).toHaveAttribute('href', '/planner')
-  })
-})
 

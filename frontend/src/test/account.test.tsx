@@ -120,6 +120,25 @@ function accountBackend(seed: { plans?: string[][]; docs?: Partial<VaultDocument
     if (!path.startsWith('/api/me/')) return json(404, {})
     if (!auth) return json(401, { detail: { code: 'missing_token' } })
     if (path === '/api/me/profile') return { user_id: 'user-a', email: 'a@example.com', full_name: null, state: 'Delhi', city: null, preferred_language: 'en', created_at: '', updated_at: '' }
+    if (path === '/api/me/proposal') {
+      return {
+        proposal: proposeDelhi,
+        account_context: {
+          state: body.state ?? 'Delhi',
+          state_source: body.state ? 'description' : 'profile',
+          profile_state: 'Delhi',
+          city: null,
+          vault: Object.fromEntries(docs.map((d) => [d.document_type, d.effective_status])),
+          documents_from_description: body.held_document_ids,
+          completed_service_ids: Object.keys(progress).filter((s) => progress[s] === 'completed'),
+          reported_completed_service_ids: body.reported_completed_service_ids,
+          in_progress: {},
+        },
+        existing_plans: [],
+        recommendation: 'new',
+        recommended_plan_id: null,
+      }
+    }
     if (path === '/api/me/documents' && method === 'GET') return { documents: docs }
     if (path === '/api/me/documents' && method === 'POST') {
       if (/\d{4}\s?\d{4}\s?\d{4}/.test(`${body.note ?? ''}${body.label ?? ''}`)) {
@@ -264,7 +283,7 @@ describe('saved plans in the planner', () => {
     const api = accountBackend({ plans: [[RC]] })
     const user = userEvent.setup()
     renderApp('/planner', signedIn())
-    expect(await screen.findByRole('tab', { name: 'My saved plans', selected: true })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: 'My Plans', level: 1 })).toBeInTheDocument()
     expect(await screen.findByText('Saved to your account')).toBeInTheDocument()
     // The blocked RC plan's next action asks for the missing proof: ticking it adds it to the vault.
     await user.click(await screen.findByRole('checkbox', { name: PROOF_NAME }))
@@ -287,55 +306,14 @@ describe('saved plans in the planner', () => {
     expect(api.plans[0].status).toBe('archived')
   })
 
-  it('imports the device plan only after an explicit preview, leaving the device copy intact', async () => {
-    localStorage.setItem(PLAN_KEY, LOCAL_PLAN)
-    const api = accountBackend({ docs: [{ document_type: 'rc_existing', status: 'expired' }] })
-    const user = userEvent.setup()
-    renderApp('/planner', signedIn())
-    expect(await screen.findByText('No saved plans yet')).toBeInTheDocument()
-    expect(api.calls.some((c) => c.method === 'POST' && c.url.includes('/api/me/'))).toBe(false) // nothing automatic
-    await user.click(screen.getByRole('button', { name: 'Preview' }))
-    const preview = screen.getByTestId('import-preview')
-    expect(preview).toHaveTextContent('1 service')
-    expect(preview).toHaveTextContent('1 document will be added to your vault')
-    expect(preview).toHaveTextContent('1 document is already in your vault (kept as it is)')
-    expect(preview).toHaveTextContent('1 progress report will be added')
-    await user.click(within(preview).getByRole('button', { name: 'Save to my account' }))
-    await waitFor(() => expect(api.plans).toHaveLength(1))
-    const post = api.calls.find((c) => c.method === 'POST' && c.url.endsWith('/api/me/plans'))!
-    expect(post.body).toMatchObject({
-      source: 'import',
-      target_service_ids: [RC],
-      held_documents: [
-        { document_type: 'rc_existing', status: 'valid' },
-        { document_type: PROOF, status: 'unsure' },
-      ],
-      progress: { [RC]: 'started' },
-      state: 'Delhi',
-    })
-    expect(api.docs.find((d) => d.document_type === 'rc_existing')!.status).toBe('expired') // vault wins
-    expect(localStorage.getItem(PLAN_KEY)).toBe(LOCAL_PLAN)
-  })
-
-  it('the device tab keeps the guest planner and labels it as device-only', async () => {
-    localStorage.setItem(PLAN_KEY, LOCAL_PLAN)
-    accountBackend()
-    const user = userEvent.setup()
-    renderApp('/planner', signedIn())
-    await user.click(await screen.findByRole('tab', { name: 'Plan on this device' }))
-    expect(await screen.findByText('This device only (not in your account)')).toBeInTheDocument()
-    expect(await screen.findByRole('heading', { name: 'Save this device’s plan to your account?' })).toBeInTheDocument()
-    expect(localStorage.getItem(PLAN_KEY)).toBe(LOCAL_PLAN)
-  })
-
-  it('signed out: the guest planner is unchanged (no tabs, no account calls)', async () => {
+  it('signed out: My Plans asks to sign in (no device planner, no account calls)', async () => {
     localStorage.setItem(PLAN_KEY, LOCAL_PLAN)
     const api = accountBackend()
     renderApp('/planner', fakeAuth().client)
-    expect(await screen.findByRole('heading', { name: 'Workflow planner' })).toBeInTheDocument()
-    await waitFor(() => expect(api.calls.some((c) => c.url.endsWith('/api/workflows/plan'))).toBe(true))
-    expect(screen.queryByRole('tab', { name: 'My saved plans' })).not.toBeInTheDocument()
-    expect(api.calls.some((c) => c.url.includes('/api/me/'))).toBe(false)
+    expect(await screen.findByTestId('plans-sign-in')).toHaveTextContent('Sign in to save and manage your plans')
+    expect(screen.queryByRole('tab')).not.toBeInTheDocument()
+    expect(api.calls.some((c) => c.url.includes('/api/me/') || c.url.endsWith('/api/workflows/plan'))).toBe(false)
+    expect(localStorage.getItem(PLAN_KEY)).toBe(LOCAL_PLAN) // old device data left untouched
   })
 
   it('local guest data survives signing in and out', async () => {
@@ -348,8 +326,8 @@ describe('saved plans in the planner', () => {
     await user.type(screen.getByLabelText('Password'), 'correct-horse')
     await user.click(screen.getByRole('button', { name: 'Sign in' }))
     await screen.findByRole('heading', { name: 'Your profile' })
-    await user.click(await screen.findByRole('link', { name: 'My saved plans' }))
-    expect(await screen.findByRole('tab', { name: 'My saved plans', selected: true })).toBeInTheDocument()
+    await user.click((await screen.findAllByRole('link', { name: 'My Plans' }))[0])
+    expect(await screen.findByRole('heading', { name: 'My Plans', level: 1 })).toBeInTheDocument()
     expect(localStorage.getItem(PLAN_KEY)).toBe(LOCAL_PLAN)
     await user.click(screen.getByRole('link', { name: 'Account' }))
     await user.click(await screen.findByRole('button', { name: 'Sign out' }))
@@ -375,7 +353,7 @@ describe('situation journey when signed in', () => {
     expect(post.body).toMatchObject({ source: 'proposal', state: 'Delhi', goals: ['update-name-after-marriage'] })
     expect((post.body as { held_documents: unknown[] }).held_documents).toContainEqual({ document_type: 'aadhaar_number', status: 'unsure' })
     expect(localStorage.getItem(PLAN_KEY)).toBeNull()
-    expect(await screen.findByRole('tab', { name: 'My saved plans', selected: true })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: 'My Plans', level: 1 })).toBeInTheDocument()
   })
 })
 

@@ -114,6 +114,8 @@ export interface DocumentType {
 
 export type ProcessState = 'not_started' | 'started' | 'submitted' | 'completed'
 export type DocumentState = 'available' | 'expired' | 'invalid' | 'unsure'
+/** A held document the citizen reports as not usable. */
+export type ProblemState = Exclude<DocumentState, 'available'>
 
 export interface PlanRequest {
   target_service_ids: string[]
@@ -376,8 +378,15 @@ export interface SituationInterpretation {
   /** Held documents the citizen said are expired / invalid / unsure about. */
   document_states?: Record<string, Exclude<DocumentState, 'available'>>
   completed_service_ids: string[]
+  /** Services the citizen explicitly asked for (validated ids). */
+  requested_service_ids?: string[]
+  /** When moving: the state they are leaving (services follow `state`). */
+  origin_state?: string | null
   unknowns: string[]
   dropped: string[]
+  /** Signed in: facts the account already had (shown, not asked again). */
+  account_state?: string | null
+  account_document_ids?: string[]
 }
 
 export interface ProposeRequest {
@@ -386,6 +395,7 @@ export interface ProposeRequest {
   progress: Record<string, ProcessState>
   /** The citizen's edited outcome list; null = use discovery's recommendation. */
   target_service_ids: string[] | null
+  requested_service_ids?: string[]
 }
 
 export interface SupportingService {
@@ -405,6 +415,51 @@ export interface ProposalResponse {
   plan: PlanResponse | null
   uncovered_goals: string[]
   uncovered_life_events: string[]
+  /** What happened to each service the citizen explicitly asked for. */
+  requested?: { service_id: string; outcome: 'target' | 'completed' | 'outside_jurisdiction' | 'unknown' }[]
+  /** Other discovered services relevant to the situation (not planned unless added). */
+  suggested_service_ids?: string[]
+  /** Every requirement and dependency cites official evidence (checked server-side). */
+  grounding?: Grounding | null
+}
+
+export interface Grounding {
+  requirements: number
+  requirements_grounded: number
+  dependencies: number
+  dependencies_grounded: number
+  ungrounded: string[]
+}
+
+/** Signed in: the reviewed situation; account facts are added on the server. */
+export interface AccountProposeRequest {
+  goals: string[]
+  life_events: string[]
+  state: string | null
+  held_document_ids: string[]
+  document_states: Record<string, 'expired' | 'invalid' | 'unsure'>
+  lacking_document_ids: string[]
+  reported_completed_service_ids: string[]
+  requested_service_ids: string[]
+  target_service_ids: string[] | null
+}
+
+export interface AccountProposal {
+  proposal: ProposalResponse
+  account_context: {
+    state: string | null
+    state_source: 'description' | 'profile' | 'none'
+    profile_state: string | null
+    city: string | null
+    vault: Record<string, 'valid' | 'expired' | 'invalid' | 'unsure'>
+    documents_from_description: string[]
+    completed_service_ids: string[]
+    reported_completed_service_ids: string[]
+    in_progress: Record<string, string>
+  }
+  existing_plans: { plan_id: string; title: string | null; target_service_ids: string[]; overlapping_service_ids: string[]; covers_all: boolean }[]
+  recommendation: 'new' | 'extend' | 'covered' | 'none'
+  recommended_plan_id: string | null
 }
 
 /** The signed-in citizen's profile (`/api/me/profile`; user id comes from the verified token). */
@@ -472,6 +527,7 @@ export interface SavedPlanSummary {
   title: string | null
   status: 'active' | 'archived'
   target_service_ids: string[]
+  citizen_state: string | null
   service_names: Record<string, { name: string; name_hi: string | null }>
   total_services: number
   completed: number
@@ -486,13 +542,14 @@ export interface SavedPlanSummary {
 
 export interface SavedPlan extends SavedPlanSummary {
   goals: string[]
-  citizen_state: string | null
   evaluated_at: string | null
   /** The deterministic planner's last output (same shape as POST /api/workflows/plan). */
   plan: PlanResponse | null
   document_refs: { document_type: string; vault_document_ids: string[]; requirement_ids: string[] }[]
   created_document_ids: string[]
   plan_changes: PlanChange[]
+  /** "repeat_request": this submission had already created the plan (no copy made). */
+  deduplicated?: 'repeat_request' | null
 }
 
 export interface HeldDocument {
@@ -507,6 +564,8 @@ export interface SavedPlanInput {
   state?: string | null
   held_documents?: HeldDocument[]
   source?: 'proposal' | 'import' | 'planner'
+  /** One id per submission: a repeated submission returns the plan already created. */
+  client_request_id?: string
   progress?: Record<string, 'started' | 'submitted' | 'completed'>
 }
 
@@ -516,6 +575,7 @@ export interface ActivityEvent {
     | 'document_added'
     | 'document_updated'
     | 'document_removed'
+    | 'document_expired'
     | 'plan_created'
     | 'plan_updated'
     | 'plan_archived'
@@ -527,4 +587,29 @@ export interface ActivityEvent {
   entity_id: string | null
   details: Record<string, unknown>
   created_at: string
+}
+
+export interface Dashboard {
+  today: string
+  full_name: string | null
+  state: string | null
+  city: string | null
+  preferred_language: 'en' | 'hi'
+  plans: SavedPlanSummary[]
+  next_actions: { plan_id: string; plan_title: string | null; type: string; service_id: string | null; reason_code: string; document_options: string[] }[]
+  blockers: {
+    plan_id: string
+    plan_title: string | null
+    code: string
+    service_id: string
+    requirement_id: string | null
+    document_options: string[]
+    blocked_by_service_ids: string[]
+  }[]
+  progress: Record<string, 'started' | 'submitted' | 'completed'>
+  vault_counts: Record<VaultStatus, number>
+  vault_total: number
+  expiring_soon: VaultDocument[]
+  expired: VaultDocument[]
+  recent_activity: ActivityEvent[]
 }

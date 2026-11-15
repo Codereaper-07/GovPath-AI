@@ -36,6 +36,7 @@ export function LoginPage() {
       <form onSubmit={submit} className="space-y-4" noValidate>
         {status === 'unconfigured' && <Notice tone="info">{t('auth.unconfigured')}</Notice>}
         {expired && !error && <Notice tone="info">{t('auth.sessionExpired')}</Notice>}
+        {(location.state as { reason?: string } | null)?.reason === 'save_plan' && <Notice tone="info">{t('myPlans.signInReason')}</Notice>}
         {error && <Notice tone="error">{t(authErrorKey(error))}</Notice>}
         <Field label={t('auth.email')} type="email" name="email" autoComplete="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
         <Field

@@ -20,18 +20,14 @@ Architecture: `docs/architecture.md`. Status, sources and next tasks: `PROGRESS.
     blockers, `honey-*` caution, `lilac-*` AI only; life-event hues via `EVENT_TONE` (`lib/lifeEvents.ts`).
     Fonts: Fraunces / Tiro Devanagari Hindi (`font-display`), Manrope / Noto Sans Devanagari (UI); Hindi
     resets letter-spacing. Use `buttonClass()`, `PageHeader`, `Seal`, planner `StatusNode`; top-bar layout.
-    No Zustand: state is React state plus the localStorage-backed `usePlannerState` (key `govpath.planner.v1`,
-    schema `version` inside the value; never written on load; each action re-reads the stored copy, applies
-    the change and writes back, keeping unknown fields; other tabs sync via the `storage` event, and a racing
-    write re-applies this tab's missing change (`selectionSync.ts`; same item: later edit wins); pruning
-    only against non-empty successful lists). The assistant sends `planRequestOf(saved)`. Route pages are
+    No Zustand. **Plans exist only in the signed-in account (My Plans, `/planner` → `SavedPlansView`);** there is
+    no device/browser plan any more (old `govpath.planner.v1` data is left in place but never read). Guests can
+    run the journey and must sign in to save (proposal kept in `sessionStorage` across sign-in). Route pages are
     lazy-loaded via `app/lazyPages.tsx` (tests import pages directly through `test/utils.tsx`).
   - Accounts (`features/auth/`): `supabase-js` for auth only (`lib/supabase.ts`, null when
     `VITE_SUPABASE_*` unset → app works without accounts). `AuthProvider`/`useAuth`; `apiAuthed()` adds the
     bearer token (refresh once on 401, then local sign-out); public endpoints never send it. `RequireAuth`
-    guards `/profile`, `/vault`, `/activity`. Auth never touches planner storage. `renderApp(path, fakeAuthClient)`
-    in tests (`test/authFakes.ts`). Signed in, the planner shows saved account plans (`features/account/`); the
-    device planner stays one tab away and is imported only by an explicit, previewed action.
+    guards `/profile`, `/vault`, `/activity`. `renderApp(path, fakeAuthClient)` in tests (`test/authFakes.ts`).
 - `backend/app/` (single FastAPI service):
   - `api/routes/`: thin HTTP handlers only (health, services, documents, workflows, situation, assistant,
     profile).
@@ -44,6 +40,16 @@ Architecture: `docs/architecture.md`. Status, sources and next tasks: `PROGRESS.
     existing planner for all **active** plans, stores the result as `user_plans.snapshot` (full PlanResponse, so
     it still renders if the catalogue changes) and logs a `plan_recalculated` diff. Documents never change
     progress. Archived plans are frozen. Free text rejecting identity numbers: `schemas/account.py`.
+    Users may have any number of active plans (no uniqueness by services/state). Double-submit protection:
+    `client_request_id` on `POST /api/me/plans`, matched via the `plan_created` activity event.
+  - Expiry: dates are **IST calendar dates** (`svc.today()`); a `valid` copy is usable through its expiry date.
+    `expire_for_user` claims each due document with a conditional UPDATE (`expiry_processed_for`), logs
+    `document_expired` once and recalculates active plans. Triggers: catch-up on every account read,
+    `python -m scripts.expire_documents [--dry-run]`, `POST /api/internal/expire-documents` (`X-Cron-Secret`).
+  - Situation (signed in): `POST /api/me/situation/interpret` gives the model the account's known facts;
+    `POST /api/me/proposal` merges vault (wins), progress, profile state on the server. Explicitly requested
+    services drive targets (`proposal.py`, jurisdiction-checked); other candidates become suggestions;
+    `grounding()` checks every requirement/dependency cites evidence. `GET /api/me/dashboard`.
   - `schemas/`: Pydantic request/response models. Public IDs are **slugs**, never DB keys.
     The plan response includes `services`/`requirements`/`documents` display-name maps (en + hi).
   - `models/`: SQLAlchemy ORM (portable: VARCHAR+CHECK enums, JSONB variant), `migrations/` (Alembic).

@@ -5,6 +5,7 @@ import i18n from '../i18n/config'
 
 beforeEach(async () => {
   localStorage.clear()
+  sessionStorage.clear()
   await i18n.changeLanguage('en')
 })
 

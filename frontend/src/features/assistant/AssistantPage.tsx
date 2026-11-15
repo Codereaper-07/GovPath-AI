@@ -8,7 +8,8 @@ import { ApiError } from '../../lib/apiClient'
 import { useLocalized } from '../../lib/useLocalized'
 import type { ApiErrorDetail, AssistantAnswer, PlanRequest } from '../../types/api'
 import { SituationJourney } from '../journey/SituationJourney'
-import { planRequestOf, readSavedPlan } from '../planner/usePlannerState'
+import { useSavedPlanRequest, useSavedPlans } from '../account/api'
+import { useAuth } from '../auth/useAuth'
 import { useServices } from '../services/api'
 import { AnswerCard } from './AnswerCard'
 import { useAskAssistant } from './api'
@@ -53,8 +54,12 @@ export function AssistantPage() {
   const [lastQuestion, setLastQuestion] = useState('')
   const endRef = useRef<HTMLDivElement>(null)
 
-  const saved = readSavedPlan()
-  const hasPlan = saved.generated && saved.targets.length > 0
+  // Signed in: the most recent active plan in My Plans is the plan the assistant can explain.
+  const { status } = useAuth()
+  const plans = useSavedPlans('active')
+  const myPlan = status === 'signedIn' ? (plans.data?.[0] ?? null) : null
+  const planRequest = useSavedPlanRequest(myPlan)
+  const hasPlan = planRequest !== null
   const serviceName = (id: string) => {
     const s = services.data?.find((x) => x.id === id)
     return s ? pick(s.name, s.name_hi) : id
@@ -78,8 +83,8 @@ export function AssistantPage() {
           ? { workflow }
           : usePlan && hasPlan
             ? {
-                // The same request the planner page sends, so both explain the same plan.
-                workflow: planRequestOf(saved),
+                // The same inputs the backend uses for the saved plan, so both explain the same plan.
+                workflow: planRequest!,
               }
             : {}),
       },

@@ -13,11 +13,10 @@ import { useVocabulary } from '../planner/api'
 import { PlanResults } from '../planner/components/PlanResults'
 import { ServicePicker } from '../planner/components/ServicePicker'
 import { usePlanNames } from '../planner/names'
-import { readSavedPlan } from '../planner/usePlannerState'
 import { useDocuments, useServices } from '../services/api'
-import { useAddDocument, usePlanAction, useSavedPlan, useSavedPlans, useSetProgress, useUpdatePlan, useVault } from './api'
+import { useProfile } from '../auth/api'
+import { useAddDocument, useCreatePlan, usePlanAction, useSavedPlan, useSavedPlans, useSetProgress, useUpdatePlan, useVault } from './api'
 import { AccountBadge } from './AccountBadge'
-import { ImportLocalPlan } from './ImportLocalPlan'
 import { PlanChangesNotice } from './PlanChangesNotice'
 
 /** Saved plans for the signed-in citizen. Every change goes to the backend, which re-runs the
@@ -44,7 +43,6 @@ export function SavedPlansView() {
   if (active.isError || archived.isError) return <ErrorState message={t('account.plansLoadError')} onRetry={() => void active.refetch()} />
   if (services.isError || documents.isError) return <ErrorState message={t('services.loadError')} onRetry={() => void services.refetch()} />
 
-  const hasLocal = readSavedPlan().targets.length > 0
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center gap-3">
@@ -57,6 +55,9 @@ export function SavedPlansView() {
         </Link>
       </div>
       <AddServiceFromLink plans={active.data} onSaved={select} />
+      {params.get('saved') && (
+        <Notice tone="success">{t(params.get('saved') === 'repeat_request' ? 'myPlans.savedRepeat' : params.get('saved') === 'updated' ? 'myPlans.updated' : 'myPlans.saved')}</Notice>
+      )}
       {active.data.length === 0 && !requested ? (
         <div className="space-y-5">
           <section className="ink-panel relative overflow-hidden rounded-[2rem] p-7 sm:p-9">
@@ -66,14 +67,13 @@ export function SavedPlansView() {
               <Icon name="spark" className="h-4 w-4" /> {t('account.startFromSituation')}
             </Link>
           </section>
-          {hasLocal && <ImportLocalPlan onImported={select} />}
           {archived.data.length > 0 && <ArchivedList plans={archived.data} selectedId={selectedId} onSelect={select} />}
         </div>
       ) : (
         <div className="grid gap-8 lg:grid-cols-[minmax(0,23rem)_minmax(0,1fr)] lg:gap-10">
           <aside className="space-y-5 lg:sticky lg:top-24 lg:max-h-[calc(100vh-7.5rem)] lg:self-start lg:overflow-y-auto">
             <PlanList plans={active.data} selectedId={selectedId} onSelect={select} />
-            {plan.data && <PlanSettings plan={plan.data} onGone={() => select(null)} />}
+            {plan.data && <PlanSettings key={plan.data.id} plan={plan.data} onGone={() => select(null)} />}
             {archived.data.length > 0 && <ArchivedList plans={archived.data} selectedId={selectedId} onSelect={select} />}
           </aside>
           <div className="min-w-0" aria-live="polite">
@@ -133,12 +133,17 @@ function ArchivedList({ plans, selectedId, onSelect }: { plans: SavedPlanSummary
   const { t } = useTranslation()
   const name = useServiceName()
   return (
-    <details className="rounded-[2rem] bg-card p-4 ring-1 ring-rule" open={plans.some((p) => p.id === selectedId)}>
+    <details className="rounded-[2rem] bg-card p-4 ring-1 ring-rule" open={plans.some((p) => p.id === selectedId)} data-testid="archived-plans">
       <summary className="cursor-pointer px-2 text-sm font-semibold text-ink">{t('account.archivedPlans', { count: plans.length })}</summary>
       <ul className="mt-3 space-y-2">
         {plans.map((p) => (
           <li key={p.id}>
-            <button type="button" onClick={() => onSelect(p.id)} className="w-full rounded-2xl px-3 py-2 text-left text-sm text-muted ring-1 ring-rule hover:text-ink">
+            <button
+              type="button"
+              onClick={() => onSelect(p.id)}
+              aria-current={p.id === selectedId ? 'true' : undefined}
+              className={`w-full rounded-2xl px-3 py-2 text-left text-sm ring-1 ring-rule hover:text-ink ${p.id === selectedId ? 'bg-paper-deep text-ink' : 'text-muted'}`}
+            >
               {planTitle(p, name, t('account.untitledPlan'))}
             </button>
           </li>
@@ -155,10 +160,27 @@ function PlanSettings({ plan, onGone }: { plan: SavedPlan; onGone: () => void })
   const update = useUpdatePlan()
   const action = usePlanAction()
   const [confirmDelete, setConfirmDelete] = useState(false)
+  const [title, setTitle] = useState(plan.title ?? '')
   const archivedPlan = plan.status === 'archived'
+  const titleChanged = title.trim() !== (plan.title ?? '')
 
   return (
     <div className="space-y-5 rounded-[2rem] bg-paper-deep/60 p-5 ring-1 ring-rule">
+      <form
+        className="flex flex-wrap items-end gap-2"
+        onSubmit={(e) => {
+          e.preventDefault()
+          if (titleChanged) update.mutate({ id: plan.id, title: title.trim() || null })
+        }}
+      >
+        <label className="block min-w-0 flex-1">
+          <span className="mb-1.5 block text-xs font-bold tracking-[0.14em] text-muted uppercase">{t('myPlans.name')}</span>
+          <input className={INPUT_CLASS} name="plan-title" maxLength={120} value={title} placeholder={t('myPlans.namePlaceholder')} onChange={(e) => setTitle(e.target.value)} />
+        </label>
+        <button type="submit" disabled={!titleChanged || update.isPending} className={buttonClass('secondary', 'sm')}>
+          {t('myPlans.rename')}
+        </button>
+      </form>
       {archivedPlan ? (
         <Notice tone="info">{t('account.archivedNote')}</Notice>
       ) : (
@@ -193,6 +215,7 @@ function PlanSettings({ plan, onGone }: { plan: SavedPlan; onGone: () => void })
         </>
       )}
       {update.isError && <Notice tone="error">{t('account.saveError')}</Notice>}
+      {action.isError && <Notice tone="error">{t('account.saveError')}</Notice>}
       <div className="flex flex-wrap gap-2 border-t border-rule pt-4">
         {archivedPlan ? (
           <>
@@ -308,6 +331,9 @@ function AddServiceFromLink({ plans, onSaved }: { plans: SavedPlanSummary[]; onS
   const serviceId = params.get('service')
   const name = useServiceName()
   const update = useUpdatePlan()
+  const create = useCreatePlan()
+  const profile = useProfile()
+  const [requestId] = useState(() => crypto.randomUUID())
   const [target, setTarget] = useState('')
   if (!serviceId) return null
   const clear = (planId?: string) => {
@@ -355,11 +381,26 @@ function AddServiceFromLink({ plans, onSaved }: { plans: SavedPlanSummary[]; onS
         <button type="button" className={buttonClass('ghost', 'sm')} onClick={() => clear()}>
           {t('vault.cancel')}
         </button>
-        <Link to={`/planner?mode=device&service=${encodeURIComponent(serviceId)}`} className="text-sm font-semibold text-jade-700 underline-offset-4 hover:underline">
-          {t('account.useDeviceInstead')}
-        </Link>
+        <button
+          type="button"
+          className={buttonClass(plans.length ? 'secondary' : 'primary', 'sm')}
+          disabled={create.isPending}
+          onClick={() =>
+            create.mutate(
+              { source: 'planner', target_service_ids: [serviceId], state: profile.data?.state ?? null, client_request_id: requestId },
+              {
+                onSuccess: (p) => {
+                  clear(p.id)
+                  onSaved(p.id)
+                },
+              },
+            )
+          }
+        >
+          {t('myPlans.newPlanWith')}
+        </button>
       </div>
-      {update.isError && <Notice tone="error">{t('account.saveError')}</Notice>}
+      {(update.isError || create.isError) && <Notice tone="error">{t('account.saveError')}</Notice>}
     </section>
   )
 }

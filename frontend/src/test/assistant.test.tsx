@@ -144,33 +144,6 @@ describe('Assistant', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent('Cannot reach the GovPath server.')
   })
 
-  it('sends the saved plan as workflow context and shows the planner result', async () => {
-    localStorage.setItem(
-      'govpath.planner.v1',
-      JSON.stringify({ targets: ['aadhaar-address-update'], owned: ['aadhaar_number'], completed: [], generated: true }),
-    )
-    const calls = backend(() => ({
-      ...answer,
-      workflow: {
-        generated_by: 'deterministic-planner',
-        next_action: { type: 'start_service', service_id: 'aadhaar-address-update', requirement_id: null, document_options: [], reason: { code: 'ready_independent', message: '', unblocks: [], parallel_with: [], documents_used: [], document_options: [] } },
-        steps: [{ service_id: 'aadhaar-address-update', status: 'ready', stage: 1, role: 'target' }],
-      },
-    }))
-    renderApp('/assistant')
-    expect(await screen.findByRole('checkbox', { name: 'Use my saved plan from the planner' })).toBeChecked()
-    await ask('What should I do first?')
-    expect(await screen.findByText('Next step: Aadhaar address update')).toBeInTheDocument()
-    expect(assistantCalls(calls)[0].workflow).toEqual({
-      target_service_ids: ['aadhaar-address-update'],
-      owned_document_ids: ['aadhaar_number'],
-      completed_service_ids: [],
-      progress: {},
-      document_states: {},
-      state: null,
-    })
-  })
-
   it('works in Hindi and sends the Hindi language code', async () => {
     const calls = backend(() => ({ ...answer, language: 'hi', answer: 'वर्तमान पते का कोई एक प्रमाण लगाएँ [S1]।' }))
     renderApp('/assistant')

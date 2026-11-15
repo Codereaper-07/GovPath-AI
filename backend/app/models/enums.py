@@ -86,6 +86,7 @@ class ActivityType(StrEnum):
     DOCUMENT_ADDED = "document_added"
     DOCUMENT_UPDATED = "document_updated"
     DOCUMENT_REMOVED = "document_removed"
+    DOCUMENT_EXPIRED = "document_expired"  # system: a "valid" document passed its expiry date
     PLAN_CREATED = "plan_created"
     PLAN_UPDATED = "plan_updated"
     PLAN_ARCHIVED = "plan_archived"
