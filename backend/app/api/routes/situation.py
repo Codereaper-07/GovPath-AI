@@ -31,6 +31,11 @@ GOAL_TEXT = {
     CitizenGoal.REGISTER_MARRIAGE: "register a marriage and get a marriage certificate",
     CitizenGoal.ENROL_CHILD_AADHAAR: "get Aadhaar for a young child",
     CitizenGoal.GET_PAN: "get a PAN card",
+    CitizenGoal.REGISTER_AS_VOTER: "register as a new voter / get a first Voter ID",
+    CitizenGoal.GET_PASSPORT: "get a first passport (never held one)",
+    CitizenGoal.UPDATE_AADHAAR_MOBILE: "register or change the mobile number linked to Aadhaar",
+    CitizenGoal.RENEW_DRIVING_LICENCE: "renew a driving licence",
+    CitizenGoal.REPLACE_LOST_DOCUMENT: "replace a lost or damaged driving licence or vehicle RC",
 }
 EVENT_TEXT = {
     LifeEvent.RELOCATION_IDENTITY: "moving home / keeping identity documents current",

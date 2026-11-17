@@ -28,8 +28,12 @@ class PlanRequestIn(BaseModel):
     document_states: dict[str, DocumentStateIn] = Field(default_factory=dict, max_length=200)
     # State/UT the citizen lives in (for region-specific services); None if unknown.
     state: str | None = Field(default=None, max_length=100)
+    # Documents the citizen explicitly said they do not have (vs. simply not declared).
+    lacking_document_ids: list[str] = Field(default_factory=list, max_length=200)
 
-    @field_validator("target_service_ids", "owned_document_ids", "completed_service_ids")
+    @field_validator(
+        "target_service_ids", "owned_document_ids", "completed_service_ids", "lacking_document_ids"
+    )
     @classmethod
     def _strip(cls, v: list[str]) -> list[str]:
         return _clean_ids(v)
@@ -98,6 +102,7 @@ class BlockerOut(_Out):
     blocked_by_service_ids: list[str]
     route_service_ids: list[str]
     evidence_ids: list[str]
+    route_needs_document_ids: list[str] = []
 
 
 class CompletedServiceOut(_Out):
@@ -117,6 +122,8 @@ class PlanClarificationOut(_Out):
     code: str
     service_id: str
     region: str | None
+    document_id: str | None = None
+    route_service_ids: list[str] = []
 
 
 class ProgressOut(_Out):

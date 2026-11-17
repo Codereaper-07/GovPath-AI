@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { EvidenceList } from '../../../components/knowledge/EvidenceList'
 import { Icon } from '../../../components/ui/Icon'
-import type { PlanResponse, PlanStep, ProcessState, RequirementStatus, StepStatus } from '../../../types/api'
+import type { PlanResponse, PlanStep, ProcessState, RequirementStatus, StepStatus, Blocker } from '../../../types/api'
 import type { PlanNames } from '../names'
 import { StatusNode } from './StatusNode'
 
@@ -138,6 +138,7 @@ function StepCard({
   const stateName = useStateName()
   const style = STATUS[step.status]
   const routes = plan.acquisition_routes.filter((r) => r.service_id === step.service_id)
+  const blockerFor = (id: string) => plan.blockers.find((b) => b.requirement_id === id && b.service_id === step.service_id)
   const evidence = plan.evidence.filter((e) => step.evidence_ids.includes(e.id))
   const mandatory = step.requirements.filter((r) => r.kind === 'mandatory')
   const other = step.requirements.filter((r) => r.kind !== 'mandatory')
@@ -205,13 +206,13 @@ function StepCard({
 
       <ul className="mt-4 space-y-2.5 border-t border-rule pt-4">
         {mandatory.map((r) => (
-          <RequirementLine key={r.requirement_id} r={r} names={names} onOwn={onOwn} preview={preview} />
+          <RequirementLine key={r.requirement_id} r={r} names={names} onOwn={onOwn} preview={preview} blocker={blockerFor(r.requirement_id)} />
         ))}
       </ul>
       {other.length > 0 && (
         <ul className="mt-3 space-y-2.5 border-t border-dashed border-rule pt-3">
           {other.map((r) => (
-            <RequirementLine key={r.requirement_id} r={r} names={names} onOwn={onOwn} preview={preview} />
+            <RequirementLine key={r.requirement_id} r={r} names={names} onOwn={onOwn} preview={preview} blocker={blockerFor(r.requirement_id)} />
           ))}
         </ul>
       )}
@@ -254,7 +255,19 @@ function StepCard({
   )
 }
 
-function RequirementLine({ r, names, onOwn, preview }: { r: RequirementStatus; names: PlanNames; onOwn: (id: string) => void; preview: boolean }) {
+function RequirementLine({
+  r,
+  names,
+  onOwn,
+  preview,
+  blocker,
+}: {
+  r: RequirementStatus
+  names: PlanNames
+  onOwn: (id: string) => void
+  preview: boolean
+  blocker?: Blocker
+}) {
   const { t } = useTranslation()
   const label = names.requirement(r.requirement_id, r.name)
   const optional = r.kind !== 'mandatory'
@@ -310,7 +323,17 @@ function RequirementLine({ r, names, onOwn, preview }: { r: RequirementStatus; n
         )}
         {r.state === 'missing' && (
           <div className="mt-1.5">
-            <p className="text-xs font-semibold text-crimson-600">{t('req.missing')}</p>
+            {/* Unknown (asked, not assumed) vs. obtainable later through a service vs. plain missing. */}
+            <p className="text-xs font-semibold text-crimson-600">
+              {blocker?.code === 'missing_document_status_unknown'
+                ? t('req.unknown')
+                : blocker?.code === 'missing_document_no_route' && (blocker.route_service_ids?.length ?? 0) > 0
+                  ? t('req.missingLater', {
+                      services: names.services(blocker.route_service_ids ?? []),
+                      documents: (blocker.route_needs_document_ids ?? []).map(names.document).join(t('common.listSeparator')),
+                    })
+                  : t('req.missing')}
+            </p>
             <div className="mt-1.5 flex flex-wrap gap-1.5">
               {r.document_options.map((d) => (
                 <button

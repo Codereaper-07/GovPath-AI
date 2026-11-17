@@ -80,7 +80,7 @@ Architecture: `docs/architecture.md`. Status, sources and next tasks: `PROGRESS.
 - `ServiceOutput`: a document a service issues/updates (e.g. Form 8 → replacement EPIC). Used only
   to build *acquisition routes*.
 - `ServicePrerequisite`: a verified "B before A" rule; evidence is **NOT NULL**. Currently zero
-  rows, because no official source states one between the five services.
+  rows, because no official source states one between the 16 services.
 - `SourceDocument` (url unique, content_text, content_hash, previous hash, retrieved/changed/
   verified timestamps, verification_status, duplicate_of, parent) 1–N `Evidence` (stable `key`,
   verbatim excerpt, locator, verification_status, excerpt_found_in_source).
@@ -140,7 +140,9 @@ Architecture: `docs/architecture.md`. Status, sources and next tasks: `PROGRESS.
   `needs_clarification` when state/record is unknown. API: `/api/workflows/discover`, `/vocabulary`.
 - `llm/situation.py` (+ `POST /api/situation/interpret`): AI extracts facts only (goals, life events, state,
   held/lacking documents and their conditions), closed vocabularies, validated; reviewed before use.
-  Not yet validated against live Gemini.
+  Live Gemini: validated on Scenarios A, B (+ retest) and C, one request per run (evidence for B/C in
+  `evidence/live-ai-validation/`); account context and corrections not fully validated live (local browser
+  tests use an offline simulated reader).
 - Proposal (`workflow/proposal.py`, pure; `POST /api/workflows/propose`): reviewed context → `discover` →
   existing `plan`. Supporting services come only from the planner; `target_service_ids` = the citizen's
   edited list. Statuses: ready / needs_clarification / no_supported_services / no_services_selected. A

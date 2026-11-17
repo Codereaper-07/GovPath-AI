@@ -153,7 +153,11 @@ def _summary_fields(p: UserPlan) -> dict:
         "blocked": prog.get("blocked", 0),
         "ready": prog.get("ready", 0),
         "next_action": (
-            {k: snap["next_action"].get(k) for k in ("type", "service_id")}
+            {
+                "type": snap["next_action"].get("type"),
+                "service_id": snap["next_action"].get("service_id"),
+                "reason_code": (snap["next_action"].get("reason") or {}).get("code"),
+            }
             if snap.get("next_action")
             else None
         ),

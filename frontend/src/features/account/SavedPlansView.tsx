@@ -146,7 +146,7 @@ function PlanCardBody({ plan: p, selected }: { plan: SavedPlanSummary; selected:
       {next && next.type !== 'none' && p.status === 'active' && (
         <span className={`mt-1 block text-xs font-semibold ${selected ? 'text-zest-300' : 'text-jade-700'}`} data-testid="plan-card-next">
           {next.type === 'obtain_document'
-            ? t('myPlans.nextGetDocument')
+            ? t(next.reason_code === 'confirm_document' ? 'myPlans.nextConfirmDocument' : 'myPlans.nextGetDocument')
             : next.type === 'follow_up'
               ? t('myPlans.nextFollowUp', { service: name(next.service_id ?? '') })
               : t('myPlans.nextStart', { service: name(next.service_id ?? '') })}
@@ -293,6 +293,7 @@ function SavedPlanBody({ plan, fetching }: { plan: SavedPlan; fetching: boolean 
   const setProgress = useSetProgress()
   const addDoc = useAddDocument()
   const action = usePlanAction()
+  const update = useUpdatePlan()
   const [changes, setChanges] = useState<PlanChange[] | null>(null)
   const [docError, setDocError] = useState<string | null>(null)
   const names = usePlanNames(plan.plan ?? undefined, services.data ?? [], documents.data ?? [])
@@ -349,6 +350,9 @@ function SavedPlanBody({ plan, fetching }: { plan: SavedPlan; fetching: boolean 
           onUndoDone={(id) => !frozen && progress(id, 'not_started')}
           onOwn={(id) => !frozen && own(id)}
           onProcess={(id, p) => !frozen && progress(id, p)}
+          onAddService={(sid) =>
+            !frozen && !plan.target_service_ids.includes(sid) && update.mutate({ id: plan.id, target_service_ids: [...plan.target_service_ids, sid] })
+          }
         />
       ) : (
         <ErrorState message={t('account.planLoadError')} />

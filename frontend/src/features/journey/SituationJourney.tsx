@@ -1,3 +1,4 @@
+import { StatusQuestions } from '../planner/components/StatusQuestions'
 import { usePlanName } from '../account/planName'
 import { useStateName } from '../../lib/useStateName'
 import { useEffect, useMemo, useRef, useState } from 'react'
@@ -1005,6 +1006,7 @@ function Proposal({
 
       {data.plan && (
         <div className="space-y-6">
+          <StatusQuestions plan={data.plan} names={names} onHave={hold} onLack={(doc) => lack(doc)} />
           <NextActionCard plan={data.plan} names={names} onOwn={hold} />
           <IssuesPanel plan={data.plan} names={names} />
           <Timeline plan={data.plan} names={names} preview onOwn={hold} onMarkDone={() => {}} onUndoDone={() => {}} onProcess={() => {}} />

@@ -25,7 +25,7 @@ from app.workflow.domain import (
     ProcessState,
     StepRole,
 )
-from app.workflow.planner import plan
+from app.workflow.planner import plan, shares_record
 
 
 class ProposalStatus(StrEnum):
@@ -188,17 +188,35 @@ def propose(
             status, found, (), None, (), uncovered_goals, uncovered_events, requested, suggested
         )
 
-    result = plan(
-        kb,
-        PlanRequest(
-            targets,
-            ctx.held_document_ids,
-            ctx.completed_service_ids,
-            progress=dict(progress or {}),
-            document_states=dict(document_states or {}),
-            citizen_state=ctx.state,
-        ),
+    def run(targets: tuple[str, ...]):
+        return plan(
+            kb,
+            PlanRequest(
+                targets,
+                ctx.held_document_ids,
+                ctx.completed_service_ids,
+                progress=dict(progress or {}),
+                document_states=dict(document_states or {}),
+                citizen_state=ctx.state,
+                lacking_document_ids=ctx.lacking_document_ids,
+            ),
+        )
+
+    result = run(targets)
+    # A document the citizen explicitly said they lack, issued only by an update of a record they
+    # already rely on (e.g. "my mobile is not registered with Aadhaar"), makes that update a
+    # service they chose: it is kept in the saved plan, which is re-evaluated without this text.
+    chosen = tuple(
+        dict.fromkeys(
+            r.service_id
+            for r in result.acquisition_routes
+            if r.document_id in ctx.lacking_document_ids
+            and shares_record(kb, r.for_service_id, r.service_id)
+        )
     )
+    if chosen:
+        targets = (*targets, *(c for c in chosen if c not in targets))
+        result = run(targets)
     supporting = []
     for step in result.steps:
         if step.role is StepRole.TARGET:

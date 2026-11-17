@@ -70,7 +70,8 @@
     "progressTitle": "Your progress",
     "progressNote": "Reported by you. GovPath cannot see department records.",
     "recentTitle": "Recent activity",
-    "blockedDoc": "Needs: {{document}}."
+    "blockedDoc": "Needs: {{document}}.",
+    "confirmDocument": "Check whether you already have: {{documents}}"
   },
   "services": {
     "title": "Government services",
@@ -200,7 +201,14 @@
     "blockersNeedAll_other": "All {{count}} of these requirements must be met: each one is needed separately.",
     "blockersObtainYourself_one": "No service in GovPath issues it, so you need to obtain it yourself.",
     "blockersObtainYourself_other": "No service in GovPath issues them, so you need to obtain them yourself.",
-    "obtainThisYourself": "No service in GovPath issues this, so you need to obtain it yourself."
+    "obtainThisYourself": "No service in GovPath issues this, so you need to obtain it yourself.",
+    "statusQuestion": "Do you already have: {{document}}?",
+    "statusWhy": "{{service}} needs it. GovPath will not assume you don’t have it. If you don’t, {{services}} can provide it.",
+    "statusYes": "Yes, I have it",
+    "statusNo": "No — add {{services}}",
+    "statusUnknownNote": "Not known yet: answer the question above. If you don’t have it, {{services}} can provide it.",
+    "confirmDocument": "Check a document you may already have",
+    "providedOnceYouHave": "Not available yet: {{services}} can provide it once you have {{documents}}."
   },
   "documents": {
     "title": "Documents",
@@ -355,7 +363,8 @@
     "parallel": "You can do it alongside: {{services}}.",
     "allComplete": "Nothing left to do for the selected services.",
     "awaitInProgress": "{{service}} is in progress. Follow it up with the authority; when you receive {{documents}}, report it as completed.",
-    "awaitUnblocks": "That unblocks: {{services}}."
+    "awaitUnblocks": "That unblocks: {{services}}.",
+    "confirmDocument": "First check whether you already have {{documents}}. {{service}} cannot proceed without it."
   },
   "stepStatus": {
     "ready": "Ready to start",
@@ -375,7 +384,9 @@
     "iHave": "I have {{document}}",
     "optionalHint": "Not required to proceed.",
     "alternatives": "Or, if you already have one: {{documents}}",
-    "unusable": "You marked {{documents}} as not usable."
+    "unusable": "You marked {{documents}} as not usable.",
+    "unknown": "Not known yet. Tick it if you already have it:",
+    "missingLater": "Missing. {{services}} can provide it once you have {{documents}}. Tick it if you already have it:"
   },
   "requirementType": {
     "mandatory": "Mandatory",
@@ -528,7 +539,12 @@
     "update-name-after-marriage": "Change my name after marriage",
     "register-marriage": "Register my marriage",
     "enrol-child-aadhaar": "Get Aadhaar for my child",
-    "get-pan": "Get a PAN card"
+    "get-pan": "Get a PAN card",
+    "register-as-voter": "Register as a voter",
+    "get-passport": "Get my first passport",
+    "update-aadhaar-mobile": "Register or change my mobile number in Aadhaar",
+    "renew-driving-licence": "Renew my driving licence",
+    "replace-lost-document": "Replace a lost or damaged licence or RC"
   },
   "processState": {
     "not_started": "Not started",
@@ -892,7 +908,8 @@
     "pickTitle": "Which services do you need?",
     "pickHint": "Select one or more. Services shared by two life events appear under both.",
     "planServices": "Services in this plan",
-    "planServicesHint": "Add or remove services; the plan is recalculated."
+    "planServicesHint": "Add or remove services; the plan is recalculated.",
+    "nextConfirmDocument": "Next: check a document you may already have"
   },
   "stateNames": {
     "Andhra Pradesh": "Andhra Pradesh",

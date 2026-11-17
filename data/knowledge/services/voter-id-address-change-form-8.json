@@ -30,7 +30,7 @@
       "name_hi": "मौजूदा मतदाता पहचान पत्र (EPIC) नंबर",
       "type": "mandatory",
       "description": "Form 8 shifting is for an elector who is already registered/enrolled.",
-      "notes": "If you are not enrolled yet, Form 8 is not the right form. Enrolment is outside the current knowledge base.",
+      "notes": "If you are not enrolled yet, Form 8 is not the right form: apply for new voter registration (Form 6) at your present address instead.",
       "evidence": [
         "eci-g8-registered-elector",
         "eci-f8-epic-no"

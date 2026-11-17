@@ -62,6 +62,26 @@
     {
       "url": "https://www.incometax.gov.in/iec/foportal/help/all-topics/e-filing-services/instant-e-pan/instant-UM",
       "authority": "Income Tax Department, Ministry of Finance"
+    },
+    {
+      "url": "https://voters.eci.gov.in/guidelines/Form-6_en.pdf",
+      "authority": "Election Commission of India (ECI)"
+    },
+    {
+      "url": "https://voters.eci.gov.in/formspdf/Form_6_English.pdf",
+      "authority": "Election Commission of India (ECI)"
+    },
+    {
+      "url": "https://parivahan.gov.in/en/content/renewal",
+      "authority": "Ministry of Road Transport and Highways (Parivahan Sewa)"
+    },
+    {
+      "url": "https://parivahan.gov.in/en/content/duplicate-licence",
+      "authority": "Ministry of Road Transport and Highways (Parivahan Sewa)"
+    },
+    {
+      "url": "https://parivahan.gov.in/en/content/duplicate-rc",
+      "authority": "Ministry of Road Transport and Highways (Parivahan Sewa)"
     }
   ]
 }

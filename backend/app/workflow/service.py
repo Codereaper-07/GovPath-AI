@@ -86,6 +86,7 @@ async def plan_workflow(
     progress: Mapping[str, str] | None = None,
     document_states: Mapping[str, str] | None = None,
     state: str | None = None,
+    lacking_document_ids: list[str] | None = None,
     cache: TTLCache | None = None,
 ) -> tuple[PlanResult, dict[str, dict]]:
     """Return the plan plus English/Hindi display names for every id it mentions."""
@@ -99,6 +100,7 @@ async def plan_workflow(
             progress={k: ProcessState(v) for k, v in (progress or {}).items()},
             document_states={k: DocumentState(v) for k, v in (document_states or {}).items()},
             citizen_state=normalise_state(state) or (state or None),
+            lacking_document_ids=tuple(lacking_document_ids or ()),
         ),
     )
     out = _plan_names(names, result, owned_document_ids, document_states)

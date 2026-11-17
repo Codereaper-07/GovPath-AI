@@ -3,7 +3,9 @@
 Validation happens before anything is written. Re-running with unchanged files creates
 nothing new. Verification rules:
 - A source is marked verified as of `verified_on`, unless ingestion has since detected a
-  content change (last_changed_at after verified_on): then it stays `needs_review`.
+  content change (last_changed_at after verified_on): then it stays `needs_review`. The first
+  fetch of a curated source is not a change (only a `changed` outcome sets
+  `previous_content_hash`); its excerpts are still checked against the fetched text.
 - Evidence is verified only if its source is verified and, when the source text has been
   ingested, the excerpt is actually found in it.
 - A requirement is verified only if it has at least one evidence item and all of its
@@ -292,7 +294,11 @@ async def apply_seed(session: AsyncSession, data: SeedData) -> SeedReport:
         changed_at = _aware(src.last_changed_at)
         if verified_at is None:
             pass
-        elif changed_at is not None and changed_at.date() > s.verified_on:
+        elif (
+            changed_at is not None
+            and src.previous_content_hash is not None  # first fetch is not a change
+            and changed_at.date() > s.verified_on
+        ):
             src.verification_status = VerificationStatus.NEEDS_REVIEW
             report.warnings.append(
                 f"source changed on {changed_at.date()} after verification on {s.verified_on}; "

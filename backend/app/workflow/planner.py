@@ -18,6 +18,14 @@ Edges come from exactly two places
    issues. The producer becomes a step that must finish first. Producers whose verified coverage
    excludes the citizen's state are never used; routes that would create a cycle are skipped; if
    no route remains the requirement is a blocker. Nothing else ever creates an edge.
+   Two route rules keep workflows possible and honest:
+   - A producer that itself needs an existing record the citizen lacks and no service issues
+     (e.g. Form 8 needs an existing EPIC; passport re-issue needs an old passport) is never used:
+     it could not be completed (the same rule discovery applies to candidates).
+   - If the only producers update the same existing record the requesting service relies on (a
+     mobile number registered with *that* Aadhaar), the citizen may already have the document, so
+     it is not presumed missing: GovPath asks (clarification) and routes only when the citizen
+     said they lack it or chose that service themselves.
 """
 
 from collections.abc import Iterable
@@ -123,6 +131,10 @@ class _Planner:
         self.routes: list[AcquisitionRoute] = []
         self.prereq_links: list[Dependency] = []
         self.out_of_region: dict[str, tuple[str, ...]] = {}  # requirement id -> producers
+        self.status_unknown: dict[str, tuple[str, ...]] = {}  # requirement id -> producers
+        # requirement id -> {producer: records it needs that the citizen lacks} (display only)
+        self.needs_record: dict[str, dict[str, tuple[str, ...]]] = {}
+        self.lacking = set(request.lacking_document_ids) - self.owned
         self.clarify: dict[str, Clarification] = {}
 
     # ------------------------------------------------------------ build graph
@@ -184,6 +196,10 @@ class _Planner:
             if r.blocks_progress and not any(d in self.owned for d in r.document_ids)
         )
 
+    def _missing_record(self, sid: str) -> bool:
+        """The service needs an existing record that the citizen lacks and no service issues."""
+        return any(not any(d in self.owned for d in g) for g in record_groups(self.kb, sid))
+
     def _resolve(self, sid: str, req: RequirementSpec) -> list[str]:
         """Set the requirement's status; return newly included service ids, if any."""
         owned = next((d for d in req.document_ids if d in self.owned), None)
@@ -210,6 +226,7 @@ class _Planner:
 
         candidates: list[tuple[tuple, str, str]] = []
         outside: set[str] = set()
+        ask: set[str] = set()
         cycle_view = self._cycle_view()
         for doc in req.document_ids:
             for producer in self.kb.producers_of(doc):
@@ -217,6 +234,24 @@ class _Planner:
                     continue
                 if self.kb.services[producer].available_in(self.state) is False:
                     outside.add(producer)
+                    continue
+                if self._missing_record(producer):
+                    lacking = tuple(
+                        d
+                        for g in record_groups(self.kb, producer)
+                        if not any(x in self.owned for x in g)
+                        for d in g
+                        if d not in req.document_ids
+                    )
+                    if len(req.document_ids) == 1 and lacking:
+                        self.needs_record.setdefault(req.id, {})[producer] = lacking
+                    continue  # could not be done: it needs a record the citizen cannot get
+                if (
+                    producer not in self.roles
+                    and doc not in self.lacking
+                    and shares_record(self.kb, sid, producer)
+                ):
+                    ask.add(producer)
                     continue
                 # Adding edge sid -> producer must not create a cycle.
                 if reaches(producer, sid, cycle_view):
@@ -228,6 +263,17 @@ class _Planner:
         if not candidates:
             if outside:
                 self.out_of_region[req.id] = tuple(sorted(outside))
+            elif ask:
+                self.status_unknown[req.id] = tuple(sorted(ask))
+                self.clarify.setdefault(
+                    f"{sid}:{req.id}",
+                    Clarification(
+                        ClarificationCode.DOCUMENT_STATUS_REQUIRED,
+                        sid,
+                        document_id=next(d for d in req.document_ids if self.kb.producers_of(d)),
+                        route_service_ids=tuple(sorted(ask)),
+                    ),
+                )
             self.req_status[req.id] = RequirementStatus(state=RequirementState.MISSING, **base)
             return []
 
@@ -436,7 +482,14 @@ class _Planner:
                 unusable=tuple(UnusableDocument(d, st) for d, st in sorted(self.unusable.items())),
             ),
             notices=tuple(notices),
-            clarifications=tuple(self.clarify[s] for s in order if s in self.clarify),
+            clarifications=(
+                *(self.clarify[s] for s in order if s in self.clarify),
+                *(
+                    c
+                    for k, c in sorted(self.clarify.items())
+                    if ":" in k and c.service_id in self.roles
+                ),
+            ),
             citizen_state=self.state,
         )
 
@@ -455,6 +508,21 @@ class _Planner:
                 f" You marked {self._options_text(tuple(unusable))} as "
                 f"{', '.join(sorted({self.unusable[d].value for d in unusable}))}."
             )
+        asked = self.status_unknown.get(m.requirement_id, ())
+        if asked and not outside:
+            message += (
+                f" GovPath does not know whether you already have it. If you don't, "
+                f"{self._names(asked)} can provide it."
+            )
+            return Blocker(
+                code=BlockerCode.STATUS_UNKNOWN,
+                service_id=sid,
+                requirement_id=m.requirement_id,
+                document_options=m.document_options,
+                route_service_ids=asked,
+                evidence_ids=m.evidence_ids,
+                message=message,
+            )
         if outside:
             regions = sorted({self.kb.services[p].region or "" for p in outside})
             message += (
@@ -469,9 +537,26 @@ class _Planner:
                 for e in self.kb.services[p].output_evidence.get(d, ())
             )
         else:
-            message += " None is held and no service in the knowledge base issues one."
             code = BlockerCode.MISSING_DOCUMENT_NO_ROUTE
             evidence = ()
+            later = self.needs_record.get(m.requirement_id, {})
+            if later:
+                needs = tuple(dict.fromkeys(d for docs in later.values() for d in docs))
+                message += (
+                    f" {self._names(tuple(sorted(later)))} can provide it once you have "
+                    f"{self._options_text(needs)}."
+                )
+                return Blocker(
+                    code=code,
+                    service_id=sid,
+                    requirement_id=m.requirement_id,
+                    document_options=m.document_options,
+                    route_service_ids=tuple(sorted(later)),
+                    route_needs_document_ids=needs,
+                    evidence_ids=m.evidence_ids,
+                    message=message,
+                )
+            message += " None is held and no service in the knowledge base issues one."
         return Blocker(
             code=code,
             service_id=sid,
@@ -549,7 +634,11 @@ class _Planner:
             b
             for b in blockers
             if b.code
-            in (BlockerCode.MISSING_DOCUMENT_NO_ROUTE, BlockerCode.ROUTE_OUTSIDE_JURISDICTION)
+            in (
+                BlockerCode.MISSING_DOCUMENT_NO_ROUTE,
+                BlockerCode.ROUTE_OUTSIDE_JURISDICTION,
+                BlockerCode.STATUS_UNKNOWN,
+            )
         ]
         order = {s.service_id: s.step_number for s in steps}
         if roots:
@@ -561,8 +650,12 @@ class _Planner:
                 ),
             )
             freed = tuple(sorted(dependents_closure(best_b.service_id, dep_view)))
+            confirm = best_b.code is BlockerCode.STATUS_UNKNOWN
             message = (
-                f"Obtain {self._options_text(best_b.document_options)} first. "
+                f"Check whether you already have {self._options_text(best_b.document_options)}. "
+                f"'{self.kb.services[best_b.service_id].name}' cannot proceed without it"
+                if confirm
+                else f"Obtain {self._options_text(best_b.document_options)} first. "
                 f"'{self.kb.services[best_b.service_id].name}' is blocked without it"
             )
             message += f", and so are: {self._names(freed)}." if freed else "."
@@ -572,7 +665,7 @@ class _Planner:
                 requirement_id=best_b.requirement_id,
                 document_options=best_b.document_options,
                 reason=Reason(
-                    code=ReasonCode.RESOLVE_BLOCKER,
+                    code=ReasonCode.CONFIRM_DOCUMENT if confirm else ReasonCode.RESOLVE_BLOCKER,
                     message=message,
                     unblocks=freed,
                     document_options=best_b.document_options,
@@ -627,3 +720,26 @@ def plan(snapshot: KnowledgeSnapshot, request: PlanRequest) -> PlanResult:
     planner = _Planner(snapshot, request)
     planner.build()
     return planner.result()
+
+
+def record_groups(kb, service_id: str) -> list[tuple[str, ...]]:
+    """Mandatory requirements of a service satisfiable only by existing records (documents of
+    category existing_record) that no service in the knowledge base issues."""
+    groups = []
+    for r in kb.services[service_id].requirements:
+        if not r.blocks_progress:
+            continue
+        docs = r.document_ids
+        if docs and all(
+            d in kb.documents and kb.documents[d].is_existing_record and not kb.producers_of(d)
+            for d in docs
+        ):
+            groups.append(docs)
+    return groups
+
+
+def shares_record(kb, service_id: str, producer_id: str) -> bool:
+    """Both services rely on the same existing record (e.g. both need the Aadhaar number): what
+    the producer issues is then an attribute of a record the citizen already has."""
+    mine = {frozenset(g) for g in record_groups(kb, service_id)}
+    return any(frozenset(g) in mine for g in record_groups(kb, producer_id))

@@ -729,11 +729,12 @@ def test_passport_topic_offers_only_curated_passport_services(app_and_client) ->
     client.patch("/api/me/profile", headers=HA, json={"state": "Delhi"})
     out = _interpret(application, client, SituationExtraction(), "I need to renew my passport.")
     assert out["topic"] == "passport"
-    assert out["topic_service_ids"] == [PASSPORT_ADDR, PASSPORT_NAME]  # nothing invented
+    # Every curated passport service, from the catalogue (nothing invented, no generic renewal).
+    assert out["topic_service_ids"] == ["passport-fresh-issue", PASSPORT_ADDR, PASSPORT_NAME]
     assert out["requested_service_ids"] == [] and out["goals"] == []  # nothing auto-selected
     # Hindi text is recognised too.
     hi = _interpret(application, client, SituationExtraction(), "मुझे पासपोर्ट नवीनीकरण करना है")
-    assert hi["topic_service_ids"] == [PASSPORT_ADDR, PASSPORT_NAME]
+    assert hi["topic_service_ids"] == ["passport-fresh-issue", PASSPORT_ADDR, PASSPORT_NAME]
     # When the model did understand the request, no topic question is asked.
     a = _interpret(
         application,

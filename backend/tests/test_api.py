@@ -8,7 +8,7 @@ def test_list_services(api_client):
     res = api_client.get("/api/services")
     assert res.status_code == 200
     services = res.json()
-    assert len(services) == 10
+    assert len(services) == 16
     assert all(s["life_events"] for s in services)
     aadhaar = next(s for s in services if s["id"] == AADHAAR)
     assert aadhaar["authority"].startswith("Unique Identification Authority")
@@ -46,7 +46,7 @@ def test_list_documents(api_client):
     res = api_client.get("/api/documents")
     assert res.status_code == 200
     docs = {d["id"]: d for d in res.json()}
-    assert len(docs) == 55
+    assert len(docs) == 65
     assert all(d["name_hi"] for d in docs.values())
     assert docs["aadhaar_current_address"]["issued_by_service_ids"] == [AADHAAR]
     assert DL in docs["aadhaar_current_address"]["accepted_by_service_ids"]

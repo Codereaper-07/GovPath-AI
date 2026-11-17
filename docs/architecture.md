@@ -1,8 +1,8 @@
 # GovPath AI — Architecture
 
 ## Goal
-Help citizens in India complete government-service workflows (initial scope: address change
-across Aadhaar, Voter ID, Driving Licence, Vehicle RC and Passport) in English and Hindi.
+Help citizens in India complete government-service workflows in English and Hindi: 16 verified
+services across relocation & identity, marriage & family, birth & parenthood and employment.
 
 ## Components
 | Part | Tech |
@@ -26,9 +26,11 @@ One backend service. No LangChain, no graph DB, no Docker, no microservices.
   knowledge/ (repository: verified facts)
             │ workflow/loader.py: verified-only snapshot
             ▼
-  workflow/ planner (pure, graphlib) ──► api/routes ──► frontend
-            ▲
-  rag/ + llm/ (future): explain an already-computed plan, labelled AI-generated
+  workflow/ discovery + planner (pure, graphlib) ──► api/routes ──► frontend
+            ▲                                            ▲
+  account/ (vault, progress, saved plans; re-plans)      │
+  rag/ (chunks → pgvector retrieval) + llm/ (Gemini): read the citizen's text into reviewed
+  facts, and explain an already-computed plan with validated citations
 ```
 - **ingestion/** collects evidence. It never marks anything verified; changed sources become
   `needs_review`.
@@ -36,7 +38,7 @@ One backend service. No LangChain, no graph DB, no Docker, no microservices.
   prerequisites, evidence.
 - **workflow/** is deterministic planning. `domain.py`, `graph.py`, `planner.py` and `errors.py`
   have no DB, web or AI imports.
-- **rag/** and **llm/** (future) never create or change plan steps.
+- **rag/** and **llm/** never create or change plan steps, requirements or dependencies.
 - Import rules are enforced by `backend/tests/test_layer_boundaries.py`.
 
 ## Data model
@@ -62,7 +64,9 @@ SourceDocument ─< Evidence      (verbatim excerpt, locator, verification statu
    frees the most steps. The reason is a structured code plus a deterministic message.
 
 The response contains only verified facts and rule-based reasoning (`generated_by:
-"deterministic-planner"`). A future AI explanation will be a separate, labelled field.
+"deterministic-planner"`). The assistant's AI explanation is returned separately and labelled.
+Two route rules: a producer that needs an existing record the citizen lacks is never used, and
+a document that only the same record's update could provide is asked about, not presumed missing.
 
 ## Database connectivity
 - `DATABASE_URL` accepts a plain Supabase `postgresql://` URL. It is rewritten to

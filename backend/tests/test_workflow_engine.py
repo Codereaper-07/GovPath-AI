@@ -183,15 +183,20 @@ def test_a_blocked_prerequisite_blocks_the_dependent_action():
 
 
 def test_missing_documents_for_a_repair_step_block_the_real_dependent(snapshot):
-    # Only the old licence is held: the Aadhaar update that would supply an address proof
-    # lacks its own documents, so the licence step is blocked by it, not waiting.
-    r = run(snapshot, [DL], ["driving_licence_existing"])
+    # The licence and an Aadhaar number are held: the Aadhaar update that would supply an address
+    # proof lacks its own documents, so the licence step is blocked by it, not waiting.
+    r = run(snapshot, [DL], ["driving_licence_existing", "aadhaar_number"])
     assert step(r, AADHAAR).status is StepStatus.BLOCKED
     assert step(r, DL).status is StepStatus.BLOCKED
     assert any(
         b.code is BlockerCode.DEPENDENCY_BLOCKED and b.blocked_by_service_ids == (AADHAAR,)
         for b in r.blockers
     )
+    # Without an Aadhaar number the Aadhaar update could never be done, so it is not used as a
+    # route: the address proof is a plain blocker instead.
+    only_dl = run(snapshot, [DL], ["driving_licence_existing"])
+    assert [s.service_id for s in only_dl.steps] == [DL]
+    assert any(b.code is BlockerCode.MISSING_DOCUMENT_NO_ROUTE for b in only_dl.blockers)
 
 
 # 5, 6, 14 -- ordering & next action

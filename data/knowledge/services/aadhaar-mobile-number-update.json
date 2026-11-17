@@ -1,0 +1,51 @@
+{
+  "slug": "aadhaar-mobile-number-update",
+  "name": "Register or update mobile number in Aadhaar",
+  "name_hi": "आधार में मोबाइल नंबर पंजीकृत / अपडेट करना",
+  "description": "Register a mobile number with Aadhaar (or change it) at an Aadhaar Enrolment Centre. A registered mobile number is needed for Aadhaar online services.",
+  "description_hi": "आधार नामांकन केंद्र पर आधार के साथ मोबाइल नंबर पंजीकृत करें (या बदलें)। आधार की ऑनलाइन सेवाओं के लिए पंजीकृत मोबाइल नंबर ज़रूरी है।",
+  "authority": "Unique Identification Authority of India (UIDAI)",
+  "jurisdiction": "national",
+  "category": "identity",
+  "life_events": [
+    "relocation-identity"
+  ],
+  "goals": [
+    "update-aadhaar-mobile"
+  ],
+  "official_info_url": "https://uidai.gov.in/en/updating-data-on-aadhaar",
+  "verification_notes": "UIDAI says a mobile number not registered at enrolment is registered at a Permanent Enrolment Centre; the update fields include Mobile Number. UIDAI's page does not list a supporting document for a mobile update, so none is modelled beyond the Aadhaar number. The Aadhaar app also offers Mobile Number Update; its own requirements are not modelled.",
+  "evidence": [
+    "uidai-mobile-register-at-centre",
+    "uidai-update-fields",
+    "uidai-mobile-essential",
+    "uidai-app-mobile-update"
+  ],
+  "requirements": [
+    {
+      "slug": "aadhaar-number",
+      "name": "Existing Aadhaar number",
+      "name_hi": "मौजूदा आधार नंबर",
+      "type": "mandatory",
+      "evidence": [
+        "uidai-centre-mode",
+        "uidai-mobile-register-at-centre"
+      ],
+      "options": [
+        {
+          "document": "aadhaar_number"
+        }
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "document": "mobile_linked_to_aadhaar",
+      "evidence": "uidai-mobile-register-at-centre"
+    }
+  ],
+  "state": null,
+  "application_url": null,
+  "prerequisites": [],
+  "last_verified_on": "2026-11-15"
+}

@@ -1,3 +1,4 @@
+import { StatusQuestions } from './StatusQuestions'
 import { useStateName } from '../../../lib/useStateName'
 import { useTranslation } from 'react-i18next'
 import { buttonClass } from '../../../components/ui/Button'
@@ -26,10 +27,13 @@ export function PlanResults(props: {
   onUndoDone: (id: string) => void
   onOwn: (id: string) => void
   onProcess: (id: string, state: ProcessState) => void
+  /** Bring a service into the plan (answer "No" to a status question). */
+  onAddService?: (serviceId: string) => void
 }) {
   const { t } = useTranslation()
   const stateName = useStateName()
   const { plan, names } = props
+  const stateQuestions = (plan?.clarifications ?? []).filter((c) => c.code === 'state_required')
 
   if (!props.hasTargets || !props.generated) {
     return (
@@ -154,14 +158,20 @@ export function PlanResults(props: {
           </div>
         )}
       </section>
-      {(plan.clarifications?.length ?? 0) > 0 && (
+      {stateQuestions.length > 0 && (
         <p className="rounded-2xl bg-zest-100 px-5 py-4 text-sm font-semibold text-ink ring-1 ring-zest-300">
           {t('planner.stateNeeded', {
-            services: names.services(plan.clarifications!.map((c) => c.service_id)),
-            regions: [...new Set(plan.clarifications!.map((c) => stateName(c.region)))].join(t('common.listSeparator')),
+            services: names.services(stateQuestions.map((c) => c.service_id)),
+            regions: [...new Set(stateQuestions.map((c) => stateName(c.region)))].join(t('common.listSeparator')),
           })}
         </p>
       )}
+      <StatusQuestions
+        plan={plan}
+        names={names}
+        onHave={props.onOwn}
+        onLack={props.onAddService ? (_doc, services) => services[0] && props.onAddService!(services[0]) : undefined}
+      />
       {(plan.notices ?? []).map((n) =>
         n.code === 'progress_outside_plan' ? (
           <div

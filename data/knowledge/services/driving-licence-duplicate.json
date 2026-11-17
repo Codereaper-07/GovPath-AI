@@ -1,0 +1,63 @@
+{
+  "slug": "driving-licence-duplicate",
+  "name": "Duplicate driving licence",
+  "name_hi": "डुप्लिकेट ड्राइविंग लाइसेंस",
+  "description": "Get a duplicate driving licence when the licence is lost or destroyed, defaced, torn or completely written up, or when its photograph needs replacement.",
+  "description_hi": "लाइसेंस खो जाने, नष्ट होने, खराब/फटने या पूरा भर जाने पर, या फ़ोटो बदलने की ज़रूरत होने पर डुप्लिकेट ड्राइविंग लाइसेंस प्राप्त करें।",
+  "authority": "State Transport Department / Licensing Authority (Parivahan Sewa, MoRTH)",
+  "jurisdiction": "state",
+  "category": "vehicle",
+  "life_events": [
+    "relocation-identity"
+  ],
+  "goals": [
+    "replace-lost-document"
+  ],
+  "application_form": "Form 2",
+  "official_info_url": "https://parivahan.gov.in/en/content/duplicate-licence",
+  "verification_notes": "From the Parivahan Sewa duplicate licence page (central guidance; State Transport Departments may differ). The listed documents are only needed 'if available', so they are optional. Fees are not modelled. This does not replace getting a first licence.",
+  "evidence": [
+    "pv-dupdl-circumstances",
+    "pv-dupdl-form2"
+  ],
+  "requirements": [
+    {
+      "slug": "original-licence",
+      "name": "Original licence (written up or defaced), if available",
+      "name_hi": "मूल लाइसेंस (भरा हुआ या खराब), यदि उपलब्ध हो",
+      "type": "optional",
+      "evidence": [
+        "pv-dupdl-original"
+      ],
+      "options": [
+        {
+          "document": "driving_licence_existing"
+        }
+      ]
+    },
+    {
+      "slug": "attested-copy",
+      "name": "Attested photocopy of the licence, if available (when lost)",
+      "name_hi": "लाइसेंस की सत्यापित फ़ोटोकॉपी, यदि उपलब्ध हो (खोने पर)",
+      "type": "optional",
+      "evidence": [
+        "pv-dupdl-photocopies"
+      ],
+      "options": [
+        {
+          "document": "driving_licence_attested_copy"
+        }
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "document": "driving_licence_duplicate",
+      "evidence": "pv-dupdl-circumstances"
+    }
+  ],
+  "state": null,
+  "application_url": null,
+  "prerequisites": [],
+  "last_verified_on": "2026-11-15"
+}

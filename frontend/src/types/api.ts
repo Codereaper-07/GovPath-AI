@@ -180,7 +180,7 @@ export interface PlanStep {
 }
 
 export interface Blocker {
-  code: 'missing_document_no_route' | 'missing_document_route_outside_jurisdiction' | 'dependency_blocked'
+  code: 'missing_document_no_route' | 'missing_document_route_outside_jurisdiction' | 'missing_document_status_unknown' | 'dependency_blocked'
   service_id: string
   message: string
   requirement_id: string | null
@@ -188,10 +188,12 @@ export interface Blocker {
   blocked_by_service_ids: string[]
   route_service_ids?: string[]
   evidence_ids?: string[]
+  /** No usable route yet: route_service_ids can provide it once the citizen has these records. */
+  route_needs_document_ids?: string[]
 }
 
 export interface ReasonOut {
-  code: 'unblocks_downstream' | 'ready_independent' | 'resolve_blocker' | 'await_in_progress' | 'all_complete'
+  code: 'unblocks_downstream' | 'ready_independent' | 'resolve_blocker' | 'confirm_document' | 'await_in_progress' | 'all_complete'
   message: string
   unblocks: string[]
   parallel_with: string[]
@@ -252,7 +254,14 @@ export interface PlanResponse {
   progress?: ProgressSummary | null
   document_summary?: DocumentSummary | null
   notices?: { code: string; service_id: string; message: string; related_service_ids: string[] }[]
-  clarifications?: { code: 'state_required'; service_id: string; region: string | null }[]
+  clarifications?: {
+    code: 'state_required' | 'document_status_required'
+    service_id: string
+    region: string | null
+    /** document_status_required: the document asked about and the services that can provide it. */
+    document_id?: string | null
+    route_service_ids?: string[]
+  }[]
   citizen_state?: string | null
   services: Record<string, DisplayName>
   requirements: Record<string, DisplayName>
@@ -329,7 +338,7 @@ export interface DocumentSummary {
   unusable: { document_id: string; state: DocumentState }[]
 }
 
-export type CitizenGoal = 'update-address' | 'update-name-after-marriage' | 'register-marriage' | 'enrol-child-aadhaar' | 'get-pan'
+export type CitizenGoal = 'update-address' | 'update-name-after-marriage' | 'register-marriage' | 'enrol-child-aadhaar' | 'get-pan' | 'register-as-voter' | 'get-passport' | 'update-aadhaar-mobile' | 'renew-driving-licence' | 'replace-lost-document'
 
 export interface CitizenContext {
   goals: string[]
@@ -541,7 +550,7 @@ export interface SavedPlanSummary {
   completed: number
   blocked: number
   ready: number
-  next_action: { type: string; service_id: string | null } | null
+  next_action: { type: string; service_id: string | null; reason_code?: string | null } | null
   evaluation_error: string | null
   created_at: string
   updated_at: string

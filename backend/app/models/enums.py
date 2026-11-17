@@ -18,6 +18,11 @@ class CitizenGoal(StrEnum):
     REGISTER_MARRIAGE = "register-marriage"
     ENROL_CHILD_AADHAAR = "enrol-child-aadhaar"
     GET_PAN = "get-pan"
+    REGISTER_AS_VOTER = "register-as-voter"
+    GET_PASSPORT = "get-passport"
+    UPDATE_AADHAAR_MOBILE = "update-aadhaar-mobile"
+    RENEW_DRIVING_LICENCE = "renew-driving-licence"
+    REPLACE_LOST_DOCUMENT = "replace-lost-document"
 
 
 class Jurisdiction(StrEnum):

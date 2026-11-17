@@ -125,6 +125,8 @@ class PlanRequest:
     progress: Mapping[str, ProcessState] = field(default_factory=dict)
     document_states: Mapping[str, DocumentState] = field(default_factory=dict)
     citizen_state: str | None = None  # state/UT the citizen lives in, if known
+    # Documents the citizen explicitly said they do NOT have (not merely "not declared").
+    lacking_document_ids: tuple[str, ...] = ()
 
 
 # ---------------------------------------------------------------- results
@@ -159,6 +161,9 @@ class BlockerCode(StrEnum):
     MISSING_DOCUMENT_NO_ROUTE = "missing_document_no_route"
     # A known service issues the document, but its verified coverage excludes the citizen's state.
     ROUTE_OUTSIDE_JURISDICTION = "missing_document_route_outside_jurisdiction"
+    # The only producer updates the same existing record this service relies on (e.g. a mobile
+    # registered with that Aadhaar): the citizen may already have it, so GovPath asks first.
+    STATUS_UNKNOWN = "missing_document_status_unknown"
     DEPENDENCY_BLOCKED = "dependency_blocked"
 
 
@@ -172,6 +177,7 @@ class NoticeCode(StrEnum):
 
 class ClarificationCode(StrEnum):
     STATE_REQUIRED = "state_required"  # a region-specific service is in play; state unknown
+    DOCUMENT_STATUS_REQUIRED = "document_status_required"  # see BlockerCode.STATUS_UNKNOWN
 
 
 class NextActionType(StrEnum):
@@ -185,6 +191,7 @@ class ReasonCode(StrEnum):
     UNBLOCKS_DOWNSTREAM = "unblocks_downstream"
     READY_INDEPENDENT = "ready_independent"
     RESOLVE_BLOCKER = "resolve_blocker"
+    CONFIRM_DOCUMENT = "confirm_document"  # a status GovPath cannot presume: ask the citizen
     AWAIT_IN_PROGRESS = "await_in_progress"
     ALL_COMPLETE = "all_complete"
 
@@ -258,6 +265,8 @@ class Clarification:
     code: ClarificationCode
     service_id: str
     region: str | None = None
+    document_id: str | None = None  # DOCUMENT_STATUS_REQUIRED: the document asked about
+    route_service_ids: tuple[str, ...] = ()  # ...and the services that can provide it
 
 
 @dataclass(frozen=True)
@@ -301,6 +310,10 @@ class Blocker:
     blocked_by_service_ids: tuple[str, ...] = ()
     route_service_ids: tuple[str, ...] = ()  # out-of-jurisdiction producers, if any
     evidence_ids: tuple[str, ...] = ()
+    # Presentation only (no effect on routing): for a single-document requirement with no usable
+    # route, services that issue it but first need a record the citizen lacks, and that record.
+    # E.g. the Aadhaar mobile update needs an Aadhaar number. Never "obtain it yourself" then.
+    route_needs_document_ids: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)

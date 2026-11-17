@@ -133,6 +133,7 @@ async def create_plan(
             progress=body.progress,
             document_states=body.document_states,
             state=body.state,
+            lacking_document_ids=body.lacking_document_ids,
             cache=cache,
         )
     except UnknownIdsError as exc:

@@ -53,10 +53,11 @@ async def test_every_service_has_valid_life_events_and_category_coverage(seeded_
         assert svc.life_events and set(svc.life_events) <= valid, svc.slug
         for e in svc.life_events:
             counts[e] += 1
-    assert counts["relocation-identity"] == 6  # 5 address services + Aadhaar name update
+    # 5 address services + Aadhaar name update + 6 identity/vehicle services of the first batch
+    assert counts["relocation-identity"] == 12
     assert counts["marriage-family"] == 3
     assert counts["birth-parenthood"] == 1
-    assert counts["employment-career"] == 1
+    assert counts["employment-career"] == 2  # e-PAN + fresh passport
     # Known coverage gap: no machine-readable official source verified yet for business services.
     assert counts["starting-business"] == 0
 

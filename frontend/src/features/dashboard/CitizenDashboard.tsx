@@ -136,7 +136,10 @@ function NextActions({ d }: { d: Dashboard }) {
                   <span className="block font-semibold text-ink">
                     {a.type === 'start_service' && t('planner.startService', { service: names.service(a.service_id) })}
                     {a.type === 'follow_up' && t('planner.followUp', { service: names.service(a.service_id) })}
-                    {a.type === 'obtain_document' && t('dashboard.getDocument', { documents: a.document_options.map(names.document).join(t('situation.or')) })}
+                    {a.type === 'obtain_document' &&
+                      t(a.reason_code === 'confirm_document' ? 'dashboard.confirmDocument' : 'dashboard.getDocument', {
+                        documents: a.document_options.map(names.document).join(t('situation.or')),
+                      })}
                   </span>
                   <span className="block text-xs text-muted">{planName(d.plans.find((p) => p.id === a.plan_id) ?? { title: a.plan_title })}</span>
                 </span>

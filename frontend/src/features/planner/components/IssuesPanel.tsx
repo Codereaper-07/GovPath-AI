@@ -17,7 +17,10 @@ export function IssuesPanel({ plan, names }: { plan: PlanResponse; names: PlanNa
   // Each blocker is ONE mandatory requirement (all are needed); its document_options are that
   // requirement's OR group (any one satisfies it). Only state "obtain it yourself" for the whole
   // list when no listed requirement has a producing service at all.
-  const allNoRoute = missing.length > 0 && missing.every((b) => b.code === 'missing_document_no_route')
+  // Truly "obtain it yourself" only when no service can ever provide it (not even after another
+  // record is obtained, e.g. the Aadhaar mobile update once there is an Aadhaar number).
+  const ownOnly = (b: (typeof missing)[number]) => b.code === 'missing_document_no_route' && !(b.route_service_ids?.length ?? 0)
+  const allNoRoute = missing.length > 0 && missing.every(ownOnly)
 
   return (
     <section className="rounded-3xl border-2 border-crimson-200 bg-crimson-50 p-6">
@@ -39,7 +42,20 @@ export function IssuesPanel({ plan, names }: { plan: PlanResponse; names: PlanNa
                 <span className="font-bold text-ink">{names.service(b.service_id)}</span>
                 {b.requirement_id && <span className="text-muted"> · {names.requirement(b.requirement_id, b.requirement_id)}</span>}
                 <span className="mt-0.5 block text-ink/80">{names.options(b.document_options, 3)}</span>
-                {!allNoRoute && b.code === 'missing_document_no_route' && (
+                {b.code === 'missing_document_status_unknown' && (
+                  <span className="mt-1.5 block text-xs font-semibold text-crimson-700">
+                    {t('planner.statusUnknownNote', { services: names.services(b.route_service_ids ?? []) })}
+                  </span>
+                )}
+                {b.code === 'missing_document_no_route' && (b.route_service_ids?.length ?? 0) > 0 && (
+                  <span className="mt-1.5 block text-xs font-semibold text-crimson-700">
+                    {t('planner.providedOnceYouHave', {
+                      services: names.services(b.route_service_ids ?? []),
+                      documents: (b.route_needs_document_ids ?? []).map(names.document).join(t('common.listSeparator')),
+                    })}
+                  </span>
+                )}
+                {!allNoRoute && ownOnly(b) && (
                   <span className="mt-1.5 block text-xs font-semibold text-crimson-700">{t('planner.obtainThisYourself')}</span>
                 )}
                 {b.code === 'missing_document_route_outside_jurisdiction' && (

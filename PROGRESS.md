@@ -334,7 +334,8 @@ clean. `alembic check`: no drift.
 - Checks: backend 259 passed, frontend 88 passed; ruff, typecheck, lint, build clean. Real-browser E2E
   (Gemini replaced by an offline fake): 17/17. Independent review by a second Claude model (Sonnet);
   its 3 confirmed defects fixed with regression tests.
-- Pending: live Gemini validation of the situation reader (quota exhausted).
+- Pending: live Gemini validation of the situation reader (quota exhausted). Partly done since: Scenarios A, B,
+  B-retest and C ran live on 2026-11-15 (see Remaining work).
 
 ## Identity milestone 1 — accounts & citizen profile (2026-11-14)
 - Supabase Auth (email/password) via `supabase-js` (auth only; publishable key). Backend verifies access
@@ -382,8 +383,81 @@ clean. `alembic check`: no drift.
 - Multiple active plans: removed the services+state "same plan" rule (it returned/blocked genuinely separate plans);
   repeated submissions are de-duplicated by `client_request_id`. Plans can be named and renamed.
 
+## Knowledge expansion — batch 1 (2026-11-15, validated on a local database; not yet seeded to Supabase)
+- 6 new services (16 total), every requirement/output cited verbatim (57 new excerpts, checked with
+  `excerpt_in_text` against the fetched official text on 2026-11-15): `voter-id-new-registration-form-6` (ECI Form 6 +
+  guidelines), `passport-fresh-issue` (booklet V3.0, adult citizen by birth, normal), `aadhaar-mobile-number-update`
+  (UIDAI), `driving-licence-renewal`, `driving-licence-duplicate`, `vehicle-duplicate-rc` (Parivahan pages; state
+  transport departments may differ). 5 goals added (`register-as-voter`, `get-passport`, `update-aadhaar-mobile`,
+  `renew-driving-licence`, `replace-lost-document`); 10 new document types (65 total). No migration (goals are a JSON list).
+- Duplicates and the fresh passport produce their *own* documents, so they never stand in for "you have an RC /
+  licence / passport" (a citizen without a vehicle is never routed to a duplicate RC).
+- e-PAN's Aadhaar-registered mobile: asked when unknown; routed through the UIDAI mobile update only when the
+  citizen says it is not registered (was a dead end). Without an Aadhaar number the update is shown as "can provide
+  it once you have an Aadhaar number" (display-only `route_needs_document_ids`), never "obtain it yourself".
+- Not modelled: fees, Non-ECR proof, police verification, Form 6 / passport "any other document" fallbacks,
+  Tatkaal/minors, duplicate-RC proof of address and commercial-vehicle clearances (see each `verification_notes`).
+- **Route rules (fixed 2026-11-15):** (1) a producer that needs an existing record the citizen lacks and no service
+  issues is never used as a route (same rule as discovery: `planner.record_groups`); (2) a document whose only source
+  updates the same record the requesting service relies on (mobile registered with *that* Aadhaar) is not presumed
+  missing: clarification `document_status_required` + blocker `missing_document_status_unknown` + next-action reason
+  `confirm_document`; routed only when declared lacking (`lacking_document_ids`) or the service was chosen. A proposal
+  turns a declared gap into a chosen service so saved plans stay consistent. Form 6 now issues its own document
+  (`voter_id_new_registration`) so address proofs are never routed through a new registration.
+- Scenario A re-evaluated (empty vault): no Instant e-PAN step any more (it needs an Aadhaar number, which alone
+  satisfies marriage registration's identity proof); marriage registration -> both name updates. Scenario C unchanged.
+
+## Final integration & validation (2026-11-15, local only, feature freeze)
+No Gemini calls, no production writes, no deployment. Local database: PostgreSQL 16.2 + pgvector (scratch install,
+127.0.0.1 only; `DB_SSLMODE=disable`, `GEMINI_API_KEY` empty).
+- **Schema:** `alembic upgrade head` (0001–0009) clean; `alembic check`: no changes, so batch 1 needs no migration.
+- **Seed:** 16 services, 65 document types, 18 sources, 168 excerpts, 56 requirements, 132 options, 17 outputs, 0 prerequisites;
+  second run "nothing (already up to date)". Integrity queries: 0 requirements/services/outputs without evidence,
+  0 requirements without options, 0 unused documents, 0 missing Hindi names.
+- **Ingestion** (real fetch of all allowlisted sources): 18/18 curated sources stored, plus 1 linked UIDAI PDF
+  (unverified, not curated). Every one of the 168 excerpts was found in the fetched text. Two temporary
+  failures were reported and succeeded on re-run: a Parivahan Form 2 connection reset, and incometax.gov.in robots.txt returning 503
+  (treated as disallow, by design). Re-runs: `unchanged`.
+- **Defect fixed (seed):** re-seeding after the *first* ingestion turned 11 verified sources, 87 excerpts and
+  31 requirements into `needs_review`. Cause: ingestion sets `last_changed_at` on the first fetch, and the seed
+  treated it as a change after `verified_on`. Now only a recorded change (`previous_content_hash`, set on a
+  `changed` outcome) counts. This also corrects existing rows, with no data migration. Regression test
+  `test_first_ingestion_after_verification_keeps_the_source_verified`. After the fix: all 18 sources and 168 excerpts verified.
+- **Chunks:** `scripts.embed --dry-run` gives 236 chunks across 19 sources (idempotent: 236 unchanged on re-run). Every chunk
+  equals `content_text[char_start:char_end]`. 167/168 excerpts lie inside one chunk (`pp-fresh-documents` spans two;
+  evidence is linked per source, so it is still traced).
+- **Local embedding complete (verified in the local PostgreSQL database):** 236 chunks, 236 real `gemini-embedding-2`
+  vectors, 768 dimensions, 0 pending. Done in two paced runs (the first stopped on a 429 after 96 chunks; no retries,
+  nothing overwritten); 3 real query embeddings retrieved the expected official sources. **Production embedding is
+  still pending deployment** (see Remaining work).
+- **RAG on real pgvector** (deterministic fake vectors in one transaction, rolled back; no Gemini):
+  - the pgvector top-5 equals Python cosine with the same per-source cap;
+  - the assistant cites official excerpts and echoes the planner's plan;
+  - the prompt delimits `<source>` text and lists covered services;
+  - an unknown citation id is dropped and the answer downgraded to `partial`;
+  - with no relevant excerpts or facts it answers "insufficient" with no generation call.
+- **Checks:** backend 386 passed; ruff check and format clean. Frontend 93 passed; typecheck, lint and build clean.
+- **Browser** (real backend code on fresh seeded SQLite, fake Supabase Auth, offline reader instead of Gemini):
+  130/130 checks over 7 scripts, with no console errors and no unexpected failed requests. Coverage:
+  - auth and sessions; account isolation (B sees none of A's data, and a 404 on every read/write/archive/delete of A's ids);
+  - combined, separate and double-clicked plans; ordering, parallel stages and next action;
+  - vault, expiry (idempotent) and progress re-planning;
+  - marriage Scenarios A and C;
+  - first-time versus existing voter/passport holder;
+  - Aadhaar mobile registered, unregistered and unknown;
+  - the passport topic question; unsupported situations;
+  - English and Hindi at 390 px.
+  Two outdated script expectations were corrected (ISO date → "15 Nov 2026"; the out-of-order notice is checked
+  before its dependency is completed).
+- Docs: README rewritten for the final scope; deployment checklist in `docs/deployment.md`.
+
 ## Remaining work
-- [ ] Validate the AI situation reader (incl. account context, requested services, corrections) against live Gemini.
+- [ ] Production: seed batch 1, ingest, re-seed, embed (approval + quota needed; order in `docs/deployment.md`).
+- [ ] Live Gemini validation of the situation reader, partly done (2026-11-15, one request per run, no retries):
+  Scenario A (married in Delhi, name updates; passed on a retest after a provider 503, no evidence saved), Scenario B
+  (incomplete passport request; partial pass, passed on the retest after fixes) and Scenario C (missing marriage
+  certificate); evidence for B, B-retest and C in `evidence/live-ai-validation/`. Still to validate live:
+  account-context behaviour and correction handling (so far only covered locally with the offline simulated reader).
 - [ ] Schedule `scripts.expire_documents` (or the cron endpoint) daily after 00:00 IST in the deployment.
 - [ ] Verified service prerequisites: none found in official sources yet (engine supports them).
 - [ ] Departmental status integration (read-only).
@@ -391,7 +465,7 @@ clean. `alembic check`: no drift.
 - [ ] Complete the answer evaluation and the A/B/C baselines when Gemini quota allows (≤ 85 requests).
 - [ ] Narrow relocation detection (generic "new address" phrases over-include services).
 - [ ] Starting-a-business services (Udyam, GST) and birth registration: find machine-readable official sources.
-- [ ] Embed the 21 new chunks (`python -m scripts.embed`, ~2 requests) when quota allows.
+- [ ] Embed the new/changed chunks on production (`scripts.embed --dry-run` gives the count; full catalogue = 236 chunks, ~15 requests).
 - [ ] Persist usage counters across API restarts.
 
 ## Later

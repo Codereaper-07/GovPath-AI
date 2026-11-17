@@ -17,7 +17,8 @@ Nothing here orders services or decides readiness: that is the planner's job.
 from dataclasses import dataclass
 from enum import StrEnum
 
-from app.workflow.domain import Kind, KnowledgeSnapshot
+from app.workflow.domain import KnowledgeSnapshot
+from app.workflow.planner import record_groups
 
 
 class CandidateStatus(StrEnum):
@@ -74,18 +75,9 @@ class DiscoveryResult:
 
 
 def _record_groups(kb: KnowledgeSnapshot, service_id: str) -> list[tuple[str, ...]]:
-    """Mandatory requirements satisfiable only by existing records that no service issues."""
-    groups = []
-    for r in kb.services[service_id].requirements:
-        if r.kind is not Kind.MANDATORY:
-            continue
-        docs = r.document_ids
-        if docs and all(
-            d in kb.documents and kb.documents[d].is_existing_record and not kb.producers_of(d)
-            for d in docs
-        ):
-            groups.append(docs)
-    return groups
+    """Mandatory requirements satisfiable only by existing records that no service issues (the
+    planner's own rule, so discovery and route selection always agree)."""
+    return record_groups(kb, service_id)
 
 
 def discover(kb: KnowledgeSnapshot, ctx: CitizenContext) -> DiscoveryResult:

@@ -52,6 +52,9 @@ export function useReasonText() {
         if (r.unblocks.length) text += ' ' + t('reason.awaitUnblocks', { services: names.services(r.unblocks) })
         break
       }
+      case 'confirm_document':
+        text = t('reason.confirmDocument', { documents: names.options(r.document_options), service })
+        break
       case 'resolve_blocker':
         text = t('reason.resolveBlocker', { documents: names.options(r.document_options), service })
         if (r.unblocks.length) text += ' ' + t('reason.alsoBlocked', { services: names.services(r.unblocks) })

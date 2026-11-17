@@ -31,7 +31,7 @@ export function NextActionCard({
       </p>
       <h2 className="relative mt-3 max-w-2xl font-display text-3xl leading-tight font-semibold tracking-tight text-paper sm:text-4xl">
         {a.type === 'start_service' && a.service_id && t('planner.startService', { service: names.service(a.service_id) })}
-        {a.type === 'obtain_document' && t('planner.obtainDocument')}
+        {a.type === 'obtain_document' && t(a.reason.code === 'confirm_document' ? 'planner.confirmDocument' : 'planner.obtainDocument')}
         {a.type === 'follow_up' && a.service_id && t('planner.followUp', { service: names.service(a.service_id) })}
         {a.type === 'none' && t('planner.allDone')}
       </h2>

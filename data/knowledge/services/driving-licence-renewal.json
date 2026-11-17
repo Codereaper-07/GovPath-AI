@@ -1,0 +1,79 @@
+{
+  "slug": "driving-licence-renewal",
+  "name": "Driving licence renewal",
+  "name_hi": "ड्राइविंग लाइसेंस का नवीनीकरण",
+  "description": "Renew a driving licence with the Licensing Authority. An application is entertained up to one month before expiry; if more than five years late, the formalities for a fresh licence apply.",
+  "description_hi": "लाइसेंसिंग प्राधिकरण से ड्राइविंग लाइसेंस का नवीनीकरण कराएँ। आवेदन समाप्ति से अधिकतम एक महीने पहले स्वीकार होता है; पाँच वर्ष से अधिक देर होने पर नए लाइसेंस की औपचारिकताएँ लागू होती हैं।",
+  "authority": "State Transport Department / Licensing Authority (Parivahan Sewa, MoRTH)",
+  "jurisdiction": "state",
+  "category": "vehicle",
+  "life_events": [
+    "relocation-identity"
+  ],
+  "goals": [
+    "renew-driving-licence"
+  ],
+  "application_form": "Form 2",
+  "official_info_url": "https://parivahan.gov.in/en/content/renewal",
+  "verification_notes": "From the Parivahan Sewa renewal page (central guidance; State Transport Departments administer licences and may differ). Fees are not modelled. Form 1 applies to non-transport vehicles and Form 1A to transport vehicles, so both are conditional. An expired licence can still be renewed; GovPath cannot express 'an expired copy is acceptable here', so tick the licence as available for this service.",
+  "evidence": [
+    "pv-renew-window",
+    "pv-renew-five-years"
+  ],
+  "requirements": [
+    {
+      "slug": "driving-licence",
+      "name": "Driving licence",
+      "name_hi": "ड्राइविंग लाइसेंस",
+      "type": "mandatory",
+      "evidence": [
+        "pv-renew-requirements-dl"
+      ],
+      "options": [
+        {
+          "document": "driving_licence_existing"
+        }
+      ]
+    },
+    {
+      "slug": "fitness-self-declaration",
+      "name": "Self-declaration of physical fitness (Form 1)",
+      "name_hi": "शारीरिक फ़िटनेस का स्व-घोषणा पत्र (फ़ॉर्म 1)",
+      "type": "conditional",
+      "condition": "Only for non-transport vehicles.",
+      "evidence": [
+        "pv-renew-form1"
+      ],
+      "options": [
+        {
+          "document": "fitness_self_declaration_form1"
+        }
+      ]
+    },
+    {
+      "slug": "medical-certificate",
+      "name": "Medical certificate (Form 1A)",
+      "name_hi": "चिकित्सा प्रमाणपत्र (फ़ॉर्म 1A)",
+      "type": "conditional",
+      "condition": "Only for transport vehicles.",
+      "evidence": [
+        "pv-renew-form1a"
+      ],
+      "options": [
+        {
+          "document": "medical_certificate_form1a"
+        }
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "document": "driving_licence_renewed",
+      "evidence": "pv-renew-effect"
+    }
+  ],
+  "state": null,
+  "application_url": null,
+  "prerequisites": [],
+  "last_verified_on": "2026-11-15"
+}

@@ -1,0 +1,127 @@
+{
+  "slug": "vehicle-duplicate-rc",
+  "name": "Duplicate vehicle registration certificate (RC)",
+  "name_hi": "डुप्लिकेट वाहन पंजीकरण प्रमाणपत्र (आरसी)",
+  "description": "Get a duplicate RC from the last registering authority (Form 26) when the registration certificate is lost, mutilated, torn or used up. A loss or theft is first reported to the police.",
+  "description_hi": "पंजीकरण प्रमाणपत्र खो जाने, क्षतिग्रस्त, फटने या पूरा भर जाने पर अंतिम पंजीकरण प्राधिकरण से (फ़ॉर्म 26) डुप्लिकेट आरसी प्राप्त करें। गुम होने या चोरी की सूचना पहले पुलिस को दी जाती है।",
+  "authority": "State Transport Department / Registering Authority (Parivahan Sewa, MoRTH)",
+  "jurisdiction": "state",
+  "category": "vehicle",
+  "life_events": [
+    "relocation-identity"
+  ],
+  "goals": [
+    "replace-lost-document"
+  ],
+  "application_form": "Form 26",
+  "official_info_url": "https://parivahan.gov.in/en/content/duplicate-rc",
+  "verification_notes": "From the Parivahan Sewa duplicate RC page (central guidance; State Transport Departments may differ). Documents marked with an asterisk 'may be required in some states', so they are conditional. Proof of address, signature identification, and challan/tax clearance (commercial vehicles only) are listed but not modelled. Fees are not modelled. The duplicate RC is modelled as its own document so that it never stands in for 'you have an RC': a citizen without a vehicle must not be routed to a duplicate.",
+  "evidence": [
+    "pv-duprc-about",
+    "pv-duprc-form26"
+  ],
+  "requirements": [
+    {
+      "slug": "puc",
+      "name": "Pollution under control certificate",
+      "name_hi": "प्रदूषण नियंत्रण प्रमाणपत्र",
+      "type": "mandatory",
+      "evidence": [
+        "pv-duprc-puc"
+      ],
+      "options": [
+        {
+          "document": "puc_certificate"
+        }
+      ]
+    },
+    {
+      "slug": "insurance",
+      "name": "Valid insurance certificate",
+      "name_hi": "वैध बीमा प्रमाणपत्र",
+      "type": "mandatory",
+      "evidence": [
+        "pv-duprc-insurance"
+      ],
+      "options": [
+        {
+          "document": "vehicle_insurance_certificate"
+        }
+      ]
+    },
+    {
+      "slug": "police-certificate",
+      "name": "Police certificate in case of theft/loss",
+      "name_hi": "चोरी/गुम होने पर पुलिस प्रमाणपत्र",
+      "type": "conditional",
+      "condition": "Only if the RC was stolen or lost.",
+      "evidence": [
+        "pv-duprc-police-certificate",
+        "pv-duprc-report-loss"
+      ],
+      "options": [
+        {
+          "document": "police_report_lost_document"
+        }
+      ]
+    },
+    {
+      "slug": "pan-or-form-60",
+      "name": "Attested PAN card copy or Form 60 & 61",
+      "name_hi": "सत्यापित पैन कार्ड प्रति या फ़ॉर्म 60 और 61",
+      "type": "conditional",
+      "condition": "May be required in some states.",
+      "evidence": [
+        "pv-duprc-pan",
+        "pv-duprc-some-states"
+      ],
+      "options": [
+        {
+          "document": "pan_or_form_60_61"
+        }
+      ]
+    },
+    {
+      "slug": "chassis-engine-print",
+      "name": "Pencil print of chassis and engine number",
+      "name_hi": "चेसिस और इंजन नंबर की पेंसिल प्रिंट",
+      "type": "conditional",
+      "condition": "May be required in some states.",
+      "evidence": [
+        "pv-duprc-chassis",
+        "pv-duprc-some-states"
+      ],
+      "options": [
+        {
+          "document": "chassis_engine_pencil_print"
+        }
+      ]
+    },
+    {
+      "slug": "lost-rc-affidavit",
+      "name": "Affidavit that the RC is lost and not impounded",
+      "name_hi": "आरसी गुम होने और ज़ब्त न होने का शपथपत्र",
+      "type": "conditional",
+      "condition": "May be required in some states.",
+      "evidence": [
+        "pv-duprc-affidavit",
+        "pv-duprc-some-states"
+      ],
+      "options": [
+        {
+          "document": "affidavit_rc_lost"
+        }
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "document": "rc_duplicate",
+      "evidence": "pv-duprc-about"
+    }
+  ],
+  "state": null,
+  "application_url": null,
+  "prerequisites": [],
+  "last_verified_on": "2026-11-15"
+}

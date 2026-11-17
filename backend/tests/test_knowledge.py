@@ -32,6 +32,13 @@ SERVICES = {
     "passport-reissue-name-change-marriage",
     "child-aadhaar-enrolment",
     "instant-e-pan",
+    # first expansion batch (2026-11-15)
+    "voter-id-new-registration-form-6",
+    "passport-fresh-issue",
+    "aadhaar-mobile-number-update",
+    "driving-licence-renewal",
+    "driving-licence-duplicate",
+    "vehicle-duplicate-rc",
 }
 
 
@@ -222,7 +229,7 @@ async def test_source_changed_after_verification_is_not_reverified(session_facto
             await s.execute(select(SourceDocument).where(SourceDocument.url == url))
         ).scalar_one()
         src.content_text = "completely different text"
-        src.content_hash = "x"
+        src.previous_content_hash, src.content_hash = src.content_hash or "old", "x"
         src.last_changed_at = datetime(2099, 1, 1, tzinfo=UTC)
         src.verification_status = VerificationStatus.NEEDS_REVIEW
         await s.commit()
@@ -243,6 +250,40 @@ async def test_source_changed_after_verification_is_not_reverified(session_facto
         aadhaar = await repository.get_service(s, "aadhaar-address-update")
         statuses = {r.slug: r.verification_status for r in aadhaar.requirements}
         assert statuses["aadhaar-number"] is not VerificationStatus.VERIFIED
+
+
+async def test_first_ingestion_after_verification_keeps_the_source_verified(
+    session_factory, seed_data
+):
+    """Regression: the first fetch (outcome `new`) sets last_changed_at but is not a change, so
+    re-seeding after the first ingestion must not downgrade a verified source whose excerpts
+    match."""
+    source = seed_data.sources[0]
+    async with session_factory() as s:
+        await apply_seed(s, seed_data)
+        await s.commit()
+    async with session_factory() as s:
+        src = (
+            await s.execute(select(SourceDocument).where(SourceDocument.url == source.url))
+        ).scalar_one()
+        src.content_text = "\n".join(e.excerpt for e in source.evidence)
+        src.content_hash = "first-fetch"
+        src.first_retrieved_at = src.last_changed_at = datetime(2099, 1, 1, tzinfo=UTC)
+        await s.commit()
+    async with session_factory() as s:
+        report = await apply_seed(s, seed_data)
+        await s.commit()
+        src = (
+            await s.execute(
+                select(SourceDocument)
+                .options(selectinload(SourceDocument.evidence))
+                .where(SourceDocument.url == source.url)
+            )
+        ).scalar_one()
+        assert src.verification_status is VerificationStatus.VERIFIED
+        assert all(e.verification_status is VerificationStatus.VERIFIED for e in src.evidence)
+        assert all(e.excerpt_found_in_source for e in src.evidence)
+        assert not any(source.url in w for w in report.warnings)
 
 
 async def test_seed_flags_evidence_missing_from_ingested_text(session_factory, seed_data):

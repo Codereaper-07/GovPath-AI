@@ -1,0 +1,134 @@
+{
+  "slug": "passport-fresh-issue",
+  "name": "Fresh passport (adult, first passport)",
+  "name_hi": "नया पासपोर्ट (वयस्क, पहला पासपोर्ट)",
+  "description": "Apply for your first passport if you have never held one: an adult citizen by birth submits proof of present address and proof of date of birth.",
+  "description_hi": "यदि आपके पास कभी पासपोर्ट नहीं रहा है, तो पहले पासपोर्ट के लिए आवेदन करें: जन्म से नागरिक वयस्क वर्तमान पते का प्रमाण और जन्म तिथि का प्रमाण जमा करते हैं।",
+  "authority": "Ministry of External Affairs (Passport Seva)",
+  "jurisdiction": "national",
+  "category": "identity",
+  "life_events": [
+    "relocation-identity",
+    "employment-career"
+  ],
+  "goals": [
+    "get-passport"
+  ],
+  "application_form": "Passport application form (fresh)",
+  "official_info_url": "https://www.passportindia.gov.in/",
+  "application_url": "https://www.passportindia.gov.in/",
+  "verification_notes": "Modelled for Table 2 (I) A.1 only (adult, citizen of India by birth, normal application). Non-ECR proof (Document No. 3) applies only to applicants eligible for Non-ECR and is not modelled; police verification is decided by the Passport Office. Minors, Tatkaal and other categories are not modelled. Some listed date-of-birth proofs (insurance policy bond, service record, EPIC with full date of birth, orphanage declaration) are not modelled. The jurisdictional Passport Office may ask for additional documents.",
+  "evidence": [
+    "pp-fresh-never-held",
+    "pp-fresh-documents",
+    "pp-fresh-adult-row"
+  ],
+  "requirements": [
+    {
+      "slug": "proof-of-present-address",
+      "name": "Proof of present address (any one)",
+      "name_hi": "वर्तमान पते का प्रमाण (कोई एक)",
+      "type": "mandatory",
+      "notes": "Proof of the present address only is needed, irrespective of how long you have lived there. Some other documents with the same present address may also be accepted.",
+      "evidence": [
+        "pp-poa-list",
+        "pp-present-address-only",
+        "pp-poa-other-documents"
+      ],
+      "options": [
+        {
+          "document": "water_bill",
+          "evidence": "pp-poa-water"
+        },
+        {
+          "document": "telephone_bill",
+          "notes": "Landline or postpaid mobile bill.",
+          "evidence": "pp-poa-telephone"
+        },
+        {
+          "document": "electricity_bill",
+          "evidence": "pp-poa-electricity"
+        },
+        {
+          "document": "income_tax_assessment_order",
+          "evidence": "pp-poa-it-order"
+        },
+        {
+          "document": "voter_id_current_address",
+          "notes": "Election Commission Photo ID card.",
+          "evidence": "pp-poa-epic"
+        },
+        {
+          "document": "gas_bill",
+          "evidence": "pp-poa-gas"
+        },
+        {
+          "document": "employer_certificate",
+          "notes": "Only public limited companies, on letterhead with seal.",
+          "evidence": "pp-poa-employer"
+        },
+        {
+          "document": "spouse_passport",
+          "notes": "Only if your present address matches the address in your spouse's passport.",
+          "evidence": "pp-poa-spouse-passport"
+        },
+        {
+          "document": "aadhaar_current_address",
+          "notes": "Subject to successful validation with the Aadhaar database.",
+          "evidence": "pp-poa-aadhaar"
+        },
+        {
+          "document": "rent_or_lease_agreement",
+          "evidence": "pp-poa-rent"
+        },
+        {
+          "document": "bank_or_post_office_passbook",
+          "notes": "Photo passbook of a running account in a scheduled public/private sector Indian bank or RRB only.",
+          "evidence": "pp-poa-passbook"
+        }
+      ]
+    },
+    {
+      "slug": "proof-of-date-of-birth",
+      "name": "Proof of date of birth (any one)",
+      "name_hi": "जन्म तिथि का प्रमाण (कोई एक)",
+      "type": "mandatory",
+      "evidence": [
+        "pp-dob-list",
+        "pp-fresh-documents",
+        "pp-dob-complete-date"
+      ],
+      "options": [
+        {
+          "document": "birth_certificate",
+          "notes": "Should contain the child's name, parents' names, date and place of birth, sex, registration number and date.",
+          "evidence": "pp-dob-birth-certificate"
+        },
+        {
+          "document": "matriculation_certificate",
+          "notes": "Transfer/school leaving/matriculation certificate with the date of birth.",
+          "evidence": "pp-dob-school-certificate"
+        },
+        {
+          "document": "driving_licence_existing",
+          "notes": "Only if it shows the complete date of birth.",
+          "evidence": "pp-dob-driving-licence"
+        },
+        {
+          "document": "pan_card",
+          "notes": "Only if it shows the complete date of birth.",
+          "evidence": "pp-dob-pan"
+        }
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "document": "passport_fresh",
+      "evidence": "pp-fresh-issue"
+    }
+  ],
+  "state": null,
+  "prerequisites": [],
+  "last_verified_on": "2026-11-15"
+}

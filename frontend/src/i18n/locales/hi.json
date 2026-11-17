@@ -70,7 +70,8 @@
     "progressTitle": "आपकी प्रगति",
     "progressNote": "आपके द्वारा बताई गई। GovPath विभाग के रिकॉर्ड नहीं देख सकता।",
     "recentTitle": "हाल की गतिविधि",
-    "blockedDoc": "चाहिए: {{document}}।"
+    "blockedDoc": "चाहिए: {{document}}।",
+    "confirmDocument": "देखें कि क्या आपके पास पहले से है: {{documents}}"
   },
   "services": {
     "title": "सरकारी सेवाएँ",
@@ -200,7 +201,14 @@
     "blockersNeedAll_other": "ये सभी {{count}} आवश्यकताएँ पूरी करनी होंगी: हर एक अलग से ज़रूरी है।",
     "blockersObtainYourself_one": "GovPath में कोई सेवा इसे जारी नहीं करती, इसलिए इसे आपको स्वयं प्राप्त करना होगा।",
     "blockersObtainYourself_other": "GovPath में कोई सेवा इन्हें जारी नहीं करती, इसलिए इन्हें आपको स्वयं प्राप्त करना होगा।",
-    "obtainThisYourself": "GovPath में कोई सेवा इसे जारी नहीं करती, इसलिए इसे आपको स्वयं प्राप्त करना होगा।"
+    "obtainThisYourself": "GovPath में कोई सेवा इसे जारी नहीं करती, इसलिए इसे आपको स्वयं प्राप्त करना होगा।",
+    "statusQuestion": "क्या आपके पास पहले से है: {{document}}?",
+    "statusWhy": "{{service}} के लिए यह ज़रूरी है। GovPath यह मानकर नहीं चलता कि यह आपके पास नहीं है। अगर नहीं है, तो {{services}} से यह मिल सकता है।",
+    "statusYes": "हाँ, मेरे पास है",
+    "statusNo": "नहीं — {{services}} जोड़ें",
+    "statusUnknownNote": "अभी पता नहीं: ऊपर दिए प्रश्न का उत्तर दें। अगर यह आपके पास नहीं है, तो {{services}} से यह मिल सकता है।",
+    "confirmDocument": "वह दस्तावेज़ जाँचें जो शायद आपके पास पहले से है",
+    "providedOnceYouHave": "अभी उपलब्ध नहीं: {{documents}} मिल जाने पर {{services}} से यह मिल सकता है।"
   },
   "documents": {
     "title": "दस्तावेज़",
@@ -355,7 +363,8 @@
     "parallel": "आप इसे इनके साथ-साथ कर सकते हैं: {{services}}।",
     "allComplete": "चुनी गई सेवाओं के लिए अब कुछ शेष नहीं है।",
     "awaitInProgress": "{{service}} प्रगति पर है। प्राधिकरण से संपर्क में रहें; {{documents}} मिलने पर इसे पूरा बताएँ।",
-    "awaitUnblocks": "इससे आगे बढ़ेंगे: {{services}}।"
+    "awaitUnblocks": "इससे आगे बढ़ेंगे: {{services}}।",
+    "confirmDocument": "पहले देखें कि क्या आपके पास पहले से {{documents}} है। इसके बिना {{service}} आगे नहीं बढ़ सकता।"
   },
   "stepStatus": {
     "ready": "शुरू करने के लिए तैयार",
@@ -375,7 +384,9 @@
     "iHave": "मेरे पास {{document}} है",
     "optionalHint": "आगे बढ़ने के लिए आवश्यक नहीं।",
     "alternatives": "या, यदि पहले से हो: {{documents}}",
-    "unusable": "आपने {{documents}} को अनुपयोगी चिह्नित किया है।"
+    "unusable": "आपने {{documents}} को अनुपयोगी चिह्नित किया है।",
+    "unknown": "अभी पता नहीं। अगर पहले से आपके पास है, तो निशान लगाएँ:",
+    "missingLater": "नहीं है। {{documents}} मिल जाने पर {{services}} से यह मिल सकता है। अगर पहले से आपके पास है, तो निशान लगाएँ:"
   },
   "requirementType": {
     "mandatory": "अनिवार्य",
@@ -528,7 +539,12 @@
     "update-name-after-marriage": "शादी के बाद नाम बदलना",
     "register-marriage": "शादी का पंजीकरण करना",
     "enrol-child-aadhaar": "बच्चे का आधार बनवाना",
-    "get-pan": "पैन कार्ड बनवाना"
+    "get-pan": "पैन कार्ड बनवाना",
+    "register-as-voter": "मतदाता के रूप में पंजीकरण कराना",
+    "get-passport": "पहला पासपोर्ट बनवाना",
+    "update-aadhaar-mobile": "आधार में मोबाइल नंबर पंजीकृत करना या बदलना",
+    "renew-driving-licence": "ड्राइविंग लाइसेंस का नवीनीकरण कराना",
+    "replace-lost-document": "खोया या खराब लाइसेंस या आरसी बदलवाना"
   },
   "processState": {
     "not_started": "शुरू नहीं किया",
@@ -892,7 +908,8 @@
     "pickTitle": "आपको किन सेवाओं की ज़रूरत है?",
     "pickHint": "एक या अधिक चुनें। दो जीवन घटनाओं से जुड़ी सेवाएँ दोनों में दिखती हैं।",
     "planServices": "इस योजना की सेवाएँ",
-    "planServicesHint": "सेवाएँ जोड़ें या हटाएँ; योजना फिर से गणना की जाती है।"
+    "planServicesHint": "सेवाएँ जोड़ें या हटाएँ; योजना फिर से गणना की जाती है।",
+    "nextConfirmDocument": "अगला: वह दस्तावेज़ जाँचें जो शायद आपके पास पहले से है"
   },
   "stateNames": {
     "Andhra Pradesh": "आंध्र प्रदेश",

@@ -1,0 +1,162 @@
+{
+  "slug": "voter-id-new-registration-form-6",
+  "name": "New voter registration (Form 6)",
+  "name_hi": "नया मतदाता पंजीकरण (फ़ॉर्म 6)",
+  "description": "Apply to have your name included in the electoral roll of the constituency where you ordinarily reside; the Voter ID (EPIC) is delivered to the given address after enrolment.",
+  "description_hi": "जहाँ आप सामान्य रूप से रहते हैं, उस निर्वाचन क्षेत्र की मतदाता सूची में नाम जुड़वाने के लिए आवेदन करें; पंजीकरण के बाद मतदाता पहचान पत्र (EPIC) दिए गए पते पर भेजा जाता है।",
+  "authority": "Election Commission of India (ECI)",
+  "jurisdiction": "national",
+  "category": "identity",
+  "life_events": [
+    "relocation-identity"
+  ],
+  "goals": [
+    "register-as-voter"
+  ],
+  "application_form": "Form 6",
+  "official_info_url": "https://voters.eci.gov.in/",
+  "verification_notes": "Based on the ECI Form 6 and its guidelines. Eligibility (age, citizenship) is a declaration in the form and is not modelled. Form 6 accepts 'any other' age or residence document when none of the listed ones is available (with personal verification or field verification); only the listed documents are modelled. 'Certificates of Class X or Class XII' is mapped to the matriculation certificate only. Already enrolled and moving? Use Form 8 instead. Its output is modelled as its own document (a newly issued EPIC) so that GovPath never routes another service's address proof through a new registration: that would presume you are not enrolled, and Form 6 needs the same kind of residence proof anyway. Once you receive the EPIC, mark 'Voter ID (EPIC) showing current address' in your documents.",
+  "evidence": [
+    "eci-f6-inclusion",
+    "eci-g6-ero",
+    "eci-g6-mandatory-fields"
+  ],
+  "requirements": [
+    {
+      "slug": "photograph",
+      "name": "Recent passport-size colour photograph",
+      "name_hi": "हाल का पासपोर्ट आकार का रंगीन फ़ोटो",
+      "type": "mandatory",
+      "notes": "Unsigned, 4.5 cm x 3.5 cm, white background.",
+      "evidence": [
+        "eci-g6-photograph",
+        "eci-g6-mandatory-fields"
+      ],
+      "options": [
+        {
+          "document": "photograph"
+        }
+      ]
+    },
+    {
+      "slug": "proof-of-date-of-birth",
+      "name": "Proof of date of birth (any one)",
+      "name_hi": "जन्म तिथि का प्रमाण (कोई एक)",
+      "type": "mandatory",
+      "notes": "If none of the listed documents is available, another document can be attached and you will have to appear before the Electoral Registration Officer for verification.",
+      "evidence": [
+        "eci-g6-age-proof",
+        "eci-f6-dob-list",
+        "eci-g6-age-other"
+      ],
+      "options": [
+        {
+          "document": "birth_certificate",
+          "evidence": "eci-f6-dob-birth-certificate"
+        },
+        {
+          "document": "aadhaar_number",
+          "notes": "Aadhaar card.",
+          "evidence": "eci-f6-aadhaar-card"
+        },
+        {
+          "document": "pan_card",
+          "evidence": "eci-f6-pan-card"
+        },
+        {
+          "document": "driving_licence_existing",
+          "evidence": "eci-f6-driving-license"
+        },
+        {
+          "document": "matriculation_certificate",
+          "notes": "Class X or XII certificate, if it contains the date of birth.",
+          "evidence": "eci-f6-class-x-xii"
+        },
+        {
+          "document": "passport_existing",
+          "notes": "Indian passport.",
+          "evidence": "eci-f6-indian-passport"
+        }
+      ]
+    },
+    {
+      "slug": "proof-of-residence",
+      "name": "Proof of ordinary residence (any one)",
+      "name_hi": "सामान्य निवास का प्रमाण (कोई एक)",
+      "type": "mandatory",
+      "notes": "May be in the name of the applicant, a parent or spouse. If none of the listed documents is available, field verification is done.",
+      "evidence": [
+        "eci-g6-residence-proof",
+        "eci-f6-residence-list"
+      ],
+      "options": [
+        {
+          "document": "electricity_bill",
+          "notes": "At least 1 year old connection at that address.",
+          "evidence": "eci-f6-utility-bill"
+        },
+        {
+          "document": "water_bill",
+          "evidence": "eci-f6-utility-bill"
+        },
+        {
+          "document": "gas_bill",
+          "evidence": "eci-f6-utility-bill"
+        },
+        {
+          "document": "aadhaar_current_address",
+          "evidence": "eci-f6-aadhaar-card"
+        },
+        {
+          "document": "bank_or_post_office_passbook",
+          "notes": "Current passbook of a nationalised/scheduled bank or post office.",
+          "evidence": "eci-f6-passbook"
+        },
+        {
+          "document": "passport_current_address",
+          "evidence": "eci-f6-indian-passport"
+        },
+        {
+          "document": "land_records",
+          "evidence": "eci-f6-land-records"
+        },
+        {
+          "document": "rent_or_lease_agreement",
+          "notes": "Registered rent/lease deed (tenants).",
+          "evidence": "eci-f6-rent-deed"
+        },
+        {
+          "document": "registered_sale_deed",
+          "notes": "Registered sale deed (own house).",
+          "evidence": "eci-f6-sale-deed"
+        }
+      ]
+    },
+    {
+      "slug": "aadhaar-number",
+      "name": "Aadhaar number (for authentication)",
+      "name_hi": "आधार नंबर (प्रमाणीकरण हेतु)",
+      "type": "optional",
+      "notes": "If you don't have an Aadhaar number, you can say so in the form.",
+      "evidence": [
+        "eci-g6-aadhaar",
+        "eci-f6-aadhaar-not-available"
+      ],
+      "options": [
+        {
+          "document": "aadhaar_number"
+        }
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "document": "voter_id_new_registration",
+      "evidence": "eci-g6-epic-delivery"
+    }
+  ],
+  "state": null,
+  "application_url": null,
+  "prerequisites": [],
+  "last_verified_on": "2026-11-15"
+}

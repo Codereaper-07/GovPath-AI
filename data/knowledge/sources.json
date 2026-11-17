@@ -4,7 +4,7 @@
     "title": "Updating Data on Aadhaar - UIDAI",
     "authority": "Unique Identification Authority of India (UIDAI)",
     "source_type": "webpage",
-    "verified_on": "2026-11-14",
+    "verified_on": "2026-11-15",
     "evidence": [
       {
         "key": "uidai-update-fields",
@@ -21,6 +21,21 @@
       {
         "key": "uidai-centre-mode",
         "excerpt": "Aadhaar number holders place the demographic/biometric update request with the help of an operator at an Aadhaar Enrolment Centre"
+      },
+      {
+        "key": "uidai-mobile-essential",
+        "excerpt": "Registered mobile number is essential to access Aadhaar Online Services",
+        "locator": "Registered Mobile Number"
+      },
+      {
+        "key": "uidai-mobile-register-at-centre",
+        "excerpt": "If you have not registered your Mobile number while enrolling for Aadhaar, you are required to visit a Permanent Enrolment Centre to get it registered.",
+        "locator": "Registered Mobile Number"
+      },
+      {
+        "key": "uidai-app-mobile-update",
+        "excerpt": "Presently, the Aadhaar app offers various services like - Mobile Number Update",
+        "locator": "FAQ"
       }
     ]
   },
@@ -424,7 +439,7 @@
     "title": "Instructions for filling of passport application form (booklet V3.0) - Passport Seva",
     "authority": "Ministry of External Affairs (Passport Seva)",
     "source_type": "pdf",
-    "verified_on": "2026-11-14",
+    "verified_on": "2026-11-15",
     "evidence": [
       {
         "key": "pp-reissue-change-particulars",
@@ -525,6 +540,61 @@
         "key": "pp-doc-56-joint-photo",
         "excerpt": "56. Joint Photo Declaration signed by both husband and wife as per Annexure J",
         "locator": "Table 3, Document No. 56"
+      },
+      {
+        "key": "pp-fresh-issue",
+        "excerpt": "Depending on whether an application is for issue of fresh passport or re-issue of passport, Passport Office shall decide whether Police Verification",
+        "locator": "Section A"
+      },
+      {
+        "key": "pp-fresh-never-held",
+        "excerpt": "Put a cross against Fresh Passport if you have never held a passport.",
+        "locator": "Section C, Column 1.1"
+      },
+      {
+        "key": "pp-fresh-documents",
+        "excerpt": "For fresh passport, normally an applicant is required to submit proof of address, proof of date of birth and documentary proof that the applicant is eligible for Non-ECR category",
+        "locator": "Section D"
+      },
+      {
+        "key": "pp-fresh-adult-row",
+        "excerpt": "Ordinary Case (Citizen of India by birth) 1, 2, 3 (if the applicant is eligible for Non ECR)",
+        "locator": "Table 2 (I) A.1"
+      },
+      {
+        "key": "pp-dob-list",
+        "excerpt": "Proof of Date of Birth. For Proof of Date of Birth attach one of the following documents:",
+        "locator": "Table 3, Document No. 2"
+      },
+      {
+        "key": "pp-dob-birth-certificate",
+        "excerpt": "Birth Certificate issued by the Registrar of Births and Deaths or the Municipal Corporation or any other prescribed authority",
+        "locator": "Table 3, Document No. 2(a)"
+      },
+      {
+        "key": "pp-dob-school-certificate",
+        "excerpt": "Transfer/School leaving/Matriculation Certificate issued by the school last attended / recognized educational board having the date of birth of the applicant",
+        "locator": "Table 3, Document No. 2(b)"
+      },
+      {
+        "key": "pp-dob-driving-licence",
+        "excerpt": "Driving license issued by the Transport Department of the concerned State Government, having the date of birth of the applicant",
+        "locator": "Table 3, Document No. 2(e)"
+      },
+      {
+        "key": "pp-dob-pan",
+        "excerpt": "PAN Card issued by the Income Tax Department having the date of birth of the applicant",
+        "locator": "Table 3, Document No. 2(g)"
+      },
+      {
+        "key": "pp-dob-complete-date",
+        "excerpt": "are acceptable as proof of Date of Birth only if it has the complete Date of Birth",
+        "locator": "Table 3, Document No. 2, Note"
+      },
+      {
+        "key": "pp-poa-other-documents",
+        "excerpt": "Any of the remaining documents containing address out of sixteen documents listed under Tatkaal application, could also be accepted as proof of residence",
+        "locator": "Table 3, Document No. 1, Note (ii)"
       }
     ]
   },
@@ -644,6 +714,262 @@
       {
         "key": "epan-output",
         "excerpt": "Obtain digitally signed PAN in electronic format, free of cost, with the help of Aadhaar and your mobile number linked with Aadhaar"
+      }
+    ]
+  },
+  {
+    "url": "https://voters.eci.gov.in/guidelines/Form-6_en.pdf",
+    "title": "Guidelines for filling up the application Form-6 - Election Commission of India",
+    "authority": "Election Commission of India (ECI)",
+    "source_type": "pdf",
+    "verified_on": "2026-11-15",
+    "evidence": [
+      {
+        "key": "eci-g6-mandatory-fields",
+        "excerpt": "(The fields marked with * are mandatory)",
+        "locator": "Header"
+      },
+      {
+        "key": "eci-g6-ero",
+        "excerpt": "The application will be addressed to the Electoral Registration Officer(ERO) of the Assembly Constituency (AC)/Parliamentary Constituency(PC) in which the applicant is ordinarily residing.",
+        "locator": "1(a)"
+      },
+      {
+        "key": "eci-g6-photograph",
+        "excerpt": "Photograph: A recent good quality passport size unsigned colour photograph (4.5cm X 3.5cm) with white background should be pasted in the space provided.",
+        "locator": "*1(d)"
+      },
+      {
+        "key": "eci-g6-epic-delivery",
+        "excerpt": "EPIC will be delivered at given postal address after enrolment",
+        "locator": "1(e)"
+      },
+      {
+        "key": "eci-g6-aadhaar",
+        "excerpt": "Aadhaar Number should be furnished for the purpose of authentication of entries. If the applicant does not have Aadhaar number, the same may be mentioned in box at item 5 (b).",
+        "locator": "4"
+      },
+      {
+        "key": "eci-g6-age-proof",
+        "excerpt": "A self attested copy of one of the documents mentioned in the form can be attached as age proof.",
+        "locator": "*6(a)"
+      },
+      {
+        "key": "eci-g6-age-other",
+        "excerpt": "If none of the documents mentioned in the form is available, the applicant should enclose some other document in support of age proof",
+        "locator": "6(b)"
+      },
+      {
+        "key": "eci-g6-residence-proof",
+        "excerpt": "Complete postal address with PIN code should be mentioned along with a self attested copy of any of the mentioned documents in name of applicant/parents/spouse as proof of ordinary residence.",
+        "locator": "*7(a)"
+      }
+    ]
+  },
+  {
+    "url": "https://voters.eci.gov.in/formspdf/Form_6_English.pdf",
+    "title": "Form-6: Application Form for New Voters - Election Commission of India",
+    "authority": "Election Commission of India (ECI)",
+    "source_type": "pdf",
+    "verified_on": "2026-11-15",
+    "evidence": [
+      {
+        "key": "eci-f6-inclusion",
+        "excerpt": "I submit application for inclusion of my name in the electoral roll for the above constituency.",
+        "locator": "Form 6, preamble"
+      },
+      {
+        "key": "eci-f6-dob-list",
+        "excerpt": "Document for Proof of Date of Birth ^:- (Any one of these)",
+        "locator": "Item 7(b)(i)"
+      },
+      {
+        "key": "eci-f6-dob-birth-certificate",
+        "excerpt": "Birth certificate issued by Competent Local Body/Municipal Authority/Registrar of Births & Deaths",
+        "locator": "Item 7(b)(i)1"
+      },
+      {
+        "key": "eci-f6-aadhaar-card",
+        "excerpt": "Aadhaar Card",
+        "locator": "Items 7(b)(i)2 and 8(b)(i)2"
+      },
+      {
+        "key": "eci-f6-pan-card",
+        "excerpt": "PAN Card",
+        "locator": "Item 7(b)(i)3"
+      },
+      {
+        "key": "eci-f6-driving-license",
+        "excerpt": "Driving License",
+        "locator": "Item 7(b)(i)4"
+      },
+      {
+        "key": "eci-f6-class-x-xii",
+        "excerpt": "Certificates of Class X or Class XII issued by CBSE/ICSE/ State",
+        "locator": "Item 7(b)(i)5"
+      },
+      {
+        "key": "eci-f6-indian-passport",
+        "excerpt": "Indian Passport",
+        "locator": "Items 7(b)(i)6 and 8(b)(i)4"
+      },
+      {
+        "key": "eci-f6-residence-list",
+        "excerpt": "Document for proof of residence ^:- (Any one of these)",
+        "locator": "Item 8(b)(i)"
+      },
+      {
+        "key": "eci-f6-utility-bill",
+        "excerpt": "Water/Electricity/Gas connection Bill for that address (atleast 1 year)",
+        "locator": "Item 8(b)(i)1"
+      },
+      {
+        "key": "eci-f6-passbook",
+        "excerpt": "Current passbook of Nationalized/Scheduled Bank/Post Office",
+        "locator": "Item 8(b)(i)3"
+      },
+      {
+        "key": "eci-f6-land-records",
+        "excerpt": "Revenue Department's Land Owning records including KisanBahi",
+        "locator": "Item 8(b)(i)5"
+      },
+      {
+        "key": "eci-f6-rent-deed",
+        "excerpt": "Registered Rent Lease Deed (In case of tenant)",
+        "locator": "Item 8(b)(i)6"
+      },
+      {
+        "key": "eci-f6-sale-deed",
+        "excerpt": "Registered Sale Deed (In case of ownhouse)",
+        "locator": "Item 8(b)(i)7"
+      },
+      {
+        "key": "eci-f6-aadhaar-not-available",
+        "excerpt": "I am not able to furnish my Aadhaar Number because I don't have Aadhaar Number.",
+        "locator": "Item 5(b)"
+      }
+    ]
+  },
+  {
+    "url": "https://parivahan.gov.in/en/content/renewal",
+    "title": "Renewal (driving licence) | Parivahan Sewa",
+    "authority": "Ministry of Road Transport and Highways (Parivahan Sewa)",
+    "source_type": "webpage",
+    "verified_on": "2026-11-15",
+    "evidence": [
+      {
+        "key": "pv-renew-window",
+        "excerpt": "An application for renewal shall be entertained not more than one month before the date of expiry of the licence."
+      },
+      {
+        "key": "pv-renew-five-years",
+        "excerpt": "If the application is late for more than five years after the date of expiry of the licence, the applicant should undergo all the formalities to obtain a fresh licence."
+      },
+      {
+        "key": "pv-renew-effect",
+        "excerpt": "If the application for renewal is made previous to, or not more than 30 days after the date of expiry of the licence, the renewal will be made with effect from the date of its expiry."
+      },
+      {
+        "key": "pv-renew-requirements-dl",
+        "excerpt": "Requirements Driving Licence.",
+        "locator": "Requirements"
+      },
+      {
+        "key": "pv-renew-form1",
+        "excerpt": "Form No.1 (Self-declaration as to the physical fitness for Non-Transport Vehicles)",
+        "locator": "Requirements"
+      },
+      {
+        "key": "pv-renew-form1a",
+        "excerpt": "Form 1A (Medical Certificate for Transport Vehicles only).",
+        "locator": "Requirements"
+      }
+    ]
+  },
+  {
+    "url": "https://parivahan.gov.in/en/content/duplicate-licence",
+    "title": "Duplicate Licence | Parivahan Sewa",
+    "authority": "Ministry of Road Transport and Highways (Parivahan Sewa)",
+    "source_type": "webpage",
+    "verified_on": "2026-11-15",
+    "evidence": [
+      {
+        "key": "pv-dupdl-circumstances",
+        "excerpt": "A duplicate driving licence will be issued in the following circumstances When the licence is lost or destroyed When the licence is defaced or torn or completely written up When the photograph affixed to the licence requires replacement"
+      },
+      {
+        "key": "pv-dupdl-form2",
+        "excerpt": "Requirements Application in Form 2",
+        "locator": "Requirements"
+      },
+      {
+        "key": "pv-dupdl-original",
+        "excerpt": "Original licence written or defaced if available.",
+        "locator": "Requirements"
+      },
+      {
+        "key": "pv-dupdl-photocopies",
+        "excerpt": "Attested photocopies of DL if available in case of loss of licence.",
+        "locator": "Requirements"
+      }
+    ]
+  },
+  {
+    "url": "https://parivahan.gov.in/en/content/duplicate-rc",
+    "title": "Duplicate RC | Parivahan Sewa",
+    "authority": "Ministry of Road Transport and Highways (Parivahan Sewa)",
+    "source_type": "webpage",
+    "verified_on": "2026-11-15",
+    "evidence": [
+      {
+        "key": "pv-duprc-about",
+        "excerpt": "When a registration certificate of a vehicle is reported to be lost, mutilated, torn or used-up, duplicate registration certificate is issued to the registered owner.",
+        "locator": "About"
+      },
+      {
+        "key": "pv-duprc-report-loss",
+        "excerpt": "If at any time, the certificate of registration is lost or destroyed, report to the police station in the jurisdiction of which the loss or destruction has occurred",
+        "locator": "Guidelines"
+      },
+      {
+        "key": "pv-duprc-form26",
+        "excerpt": "Apply for duplicate certificate of registration to the last registering authority in Form 26",
+        "locator": "Guidelines"
+      },
+      {
+        "key": "pv-duprc-police-certificate",
+        "excerpt": "Police certificate in case of theft/loss",
+        "locator": "Documents required"
+      },
+      {
+        "key": "pv-duprc-puc",
+        "excerpt": "Pollution under control certificate",
+        "locator": "Documents required"
+      },
+      {
+        "key": "pv-duprc-insurance",
+        "excerpt": "Valid insurance certificate",
+        "locator": "Documents required"
+      },
+      {
+        "key": "pv-duprc-pan",
+        "excerpt": "Attested copy of PAN Card or Form 60 & Form 61 (as applicable)",
+        "locator": "Documents required"
+      },
+      {
+        "key": "pv-duprc-chassis",
+        "excerpt": "Pencil Print of Chassis & Engine Number",
+        "locator": "Documents required"
+      },
+      {
+        "key": "pv-duprc-affidavit",
+        "excerpt": "Affidavit stating that RC is lost and has not been impounded",
+        "locator": "Documents required"
+      },
+      {
+        "key": "pv-duprc-some-states",
+        "excerpt": "Documents marked with asterisk (*) may be required in some states.",
+        "locator": "Documents required"
       }
     ]
   }
