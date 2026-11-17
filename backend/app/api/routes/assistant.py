@@ -13,6 +13,7 @@ from app.llm.client import (
     LLMUnavailableError,
 )
 from app.rag.assistant import Assistant, AssistantNotReadyError, WorkflowInput
+from app.ratelimit import limit_ai_requests
 from app.schemas.assistant import (
     AssistantAnswerOut,
     AssistantQueryIn,
@@ -34,7 +35,11 @@ def _error(code: int, key: str, message: str, headers: dict | None = None) -> HT
     return HTTPException(code, {"code": key, "message": message}, headers=headers)
 
 
-@router.post("/query", response_model=AssistantAnswerOut)
+@router.post(
+    "/query",
+    response_model=AssistantAnswerOut,
+    dependencies=[Depends(limit_ai_requests("assistant"))],  # 429 before any model call
+)
 async def query(
     body: AssistantQueryIn,
     session: Annotated[AsyncSession, Depends(get_session)],

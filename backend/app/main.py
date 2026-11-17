@@ -22,6 +22,7 @@ from app.knowledge.cache import TTLCache
 from app.llm.client import GeminiClient, UsageGuard
 from app.llm.situation import SituationInterpreter
 from app.rag.assistant import Assistant
+from app.ratelimit import SlidingWindowLimiter
 
 
 @asynccontextmanager
@@ -34,6 +35,7 @@ def create_app() -> FastAPI:
     settings = get_settings()
     app = FastAPI(title=settings.app_name, version=__version__, lifespan=lifespan)
     app.state.knowledge_cache = TTLCache(settings.knowledge_cache_seconds)
+    app.state.rate_limiter = SlidingWindowLimiter()  # public AI endpoints, per client IP
     # Gemini is only contacted on an explicit assistant request (never at startup).
     guard = UsageGuard(
         min_interval=settings.gemini_min_interval_seconds,

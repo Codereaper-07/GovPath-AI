@@ -19,6 +19,7 @@ from app.llm.situation import (
     topic_services,
 )
 from app.models.enums import CitizenGoal, LifeEvent
+from app.ratelimit import limit_ai_requests
 from app.schemas.situation import SituationIn, SituationOut
 from app.workflow.service import load_planning_data
 
@@ -90,7 +91,11 @@ async def run_interpreter(
     return out
 
 
-@router.post("/interpret", response_model=SituationOut)
+@router.post(
+    "/interpret",
+    response_model=SituationOut,
+    dependencies=[Depends(limit_ai_requests("situation"))],  # 429 before any model call
+)
 async def interpret(
     body: SituationIn,
     session: Annotated[AsyncSession, Depends(get_session)],

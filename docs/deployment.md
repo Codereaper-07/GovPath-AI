@@ -27,6 +27,8 @@ Store everything in the host's secret store. Never put it in the repository, the
 | Backend | `GEMINI_API_KEY`, `GEMINI_MODEL=gemini-3.6-flash`, `GEMINI_EMBEDDING_MODEL=gemini-embedding-2`, `EMBEDDING_DIM=768` | server-side only |
 | Backend | `GEMINI_DAILY_GENERATION_LIMIT`, `GEMINI_DAILY_EMBEDDING_LIMIT`, `GEMINI_MIN_INTERVAL_SECONDS`, `GEMINI_MAX_RETRIES` | set to the plan's quota |
 | Backend | `KNOWLEDGE_CACHE_SECONDS` | `60` (default) |
+| Backend | `RATE_LIMIT_ENABLED`, `RATE_LIMIT_AI_PER_MINUTE`, `RATE_LIMIT_AI_PER_DAY` | `true`, `5`, `30` (defaults): per client IP, for each public AI endpoint |
+| Backend | `RATE_LIMIT_TRUSTED_PROXY_HOPS` | proxies that append to `X-Forwarded-For` in front of the API. Verify the count on the host before setting it (see §7); `0` makes all visitors share one bucket |
 | Frontend (build time) | `VITE_API_BASE_URL` | the backend's public HTTPS URL, no trailing slash |
 | Frontend (build time) | `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY` | public values only |
 
@@ -101,6 +103,14 @@ Store everything in the host's secret store. Never put it in the repository, the
 - [ ] No `.env` in the repository or image; logs contain no keys, prompts or raw provider errors.
 - [ ] Supabase: RLS check passes (step 4); the Data API exposes no knowledge-table writes.
 - [ ] Gemini daily limits set below the plan quota.
+- [ ] Rate limits on `POST /api/situation/interpret` and `POST /api/assistant/query`: the 6th
+      request within a minute from one client returns `429 rate_limited` with `Retry-After`.
+      Limits are **in memory, per process**: they reset on every restart or deploy and are not
+      shared across instances or workers, so run one instance with one worker.
+- [ ] `RATE_LIMIT_TRUSTED_PROXY_HOPS`: only the `X-Forwarded-For` entry appended by the outermost
+      trusted proxy is used; anything to its left is client-supplied and ignored. Confirm the
+      host's proxy hop count before setting it. Too high lets clients choose their own bucket;
+      `0` is safe but makes every visitor share the proxy's address.
 
 ## 8. Post-deployment smoke tests
 - [ ] `GET /api/health` → 200; `GET /api/health/db` → database + pgvector OK.

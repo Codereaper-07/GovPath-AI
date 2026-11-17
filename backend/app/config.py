@@ -4,7 +4,7 @@ from functools import lru_cache
 from typing import Annotated
 from urllib.parse import quote, unquote
 
-from pydantic import field_validator
+from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
 
 
@@ -63,6 +63,14 @@ class Settings(BaseSettings):
     rag_verified_sources_only: bool = True
     assistant_cache_seconds: float = 86400
     assistant_max_question_chars: int = 1000
+
+    # Per-client-IP limits on the public AI endpoints (POST /api/situation/interpret and
+    # /api/assistant/query, separate buckets). In memory, per process (app.ratelimit).
+    rate_limit_enabled: bool = True
+    rate_limit_ai_per_minute: int = Field(default=5, ge=1)
+    rate_limit_ai_per_day: int = Field(default=30, ge=1)
+    # Proxies in front of the API that append to X-Forwarded-For (0 = use the direct peer).
+    rate_limit_trusted_proxy_hops: int = Field(default=0, ge=0)
 
     @field_validator("cors_origins", mode="before")
     @classmethod

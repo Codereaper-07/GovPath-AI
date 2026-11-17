@@ -69,6 +69,7 @@ cp .env.example .env.local      # VITE_API_BASE_URL, VITE_SUPABASE_URL, VITE_SUP
 | `GEMINI_API_KEY`, `GEMINI_MODEL`, `GEMINI_EMBEDDING_MODEL`, `EMBEDDING_DIM` | AI features. Without a key the AI endpoints return 503 and everything else works. `EMBEDDING_DIM` must stay 768. |
 | `GEMINI_DAILY_*_LIMIT`, `GEMINI_MIN_INTERVAL_SECONDS`, `GEMINI_MAX_RETRIES` | Free-tier protection (per API process). |
 | `RAG_TOP_K`, `RAG_MIN_SIMILARITY` | Retrieval (5, 0.66: tuned on the evaluation set). |
+| `RATE_LIMIT_ENABLED`, `RATE_LIMIT_AI_PER_MINUTE`, `RATE_LIMIT_AI_PER_DAY`, `RATE_LIMIT_TRUSTED_PROXY_HOPS` | Per-client-IP limits on the two public AI endpoints (defaults: on, 5/minute, 30/day, 0 trusted proxies). Exceeding them returns `429 rate_limited` with `Retry-After`, before any Gemini call. |
 | `KNOWLEDGE_CACHE_SECONDS`, `ASSISTANT_CACHE_SECONDS` | Read-cache and answer-cache lifetimes. |
 | Frontend `VITE_API_BASE_URL`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY` | Public values only. Never put a service-role key in the frontend. Without the Supabase values the app runs without accounts. |
 
@@ -145,5 +146,8 @@ Gemini API.
 - **AI:** the situation reader was validated live on three scenarios (see `evidence/live-ai-validation/`).
   The answer evaluation covers 19/26 cases; the LLM-only and RAG baselines are pending (free-tier quota).
   Usage caps are per process and in memory.
+- **Rate limits are in memory:** the per-IP limits on `/api/situation/interpret` and
+  `/api/assistant/query` reset when the API process restarts and are not shared between
+  instances or workers (run one instance with one worker).
 - **Not authoritative:** an informational guide. It does not submit applications, decide eligibility or
   integrate with department status systems.
