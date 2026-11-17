@@ -57,7 +57,7 @@ describe('Assistant', () => {
     const card = await screen.findByTestId('assistant-answer')
     expect(within(card).getByText('✦ AI-generated')).toBeInTheDocument()
     expect(within(card).getByText(/not an official government decision/)).toBeInTheDocument()
-    expect(within(card).getByText('Grounded in official sources')).toBeInTheDocument()
+    expect(within(card).getByText('Backed by official sources')).toBeInTheDocument()
     expect(within(card).getByRole('link', { name: '[S1]' })).toHaveAttribute('href', expect.stringMatching(/-S1$/))
     const source = within(card).getByRole('link', { name: 'Passport instruction booklet' })
     expect(source).toHaveAttribute('href', answer.citations[0].source_url)
@@ -99,14 +99,14 @@ describe('Assistant', () => {
     renderApp('/assistant')
     await ask('What is the weather?')
     const card = await screen.findByTestId('assistant-answer')
-    expect(within(card).getByText('Not enough evidence')).toBeInTheDocument()
+    expect(within(card).getByText('Not enough official information')).toBeInTheDocument()
     expect(within(card).queryByText('✦ AI-generated')).not.toBeInTheDocument()
   })
 
   it.each([
     [json(429, { detail: { code: 'quota_exhausted' } }), 'reached its usage limit'],
     [json(429, { detail: { code: 'rate_limited' } }), 'Too many questions'],
-    [json(503, { detail: { code: 'index_not_built' } }), 'index has not been built'],
+    [json(503, { detail: { code: 'index_not_built' } }), 'not ready yet'],
     [json(422, { detail: [{ msg: 'bad' }] }), 'between 3 and 1000 characters'],
   ])('maps API errors to friendly messages (%#)', async (response, message) => {
     backend(() => response)
@@ -141,7 +141,7 @@ describe('Assistant', () => {
     })
     renderApp('/assistant')
     await ask('Passport proof of address?')
-    expect(await screen.findByRole('alert')).toHaveTextContent('Cannot reach the GovPath server.')
+    expect(await screen.findByRole('alert')).toHaveTextContent('GovPath can’t be reached right now.')
   })
 
   it('works in Hindi and sends the Hindi language code', async () => {

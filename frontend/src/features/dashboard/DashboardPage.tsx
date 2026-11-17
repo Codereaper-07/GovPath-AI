@@ -11,7 +11,6 @@ import { useDocuments, useServices } from '../services/api'
 import { LoadingState } from '../../components/ui/States'
 import { useAuth } from '../auth/useAuth'
 import { CitizenDashboard } from './CitizenDashboard'
-import { SystemStatus } from './SystemStatus'
 
 /** Signed in: the personal dashboard. Otherwise (or without accounts): the public home. */
 export function DashboardPage() {
@@ -45,7 +44,6 @@ function PublicHome() {
       </section>
 
       <Trust />
-      <SystemStatus />
     </div>
   )
 }

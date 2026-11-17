@@ -236,7 +236,7 @@ describe('situation journey (signed in)', () => {
       state: null, // the profile's state is resolved (and labelled) on the server
     })
     expect(within(p).getByTestId('journey-account')).toHaveTextContent(`Documents from your vault: ${docName('passport_existing')}`)
-    expect(within(p).getByTestId('journey-grounding')).toHaveTextContent('Every requirement (9) and dependency (2) cites an official source')
+    expect(within(p).getByTestId('journey-grounding')).toHaveTextContent('Every requirement (9) and every link between steps (2) cites an official source')
     expect(within(p).getByTestId('journey-requested-notes')).toHaveTextContent('verified for another state only')
     expect(within(p).getByTestId('journey-overlap')).toHaveTextContent('you can add to it')
     // Nothing saved by generating or reviewing.

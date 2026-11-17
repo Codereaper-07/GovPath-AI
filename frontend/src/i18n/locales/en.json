@@ -24,17 +24,6 @@
     "verified": "Verified",
     "ai": "AI-generated"
   },
-  "status": {
-    "title": "System status",
-    "api": "Backend API",
-    "database": "Database",
-    "pgvector": "pgvector extension",
-    "ok": "Connected",
-    "unconfigured": "Not configured",
-    "error": "Error",
-    "loading": "Checking…",
-    "unreachable": "Unreachable"
-  },
   "dashboard": {
     "title": "Dashboard",
     "intro": "Plan the steps, documents and order needed to update your address across Indian government services.",
@@ -212,7 +201,7 @@
   },
   "documents": {
     "title": "Documents",
-    "intro": "Every document GovPath knows about, which services accept it, and which services issue it.",
+    "intro": "The documents used by the services in GovPath: which services accept each one, and which issue it.",
     "acceptedBy": "Accepted by",
     "issuedBy": "Issued or updated by",
     "eyebrow": "Document guide",
@@ -228,7 +217,7 @@
   },
   "assistant": {
     "title": "Assistant",
-    "intro": "Ask questions in plain English or Hindi. Answers are AI-generated explanations grounded in official government sources, with citations.",
+    "intro": "Ask in English or Hindi. You get a plain-language explanation, written by AI, with links to the official sources it is based on.",
     "questionLabel": "Your question",
     "placeholder": "e.g. Which documents prove my new address for a passport reissue?",
     "chars": "{{count}} / {{max}}",
@@ -239,7 +228,7 @@
     "example1": "Which documents can I use as proof of address for Aadhaar?",
     "example2": "Do I need to update Aadhaar before changing my voter ID address?",
     "example3": "What do I need to change the address on my vehicle RC?",
-    "quotaNote": "The assistant uses a limited free AI quota. Repeated questions are answered from cache.",
+    "quotaNote": "The assistant can answer a limited number of questions each day.",
     "empty": "Ask a question to get an explanation with official sources.",
     "sources": "Official sources",
     "kindExcerpt": "Official excerpt",
@@ -255,19 +244,19 @@
       "none": "All selected services are done."
     },
     "status": {
-      "sufficient": "Grounded in official sources",
+      "sufficient": "Backed by official sources",
       "partial": "Partly supported by sources",
-      "insufficient": "Not enough evidence",
+      "insufficient": "Not enough official information",
       "conflicting": "Sources conflict"
     },
     "error": {
       "quota_exhausted": "The AI assistant has reached its usage limit for now. Please try again later — the Services and Planner pages still work.",
       "rate_limited": "Too many questions in a short time. Please wait a moment and try again.",
-      "assistant_not_configured": "The AI assistant is not configured on this server.",
-      "index_not_built": "The assistant's official-source index has not been built yet.",
+      "assistant_not_configured": "The assistant is not available right now. You can still browse services and plan your steps.",
+      "index_not_built": "The assistant is not ready yet. Please try again later; services and plans still work.",
       "model_unavailable": "The AI service is temporarily unavailable. Please try again shortly.",
       "model_error": "The AI service could not produce an answer. Please rephrase and try again.",
-      "unknown_ids": "Your saved plan contains selections that no longer exist. Update it in the planner.",
+      "unknown_ids": "Your saved plan contains selections that no longer exist. Update it in My Plans.",
       "validation": "Please enter a question between 3 and 1000 characters.",
       "generic": "Something went wrong while answering. Please try again."
     },
@@ -278,12 +267,12 @@
     "tryAsking": "Try asking",
     "howAnswers": "How answers work",
     "legendExcerpt": "An exact excerpt from an official government page or PDF.",
-    "legendFact": "A verified requirement from GovPath's knowledge base, with its source.",
+    "legendFact": "A verified requirement recorded by GovPath, with its official source.",
     "legendAi": "The explanation itself is AI-generated and labelled. It never changes facts or your plan.",
     "aboutYourPlan": "About your saved plan",
     "planQ1": "What is my next step and why?",
     "planQ2": "Which documents am I still missing?",
-    "conversationHint": "Answers cite official sources. The plan itself always comes from the planner."
+    "conversationHint": "Answers cite official sources. The assistant never changes your plan."
   },
   "scope": {
     "aadhaar": "Aadhaar address update",
@@ -302,12 +291,12 @@
     "error": "Something went wrong.",
     "retry": "Try again",
     "listSeparator": ", ",
-    "networkError": "Cannot reach the GovPath server. Check your connection and try again.",
-    "dbUnavailable": "The knowledge base is temporarily unavailable."
+    "networkError": "GovPath can’t be reached right now. Check your internet connection and try again.",
+    "dbUnavailable": "Service information is temporarily unavailable. Please try again in a moment."
   },
   "verification": {
     "unverified": "Not verified",
-    "needs_review": "Needs review (source changed)",
+    "needs_review": "Needs re-checking against the official source",
     "rejected": "Rejected"
   },
   "evidence": {
@@ -438,7 +427,7 @@
     "situationLabel": "Describe your situation",
     "situationPlaceholder": "e.g. I got married and want to change my surname",
     "situationSubmit": "Ask GovPath",
-    "situationHint": "Opens the assistant with your question. Answers cite official sources.",
+    "situationHint": "Ask in your own words. Get clear guidance backed by official sources.",
     "progress": "Progress",
     "progressValue": "{{done}} of {{total}} steps done",
     "trust": {
@@ -571,8 +560,8 @@
     "describePlaceholder": "e.g. I got married in Delhi recently. I want my new surname on my Aadhaar and passport. I don't have my marriage certificate yet.",
     "understand": "Understand my situation",
     "manual": "Fill in the details myself",
-    "aiNote": "AI only reads your text into details (goals, state, documents). You check them next. Services and the order of steps come from GovPath's verified knowledge base and planner, never from AI.",
-    "aiBusy": "The AI reader is unavailable right now (usage limit). Choose “Fill in the details myself”: finding services and planning work without AI.",
+    "aiNote": "AI only picks out the details from your text (goals, state, documents), and you check them next. The services and the order of steps come from GovPath's fixed rules and verified official requirements, never from AI.",
+    "aiBusy": "The AI reader is unavailable right now because of usage limits. Choose “Fill in the details myself”: finding services and planning work without AI.",
     "aiUnavailable": "The AI reader could not be reached. Choose “Fill in the details myself”: finding services and planning work without AI.",
     "reviewAI": "This is what the AI understood. Correct anything before we look for services.",
     "reviewManual": "Tell us your goals, where you live and the documents you have.",
@@ -594,7 +583,7 @@
     "remove": "Remove {{service}}",
     "removeShort": "Remove",
     "supporting": "Needed first",
-    "whySupporting": "Added by the planner: it issues {{documents}}, which {{services}} needs and you do not have.",
+    "whySupporting": "Added by GovPath's planning rules: it issues {{documents}}, which {{services}} needs and you do not have.",
     "noOutcomes": "No services selected. Add one below.",
     "addService": "+ Add another supported service",
     "coverageNote": "GovPath covers {{count}} verified services so far. There may be other government services relevant to you that it does not list.",
@@ -651,7 +640,7 @@
       "outside_jurisdiction": "{{service}} is verified for another state only, so it is not included.",
       "unknown": "{{service}} is not covered by GovPath yet."
     },
-    "grounded": "Every requirement ({{requirements}}) and dependency ({{dependencies}}) cites an official source",
+    "grounded": "Every requirement ({{requirements}}) and every link between steps ({{dependencies}}) cites an official source",
     "partlyGrounded_one": "{{count}} item has no official source",
     "partlyGrounded_other": "{{count}} items have no official source",
     "overlapCovered": "Your saved plan “{{plan}}” already covers these services.",
@@ -659,7 +648,7 @@
     "overlapServices": "Already in that plan: {{services}}",
     "groupingTitle": "How should these {{count}} services be saved?",
     "groupingCombined": "Combine into one plan",
-    "groupingCombinedHint": "One workflow: GovPath orders all of them together, including prerequisites shared between them.",
+    "groupingCombinedHint": "One plan: GovPath puts all of them in order, including any steps they share.",
     "groupingSeparate": "Create {{count}} separate plans",
     "groupingSeparateHint": "One plan per service, each with its own steps, name and progress. Dependencies between them are not combined.",
     "groupingRequired": "Choose one to continue.",
@@ -700,12 +689,12 @@
     "noAccount": "New to GovPath?",
     "haveAccount": "Already have an account?",
     "checkEmailTitle": "Check your email",
-    "checkEmail": "If {{email}} can be used, we have sent it a confirmation link. Open it to finish creating your account, then sign in.",
+    "checkEmail": "If {{email}} can be used for a new account, a confirmation link is on its way. Open it to finish creating your account, then sign in.",
     "backToSignIn": "Back to sign in",
     "sessionExpired": "Your session has ended. Please sign in again.",
     "unconfiguredTitle": "Accounts are not available",
-    "unconfigured": "Sign-in has not been set up on this GovPath server yet. All guides and the planner still work without an account.",
-    "privacyNote": "Your password is handled by our sign-in provider (Supabase Auth); GovPath never stores it.",
+    "unconfigured": "Sign-in is not available right now. All guides and the planner still work without an account.",
+    "privacyNote": "Your password is handled by our sign-in provider. GovPath never stores it.",
     "errors": {
       "invalid_credentials": "The email or password is not correct.",
       "email_not_confirmed": "Confirm your email first: open the link we sent you, then sign in.",
@@ -716,7 +705,7 @@
       "over_request_rate_limit": "Too many attempts. Wait a few minutes and try again.",
       "signup_disabled": "New accounts cannot be created right now.",
       "network": "Cannot reach the sign-in service. Check your connection and try again.",
-      "unconfigured": "Sign-in has not been set up on this server.",
+      "unconfigured": "Sign-in is not available right now.",
       "unknown": "Something went wrong. Please try again."
     }
   },
@@ -764,7 +753,7 @@
     "delete": "Delete plan",
     "deleteYes": "Yes, delete it permanently",
     "alreadyInVault": "This document is already in your vault. Update its status there.",
-    "staleSnapshot": "The verified service catalogue changed since this plan was saved, so it is shown as it was last computed.",
+    "staleSnapshot": "This plan could not be recalculated with the current service information, so it is shown as it was last calculated.",
     "recalculate": "Try again",
     "usesVault_one": "This plan can use {{count}} of the {{total}} documents in your vault.",
     "usesVault_other": "This plan can use {{count}} of the {{total}} documents in your vault.",
@@ -866,7 +855,7 @@
     "intro": "All your plans in one place. Each plan has its own steps, progress and next action; your documents and reported progress are shared across them.",
     "signInTitle": "Sign in to save and manage your plans",
     "signInBody": "You can describe your situation and see a proposed plan without an account. To save plans, follow their progress and get reminders about expiring documents, sign in.",
-    "unconfigured": "Saving plans needs an account, and sign-in is not set up on this server. You can still explore your situation and see a proposed plan.",
+    "unconfigured": "Saving plans needs an account, and sign-in is not available right now. You can still explore your situation and see a proposed plan.",
     "explore": "Explore your situation",
     "saved": "Saved to My Plans.",
     "savedRepeat": "This plan was already saved from this proposal, so no copy was made.",
@@ -884,7 +873,7 @@
     "createTitle": "Create a new plan",
     "createIntro": "Start from your situation and let GovPath find the services, or pick the services yourself.",
     "createSituation": "Describe my situation",
-    "createSituationHint": "Tell us what is happening (moving, marriage, a new child…). GovPath finds the services and builds one workflow for you to review.",
+    "createSituationHint": "Tell us what is happening (moving, marriage, a new child…). GovPath finds the services and builds one plan for you to review.",
     "createServices": "Choose services",
     "createServicesHint": "Pick the services you need. Save them as one combined plan or as separate plans.",
     "back": "Back to My Plans",

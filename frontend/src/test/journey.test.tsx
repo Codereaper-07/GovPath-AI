@@ -98,7 +98,7 @@ describe('Situation → workflow journey (assistant entry point)', () => {
     expect(within(proposal).getByTestId(`outcome-${PASSPORT_NAME}`)).toBeInTheDocument()
     // Prerequisite discovered by the planner, with its reason.
     expect(within(proposal).getByTestId('supporting-marriage-registration-delhi')).toHaveTextContent(
-      'Added by the planner: it issues Marriage certificate (issued by government / Registrar of Marriage)',
+      'Added by GovPath\'s planning rules: it issues Marriage certificate (issued by government / Registrar of Marriage)',
     )
     // Order, parallel group and blockers come from the planner (stage 1, then 2 steps in parallel).
     expect(within(proposal).getByText(/2 independent steps: do them in any order or at the same time/)).toBeInTheDocument()
