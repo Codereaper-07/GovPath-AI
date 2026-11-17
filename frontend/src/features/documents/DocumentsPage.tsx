@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { Icon } from '../../components/ui/Icon'
 import { PageHeader } from '../../components/ui/PageHeader'
 import { ErrorState, LoadingState } from '../../components/ui/States'
-import { useLocalized } from '../../lib/useLocalized'
+import { useDocumentDescription, useLocalized } from '../../lib/useLocalized'
 import type { DocumentCategory, DocumentType } from '../../types/api'
 import { useDocuments, useServices } from '../services/api'
 
@@ -13,6 +13,7 @@ const ORDER: DocumentCategory[] = ['existing_record', 'address_proof', 'vehicle'
 export function DocumentsPage() {
   const { t } = useTranslation()
   const pick = useLocalized()
+  const describe = useDocumentDescription()
   const documents = useDocuments()
   const services = useServices()
   const [query, setQuery] = useState('')
@@ -25,7 +26,9 @@ export function DocumentsPage() {
     return s ? pick(s.name, s.name_hi) : id
   }
   const q = query.trim().toLocaleLowerCase()
-  const visible = documents.data.filter((d) => !q || [d.name, d.name_hi ?? '', d.description ?? ''].join(' ').toLocaleLowerCase().includes(q))
+  const visible = documents.data.filter(
+    (d) => !q || [d.name, d.name_hi ?? '', d.description ?? '', describe(d.id, d.description)?.text ?? ''].join(' ').toLocaleLowerCase().includes(q),
+  )
   const groups = ORDER.map((cat) => ({ cat, docs: visible.filter((d) => d.category === cat) })).filter((g) => g.docs.length)
   const issuedCount = documents.data.filter((d) => d.issued_by_service_ids.length > 0).length
 
@@ -103,6 +106,7 @@ export function DocumentsPage() {
 function DocumentRow({ doc: d, serviceName, totalServices }: { doc: DocumentType; serviceName: (id: string) => string; totalServices: number }) {
   const { t } = useTranslation()
   const pick = useLocalized()
+  const description = useDocumentDescription()(d.id, d.description)
   const uses = d.accepted_by_service_ids.length
   const issued = d.issued_by_service_ids.length > 0
   return (
@@ -113,7 +117,7 @@ function DocumentRow({ doc: d, serviceName, totalServices }: { doc: DocumentType
         </span>
         <div className="min-w-0">
           <p className="font-bold text-ink">{pick(d.name, d.name_hi)}</p>
-          {d.description && <p lang="en" className="mt-0.5 text-sm text-muted">{d.description}</p>}
+          {description && <p lang={description.lang} className="mt-0.5 text-sm text-muted">{description.text}</p>}
           {uses > 0 && (
             <div className="mt-3 flex items-center gap-2">
               <span className="flex gap-0.5" aria-hidden>
